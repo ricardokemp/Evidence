@@ -188,14 +188,14 @@
         }
 
         /* ==========================================
-           WINDOW - CENTRALIZADA E AMPLIADA
+           WINDOW - CENTRALIZADA (CORRIGIDA)
            ========================================== */
 
         .window {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
             width: 90%;
             max-width: 1100px;
             max-height: 90vh;
@@ -208,6 +208,9 @@
             flex-direction: column;
             overflow: hidden;
             animation: fadeIn 0.25s ease forwards;
+            margin: 0 !important;
+            bottom: auto !important;
+            right: auto !important;
         }
 
         .window.open {
@@ -321,7 +324,7 @@
 
         .window-body .image-container {
             width: 100%;
-            min-height: 400px;
+            min-height: 300px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -389,9 +392,9 @@
             .window {
                 width: 95%;
                 max-height: 95vh;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
+                top: 50% !important;
+                left: 50% !important;
+                transform: translate(-50%, -50%) !important;
             }
 
             .window-body {
@@ -494,7 +497,7 @@
     </footer>
 
     <!-- ==========================================
-    JANELA (POPUP)
+    JANELA (POPUP) - CENTRALIZADA
     ========================================== -->
 
     <div class="window" id="window">
@@ -569,6 +572,7 @@
                 updateProgress();
                 updateEvidenceBadge();
                 checkCaseComplete();
+                refreshEvidenceList();
             }
         }
 
@@ -585,6 +589,15 @@
         function checkCaseComplete() {
             if (foundEvidence.size === totalEvidence && totalEvidence > 0) {
                 showCaseComplete();
+            }
+        }
+
+        function refreshEvidenceList() {
+            if (windowTitle.textContent.includes('Evidências')) {
+                const app = appContent.evidence;
+                windowTitle.textContent = app.title;
+                windowBody.innerHTML = app.body;
+                windowEl.classList.add('open');
             }
         }
 
@@ -652,21 +665,9 @@
                 body: `
                     <h3>Registros do Sistema</h3>
                     <div class="file-list">
-                        <div class="file-item">
-                            <span class="icon">👤</span>
-                            <span class="name">Pessoas</span>
-                            <span class="size">47 registros</span>
-                        </div>
-                        <div class="file-item">
-                            <span class="icon">🏢</span>
-                            <span class="name">Empresas</span>
-                            <span class="size">12 registros</span>
-                        </div>
-                        <div class="file-item">
-                            <span class="icon">📋</span>
-                            <span class="name">Casos</span>
-                            <span class="size">3 registros</span>
-                        </div>
+                        <div class="file-item"><span class="icon">👤</span><span class="name">Pessoas</span><span class="size">47 registros</span></div>
+                        <div class="file-item"><span class="icon">🏢</span><span class="name">Empresas</span><span class="size">12 registros</span></div>
+                        <div class="file-item"><span class="icon">📋</span><span class="name">Casos</span><span class="size">3 registros</span></div>
                     </div>
                 `
             },
