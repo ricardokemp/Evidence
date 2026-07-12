@@ -1,0 +1,227 @@
+/*
+=========================================
+EVIDENCE
+Digital Investigation Platform
+
+VARIABLES CSS
+Sistema de identidade visual
+=========================================
+*/
+
+
+:root {
+
+    /*
+    =====================================
+    Cores principais
+    =====================================
+    */
+
+    --color-background: #0B1120;
+
+    --color-surface: #111827;
+
+    --color-surface-light: #1E293B;
+
+    --color-border: #334155;
+
+
+    /*
+    =====================================
+    Cores de marca
+    =====================================
+    */
+
+    --color-primary: #2563EB;
+
+    --color-primary-hover: #3B82F6;
+
+    --color-secondary: #64748B;
+
+
+    /*
+    =====================================
+    Estados do sistema
+    =====================================
+    */
+
+    --color-success: #22C55E;
+
+    --color-warning: #F59E0B;
+
+    --color-danger: #EF4444;
+
+    --color-info: #38BDF8;
+
+
+    /*
+    =====================================
+    Textos
+    =====================================
+    */
+
+    --text-primary: #F8FAFC;
+
+    --text-secondary: #94A3B8;
+
+    --text-muted: #64748B;
+
+
+
+    /*
+    =====================================
+    Tipografia
+    =====================================
+    */
+
+    --font-primary: "Inter", Arial, Helvetica, sans-serif;
+
+    --font-mono: "JetBrains Mono", 
+                 "Courier New", 
+                 monospace;
+
+
+
+    /*
+    =====================================
+    Tamanhos de fonte
+    =====================================
+    */
+
+    --font-xs: 0.75rem;
+
+    --font-sm: 0.875rem;
+
+    --font-md: 1rem;
+
+    --font-lg: 1.25rem;
+
+    --font-xl: 2rem;
+
+    --font-xxl: 3.5rem;
+
+
+
+    /*
+    =====================================
+    Espaçamentos
+    =====================================
+    */
+
+    --space-1: 0.25rem;
+
+    --space-2: 0.5rem;
+
+    --space-3: 0.75rem;
+
+    --space-4: 1rem;
+
+    --space-5: 1.5rem;
+
+    --space-6: 2rem;
+
+    --space-7: 3rem;
+
+    --space-8: 5rem;
+
+
+
+    /*
+    =====================================
+    Bordas
+    =====================================
+    */
+
+    --radius-sm: 6px;
+
+    --radius-md: 12px;
+
+    --radius-lg: 20px;
+
+    --radius-full: 999px;
+
+
+
+    /*
+    =====================================
+    Sombras
+    =====================================
+    */
+
+    --shadow-sm:
+        0 1px 3px rgba(0,0,0,0.25);
+
+
+    --shadow-md:
+        0 10px 30px rgba(0,0,0,0.35);
+
+
+    --shadow-lg:
+        0 25px 60px rgba(0,0,0,0.45);
+
+
+
+    /*
+    =====================================
+    Transições
+    =====================================
+    */
+
+    --transition-fast:
+        150ms ease;
+
+
+    --transition-normal:
+        300ms ease;
+
+
+    --transition-slow:
+        500ms ease;
+
+
+
+    /*
+    =====================================
+    Layout
+    =====================================
+    */
+
+    --container-width:
+        1200px;
+
+
+    --header-height:
+        80px;
+
+
+
+    /*
+    =====================================
+    Efeitos especiais
+    =====================================
+    */
+
+    --glass-background:
+        rgba(17, 24, 39, 0.75);
+
+
+    --glass-border:
+        rgba(255,255,255,0.08);
+
+
+
+    /*
+    =====================================
+    Camadas
+    =====================================
+    */
+
+    --z-background: 0;
+
+    --z-content: 10;
+
+    --z-header: 100;
+
+    --z-modal: 1000;
+
+}
