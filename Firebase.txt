@@ -1,0 +1,8 @@
+const firebaseConfig = {
+  apiKey: "AIzaSyBSbWRG7KmegD0k1HsrQFZ39P02EQRmN9c",
+  authDomain: "evidence-ac9ad.firebaseapp.com",
+  projectId: "evidence-ac9ad",
+  storageBucket: "evidence-ac9ad.firebasestorage.app",
+  messagingSenderId: "641531112105",
+  appId: "1:641531112105:web:b3700a206e74b227c557b8"
+};
