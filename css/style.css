@@ -1,202 +1,170 @@
 /*
 =========================================
-EVIDENCE
-Digital Investigation Platform
-
-MAIN STYLES
+LOGIN SCREEN
 =========================================
 */
 
 
 body {
-    background: var(--color-background);
-    color: var(--text-primary);
-    font-family: var(--font-primary);
-    line-height: 1.6;
-}
-
-
-/*
-=========================================
-Layout principal
-=========================================
-*/
-
-.container {
-
-    width: 100%;
-    max-width: var(--container-width);
-
-    margin: 0 auto;
-
-    padding-left: var(--space-6);
-    padding-right: var(--space-6);
-
-}
-
-
-/*
-=========================================
-Header
-=========================================
-*/
-
-.header {
-
-    height: var(--header-height);
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 0 var(--space-6);
 
     background:
-        rgba(11,17,32,0.85);
-
-    backdrop-filter: blur(12px);
-
-    border-bottom:
-        1px solid var(--color-border);
-
-}
-
-
-/*
-=========================================
-Logo
-=========================================
-*/
-
-.logo {
-
-    font-size: var(--font-lg);
-
-    font-weight: 700;
-
-    letter-spacing: 2px;
-
-    color: var(--text-primary);
+        radial-gradient(
+            circle at top,
+            #172554,
+            var(--color-background)
+        );
 
 }
 
 
-/*
-=========================================
-Seção principal
-=========================================
-*/
+.login-panel {
 
-.hero {
+    width: 100%;
 
-    min-height: calc(100vh - var(--header-height));
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
+    max-width: 450px;
 
     text-align: center;
 
-}
-
-
-.hero-content {
-
-    max-width: 900px;
+    color: var(--text-primary);
 
 }
 
 
-.hero h1 {
 
-    font-size: var(--font-xxl);
+.login-panel .logo {
 
-    line-height: 1.1;
+    color: var(--text-primary);
 
-    margin-bottom: var(--space-5);
+    font-size: var(--font-xl);
+
+    font-weight: 700;
+
+    letter-spacing: 4px;
 
 }
 
 
-.hero p {
+
+.login-panel h1 {
+
+    color: var(--text-primary);
+
+    margin-top: var(--space-5);
+
+    margin-bottom: var(--space-3);
+
+}
+
+
+
+.login-panel p {
 
     color: var(--text-secondary);
 
-    font-size: var(--font-lg);
+}
 
-    margin-bottom: var(--space-6);
+
+
+.login-form {
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:var(--space-3);
+
+    margin-top:var(--space-6);
 
 }
 
 
-/*
-=========================================
-Botões
-=========================================
-*/
 
-.btn {
+.login-form label {
 
-    display: inline-flex;
+    text-align:left;
 
-    align-items: center;
-
-    justify-content: center;
-
-    padding:
-        var(--space-3)
-        var(--space-6);
-
-    border-radius: var(--radius-md);
-
-    transition:
-        var(--transition-normal);
+    color:var(--text-primary);
 
 }
 
 
-.btn-primary {
 
-    background:
-        var(--color-primary);
+.login-form input {
+
+    width:100%;
+
+    padding:var(--space-3);
+
+    background:#020617;
+
+    border:
+        1px solid var(--color-border);
+
+    border-radius:
+        var(--radius-md);
 
     color:white;
 
 }
 
 
-.btn-primary:hover {
 
-    background:
-        var(--color-primary-hover);
+.login-form input::placeholder {
 
-    transform: translateY(-2px);
+    color:#64748B;
 
 }
 
 
-/*
-=========================================
-Responsividade
-=========================================
-*/
 
-@media(max-width:768px){
+.login-form input:focus {
 
-    .hero h1 {
+    outline:none;
 
-        font-size: var(--font-xl);
+    border-color:
+        var(--color-primary);
 
-    }
+}
 
 
-    .container {
 
-        padding:
-        0 var(--space-4);
+.login-form .btn-primary {
 
-    }
+    color:white;
+
+    font-weight:600;
+
+    background:
+        var(--color-primary);
+
+}
+
+
+
+.login-form .btn-primary:hover {
+
+    color:white;
+
+    background:
+        var(--color-primary-hover);
+
+}
+
+
+
+.system-status {
+
+    margin-top:var(--space-6);
+
+    padding-top:var(--space-4);
+
+    border-top:
+        1px solid var(--color-border);
+
+    font-family:
+        var(--font-mono);
+
+    color:
+        var(--text-secondary);
 
 }
