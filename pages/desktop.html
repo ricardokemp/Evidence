@@ -100,6 +100,7 @@
             color: var(--text-secondary);
             text-decoration: none;
             border: 1px solid transparent;
+            position: relative;
         }
 
         .desktop-icon:hover {
@@ -129,8 +130,9 @@
             border-radius: 50%;
             padding: 2px 6px;
             position: absolute;
-            margin-top: -10px;
-            margin-left: 30px;
+            top: -5px;
+            right: -5px;
+            display: none;
         }
 
         /* ==========================================
@@ -200,8 +202,8 @@
             left: 50%;
             transform: translate(-50%, -50%);
             width: 90%;
-            max-width: 700px;
-            max-height: 80vh;
+            max-width: 800px;
+            max-height: 85vh;
             background: var(--color-surface);
             border: 1px solid var(--color-border);
             border-radius: var(--radius-lg);
@@ -549,6 +551,10 @@
                 updateProgress();
                 updateEvidenceBadge();
                 checkCaseComplete();
+                // Atualiza a lista de evidências se estiver aberta
+                if (windowTitle.textContent.includes('Evidências')) {
+                    refreshEvidenceList();
+                }
             }
         }
 
@@ -567,6 +573,15 @@
             const found = foundEvidence.size;
             if (found === totalEvidence && totalEvidence > 0) {
                 showCaseComplete();
+            }
+        }
+
+        function refreshEvidenceList() {
+            // Recarregar a lista de evidências com os status atualizados
+            if (windowTitle.textContent.includes('Evidências')) {
+                const app = appContent.evidence;
+                windowTitle.textContent = app.title;
+                windowBody.innerHTML = app.body;
             }
         }
 
@@ -780,76 +795,97 @@
                     background: var(--color-background);
                     padding: var(--space-4);
                     border-radius: var(--radius-md);
-                    text-align: center;
                     margin: var(--space-4) 0;
-                    border: 1px dashed var(--color-border);
+                    border: 1px solid var(--color-border);
+                    min-height: 200px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
                 ">
             `;
 
-            // Verificar o tipo de arquivo
+            // Verificar o tipo de arquivo e exibir
             if (fileExtension === 'pdf') {
                 content += `
                     <iframe src="${filePath}" style="
                         width: 100%;
-                        height: 400px;
+                        height: 500px;
                         border: none;
                         border-radius: var(--radius-sm);
                     "></iframe>
-                    <br>
-                    <a href="${filePath}" target="_blank" class="btn btn-primary" style="margin-top: var(--space-3);">
-                        📥 Baixar PDF
-                    </a>
                 `;
-            } else if (fileExtension === 'jpg' || fileExtension === 'jpeg' || fileExtension === 'png' || fileExtension ===
-                'gif') {
+            } else if (fileExtension === 'jpg' || fileExtension === 'jpeg' || fileExtension === 'png' || fileExtension === 'gif' || fileExtension === 'webp') {
                 content += `
                     <img src="${filePath}" style="
                         max-width: 100%;
-                        max-height: 400px;
+                        max-height: 500px;
                         border-radius: var(--radius-sm);
                         object-fit: contain;
                     ">
-                    <br>
-                    <a href="${filePath}" target="_blank" class="btn btn-primary" style="margin-top: var(--space-3);">
-                        📥 Baixar Imagem
-                    </a>
                 `;
-            } else if (fileExtension === 'wav' || fileExtension === 'mp3' || fileExtension === 'ogg') {
+            } else if (fileExtension === 'mp4' || fileExtension === 'webm' || fileExtension === 'mov' || fileExtension === 'avi') {
                 content += `
-                    <audio controls style="width: 100%; margin: var(--space-3) 0;">
-                        <source src="${filePath}" type="audio/${fileExtension}">
-                        Seu navegador não suporta áudio.
-                    </audio>
-                    <br>
-                    <a href="${filePath}" target="_blank" class="btn btn-primary" style="margin-top: var(--space-3);">
-                        📥 Baixar Áudio
-                    </a>
-                `;
-            } else if (fileExtension === 'mp4' || fileExtension === 'webm' || fileExtension === 'mov') {
-                content += `
-                    <video controls style="width: 100%; max-height: 400px; border-radius: var(--radius-sm);">
+                    <video controls style="
+                        width: 100%;
+                        max-height: 500px;
+                        border-radius: var(--radius-sm);
+                    ">
                         <source src="${filePath}" type="video/${fileExtension}">
                         Seu navegador não suporta vídeo.
                     </video>
-                    <br>
-                    <a href="${filePath}" target="_blank" class="btn btn-primary" style="margin-top: var(--space-3);">
-                        📥 Baixar Vídeo
-                    </a>
+                `;
+            } else if (fileExtension === 'mp3' || fileExtension === 'wav' || fileExtension === 'ogg') {
+                content += `
+                    <audio controls style="width: 100%;">
+                        <source src="${filePath}" type="audio/${fileExtension}">
+                        Seu navegador não suporta áudio.
+                    </audio>
+                `;
+            } else if (fileExtension === 'txt' || fileExtension === 'md') {
+                content += `
+                    <div id="textContent" style="
+                        width: 100%;
+                        max-height: 400px;
+                        overflow-y: auto;
+                        background: var(--color-background-dark);
+                        padding: var(--space-4);
+                        border-radius: var(--radius-sm);
+                        font-family: var(--font-mono);
+                        font-size: var(--font-sm);
+                        color: var(--text-secondary);
+                        white-space: pre-wrap;
+                    ">Carregando...</div>
+                    <script>
+                        fetch('${filePath}')
+                            .then(res => res.text())
+                            .then(text => {
+                                document.getElementById('textContent').textContent = text;
+                            })
+                            .catch(() => {
+                                document.getElementById('textContent').textContent = 'Erro ao carregar o arquivo.';
+                            });
+                    <\/script>
                 `;
             } else {
                 content += `
-                    <p style="color: var(--text-muted);">
-                        📂 Arquivo: ${ev.title}
-                    </p>
-                    <a href="${filePath}" target="_blank" class="btn btn-primary" style="margin-top: var(--space-3);">
-                        📥 Baixar Arquivo
-                    </a>
+                    <div style="text-align: center; color: var(--text-muted);">
+                        <p style="font-size: 48px; margin-bottom: var(--space-3);">📂</p>
+                        <p>Arquivo: <strong>${ev.title}</strong></p>
+                        <p style="font-size: var(--font-sm);">Visualização não disponível para este tipo de arquivo.</p>
+                    </div>
                 `;
             }
 
             content += `
                 </div>
-                <button class="btn-secondary" onclick="closeWindow()">Fechar</button>
+                <div style="display: flex; gap: var(--space-3); justify-content: flex-end;">
+                    <a href="${filePath}" target="_blank" class="btn btn-secondary" style="font-size: var(--font-sm);">
+                        📥 Abrir em nova aba
+                    </a>
+                    <button class="btn btn-secondary" onclick="closeWindow()" style="font-size: var(--font-sm);">
+                        Fechar
+                    </button>
+                </div>
             `;
 
             windowBody.innerHTML = content;
@@ -997,12 +1033,12 @@
             caseData.evidence.forEach((item, index) => {
                 const icon = item.type === 'image' ? '🖼️' : item.type === 'audio' ? '🔊' : item.type === 'video' ? '🎬' :
                     '📄';
-                const found = foundEvidence.has(index) ? '✅' : '';
+                const found = foundEvidence.has(index) ? ' ✅' : '';
                 evidenceList += `
                     <div class="file-item" data-evidence="${index}">
                         <span class="icon">${icon}</span>
                         <span class="name">${item.title}</span>
-                        <span class="size">${item.type} ${found}</span>
+                        <span class="size">${item.type}${found}</span>
                     </div>
                 `;
             });
