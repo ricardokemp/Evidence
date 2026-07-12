@@ -443,32 +443,13 @@
         closeBtn.addEventListener('click', closeWindow);
 
         // ==========================================
-        // CONTEÚDO DOS APLICATIVOS
+        // CONTEÚDO DOS APLICATIVOS (fallback)
         // ==========================================
 
         const appContent = {
             mail: {
                 title: '📧 E-mail',
-                body: `
-                    <h3>Caixa de Entrada</h3>
-                    <div class="file-list">
-                        <div class="file-item" data-email="1">
-                            <span class="icon">📩</span>
-                            <span class="name">Bem-vindo ao Evidence</span>
-                            <span class="size">Agora</span>
-                        </div>
-                        <div class="file-item" data-email="2">
-                            <span class="icon">📩</span>
-                            <span class="name">Relatório de Caso #001</span>
-                            <span class="size">Ontem</span>
-                        </div>
-                        <div class="file-item" data-email="3">
-                            <span class="icon">📩</span>
-                            <span class="name">Código de Acesso</span>
-                            <span class="size">3 dias</span>
-                        </div>
-                    </div>
-                `
+                body: `<p>Carregando e-mails...</p>`
             },
             files: {
                 title: '📁 Arquivos',
@@ -500,26 +481,7 @@
             },
             messages: {
                 title: '💬 Mensagens',
-                body: `
-                    <h3>Conversas</h3>
-                    <div class="file-list">
-                        <div class="file-item" data-chat="1">
-                            <span class="icon">👤</span>
-                            <span class="name">Helena Duarte</span>
-                            <span class="size">2 mensagens</span>
-                        </div>
-                        <div class="file-item" data-chat="2">
-                            <span class="icon">👤</span>
-                            <span class="name">João Pereira</span>
-                            <span class="size">1 mensagem</span>
-                        </div>
-                        <div class="file-item" data-chat="3">
-                            <span class="icon">👤</span>
-                            <span class="name">Anônimo</span>
-                            <span class="size">5 mensagens</span>
-                        </div>
-                    </div>
-                `
+                body: `<p>Carregando mensagens...</p>`
             },
             database: {
                 title: '🧬 Banco de Dados',
@@ -546,33 +508,23 @@
             },
             evidence: {
                 title: '🔍 Evidências',
-                body: `
-                    <h3>Evidências do Caso #001</h3>
-                    <div class="file-list">
-                        <div class="file-item" data-evidence="1">
-                            <span class="icon">🖼️</span>
-                            <span class="name">Foto_001.jpg</span>
-                            <span class="size">2.1 MB</span>
-                        </div>
-                        <div class="file-item" data-evidence="2">
-                            <span class="icon">🎥</span>
-                            <span class="name">Video_001.mp4</span>
-                            <span class="size">45 MB</span>
-                        </div>
-                        <div class="file-item" data-evidence="3">
-                            <span class="icon">📄</span>
-                            <span class="name">Documento_001.pdf</span>
-                            <span class="size">1.8 MB</span>
-                        </div>
-                        <div class="file-item" data-evidence="4">
-                            <span class="icon">🔊</span>
-                            <span class="name">Audio_001.wav</span>
-                            <span class="size">3.2 MB</span>
-                        </div>
-                    </div>
-                `
+                body: `<p>Carregando evidências...</p>`
             }
         };
+
+        // ==========================================
+        // DADOS DO CASO (carregados dinamicamente)
+        // ==========================================
+
+        let caseData = {
+            emails: [],
+            messages: [],
+            evidence: []
+        };
+
+        const emailContent = {};
+        const chatContent = {};
+        const evidenceContent = {};
 
         // ==========================================
         // FUNÇÃO: ABRIR APP
@@ -600,51 +552,7 @@
         });
 
         // ==========================================
-        // CONTEÚDO DOS E-MAILS
-        // ==========================================
-
-        const emailContent = {
-            '1': {
-                from: 'sistema@evidence.com',
-                subject: 'Bem-vindo ao Evidence',
-                date: 'Agora',
-                body: `
-                    <p>Bem-vindo ao sistema de investigação Evidence.</p>
-                    <p>Seu primeiro caso já está disponível.</p>
-                    <p style="color: var(--text-muted); margin-top: var(--space-4);">
-                        🔍 <strong>Dica:</strong> Verifique a pasta "Documentos" no explorador de arquivos.
-                    </p>
-                `
-            },
-            '2': {
-                from: 'helena.duarte@empresa.com',
-                subject: 'Relatório de Caso #001',
-                date: 'Ontem',
-                body: `
-                    <p><strong>Assunto:</strong> Desaparecimento de Helena Duarte</p>
-                    <p>Olá,</p>
-                    <p>O caso #001 está aguardando análise. Os arquivos estão disponíveis na pasta do caso.</p>
-                    <p style="color: var(--text-muted); margin-top: var(--space-4);">
-                        📁 <strong>Local:</strong> /Arquivos/Caso_001/
-                    </p>
-                `
-            },
-            '3': {
-                from: 'acesso@evidence.com',
-                subject: 'Código de Acesso',
-                date: '3 dias',
-                body: `
-                    <p><strong>Código de Acesso:</strong> 4472</p>
-                    <p>Use este código para acessar os arquivos restritos.</p>
-                    <p style="color: var(--color-warning); margin-top: var(--space-4);">
-                        ⚠️ Não compartilhe este código com ninguém.
-                    </p>
-                `
-            }
-        };
-
-        // ==========================================
-        // FUNÇÃO: ABRIR E-MAIL
+        // FUNÇÕES PARA ABRIR E-MAIL, CHAT, EVIDÊNCIA
         // ==========================================
 
         function openEmail(emailId) {
@@ -667,8 +575,39 @@
             windowEl.classList.add('open');
         }
 
+        function openChat(chatId) {
+            const chat = chatContent[chatId];
+            if (!chat) return;
+
+            windowTitle.textContent = '💬 ' + chat.contact;
+            let html = `<h3>Conversa com ${chat.contact}</h3><div style="margin-top: var(--space-4);">`;
+            chat.messages.forEach(msg => {
+                html += `
+                    <div style="margin-bottom: var(--space-2);">
+                        <strong>${msg.from}:</strong> ${msg.text}
+                    </div>
+                `;
+            });
+            html += `</div><button class="btn-secondary" style="margin-top: var(--space-4);" onclick="closeWindow()">Fechar</button>`;
+            windowBody.innerHTML = html;
+            windowEl.classList.add('open');
+        }
+
+        function openEvidence(evidenceId) {
+            const ev = evidenceContent[evidenceId];
+            if (!ev) return;
+
+            windowTitle.textContent = '🔍 ' + ev.title;
+            windowBody.innerHTML = `
+                <h3>${ev.title}</h3>
+                <p>${ev.desc}</p>
+                <button class="btn-secondary" style="margin-top: var(--space-4);" onclick="closeWindow()">Fechar</button>
+            `;
+            windowEl.classList.add('open');
+        }
+
         // ==========================================
-        // CONTEÚDO DAS PASTAS
+        // FUNÇÃO: ABRIR PASTA
         // ==========================================
 
         function openFolder(folderId) {
@@ -714,17 +653,17 @@
                 case001: `
                     <h3>Caso #001 - Desaparecimento</h3>
                     <div class="file-list">
-                        <div class="file-item">
+                        <div class="file-item" data-evidence-file="0">
                             <span class="icon">📄</span>
                             <span class="name">Relatório_Preliminar.pdf</span>
                             <span class="size">1.8 MB</span>
                         </div>
-                        <div class="file-item">
+                        <div class="file-item" data-evidence-file="1">
                             <span class="icon">📄</span>
                             <span class="name">Depoimento_Helena.pdf</span>
                             <span class="size">0.5 MB</span>
                         </div>
-                        <div class="file-item">
+                        <div class="file-item" data-evidence-file="2">
                             <span class="icon">🖼️</span>
                             <span class="name">Helena_Ultima_Foto.jpg</span>
                             <span class="size">1.2 MB</span>
@@ -741,73 +680,175 @@
         }
 
         // ==========================================
-        // CONTEÚDO DAS MENSAGENS
+        // CARREGAR DADOS DO CASO #001
         // ==========================================
 
-        const chatContent = {
-            '1': {
-                contact: 'Helena Duarte',
-                messages: [
-                    { from: 'Helena', text: 'Olá, você recebeu o arquivo?' },
-                    { from: 'Você', text: 'Sim, estou analisando.' }
-                ]
-            },
-            '2': {
-                contact: 'João Pereira',
-                messages: [
-                    { from: 'João', text: 'Precisamos falar sobre o caso.' }
-                ]
-            },
-            '3': {
-                contact: 'Anônimo',
-                messages: [
-                    { from: 'Anônimo', text: 'Você está sendo observado.' },
-                    { from: 'Anônimo', text: 'Cuidado com o que investiga.' },
-                    { from: 'Anônimo', text: 'A verdade está escondida.' }
-                ]
+        async function loadCase() {
+            try {
+                // Carregar os arquivos JSON do caso
+                const emailsRes = await fetch('../cases/case001/emails.json');
+                const messagesRes = await fetch('../cases/case001/messages.json');
+                const evidenceRes = await fetch('../cases/case001/evidence.json');
+
+                if (!emailsRes.ok || !messagesRes.ok || !evidenceRes.ok) {
+                    throw new Error('Erro ao carregar arquivos do caso');
+                }
+
+                caseData.emails = await emailsRes.json();
+                caseData.messages = await messagesRes.json();
+                caseData.evidence = await evidenceRes.json();
+
+                // Atualizar os conteúdos
+                updateAppContent();
+            } catch (error) {
+                console.warn('Erro ao carregar caso:', error);
+                // Usar dados de fallback embutidos
+                useFallbackData();
             }
-        };
+        }
 
-        function openChat(chatId) {
-            const chat = chatContent[chatId];
-            if (!chat) return;
-
-            windowTitle.textContent = '💬 ' + chat.contact;
-            let html = `<h3>Conversa com ${chat.contact}</h3><div style="margin-top: var(--space-4);">`;
-            chat.messages.forEach(msg => {
-                html += `
-                    <div style="margin-bottom: var(--space-2);">
-                        <strong>${msg.from}:</strong> ${msg.text}
+        function updateAppContent() {
+            // Gerar lista de e-mails
+            let emailList = '';
+            caseData.emails.forEach((email, index) => {
+                emailList += `
+                    <div class="file-item" data-email="${index}">
+                        <span class="icon">📩</span>
+                        <span class="name">${email.subject}</span>
+                        <span class="size">${email.date}</span>
                     </div>
                 `;
             });
-            html += `</div><button class="btn-secondary" style="margin-top: var(--space-4);" onclick="closeWindow()">Fechar</button>`;
-            windowBody.innerHTML = html;
-            windowEl.classList.add('open');
+
+            // Gerar lista de mensagens
+            let messageList = '';
+            caseData.messages.forEach((chat, index) => {
+                messageList += `
+                    <div class="file-item" data-chat="${index}">
+                        <span class="icon">👤</span>
+                        <span class="name">${chat.contact}</span>
+                        <span class="size">${chat.messages.length} mensagens</span>
+                    </div>
+                `;
+            });
+
+            // Gerar lista de evidências
+            let evidenceList = '';
+            caseData.evidence.forEach((item, index) => {
+                const icon = item.type === 'image' ? '🖼️' : item.type === 'audio' ? '🔊' : '📄';
+                evidenceList += `
+                    <div class="file-item" data-evidence="${index}">
+                        <span class="icon">${icon}</span>
+                        <span class="name">${item.title}</span>
+                        <span class="size">${item.type}</span>
+                    </div>
+                `;
+            });
+
+            // Atualizar o appContent
+            appContent.mail.body = `
+                <h3>Caixa de Entrada - Caso #001</h3>
+                <div class="file-list">${emailList}</div>
+            `;
+
+            appContent.messages.body = `
+                <h3>Conversas</h3>
+                <div class="file-list">${messageList}</div>
+            `;
+
+            appContent.evidence.body = `
+                <h3>Evidências do Caso #001</h3>
+                <div class="file-list">${evidenceList}</div>
+            `;
+
+            // Atualizar os conteúdos de e-mails, mensagens e evidências
+            caseData.emails.forEach((email, index) => {
+                emailContent[index] = {
+                    from: email.from,
+                    subject: email.subject,
+                    date: email.date,
+                    body: email.body
+                };
+            });
+
+            caseData.messages.forEach((chat, index) => {
+                chatContent[index] = {
+                    contact: chat.contact,
+                    messages: chat.messages.map(m => ({ from: m.from, text: m.text }))
+                };
+            });
+
+            caseData.evidence.forEach((item, index) => {
+                evidenceContent[index] = {
+                    title: item.title,
+                    desc: item.description
+                };
+            });
         }
 
-        // ==========================================
-        // CONTEÚDO DAS EVIDÊNCIAS
-        // ==========================================
+        function useFallbackData() {
+            // Dados de fallback (caso os JSONs não carreguem)
+            emailContent[0] = {
+                from: 'sistema@evidence.com',
+                subject: 'Bem-vindo ao Evidence',
+                date: 'Agora',
+                body: '<p>Bem-vindo ao sistema de investigação Evidence.</p><p>Seu primeiro caso já está disponível.</p>'
+            };
+            emailContent[1] = {
+                from: 'helena.duarte@empresa.com',
+                subject: 'Relatório de Caso #001',
+                date: 'Ontem',
+                body: '<p>O caso #001 está aguardando análise.</p>'
+            };
 
-        const evidenceContent = {
-            '1': { title: 'Foto_001.jpg', desc: 'Última foto de Helena antes do desaparecimento.' },
-            '2': { title: 'Video_001.mp4', desc: 'Gravação da câmera de segurança da rua.' },
-            '3': { title: 'Documento_001.pdf', desc: 'Relatório do desaparecimento.' },
-            '4': { title: 'Audio_001.wav', desc: 'Gravação de uma ligação suspeita.' }
-        };
+            chatContent[0] = {
+                contact: 'Helena Duarte',
+                messages: [{ from: 'Helena', text: 'Olá, você recebeu o arquivo?' }]
+            };
 
-        function openEvidence(evidenceId) {
-            const ev = evidenceContent[evidenceId];
-            if (!ev) return;
+            evidenceContent[0] = {
+                title: 'Foto_001.jpg',
+                desc: 'Última foto de Helena antes do desaparecimento.'
+            };
 
-            windowTitle.textContent = '🔍 ' + ev.title;
-            windowBody.innerHTML = `
-                <h3>${ev.title}</h3>
-                <p>${ev.desc}</p>
-                <button class="btn-secondary" style="margin-top: var(--space-4);" onclick="closeWindow()">Fechar</button>
+            // Atualizar appContent com fallback
+            appContent.mail.body = `
+                <h3>Caixa de Entrada</h3>
+                <div class="file-list">
+                    <div class="file-item" data-email="0">
+                        <span class="icon">📩</span>
+                        <span class="name">Bem-vindo ao Evidence</span>
+                        <span class="size">Agora</span>
+                    </div>
+                    <div class="file-item" data-email="1">
+                        <span class="icon">📩</span>
+                        <span class="name">Relatório de Caso #001</span>
+                        <span class="size">Ontem</span>
+                    </div>
+                </div>
             `;
-            windowEl.classList.add('open');
+
+            appContent.messages.body = `
+                <h3>Conversas</h3>
+                <div class="file-list">
+                    <div class="file-item" data-chat="0">
+                        <span class="icon">👤</span>
+                        <span class="name">Helena Duarte</span>
+                        <span class="size">1 mensagem</span>
+                    </div>
+                </div>
+            `;
+
+            appContent.evidence.body = `
+                <h3>Evidências</h3>
+                <div class="file-list">
+                    <div class="file-item" data-evidence="0">
+                        <span class="icon">🖼️</span>
+                        <span class="name">Foto_001.jpg</span>
+                        <span class="size">imagem</span>
+                    </div>
+                </div>
+            `;
         }
 
         // ==========================================
@@ -849,12 +890,15 @@
         });
 
         // ==========================================
-        // ABRIR E-MAIL AUTOMATICAMENTE AO ENTRAR
+        // INICIALIZAR
         // ==========================================
 
-        setTimeout(() => {
-            openApp('mail');
-        }, 500);
+        // Carregar o caso e abrir o e-mail automaticamente
+        loadCase().then(() => {
+            setTimeout(() => {
+                openApp('mail');
+            }, 300);
+        });
     </script>
 
 </body>
