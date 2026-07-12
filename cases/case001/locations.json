@@ -1,0 +1,25 @@
+[
+    {
+        "id": "l1",
+        "name": "Sigma Corp - Sede",
+        "address": "Av. Paulista, 1234, São Paulo",
+        "description": "Sede da empresa Sigma Corp. Onde Helena foi vista pela última vez.",
+        "evidence": ["ev4"],
+        "coordinates": "-23.5615,-46.6560"
+    },
+    {
+        "id": "l2",
+        "name": "Beco da Rua Augusta",
+        "address": "Rua Augusta, 567, São Paulo",
+        "description": "Local onde o celular de Helena foi encontrado.",
+        "evidence": []
+    },
+    {
+        "id": "l3",
+        "name": "Sala 4 - Sigma Corp",
+        "address": "Av. Paulista, 1234 - 4º andar",
+        "description": "Sala mencionada na mensagem anônima. Pode conter pistas importantes.",
+        "evidence": ["ev3"],
+        "coordinates": "-23.5615,-46.6560"
+    }
+]

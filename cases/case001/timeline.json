@@ -1,0 +1,50 @@
+[
+    {
+        "date": "2026-07-07",
+        "time": "22:10",
+        "event": "Helena envia e-mail para Mariana sobre descoberta de lavagem de dinheiro",
+        "evidence": "e5"
+    },
+    {
+        "date": "2026-07-08",
+        "time": "14:23",
+        "event": "Helena envia e-mail para editor sobre investigação da Sigma",
+        "evidence": "e1"
+    },
+    {
+        "date": "2026-07-09",
+        "time": "09:15",
+        "event": "Helena recebe e-mail anônimo ameaçador",
+        "evidence": "e2"
+    },
+    {
+        "date": "2026-07-09",
+        "time": "18:30",
+        "event": "Helena vai para reunião na Sigma",
+        "evidence": "m1"
+    },
+    {
+        "date": "2026-07-09",
+        "time": "21:00",
+        "event": "Última mensagem de Helena: 'Estou saindo'",
+        "evidence": "m1"
+    },
+    {
+        "date": "2026-07-10",
+        "time": "08:00",
+        "event": "Helena não aparece no trabalho. Celular encontrado em beco.",
+        "evidence": ""
+    },
+    {
+        "date": "2026-07-10",
+        "time": "23:00",
+        "event": "Anônimo envia mensagem: 'A verdade está na sala 4'",
+        "evidence": "m2"
+    },
+    {
+        "date": "2026-07-12",
+        "time": "08:00",
+        "event": "Caso #001 é aberto no Evidence",
+        "evidence": "e4"
+    }
+]

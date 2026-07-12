@@ -1,0 +1,70 @@
+[
+    {
+        "id": "m1",
+        "contact": "Helena Duarte",
+        "messages": [
+            {
+                "from": "Helena",
+                "time": "2026-07-09 18:30",
+                "text": "Estou indo para a reunião com a Sigma."
+            },
+            {
+                "from": "Helena",
+                "time": "2026-07-09 19:45",
+                "text": "Eles estão mentindo. Tem algo muito errado. Vou tentar gravar."
+            },
+            {
+                "from": "Helena",
+                "time": "2026-07-09 20:15",
+                "text": "Não confie em ninguém da Sigma. Eles têm um arquivo secreto."
+            },
+            {
+                "from": "Helena",
+                "time": "2026-07-09 21:00",
+                "text": "Estou saindo. Algo não está certo. Me ligue quando puder."
+            }
+        ]
+    },
+    {
+        "id": "m2",
+        "contact": "Anônimo",
+        "messages": [
+            {
+                "from": "Anônimo",
+                "time": "2026-07-10 23:00",
+                "text": "Você está investigando o caso errado."
+            },
+            {
+                "from": "Anônimo",
+                "time": "2026-07-10 23:05",
+                "text": "A verdade está na sala 4 do prédio da Sigma."
+            },
+            {
+                "from": "Anônimo",
+                "time": "2026-07-11 00:15",
+                "text": "Ela ainda está viva. Mas o tempo está acabando."
+            }
+        ]
+    },
+    {
+        "id": "m3",
+        "contact": "Carlos Mendes (editor)",
+        "messages": [
+            {
+                "from": "Carlos",
+                "time": "2026-07-09 22:30",
+                "text": "Helena, você está bem? Não respondeu minhas ligações."
+            },
+            {
+                "from": "Carlos",
+                "time": "2026-07-10 08:00",
+                "text": "Já entrei em contato com a polícia. O que você descobriu?"
+            },
+            {
+                "from": "Carlos",
+                "time": "2026-07-10 09:15",
+                "text": "Recebi um e-mail anônimo dizendo que você está em perigo."
+            }
+        ]
+    }
+]

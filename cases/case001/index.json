@@ -1,0 +1,20 @@
+{
+    "id": "case001",
+    "title": "Desaparecimento de Helena Duarte",
+    "subtitle": "Uma jornalista desapareceu após investigar uma empresa fantasma.",
+    "description": "Helena Duarte, jornalista investigativa de 34 anos, desapareceu em 10 de julho de 2026 após uma reunião com executivos da Sigma Corp. Seu celular foi encontrado em um beco próximo à sede da empresa. As últimas mensagens indicam que ela estava prestes a revelar algo importante.",
+    "status": "active",
+    "difficulty": "medium",
+    "estimatedTime": "45-60 minutos",
+    "author": "Evidence Team",
+    "version": "1.0",
+    "created": "2026-07-12",
+    "tags": ["desaparecimento", "jornalismo", "corrupção", "sigma"],
+    "objectives": [
+        "Ler todos os e-mails de Helena",
+        "Analisar as mensagens com contatos suspeitos",
+        "Encontrar todas as evidências",
+        "Identificar o suspeito principal",
+        "Descobrir o paradeiro de Helena"
+    ]
+}
