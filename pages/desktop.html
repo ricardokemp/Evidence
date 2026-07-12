@@ -757,6 +757,7 @@
 
             markEvidenceFound(evidenceId);
 
+            // Usa o location do JSON (caminho real do arquivo)
             const filePath = `../cases/case001/${ev.location}`;
             const fileExtension = ev.title.split('.').pop().toLowerCase();
 
@@ -948,7 +949,7 @@
             emailContent[0] = { from: 'sistema@evidence.com', subject: 'Bem-vindo', date: 'Agora', body: '<p>Bem-vindo!</p>' };
             chatContent[0] = { contact: 'Helena Duarte', messages: [{ from: 'Helena', text: 'Olá!' }] };
 
-            ['Foto_001.png', 'Documento_001.pdf', 'Video_001.mp4', 'Foto_002.png', 'Documento_002.pdf'].forEach((name, i) => {
+            ['Foto_001.png', 'Documento_001.pdf', 'video_001.mp4', 'Foto_002.png', 'Documento_002.pdf'].forEach((name, i) => {
                 evidenceContent[i] = {
                     title: name,
                     desc: 'Evidência do caso.',
@@ -971,7 +972,7 @@
             appContent.evidence.body = `
                 <h3>Evidências</h3>
                 <div class="file-list">
-                    ${['🖼️ Foto_001.png', '📄 Documento_001.pdf', '🎬 Video_001.mp4', '🖼️ Foto_002.png', '📄 Documento_002.pdf'].map((item, i) =>
+                    ${['🖼️ Foto_001.png', '📄 Documento_001.pdf', '🎬 video_001.mp4', '🖼️ Foto_002.png', '📄 Documento_002.pdf'].map((item, i) =>
                         `<div class="file-item" data-evidence="${i}"><span class="icon">${item.split(' ')[0]}</span><span class="name">${item.split(' ')[1]}</span><span class="size">arquivo</span></div>`
                     ).join('')}
                 </div>
@@ -979,35 +980,31 @@
         }
 
         // ==========================================
-        // EVENTOS DE CLICK NOS ITENS - CORRIGIDO
+        // EVENTOS DE CLICK NOS ITENS
         // ==========================================
 
         document.addEventListener('click', function(e) {
             const target = e.target.closest('.file-item');
             if (!target) return;
 
-            // Verifica se o item tem data-folder
             if (target.dataset.folder !== undefined) {
                 e.preventDefault();
                 openFolder(target.dataset.folder);
                 return;
             }
 
-            // Verifica se o item tem data-evidence
             if (target.dataset.evidence !== undefined) {
                 e.preventDefault();
                 openEvidence(parseInt(target.dataset.evidence));
                 return;
             }
 
-            // Verifica se o item tem data-email
             if (target.dataset.email !== undefined) {
                 e.preventDefault();
                 openEmail(parseInt(target.dataset.email));
                 return;
             }
 
-            // Verifica se o item tem data-chat
             if (target.dataset.chat !== undefined) {
                 e.preventDefault();
                 openChat(parseInt(target.dataset.chat));
