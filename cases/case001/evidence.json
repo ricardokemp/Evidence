@@ -1,10 +1,10 @@
 [
     {
         "id": "ev1",
-        "title": "Foto_001.jpg",
+        "title": "Foto_001.png",
         "type": "image",
         "description": "Última foto de Helena antes do desaparecimento. Ela parece preocupada e está saindo do prédio da Sigma.",
-        "location": "files/foto_001.jpg",
+        "location": "files/Foto_001.png",
         "found": false,
         "tags": ["helena", "sigma", "ultima_foto"]
     },
@@ -13,25 +13,25 @@
         "title": "Documento_001.pdf",
         "type": "document",
         "description": "Relatório parcial da investigação da Sigma. Há dados financeiros suspeitos e transferências para empresas offshore.",
-        "location": "files/documento_001.pdf",
+        "location": "files/Documento_001.pdf",
         "found": false,
         "tags": ["sigma", "financas", "offshore"]
     },
     {
         "id": "ev3",
-        "title": "Audio_001.wav",
-        "type": "audio",
-        "description": "Gravação de uma ligação de Helena para um contato desconhecido. Ela parece estar com medo e menciona 'a sala 4'.",
-        "location": "files/audio_001.wav",
+        "title": "Video_001.mp4",
+        "type": "video",
+        "description": "Recriação do momento em que Helena recebeu a mensagem sobre a sala 4. A atmosfera é tensa e misteriosa.",
+        "location": "files/Video_001.mp4",
         "found": false,
-        "tags": ["audio", "ligacao", "sala4"]
+        "tags": ["video", "sala4", "sigma", "recriacao"]
     },
     {
         "id": "ev4",
-        "title": "Foto_002.jpg",
+        "title": "Foto_002.png",
         "type": "image",
         "description": "Foto da fachada da Sigma Corp. Há uma entrada nos fundos que parece ser usada para entregas noturnas.",
-        "location": "files/foto_002.jpg",
+        "location": "files/Foto_002.png",
         "found": false,
         "tags": ["sigma", "fachada", "entrada"]
     },
@@ -40,7 +40,7 @@
         "title": "Documento_002.pdf",
         "type": "document",
         "description": "Lista de funcionários da Sigma. Alguns nomes aparecem em outras investigações de corrupção.",
-        "location": "files/documento_002.pdf",
+        "location": "files/Documento_002.pdf",
         "found": false,
         "tags": ["sigma", "funcionarios", "corrupcao"]
     }
