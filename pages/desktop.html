@@ -301,11 +301,6 @@
             color: var(--text-muted);
         }
 
-        .window-body .file-item .found-badge {
-            font-size: var(--font-xs);
-            color: var(--color-success);
-        }
-
         .window-body .btn-secondary {
             background: transparent;
             border: 1px solid var(--color-border);
@@ -790,8 +785,8 @@
                     border-radius: var(--radius-md);
                     margin: var(--space-4) 0;
                     border: 1px solid var(--color-border);
-                    min-height: 200px;
-                    max-height: 75vh;
+                    min-height: 300px;
+                    max-height: 80vh;
                     overflow: auto;
                     display: flex;
                     align-items: center;
@@ -810,13 +805,23 @@
                 `;
             } else if (fileExtension === 'jpg' || fileExtension === 'jpeg' || fileExtension === 'png' || fileExtension === 'gif' || fileExtension === 'webp') {
                 content += `
-                    <img src="${filePath}" style="
+                    <div style="
                         width: 100%;
-                        height: auto;
-                        max-height: 70vh;
-                        object-fit: contain;
-                        border-radius: var(--radius-sm);
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        padding: var(--space-2);
                     ">
+                        <img src="${filePath}" style="
+                            max-width: 100%;
+                            max-height: 75vh;
+                            width: auto;
+                            height: auto;
+                            object-fit: contain;
+                            border-radius: var(--radius-sm);
+                        ">
+                    </div>
                 `;
             } else if (fileExtension === 'mp4' || fileExtension === 'webm' || fileExtension === 'mov' || fileExtension === 'avi') {
                 content += `
