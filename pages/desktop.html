@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evidence | Desktop</title>
+
+    <!-- CSS Base -->
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/style.css">
+
+    <!-- Desktop CSS -->
+    <style>
+        /* ========================================
+           DESKTOP STYLES
+           ======================================== */
+
+        body {
+            background: radial-gradient(ellipse at center, #0F172A 0%, #020617 100%);
+            font-family: var(--font-primary);
+            color: var(--text-primary);
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ========================================
+           DESKTOP AREA
+           ======================================== */
+
+        .desktop {
+            flex: 1;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            gap: var(--space-5);
+            padding: var(--space-6);
+            overflow-y: auto;
+        }
+
+        /* ========================================
+           ICON
+           ======================================== */
+
+        .desktop-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 90px;
+            padding: var(--space-3);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            text-align: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border: 1px solid transparent;
+        }
+
+        .desktop-icon:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--color-border);
+            transform: translateY(-4px);
+        }
+
+        .desktop-icon .icon {
+            font-size: 48px;
+            margin-bottom: var(--space-2);
+            line-height: 1;
+        }
+
+        .desktop-icon .label {
+            font-size: var(--font-xs);
+            color: var(--text-secondary);
+            max-width: 80px;
+            word-wrap: break-word;
+        }
+
+        /* ========================================
+           TASKBAR
+           ======================================== */
+
+        .taskbar {
+            height: 56px;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid var(--color-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 var(--space-4);
+            flex-shrink: 0;
+        }
+
+        .taskbar .logo-small {
+            font-size: var(--font-sm);
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--text-bright);
+        }
+
+        .taskbar .clock {
+            font-family: var(--font-mono);
+            font-size: var(--font-sm);
+            color: var(--text-secondary);
+        }
+
+        .taskbar .taskbar-items {
+            display: flex;
+            gap: var(--space-2);
+            align-items: center;
+        }
+
+        .taskbar-item {
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--radius-sm);
+            font-size: var(--font-xs);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            border: 1px solid transparent;
+        }
+
+        .taskbar-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--color-border);
+            color: var(--text-bright);
+        }
+
+        .taskbar-item.active {
+            background: rgba(59, 130, 246, 0.15);
+            border-color: var(--color-primary);
+            color: var(--text-bright);
+        }
+
+        /* ========================================
+           WINDOW (Simulada)
+           ======================================== */
+
+        .window {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 700px;
+            max-height: 80vh;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            z-index: var(--z-modal);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        .window.open {
+            display: flex;
+        }
+
+        .window-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-3) var(--space-4);
+            border-bottom: 1px solid var(--color-border);
+            background: rgba(15, 23, 42, 0.5);
+            flex-shrink: 0;
+        }
+
+        .window-header .title {
+            font-size: var(--font-sm);
+            font-weight: 600;
+            color: var(--text-bright);
+        }
+
+        .window-header .close-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: var(--font-lg);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            padding: 0 var(--space-2);
+        }
+
+        .window-header .close-btn:hover {
+            color: var(--color-danger);
+        }
+
+        .window-body {
+            padding: var(--space-5);
+            overflow-y: auto;
+            flex: 1;
+            color: var(--text-secondary);
+        }
+
+        .window-body h3 {
+            color: var(--text-bright);
+            margin-bottom: var(--space-3);
+        }
+
+        .window-body p {
+            margin-bottom: var(--space-2);
+            line-height: 1.7;
+        }
+
+        .window-body .file-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+        }
+
+        .window-body .file-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            transition: var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .window-body .file-item:hover {
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-bright);
+        }
+
+        .window-body .file-item .icon {
+            font-size: var(--font-lg);
+        }
+
+        .window-body .file-item .name {
+            flex: 1;
+        }
+
+        .window-body .file-item .size {
+            font-size: var(--font-xs);
+            color: var(--text-muted);
+        }
+
+        /* ========================================
+           SCROLLBAR
+           ======================================== */
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-border);
+            border-radius: var(--radius-full);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        /* ========================================
+           RESPONSIVIDADE
+           ======================================== */
+
+        @media (max-width: 768px) {
+            .desktop {
+                gap: var(--space-3);
+                padding: var(--space-3);
+            }
+
+            .desktop-icon {
+                width: 72px;
+                padding: var(--space-2);
+            }
+
+            .desktop-icon .icon {
+                font-size: 36px;
+            }
+
+            .desktop-icon .label {
+                font-size: 10px;
+            }
+
+            .taskbar .logo-small {
+                display: none;
+            }
+
+            .window {
+                width: 95%;
+                max-height: 90vh;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+            .window-body {
+                padding: var(--space-3);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ========================================
+    DESKTOP
+    ======================================== -->
+
+    <main class="desktop" id="desktop">
+
+        <!-- Ícone: E-mail -->
+        <a href="#" class="desktop-icon" data-app="mail">
+            <span class="icon">📧</span>
+            <span class="label">E-mail</span>
+        </a>
+
+        <!-- Ícone: Arquivos -->
+        <a href="#" class="desktop-icon" data-app="files">
+            <span class="icon">📁</span>
+            <span class="label">Arquivos</span>
+        </a>
+
+        <!-- Ícone: Mensagens -->
+        <a href="#" class="desktop-icon" data-app="messages">
+            <span class="icon">💬</span>
+            <span class="label">Mensagens</span>
+        </a>
+
+        <!-- Ícone: Banco de Dados -->
+        <a href="#" class="desktop-icon" data-app="database">
+            <span class="icon">🧬</span>
+            <span class="label">Banco de Dados</span>
+        </a>
+
+        <!-- Ícone: Evidências -->
+        <a href="#" class="desktop-icon" data-app="evidence">
+            <span class="icon">🔍</span>
+            <span class="label">Evidências</span>
+        </a>
+
+    </main>
+
+    <!-- ========================================
+    TASKBAR
+    ======================================== -->
+
+    <footer class="taskbar">
+
+        <div class="logo-small">
+            EVIDENCE
+        </div>
+
+        <div class="taskbar-items">
+            <span class="taskbar-item active">Desktop</span>
+        </div>
+
+        <div class="clock" id="clock">
+            Carregando...
+        </div>
+
+    </footer>
+
+    <!-- ========================================
+    JANELA (POPUP)
+    ======================================== -->
+
+    <div class="window" id="window">
+
+        <div class="window-header">
+            <span class="title" id="windowTitle">Aplicativo</span>
+            <button class="close-btn" id="closeWindow">✕</button>
+        </div>
+
+        <div class="window-body" id="windowBody">
+            <p>Conteúdo do aplicativo.</p>
+        </div>
+
+    </div>
+
+    <!-- ========================================
+    SCRIPTS
+    ======================================== -->
+
+    <script>
+        // ==========================================
+        // RELÓGIO
+        // ==========================================
+
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('clock').textContent = hours + ':' + minutes;
+        }
+
+        updateClock();
+        setInterval(updateClock, 10000);
+
+        // ==========================================
+        // ABRIR/FECHAR JANELA
+        // ==========================================
+
+        const windowEl = document.getElementById('window');
+        const windowTitle = document.getElementById('windowTitle');
+        const windowBody = document.getElementById('windowBody');
+        const closeBtn = document.getElementById('closeWindow');
+
+        // Conteúdo dos aplicativos
+        const appContent = {
+            mail: {
+                title: '📧 E-mail',
+                body: `
+                    <h3>Caixa de Entrada</h3>
+                    <div class="file-list">
+                        <div class="file-item">
+                            <span class="icon">📩</span>
+                            <span class="name">Bem-vindo ao Evidence</span>
+                            <span class="size">Agora</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="icon">📩</span>
+                            <span class="name">Relatório de Caso #001</span>
+                            <span class="size">Ontem</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="icon">📩</span>
+                            <span class="name">Código de Acesso</span>
+                            <span class="size">3 dias</span>
+                        </div>
+                    </div>
+                `
+            },
+            files: {
+                title: '📁 Arquivos',
+                body: `
+                    <h3>Explorador de Arquivos</h3>
+                    <div class="file-list">
+                        <div class="file-item">
+                            <span class="icon">📂</span>
+                            <span class="name">Documentos</span>
+                            <span class="size">12 itens</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="icon">📂</span>
+                            <span class="name">Fotos</span>
+                            <span class="size">8 itens</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="icon">📂</span>
+                            <span class="name">Vídeos</span>
+                            <span class="size">3 itens</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="icon">📄</span>
+                            <span class="name">Relatório_Caso001.pdf</span>
+                            <span class="size">2.4 MB</span>
+                        </div>
+                    </div>
+                `
+            },
+            messages: {
+                title: '💬 Mensagens',
+                body: `
+                    <h3>Conversas</h3>
+                    <div class="file-list">
+                        <div class="file-item">
+                            <span class="icon">👤</span>
+                            <span class="name">Helena Duarte</span>
+                            <span class="size">2 mensagens</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="icon">👤</span>
+                            <span class="name">João Pereira</span>
+                            <span class="size">1 mensagem</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="icon">👤</span>
+                            <span class="name">Anônimo</span>
+                            <span class="size">5 mensagens</span>
+                        </div>
+                    </div>
+                `
+            },
+            database: {
+                title: '🧬 Banco de Dados',
+                body: `
+                    <h3>Registros do Sistema</h3>
+                    <div class="file-list">
+                        <div class="file-item">
+                            <span class="icon">👤</span>
+                            <span class="name">Pessoas</span>
+                            <span class="size">47 registros</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="icon">🏢</span>
+                            <span class="name">Empresas</span>
+                            <span class="size">12 registros</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="icon">📋</span>
+                            <span class="name">Casos</span>
+                            <span class="size">3 registros</span>
+                        </div>
+                    </div>
+                `
+            },
+            evidence: {
+                title: '🔍 Evidências',
+                body: `
+                    <h3>Evidências do Caso #001</h3>
+                    <div class="file-list">
+                        <div class="file-item">
+                            <span class="icon">🖼️</span>
+                            <span class="name">Foto_001.jpg</span>
+                            <span class="size">2.1 MB</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="icon">🎥</span>
+                            <span class="name">Video_001.mp4</span>
+                            <span class="size">45 MB</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="icon">📄</span>
+                            <span class="name">Documento_001.pdf</span>
+                            <span class="size">1.8 MB</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="icon">🔊</span>
+                            <span class="name">Audio_001.wav</span>
+                            <span class="size">3.2 MB</span>
+                        </div>
+                    </div>
+                `
+            }
+        };
+
+        // Abrir janela
+        function openApp(appId) {
+            const app = appContent[appId];
+            if (!app) return;
+
+            windowTitle.textContent = app.title;
+            windowBody.innerHTML = app.body;
+            windowEl.classList.add('open');
+        }
+
+        // Fechar janela
+        function closeWindow() {
+            windowEl.classList.remove('open');
+        }
+
+        // Evento: clicar nos ícones
+        document.querySelectorAll('.desktop-icon').forEach(icon => {
+            icon.addEventListener('click', function(e) {
+                e.preventDefault();
+                const app = this.dataset.app;
+                openApp(app);
+            });
+        });
+
+        // Evento: fechar janela
+        closeBtn.addEventListener('click', closeWindow);
+
+        // Evento: clicar fora da janela (fundo) não fecha, só o botão
+
+        // ==========================================
+        // INICIALIZAR COM MENSAGEM DE BOAS-VINDAS
+        // ==========================================
+
+        // Abrir automaticamente o e-mail ao entrar no desktop
+        setTimeout(() => {
+            openApp('mail');
+        }, 500);
+    </script>
+
+</body>
+
+</html>
