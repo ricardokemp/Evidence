@@ -11,7 +11,7 @@
     },
     {
         "id": "e2",
-        "from": "anônimo@proton.me",
+        "from": "anonimo@proton.me",
         "to": "helena.duarte@jornalista.com",
         "subject": "CUIDADO",
         "date": "2026-07-09 09:15",
@@ -35,7 +35,7 @@
         "to": "investigador@evidence.com",
         "subject": "Caso #001 - Novas evidências",
         "date": "2026-07-12 08:00",
-        "body": "Novas evidências foram adicionadas ao caso. Verifique a pasta 'Fotos' e o arquivo 'Audio_001.wav'. Uma testemunha anônima enviou material relevante.",
+        "body": "Novas evidências foram adicionadas ao caso. Verifique a pasta 'Fotos' e o arquivo 'Video_001.mp4'. Uma testemunha anônima enviou material relevante que pode conter pistas importantes sobre o desaparecimento de Helena.",
         "read": false,
         "important": false
     },
