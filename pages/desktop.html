@@ -188,7 +188,7 @@
         }
 
         /* ==========================================
-           WINDOW - CENTRALIZADA (CORRIGIDA)
+           WINDOW - CENTRALIZADA
            ========================================== */
 
         .window {
@@ -945,21 +945,39 @@
         }
 
         // ==========================================
-        // EVENTOS DE CLICK NOS ITENS
+        // EVENTOS DE CLICK NOS ITENS - CORRIGIDO
         // ==========================================
 
         document.addEventListener('click', function(e) {
             const target = e.target.closest('.file-item');
             if (!target) return;
 
-            if (target.dataset.email !== undefined) {
-                openEmail(parseInt(target.dataset.email));
-            } else if (target.dataset.chat !== undefined) {
-                openChat(parseInt(target.dataset.chat));
-            } else if (target.dataset.evidence !== undefined) {
-                openEvidence(parseInt(target.dataset.evidence));
-            } else if (target.dataset.folder !== undefined) {
+            // Verifica se o item tem data-folder
+            if (target.dataset.folder !== undefined) {
+                e.preventDefault();
                 openFolder(target.dataset.folder);
+                return;
+            }
+
+            // Verifica se o item tem data-evidence
+            if (target.dataset.evidence !== undefined) {
+                e.preventDefault();
+                openEvidence(parseInt(target.dataset.evidence));
+                return;
+            }
+
+            // Verifica se o item tem data-email
+            if (target.dataset.email !== undefined) {
+                e.preventDefault();
+                openEmail(parseInt(target.dataset.email));
+                return;
+            }
+
+            // Verifica se o item tem data-chat
+            if (target.dataset.chat !== undefined) {
+                e.preventDefault();
+                openChat(parseInt(target.dataset.chat));
+                return;
             }
         });
 
