@@ -35,11 +35,12 @@
             align-content: flex-start;
             gap: var(--space-5);
             padding: var(--space-6);
+            padding-top: 80px;
             overflow-y: auto;
         }
 
         /* ==========================================
-           PROGRESS BAR - TOPO
+           PROGRESS BAR - TOPO DIREITO
            ========================================== */
 
         .progress-container {
@@ -78,31 +79,31 @@
         }
 
         /* ==========================================
-           MISSIONS PANEL - LATERAL
+           MISSIONS PANEL - TOPO DIREITO (abaixo do progresso)
            ========================================== */
 
         .missions-panel {
             position: fixed;
-            left: var(--space-4);
-            top: var(--space-4);
+            right: var(--space-4);
+            top: calc(var(--space-4) + 80px);
             background: var(--color-surface);
             border: 1px solid var(--color-border);
             border-radius: var(--radius-md);
-            padding: var(--space-4) var(--space-5);
+            padding: var(--space-3) var(--space-4);
             z-index: var(--z-content);
             box-shadow: var(--shadow-md);
             backdrop-filter: blur(8px);
-            max-width: 280px;
-            max-height: 70vh;
+            max-width: 260px;
+            max-height: 55vh;
             overflow-y: auto;
-            min-width: 200px;
+            min-width: 180px;
         }
 
         .missions-panel h4 {
             color: var(--text-bright);
-            font-size: var(--font-sm);
+            font-size: var(--font-xs);
             font-weight: 600;
-            margin-bottom: var(--space-3);
+            margin-bottom: var(--space-2);
             letter-spacing: 1px;
             text-transform: uppercase;
             border-bottom: 1px solid var(--color-border);
@@ -113,7 +114,7 @@
             display: flex;
             align-items: center;
             gap: var(--space-2);
-            padding: var(--space-2) var(--space-2);
+            padding: var(--space-1) var(--space-1);
             border-radius: var(--radius-sm);
             font-size: var(--font-xs);
             color: var(--text-secondary);
@@ -123,14 +124,25 @@
         }
 
         .missions-panel .mission-item .icon {
-            font-size: var(--font-md);
-            width: 24px;
+            font-size: var(--font-sm);
+            width: 20px;
             text-align: center;
+            flex-shrink: 0;
+        }
+
+        .missions-panel .mission-item .mission-title {
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .missions-panel .mission-item .status {
-            font-size: var(--font-xs);
+            font-size: 9px;
             color: var(--text-muted);
+            margin-left: auto;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .missions-panel .mission-item.locked {
@@ -139,7 +151,7 @@
         }
 
         .missions-panel .mission-item.active {
-            border-left: 3px solid var(--color-primary);
+            border-left: 2px solid var(--color-primary);
             background: rgba(59, 130, 246, 0.05);
             color: var(--text-bright);
         }
@@ -226,19 +238,6 @@
 
         .desktop-icon .badge-count {
             background: var(--color-danger);
-            color: white;
-            font-size: 10px;
-            font-weight: 700;
-            border-radius: 50%;
-            padding: 2px 6px;
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            display: none;
-        }
-
-        .desktop-icon .unlock-badge {
-            background: var(--color-success);
             color: white;
             font-size: 10px;
             font-weight: 700;
@@ -528,23 +527,27 @@
         @media (max-width: 1024px) {
             .missions-panel {
                 max-width: 220px;
-                padding: var(--space-3);
-                left: var(--space-3);
-                top: var(--space-3);
+                padding: var(--space-2) var(--space-3);
+                right: var(--space-3);
+                top: calc(var(--space-3) + 75px);
             }
 
             .missions-panel h4 {
-                font-size: var(--font-xs);
+                font-size: 10px;
             }
 
             .missions-panel .mission-item {
-                font-size: 10px;
+                font-size: 9px;
                 padding: var(--space-1) var(--space-1);
             }
 
             .missions-panel .mission-item .icon {
-                font-size: var(--font-sm);
-                width: 20px;
+                font-size: var(--font-xs);
+                width: 16px;
+            }
+
+            .missions-panel .mission-item .status {
+                font-size: 8px;
             }
         }
 
@@ -552,6 +555,7 @@
             .desktop {
                 gap: var(--space-3);
                 padding: var(--space-3);
+                padding-top: 70px;
             }
 
             .desktop-icon {
@@ -599,6 +603,34 @@
                 min-width: 120px;
             }
 
+            .missions-panel {
+                position: fixed;
+                right: var(--space-2);
+                top: calc(var(--space-2) + 70px);
+                max-width: 200px;
+                min-width: 150px;
+                padding: var(--space-2) var(--space-3);
+                max-height: 45vh;
+            }
+
+            .missions-panel h4 {
+                font-size: 10px;
+            }
+
+            .missions-panel .mission-item {
+                font-size: 9px;
+                padding: var(--space-1) var(--space-1);
+            }
+
+            .missions-panel .mission-item .icon {
+                font-size: var(--font-xs);
+                width: 16px;
+            }
+
+            .missions-panel .mission-item .status {
+                font-size: 8px;
+            }
+
             .window-body .image-container {
                 min-height: 200px;
             }
@@ -613,14 +645,6 @@
 
             .window-body .video-container video {
                 max-height: 60vh;
-            }
-
-            .missions-panel {
-                display: none;
-            }
-
-            .mobile-missions-toggle {
-                display: flex !important;
             }
         }
 
@@ -673,30 +697,35 @@
                 font-size: var(--font-xs);
                 padding: var(--space-1) var(--space-3);
             }
-        }
 
-        .mobile-missions-toggle {
-            display: none;
-            position: fixed;
-            bottom: 70px;
-            left: var(--space-4);
-            background: var(--color-primary);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            font-size: var(--font-xl);
-            cursor: pointer;
-            z-index: var(--z-content);
-            box-shadow: var(--shadow-lg);
-            align-items: center;
-            justify-content: center;
-        }
+            .missions-panel {
+                position: fixed;
+                right: var(--space-1);
+                top: calc(var(--space-1) + 55px);
+                max-width: 160px;
+                min-width: 120px;
+                padding: var(--space-1) var(--space-2);
+                max-height: 40vh;
+            }
 
-        .mobile-missions-toggle:hover {
-            background: var(--color-primary-hover);
-            transform: scale(1.05);
+            .missions-panel h4 {
+                font-size: 9px;
+                margin-bottom: var(--space-1);
+            }
+
+            .missions-panel .mission-item {
+                font-size: 8px;
+                padding: var(--space-0) var(--space-1);
+            }
+
+            .missions-panel .mission-item .icon {
+                font-size: 10px;
+                width: 14px;
+            }
+
+            .missions-panel .mission-item .status {
+                font-size: 7px;
+            }
         }
 
         /* ==========================================
@@ -840,15 +869,7 @@
     </div>
 
     <!-- ==========================================
-    MOBILE MISSIONS TOGGLE
-    ========================================== -->
-
-    <button class="mobile-missions-toggle" id="mobileMissionsToggle" style="display:none;">
-        📋
-    </button>
-
-    <!-- ==========================================
-    MISSIONS PANEL
+    MISSIONS PANEL - TOPO DIREITO
     ========================================== -->
 
     <div class="missions-panel" id="missionsPanel">
@@ -984,7 +1005,6 @@
         const notification = document.getElementById('notification');
         const missionsList = document.getElementById('missionsList');
         const missionsPanel = document.getElementById('missionsPanel');
-        const mobileToggle = document.getElementById('mobileMissionsToggle');
         const confettiContainer = document.getElementById('confettiContainer');
 
         let missionData = [];
@@ -1022,7 +1042,7 @@
                 checkAutoComplete();
             } catch (error) {
                 console.warn('Erro ao carregar missões:', error);
-                // Fallback: criar missões manualmente
+                // Fallback
                 missionData = [
                     { id: 'm1', title: '📧 O Primeiro E-mail', description: 'Leia o e-mail de Helena.', hint: 'Caixa de entrada.',
                         unlock: 'e1', required: [], completed: false },
@@ -1045,7 +1065,7 @@
 
         function renderMissions() {
             missionsList.innerHTML = '';
-            missionData.forEach((mission, index) => {
+            missionData.forEach((mission) => {
                 const isCompleted = completedMissions.has(mission.id);
                 const isLocked = !isMissionAvailable(mission);
                 const isActive = !isLocked && !isCompleted;
@@ -1061,7 +1081,7 @@
 
                 div.innerHTML = `
                     <span class="icon">${icon}</span>
-                    <span>${mission.title}</span>
+                    <span class="mission-title">${mission.title.replace(/^.{1,3}\s/, '')}</span>
                     <span class="status">${statusText}</span>
                 `;
                 missionsList.appendChild(div);
@@ -1081,11 +1101,10 @@
                 if (completedMissions.has(mission.id)) return;
                 if (!isMissionAvailable(mission)) return;
 
-                // Verifica se a missão foi desbloqueada
                 if (mission.unlock && trigger === mission.unlock) {
                     completedMissions.add(mission.id);
                     anyCompleted = true;
-                    showNotification(`🎉 Missão Concluída: ${mission.title}`);
+                    showNotification(`🎉 Missão Concluída: ${mission.title.replace(/^.{1,3}\s/, '')}`);
                 }
             });
 
@@ -1096,19 +1115,9 @@
         }
 
         function checkAutoComplete() {
-            // Verifica se alguma missão já pode ser completada automaticamente
             missionData.forEach(mission => {
                 if (completedMissions.has(mission.id)) return;
                 if (!isMissionAvailable(mission)) return;
-
-                // Se a missão não tem unlock específico, verifica se o item já foi encontrado
-                if (!mission.unlock) {
-                    // Missão inicial - sempre disponível
-                    if (mission.required.length === 0) {
-                        // A missão 1 é completada quando o jogador abre o e-mail
-                        // Vamos marcar como completada apenas quando o jogador interagir
-                    }
-                }
             });
         }
 
@@ -1159,8 +1168,6 @@
 
         function showEpicConclusion() {
             windowTitle.textContent = '🎉 CASO RESOLVIDO!';
-
-            // Criar confetes
             createConfetti();
 
             windowBody.innerHTML = `
@@ -1365,7 +1372,6 @@
             const email = emailContent[emailId];
             if (!email) return;
 
-            // Verifica se abrir este e-mail completa alguma missão
             const emailKey = 'e' + (parseInt(emailId) + 1);
             checkMissionCompletion(emailKey);
 
@@ -1382,7 +1388,6 @@
             const chat = chatContent[chatId];
             if (!chat) return;
 
-            // Verifica se abrir este chat completa alguma missão
             const chatKey = 'm' + (parseInt(chatId) + 1);
             checkMissionCompletion(chatKey);
 
@@ -1400,7 +1405,6 @@
             const ev = evidenceContent[evidenceId];
             if (!ev) return;
 
-            // Verifica se abrir esta evidência completa alguma missão
             const evKey = 'ev' + (parseInt(evidenceId) + 1);
             checkMissionCompletion(evKey);
 
@@ -1532,7 +1536,6 @@
         }
 
         function updateAppContent() {
-            // E-mails
             let emailList = '';
             caseData.emails.forEach((email, i) => {
                 emailList += `
@@ -1545,7 +1548,6 @@
             });
             appContent.mail.body = `<h3>Caixa de Entrada - Caso #001</h3><div class="file-list">${emailList}</div>`;
 
-            // Mensagens
             let messageList = '';
             caseData.messages.forEach((chat, i) => {
                 messageList += `
@@ -1558,7 +1560,6 @@
             });
             appContent.messages.body = `<h3>Conversas</h3><div class="file-list">${messageList}</div>`;
 
-            // Evidências
             let evidenceList = '';
             caseData.evidence.forEach((item, i) => {
                 const icon = item.type === 'image' ? '🖼️' : item.type === 'video' ? '🎬' : '📄';
@@ -1573,7 +1574,6 @@
             });
             appContent.evidence.body = `<h3>Evidências do Caso #001</h3><div class="file-list">${evidenceList}</div>`;
 
-            // Preencher conteúdos
             caseData.emails.forEach((email, i) => {
                 emailContent[i] = { from: email.from, subject: email.subject, date: email.date, body: email.body };
             });
@@ -1651,33 +1651,6 @@
                 return;
             }
         });
-
-        // ==========================================
-        // MOBILE TOGGLE
-        // ==========================================
-
-        let missionsVisible = true;
-
-        mobileToggle.addEventListener('click', function() {
-            missionsVisible = !missionsVisible;
-            missionsPanel.style.display = missionsVisible ? 'block' : 'none';
-        });
-
-        // Detectar mobile e mostrar toggle
-        function checkMobile() {
-            if (window.innerWidth <= 768) {
-                mobileToggle.style.display = 'flex';
-                missionsPanel.style.display = 'none';
-                missionsVisible = false;
-            } else {
-                mobileToggle.style.display = 'none';
-                missionsPanel.style.display = 'block';
-                missionsVisible = true;
-            }
-        }
-
-        window.addEventListener('resize', checkMobile);
-        checkMobile();
 
         // ==========================================
         // INICIALIZAR
