@@ -15,9 +15,9 @@
 
     <!-- Desktop CSS -->
     <style>
-        /* ========================================
+        /* ==========================================
            DESKTOP STYLES
-           ======================================== */
+           ========================================== */
 
         body {
             background: radial-gradient(ellipse at center, #0F172A 0%, #020617 100%);
@@ -29,9 +29,9 @@
             flex-direction: column;
         }
 
-        /* ========================================
+        /* ==========================================
            DESKTOP AREA
-           ======================================== */
+           ========================================== */
 
         .desktop {
             flex: 1;
@@ -43,9 +43,9 @@
             overflow-y: auto;
         }
 
-        /* ========================================
+        /* ==========================================
            ICON
-           ======================================== */
+           ========================================== */
 
         .desktop-icon {
             display: flex;
@@ -82,9 +82,9 @@
             word-wrap: break-word;
         }
 
-        /* ========================================
+        /* ==========================================
            TASKBAR
-           ======================================== */
+           ========================================== */
 
         .taskbar {
             height: 56px;
@@ -139,9 +139,9 @@
             color: var(--text-bright);
         }
 
-        /* ========================================
-           WINDOW (Simulada)
-           ======================================== */
+        /* ==========================================
+           WINDOW (Janela)
+           ========================================== */
 
         .window {
             position: fixed;
@@ -248,9 +248,25 @@
             color: var(--text-muted);
         }
 
-        /* ========================================
+        .window-body .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--color-border);
+            color: var(--text-secondary);
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-md);
+            font-size: var(--font-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .window-body .btn-secondary:hover {
+            border-color: var(--color-primary);
+            color: var(--text-bright);
+        }
+
+        /* ==========================================
            SCROLLBAR
-           ======================================== */
+           ========================================== */
 
         ::-webkit-scrollbar {
             width: 6px;
@@ -269,9 +285,9 @@
             background: var(--text-muted);
         }
 
-        /* ========================================
+        /* ==========================================
            RESPONSIVIDADE
-           ======================================== */
+           ========================================== */
 
         @media (max-width: 768px) {
             .desktop {
@@ -313,9 +329,9 @@
 
 <body>
 
-    <!-- ========================================
+    <!-- ==========================================
     DESKTOP
-    ======================================== -->
+    ========================================== -->
 
     <main class="desktop" id="desktop">
 
@@ -351,9 +367,9 @@
 
     </main>
 
-    <!-- ========================================
+    <!-- ==========================================
     TASKBAR
-    ======================================== -->
+    ========================================== -->
 
     <footer class="taskbar">
 
@@ -371,9 +387,9 @@
 
     </footer>
 
-    <!-- ========================================
+    <!-- ==========================================
     JANELA (POPUP)
-    ======================================== -->
+    ========================================== -->
 
     <div class="window" id="window">
 
@@ -388,9 +404,9 @@
 
     </div>
 
-    <!-- ========================================
+    <!-- ==========================================
     SCRIPTS
-    ======================================== -->
+    ========================================== -->
 
     <script>
         // ==========================================
@@ -408,7 +424,7 @@
         setInterval(updateClock, 10000);
 
         // ==========================================
-        // ABRIR/FECHAR JANELA
+        // ELEMENTOS DA JANELA
         // ==========================================
 
         const windowEl = document.getElementById('window');
@@ -416,24 +432,37 @@
         const windowBody = document.getElementById('windowBody');
         const closeBtn = document.getElementById('closeWindow');
 
-        // Conteúdo dos aplicativos
+        // ==========================================
+        // FUNÇÃO: FECHAR JANELA
+        // ==========================================
+
+        function closeWindow() {
+            windowEl.classList.remove('open');
+        }
+
+        closeBtn.addEventListener('click', closeWindow);
+
+        // ==========================================
+        // CONTEÚDO DOS APLICATIVOS
+        // ==========================================
+
         const appContent = {
             mail: {
                 title: '📧 E-mail',
                 body: `
                     <h3>Caixa de Entrada</h3>
                     <div class="file-list">
-                        <div class="file-item">
+                        <div class="file-item" data-email="1">
                             <span class="icon">📩</span>
                             <span class="name">Bem-vindo ao Evidence</span>
                             <span class="size">Agora</span>
                         </div>
-                        <div class="file-item">
+                        <div class="file-item" data-email="2">
                             <span class="icon">📩</span>
                             <span class="name">Relatório de Caso #001</span>
                             <span class="size">Ontem</span>
                         </div>
-                        <div class="file-item">
+                        <div class="file-item" data-email="3">
                             <span class="icon">📩</span>
                             <span class="name">Código de Acesso</span>
                             <span class="size">3 dias</span>
@@ -446,22 +475,22 @@
                 body: `
                     <h3>Explorador de Arquivos</h3>
                     <div class="file-list">
-                        <div class="file-item">
+                        <div class="file-item" data-folder="documents">
                             <span class="icon">📂</span>
                             <span class="name">Documentos</span>
                             <span class="size">12 itens</span>
                         </div>
-                        <div class="file-item">
+                        <div class="file-item" data-folder="photos">
                             <span class="icon">📂</span>
                             <span class="name">Fotos</span>
                             <span class="size">8 itens</span>
                         </div>
-                        <div class="file-item">
+                        <div class="file-item" data-folder="case001">
                             <span class="icon">📂</span>
-                            <span class="name">Vídeos</span>
-                            <span class="size">3 itens</span>
+                            <span class="name">Caso_001</span>
+                            <span class="size">5 itens</span>
                         </div>
-                        <div class="file-item">
+                        <div class="file-item" data-file="relatorio">
                             <span class="icon">📄</span>
                             <span class="name">Relatório_Caso001.pdf</span>
                             <span class="size">2.4 MB</span>
@@ -474,17 +503,17 @@
                 body: `
                     <h3>Conversas</h3>
                     <div class="file-list">
-                        <div class="file-item">
+                        <div class="file-item" data-chat="1">
                             <span class="icon">👤</span>
                             <span class="name">Helena Duarte</span>
                             <span class="size">2 mensagens</span>
                         </div>
-                        <div class="file-item">
+                        <div class="file-item" data-chat="2">
                             <span class="icon">👤</span>
                             <span class="name">João Pereira</span>
                             <span class="size">1 mensagem</span>
                         </div>
-                        <div class="file-item">
+                        <div class="file-item" data-chat="3">
                             <span class="icon">👤</span>
                             <span class="name">Anônimo</span>
                             <span class="size">5 mensagens</span>
@@ -520,22 +549,22 @@
                 body: `
                     <h3>Evidências do Caso #001</h3>
                     <div class="file-list">
-                        <div class="file-item">
+                        <div class="file-item" data-evidence="1">
                             <span class="icon">🖼️</span>
                             <span class="name">Foto_001.jpg</span>
                             <span class="size">2.1 MB</span>
                         </div>
-                        <div class="file-item">
+                        <div class="file-item" data-evidence="2">
                             <span class="icon">🎥</span>
                             <span class="name">Video_001.mp4</span>
                             <span class="size">45 MB</span>
                         </div>
-                        <div class="file-item">
+                        <div class="file-item" data-evidence="3">
                             <span class="icon">📄</span>
                             <span class="name">Documento_001.pdf</span>
                             <span class="size">1.8 MB</span>
                         </div>
-                        <div class="file-item">
+                        <div class="file-item" data-evidence="4">
                             <span class="icon">🔊</span>
                             <span class="name">Audio_001.wav</span>
                             <span class="size">3.2 MB</span>
@@ -545,7 +574,10 @@
             }
         };
 
-        // Abrir janela
+        // ==========================================
+        // FUNÇÃO: ABRIR APP
+        // ==========================================
+
         function openApp(appId) {
             const app = appContent[appId];
             if (!app) return;
@@ -555,12 +587,10 @@
             windowEl.classList.add('open');
         }
 
-        // Fechar janela
-        function closeWindow() {
-            windowEl.classList.remove('open');
-        }
+        // ==========================================
+        // EVENTO: CLICK NOS ÍCONES DO DESKTOP
+        // ==========================================
 
-        // Evento: clicar nos ícones
         document.querySelectorAll('.desktop-icon').forEach(icon => {
             icon.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -569,16 +599,259 @@
             });
         });
 
-        // Evento: fechar janela
-        closeBtn.addEventListener('click', closeWindow);
-
-        // Evento: clicar fora da janela (fundo) não fecha, só o botão
-
         // ==========================================
-        // INICIALIZAR COM MENSAGEM DE BOAS-VINDAS
+        // CONTEÚDO DOS E-MAILS
         // ==========================================
 
-        // Abrir automaticamente o e-mail ao entrar no desktop
+        const emailContent = {
+            '1': {
+                from: 'sistema@evidence.com',
+                subject: 'Bem-vindo ao Evidence',
+                date: 'Agora',
+                body: `
+                    <p>Bem-vindo ao sistema de investigação Evidence.</p>
+                    <p>Seu primeiro caso já está disponível.</p>
+                    <p style="color: var(--text-muted); margin-top: var(--space-4);">
+                        🔍 <strong>Dica:</strong> Verifique a pasta "Documentos" no explorador de arquivos.
+                    </p>
+                `
+            },
+            '2': {
+                from: 'helena.duarte@empresa.com',
+                subject: 'Relatório de Caso #001',
+                date: 'Ontem',
+                body: `
+                    <p><strong>Assunto:</strong> Desaparecimento de Helena Duarte</p>
+                    <p>Olá,</p>
+                    <p>O caso #001 está aguardando análise. Os arquivos estão disponíveis na pasta do caso.</p>
+                    <p style="color: var(--text-muted); margin-top: var(--space-4);">
+                        📁 <strong>Local:</strong> /Arquivos/Caso_001/
+                    </p>
+                `
+            },
+            '3': {
+                from: 'acesso@evidence.com',
+                subject: 'Código de Acesso',
+                date: '3 dias',
+                body: `
+                    <p><strong>Código de Acesso:</strong> 4472</p>
+                    <p>Use este código para acessar os arquivos restritos.</p>
+                    <p style="color: var(--color-warning); margin-top: var(--space-4);">
+                        ⚠️ Não compartilhe este código com ninguém.
+                    </p>
+                `
+            }
+        };
+
+        // ==========================================
+        // FUNÇÃO: ABRIR E-MAIL
+        // ==========================================
+
+        function openEmail(emailId) {
+            const email = emailContent[emailId];
+            if (!email) return;
+
+            windowTitle.textContent = '📧 ' + email.subject;
+            windowBody.innerHTML = `
+                <div style="margin-bottom: var(--space-4);">
+                    <p><strong>De:</strong> ${email.from}</p>
+                    <p><strong>Data:</strong> ${email.date}</p>
+                </div>
+                <div style="border-top: 1px solid var(--color-border); padding-top: var(--space-4);">
+                    ${email.body}
+                </div>
+                <button class="btn-secondary" style="margin-top: var(--space-4);" onclick="closeWindow()">
+                    Fechar
+                </button>
+            `;
+            windowEl.classList.add('open');
+        }
+
+        // ==========================================
+        // CONTEÚDO DAS PASTAS
+        // ==========================================
+
+        function openFolder(folderId) {
+            windowTitle.textContent = '📁 ' + folderId;
+
+            const folderContent = {
+                documents: `
+                    <h3>Documentos</h3>
+                    <div class="file-list">
+                        <div class="file-item">
+                            <span class="icon">📄</span>
+                            <span class="name">Contrato.pdf</span>
+                            <span class="size">1.2 MB</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="icon">📄</span>
+                            <span class="name">Identidade.jpg</span>
+                            <span class="size">0.8 MB</span>
+                        </div>
+                    </div>
+                    <button class="btn-secondary" style="margin-top: var(--space-4);" onclick="closeWindow()">
+                        Voltar
+                    </button>
+                `,
+                photos: `
+                    <h3>Fotos</h3>
+                    <div class="file-list">
+                        <div class="file-item">
+                            <span class="icon">🖼️</span>
+                            <span class="name">Foto_001.jpg</span>
+                            <span class="size">2.1 MB</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="icon">🖼️</span>
+                            <span class="name">Foto_002.jpg</span>
+                            <span class="size">1.5 MB</span>
+                        </div>
+                    </div>
+                    <button class="btn-secondary" style="margin-top: var(--space-4);" onclick="closeWindow()">
+                        Voltar
+                    </button>
+                `,
+                case001: `
+                    <h3>Caso #001 - Desaparecimento</h3>
+                    <div class="file-list">
+                        <div class="file-item">
+                            <span class="icon">📄</span>
+                            <span class="name">Relatório_Preliminar.pdf</span>
+                            <span class="size">1.8 MB</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="icon">📄</span>
+                            <span class="name">Depoimento_Helena.pdf</span>
+                            <span class="size">0.5 MB</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="icon">🖼️</span>
+                            <span class="name">Helena_Ultima_Foto.jpg</span>
+                            <span class="size">1.2 MB</span>
+                        </div>
+                    </div>
+                    <button class="btn-secondary" style="margin-top: var(--space-4);" onclick="closeWindow()">
+                        Voltar
+                    </button>
+                `
+            };
+
+            windowBody.innerHTML = folderContent[folderId] || `<p>Pasta vazia.</p>`;
+            windowEl.classList.add('open');
+        }
+
+        // ==========================================
+        // CONTEÚDO DAS MENSAGENS
+        // ==========================================
+
+        const chatContent = {
+            '1': {
+                contact: 'Helena Duarte',
+                messages: [
+                    { from: 'Helena', text: 'Olá, você recebeu o arquivo?' },
+                    { from: 'Você', text: 'Sim, estou analisando.' }
+                ]
+            },
+            '2': {
+                contact: 'João Pereira',
+                messages: [
+                    { from: 'João', text: 'Precisamos falar sobre o caso.' }
+                ]
+            },
+            '3': {
+                contact: 'Anônimo',
+                messages: [
+                    { from: 'Anônimo', text: 'Você está sendo observado.' },
+                    { from: 'Anônimo', text: 'Cuidado com o que investiga.' },
+                    { from: 'Anônimo', text: 'A verdade está escondida.' }
+                ]
+            }
+        };
+
+        function openChat(chatId) {
+            const chat = chatContent[chatId];
+            if (!chat) return;
+
+            windowTitle.textContent = '💬 ' + chat.contact;
+            let html = `<h3>Conversa com ${chat.contact}</h3><div style="margin-top: var(--space-4);">`;
+            chat.messages.forEach(msg => {
+                html += `
+                    <div style="margin-bottom: var(--space-2);">
+                        <strong>${msg.from}:</strong> ${msg.text}
+                    </div>
+                `;
+            });
+            html += `</div><button class="btn-secondary" style="margin-top: var(--space-4);" onclick="closeWindow()">Fechar</button>`;
+            windowBody.innerHTML = html;
+            windowEl.classList.add('open');
+        }
+
+        // ==========================================
+        // CONTEÚDO DAS EVIDÊNCIAS
+        // ==========================================
+
+        const evidenceContent = {
+            '1': { title: 'Foto_001.jpg', desc: 'Última foto de Helena antes do desaparecimento.' },
+            '2': { title: 'Video_001.mp4', desc: 'Gravação da câmera de segurança da rua.' },
+            '3': { title: 'Documento_001.pdf', desc: 'Relatório do desaparecimento.' },
+            '4': { title: 'Audio_001.wav', desc: 'Gravação de uma ligação suspeita.' }
+        };
+
+        function openEvidence(evidenceId) {
+            const ev = evidenceContent[evidenceId];
+            if (!ev) return;
+
+            windowTitle.textContent = '🔍 ' + ev.title;
+            windowBody.innerHTML = `
+                <h3>${ev.title}</h3>
+                <p>${ev.desc}</p>
+                <button class="btn-secondary" style="margin-top: var(--space-4);" onclick="closeWindow()">Fechar</button>
+            `;
+            windowEl.classList.add('open');
+        }
+
+        // ==========================================
+        // EVENTO: CLICK NOS ITENS DINÂMICOS
+        // ==========================================
+
+        document.addEventListener('click', function(e) {
+            // E-mail
+            const emailItem = e.target.closest('.file-item[data-email]');
+            if (emailItem) {
+                const emailId = emailItem.dataset.email;
+                openEmail(emailId);
+                return;
+            }
+
+            // Pasta
+            const folderItem = e.target.closest('.file-item[data-folder]');
+            if (folderItem) {
+                const folderId = folderItem.dataset.folder;
+                openFolder(folderId);
+                return;
+            }
+
+            // Chat
+            const chatItem = e.target.closest('.file-item[data-chat]');
+            if (chatItem) {
+                const chatId = chatItem.dataset.chat;
+                openChat(chatId);
+                return;
+            }
+
+            // Evidência
+            const evidenceItem = e.target.closest('.file-item[data-evidence]');
+            if (evidenceItem) {
+                const evidenceId = evidenceItem.dataset.evidence;
+                openEvidence(evidenceId);
+                return;
+            }
+        });
+
+        // ==========================================
+        // ABRIR E-MAIL AUTOMATICAMENTE AO ENTRAR
+        // ==========================================
+
         setTimeout(() => {
             openApp('mail');
         }, 500);
