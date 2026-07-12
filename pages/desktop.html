@@ -202,8 +202,8 @@
             left: 50%;
             transform: translate(-50%, -50%);
             width: 90%;
-            max-width: 800px;
-            max-height: 85vh;
+            max-width: 900px;
+            max-height: 90vh;
             background: var(--color-surface);
             border: 1px solid var(--color-border);
             border-radius: var(--radius-lg);
@@ -551,7 +551,6 @@
                 updateProgress();
                 updateEvidenceBadge();
                 checkCaseComplete();
-                // Atualiza a lista de evidências se estiver aberta
                 if (windowTitle.textContent.includes('Evidências')) {
                     refreshEvidenceList();
                 }
@@ -577,7 +576,6 @@
         }
 
         function refreshEvidenceList() {
-            // Recarregar a lista de evidências com os status atualizados
             if (windowTitle.textContent.includes('Evidências')) {
                 const app = appContent.evidence;
                 windowTitle.textContent = app.title;
@@ -640,7 +638,7 @@
         }
 
         // ==========================================
-        // CONTEÚDO DOS APLICATIVOS (fallback)
+        // CONTEÚDO DOS APLICATIVOS
         // ==========================================
 
         const appContent = {
@@ -722,10 +720,6 @@
             windowEl.classList.add('open');
         }
 
-        // ==========================================
-        // EVENTO: CLICK NOS ÍCONES DO DESKTOP
-        // ==========================================
-
         document.querySelectorAll('.desktop-icon').forEach(icon => {
             icon.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -780,10 +774,9 @@
             const ev = evidenceContent[evidenceId];
             if (!ev) return;
 
-            // Marcar como encontrada
             markEvidenceFound(evidenceId);
 
-            const filePath = `../cases/case001/files/${ev.title}`;
+            const filePath = `../cases/case001/${ev.location}`;
             const fileExtension = ev.title.split('.').pop().toLowerCase();
 
             windowTitle.textContent = '🔍 ' + ev.title;
@@ -798,18 +791,19 @@
                     margin: var(--space-4) 0;
                     border: 1px solid var(--color-border);
                     min-height: 200px;
+                    max-height: 75vh;
+                    overflow: auto;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                 ">
             `;
 
-            // Verificar o tipo de arquivo e exibir
             if (fileExtension === 'pdf') {
                 content += `
                     <iframe src="${filePath}" style="
                         width: 100%;
-                        height: 500px;
+                        height: 600px;
                         border: none;
                         border-radius: var(--radius-sm);
                     "></iframe>
@@ -817,17 +811,18 @@
             } else if (fileExtension === 'jpg' || fileExtension === 'jpeg' || fileExtension === 'png' || fileExtension === 'gif' || fileExtension === 'webp') {
                 content += `
                     <img src="${filePath}" style="
-                        max-width: 100%;
-                        max-height: 500px;
-                        border-radius: var(--radius-sm);
+                        width: 100%;
+                        height: auto;
+                        max-height: 70vh;
                         object-fit: contain;
+                        border-radius: var(--radius-sm);
                     ">
                 `;
             } else if (fileExtension === 'mp4' || fileExtension === 'webm' || fileExtension === 'mov' || fileExtension === 'avi') {
                 content += `
                     <video controls style="
                         width: 100%;
-                        max-height: 500px;
+                        max-height: 70vh;
                         border-radius: var(--radius-sm);
                     ">
                         <source src="${filePath}" type="video/${fileExtension}">
@@ -840,31 +835,6 @@
                         <source src="${filePath}" type="audio/${fileExtension}">
                         Seu navegador não suporta áudio.
                     </audio>
-                `;
-            } else if (fileExtension === 'txt' || fileExtension === 'md') {
-                content += `
-                    <div id="textContent" style="
-                        width: 100%;
-                        max-height: 400px;
-                        overflow-y: auto;
-                        background: var(--color-background-dark);
-                        padding: var(--space-4);
-                        border-radius: var(--radius-sm);
-                        font-family: var(--font-mono);
-                        font-size: var(--font-sm);
-                        color: var(--text-secondary);
-                        white-space: pre-wrap;
-                    ">Carregando...</div>
-                    <script>
-                        fetch('${filePath}')
-                            .then(res => res.text())
-                            .then(text => {
-                                document.getElementById('textContent').textContent = text;
-                            })
-                            .catch(() => {
-                                document.getElementById('textContent').textContent = 'Erro ao carregar o arquivo.';
-                            });
-                    <\/script>
                 `;
             } else {
                 content += `
@@ -1001,7 +971,6 @@
         }
 
         function updateAppContent() {
-            // Gerar lista de e-mails
             let emailList = '';
             caseData.emails.forEach((email, index) => {
                 emailList += `
@@ -1013,7 +982,6 @@
                 `;
             });
 
-            // Gerar lista de mensagens
             let messageList = '';
             caseData.messages.forEach((chat, index) => {
                 messageList += `
@@ -1025,7 +993,6 @@
                 `;
             });
 
-            // Gerar lista de evidências
             let evidenceList = '';
             caseData.evidence.forEach((item, index) => {
                 const icon = item.type === 'image' ? '🖼️' : item.type === 'audio' ? '🔊' : item.type === 'video' ? '🎬' :
@@ -1040,7 +1007,6 @@
                 `;
             });
 
-            // Atualizar o appContent
             appContent.mail.body = `
                 <h3>Caixa de Entrada - Caso #001</h3>
                 <div class="file-list">${emailList}</div>
@@ -1056,7 +1022,6 @@
                 <div class="file-list">${evidenceList}</div>
             `;
 
-            // Atualizar os conteúdos
             caseData.emails.forEach((email, index) => {
                 emailContent[index] = {
                     from: email.from,
@@ -1076,13 +1041,13 @@
             caseData.evidence.forEach((item, index) => {
                 evidenceContent[index] = {
                     title: item.title,
-                    desc: item.description
+                    desc: item.description,
+                    location: item.location
                 };
             });
         }
 
         function useFallbackData() {
-            // Dados de fallback
             totalEvidence = 5;
             totalCount.textContent = totalEvidence;
 
@@ -1106,23 +1071,28 @@
 
             evidenceContent[0] = {
                 title: 'Foto_001.png',
-                desc: 'Última foto de Helena.'
+                desc: 'Última foto de Helena.',
+                location: 'files/Foto_001.png'
             };
             evidenceContent[1] = {
                 title: 'Documento_001.pdf',
-                desc: 'Relatório da Sigma.'
+                desc: 'Relatório da Sigma.',
+                location: 'files/Documento_001.pdf'
             };
             evidenceContent[2] = {
                 title: 'Video_001.mp4',
-                desc: 'Recriação do momento.'
+                desc: 'Recriação do momento.',
+                location: 'files/Video_001.mp4'
             };
             evidenceContent[3] = {
                 title: 'Foto_002.png',
-                desc: 'Fachada da Sigma.'
+                desc: 'Fachada da Sigma.',
+                location: 'files/Foto_002.png'
             };
             evidenceContent[4] = {
                 title: 'Documento_002.pdf',
-                desc: 'Lista de funcionários.'
+                desc: 'Lista de funcionários.',
+                location: 'files/Documento_002.pdf'
             };
 
             appContent.mail.body = `
