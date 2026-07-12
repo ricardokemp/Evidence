@@ -1,170 +1,503 @@
 /*
 =========================================
-LOGIN SCREEN
+EVIDENCE
+Digital Investigation Platform
+
+MAIN STYLES
 =========================================
 */
 
+/* Reset base já está no reset.css */
 
 body {
-
-    background:
-        radial-gradient(
-            circle at top,
-            #172554,
-            var(--color-background)
-        );
-
+    background: radial-gradient(ellipse at top, #0F172A 0%, #020617 100%);
+    color: var(--text-primary);
+    font-family: var(--font-primary);
+    line-height: 1.6;
+    min-height: 100vh;
 }
 
+/*
+=========================================
+Layout principal
+=========================================
+*/
+
+.container {
+    width: 100%;
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding-left: var(--space-6);
+    padding-right: var(--space-6);
+}
+
+/*
+=========================================
+Header
+=========================================
+*/
+
+.header {
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--space-6);
+    background: rgba(11, 17, 32, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: 0;
+    z-index: var(--z-header);
+}
+
+.header .logo {
+    font-size: var(--font-lg);
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--text-bright);
+}
+
+.header nav {
+    display: flex;
+    gap: var(--space-4);
+    align-items: center;
+}
+
+.header nav a {
+    color: var(--text-secondary);
+    font-size: var(--font-sm);
+    transition: var(--transition-fast);
+    text-decoration: none;
+}
+
+.header nav a:hover {
+    color: var(--text-bright);
+}
+
+/*
+=========================================
+Hero Section (Landing Page)
+=========================================
+*/
+
+.hero {
+    min-height: calc(100vh - var(--header-height));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--space-6);
+}
+
+.hero-content {
+    max-width: 900px;
+}
+
+.hero-content .badge {
+    margin-bottom: var(--space-5);
+}
+
+.hero-content h1 {
+    color: #FFFFFF;
+    font-size: var(--font-xxl);
+    line-height: 1.1;
+    margin-bottom: var(--space-5);
+    text-shadow: 0 0 60px rgba(59, 130, 246, 0.1);
+}
+
+.hero-content p {
+    color: #E2E8F0;
+    font-size: var(--font-lg);
+    margin-bottom: var(--space-6);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-content .btn {
+    margin-top: var(--space-3);
+}
+
+/*
+=========================================
+Login Screen
+=========================================
+*/
 
 .login-panel {
-
     width: 100%;
-
     max-width: 450px;
-
     text-align: center;
-
-    color: var(--text-primary);
-
+    padding: var(--space-7);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    margin: var(--space-4);
 }
-
-
 
 .login-panel .logo {
-
-    color: var(--text-primary);
-
+    color: var(--text-bright);
     font-size: var(--font-xl);
-
     font-weight: 700;
-
     letter-spacing: 4px;
-
 }
 
-
+.login-panel .badge {
+    margin-top: var(--space-4);
+}
 
 .login-panel h1 {
-
-    color: var(--text-primary);
-
+    color: var(--text-bright);
+    font-size: var(--font-lg);
+    font-weight: 600;
     margin-top: var(--space-5);
-
     margin-bottom: var(--space-3);
-
 }
 
-
-
-.login-panel p {
-
+.login-panel .card-text {
     color: var(--text-secondary);
-
+    font-size: var(--font-sm);
 }
 
-
+/*
+=========================================
+Login Form
+=========================================
+*/
 
 .login-form {
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:var(--space-3);
-
-    margin-top:var(--space-6);
-
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+    text-align: left;
 }
-
-
 
 .login-form label {
-
-    text-align:left;
-
-    color:var(--text-primary);
-
+    color: var(--text-secondary);
+    font-size: var(--font-sm);
+    font-weight: 500;
 }
-
-
 
 .login-form input {
-
-    width:100%;
-
-    padding:var(--space-3);
-
-    background:#020617;
-
-    border:
-        1px solid var(--color-border);
-
-    border-radius:
-        var(--radius-md);
-
-    color:white;
-
+    width: 100%;
+    padding: var(--space-3);
+    background: #020617;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--text-bright);
+    font-size: var(--font-md);
+    transition: var(--transition-fast);
 }
-
-
 
 .login-form input::placeholder {
-
-    color:#64748B;
-
+    color: var(--text-muted);
 }
-
-
 
 .login-form input:focus {
-
-    outline:none;
-
-    border-color:
-        var(--color-primary);
-
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
-
-
 
 .login-form .btn-primary {
-
-    color:white;
-
-    font-weight:600;
-
-    background:
-        var(--color-primary);
-
+    width: 100%;
+    margin-top: var(--space-2);
+    color: #FFFFFF !important;
+    font-weight: 600;
+    background: var(--color-primary);
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.25);
 }
-
-
 
 .login-form .btn-primary:hover {
-
-    color:white;
-
-    background:
-        var(--color-primary-hover);
-
+    background: var(--color-primary-hover);
+    color: #FFFFFF !important;
+    transform: translateY(-2px);
 }
 
-
+/*
+=========================================
+System Status (Login)
+=========================================
+*/
 
 .system-status {
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
+    font-family: var(--font-mono);
+    font-size: var(--font-sm);
+    color: var(--text-secondary);
+    text-align: left;
+}
 
-    margin-top:var(--space-6);
+.system-status p {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-1) 0;
+}
 
-    padding-top:var(--space-4);
+.status-online {
+    color: var(--color-success);
+}
 
-    border-top:
-        1px solid var(--color-border);
+/*
+=========================================
+Feature Grid (Landing Page)
+=========================================
+*/
 
-    font-family:
-        var(--font-mono);
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+}
 
-    color:
-        var(--text-secondary);
+.feature-item {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: var(--font-sm);
+    transition: var(--transition-fast);
+}
 
+.feature-item:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-4px);
+}
+
+.feature-item span {
+    display: block;
+    font-size: var(--font-xl);
+    margin-bottom: var(--space-2);
+}
+
+/*
+=========================================
+Case Cards (Landing Page)
+=========================================
+*/
+
+.case-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-5);
+    margin-top: var(--space-6);
+}
+
+.case-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    transition: var(--transition-normal);
+    text-align: left;
+}
+
+.case-card:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.case-card .badge {
+    margin-bottom: var(--space-3);
+}
+
+.case-card h3 {
+    color: var(--text-bright);
+    font-size: var(--font-lg);
+    margin-bottom: var(--space-2);
+}
+
+.case-card p {
+    color: var(--text-secondary);
+    font-size: var(--font-sm);
+}
+
+/*
+=========================================
+FAQ
+=========================================
+*/
+
+details {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    margin-bottom: var(--space-3);
+    transition: var(--transition-fast);
+}
+
+details:hover {
+    border-color: var(--color-primary);
+}
+
+summary {
+    color: var(--text-bright);
+    font-weight: 500;
+    cursor: pointer;
+    list-style: none;
+}
+
+summary::-webkit-details-marker {
+    display: none;
+}
+
+details p {
+    color: var(--text-secondary);
+    margin-top: var(--space-3);
+    font-size: var(--font-sm);
+    padding-left: var(--space-2);
+}
+
+/*
+=========================================
+Footer
+=========================================
+*/
+
+footer {
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    padding: var(--space-7) 0;
+    text-align: center;
+}
+
+footer h3 {
+    color: var(--text-bright);
+    font-size: var(--font-lg);
+    letter-spacing: 2px;
+    margin-bottom: var(--space-2);
+}
+
+footer p {
+    color: var(--text-secondary);
+    font-size: var(--font-sm);
+    margin-bottom: var(--space-4);
+}
+
+footer small {
+    color: var(--text-muted);
+    font-size: var(--font-xs);
+}
+
+/*
+=========================================
+FORÇA CONTRASTE (Garantia de legibilidade)
+=========================================
+*/
+
+/* Garante que títulos sejam sempre brancos */
+h1, h2, h3, h4, h5, h6,
+.card-title,
+.hero-content h1,
+.login-panel h1,
+.case-card h3 {
+    color: #FFFFFF !important;
+}
+
+/* Garante que textos sejam claros */
+p, .card-text, .hero-content p,
+.login-panel .card-text,
+.case-card p {
+    color: #E2E8F0 !important;
+}
+
+/* Garante que botões principais sejam nítidos */
+.btn-primary {
+    background: #3B82F6 !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 0 40px rgba(59, 130, 246, 0.3) !important;
+}
+
+.btn-primary:hover {
+    background: #60A5FA !important;
+    color: #FFFFFF !important;
+    transform: translateY(-2px);
+    box-shadow: 0 0 50px rgba(59, 130, 246, 0.5) !important;
+}
+
+/* Garante que badges sejam legíveis */
+.badge-danger {
+    background: rgba(239, 68, 68, 0.2) !important;
+    border: 1px solid rgba(239, 68, 68, 0.4) !important;
+    color: #FCA5A5 !important;
+}
+
+/* Garante que inputs tenham texto branco */
+input, .input {
+    color: #FFFFFF !important;
+}
+
+input::placeholder, .input::placeholder {
+    color: #94A3B8 !important;
+}
+
+/* Garante que labels sejam claras */
+label, .label {
+    color: #E2E8F0 !important;
+}
+
+/*
+=========================================
+Responsividade
+=========================================
+*/
+
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: var(--font-xl);
+    }
+
+    .hero-content p {
+        font-size: var(--font-md);
+    }
+
+    .container {
+        padding: 0 var(--space-4);
+    }
+
+    .header .logo {
+        font-size: var(--font-md);
+    }
+
+    .login-panel {
+        padding: var(--space-5);
+        margin: var(--space-4);
+    }
+
+    .features-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    .case-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-content h1 {
+        font-size: var(--font-lg);
+    }
+
+    .btn {
+        padding: var(--space-2) var(--space-4);
+        font-size: var(--font-sm);
+    }
+
+    .login-panel .logo {
+        font-size: var(--font-lg);
+    }
+
+    .system-status {
+        font-size: var(--font-xs);
+    }
 }
