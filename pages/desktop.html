@@ -39,7 +39,7 @@
         }
 
         /* ==========================================
-           PROGRESS BAR
+           PROGRESS BAR - TOPO
            ========================================== */
 
         .progress-container {
@@ -75,6 +75,113 @@
         .progress-container .count .total {
             color: var(--text-muted);
             font-weight: 400;
+        }
+
+        /* ==========================================
+           MISSIONS PANEL - LATERAL
+           ========================================== */
+
+        .missions-panel {
+            position: fixed;
+            left: var(--space-4);
+            top: var(--space-4);
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: var(--space-4) var(--space-5);
+            z-index: var(--z-content);
+            box-shadow: var(--shadow-md);
+            backdrop-filter: blur(8px);
+            max-width: 280px;
+            max-height: 70vh;
+            overflow-y: auto;
+            min-width: 200px;
+        }
+
+        .missions-panel h4 {
+            color: var(--text-bright);
+            font-size: var(--font-sm);
+            font-weight: 600;
+            margin-bottom: var(--space-3);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: var(--space-2);
+        }
+
+        .missions-panel .mission-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-2);
+            border-radius: var(--radius-sm);
+            font-size: var(--font-xs);
+            color: var(--text-secondary);
+            transition: var(--transition-fast);
+            margin-bottom: var(--space-1);
+            cursor: default;
+        }
+
+        .missions-panel .mission-item .icon {
+            font-size: var(--font-md);
+            width: 24px;
+            text-align: center;
+        }
+
+        .missions-panel .mission-item .status {
+            font-size: var(--font-xs);
+            color: var(--text-muted);
+        }
+
+        .missions-panel .mission-item.locked {
+            opacity: 0.4;
+            filter: grayscale(0.8);
+        }
+
+        .missions-panel .mission-item.active {
+            border-left: 3px solid var(--color-primary);
+            background: rgba(59, 130, 246, 0.05);
+            color: var(--text-bright);
+        }
+
+        .missions-panel .mission-item.completed {
+            color: var(--color-success);
+        }
+
+        .missions-panel .mission-item.completed .status {
+            color: var(--color-success);
+        }
+
+        /* ==========================================
+           NOTIFICATION
+           ========================================== */
+
+        .notification {
+            position: fixed;
+            top: var(--space-5);
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--color-success);
+            color: white;
+            padding: var(--space-3) var(--space-5);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            z-index: var(--z-toast);
+            font-weight: 600;
+            display: none;
+            animation: slideDown 0.5s ease forwards;
+            text-align: center;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
         }
 
         /* ==========================================
@@ -119,6 +226,19 @@
 
         .desktop-icon .badge-count {
             background: var(--color-danger);
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            border-radius: 50%;
+            padding: 2px 6px;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            display: none;
+        }
+
+        .desktop-icon .unlock-badge {
+            background: var(--color-success);
             color: white;
             font-size: 10px;
             font-weight: 700;
@@ -198,7 +318,7 @@
             transform: translate(-50%, -50%) !important;
             width: 90%;
             max-width: 1100px;
-            max-height: 90vh;
+            max-height: 85vh;
             background: var(--color-surface);
             border: 1px solid var(--color-border);
             border-radius: var(--radius-lg);
@@ -318,8 +438,25 @@
             color: var(--text-bright);
         }
 
+        .window-body .btn-primary {
+            background: var(--color-primary);
+            color: white;
+            padding: var(--space-2) var(--space-5);
+            border-radius: var(--radius-md);
+            font-size: var(--font-sm);
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition-fast);
+        }
+
+        .window-body .btn-primary:hover {
+            background: var(--color-primary-hover);
+            transform: translateY(-2px);
+        }
+
         /* ==========================================
-           IMAGEM - AJUSTADA PARA CABER NA TELA
+           IMAGEM
            ========================================== */
 
         .window-body .image-container {
@@ -342,7 +479,7 @@
         }
 
         /* ==========================================
-           VÍDEO - AJUSTADO PARA CABER NA TELA
+           VÍDEO
            ========================================== */
 
         .window-body .video-container {
@@ -388,6 +525,29 @@
            RESPONSIVIDADE
            ========================================== */
 
+        @media (max-width: 1024px) {
+            .missions-panel {
+                max-width: 220px;
+                padding: var(--space-3);
+                left: var(--space-3);
+                top: var(--space-3);
+            }
+
+            .missions-panel h4 {
+                font-size: var(--font-xs);
+            }
+
+            .missions-panel .mission-item {
+                font-size: 10px;
+                padding: var(--space-1) var(--space-1);
+            }
+
+            .missions-panel .mission-item .icon {
+                font-size: var(--font-sm);
+                width: 20px;
+            }
+        }
+
         @media (max-width: 768px) {
             .desktop {
                 gap: var(--space-3);
@@ -413,7 +573,7 @@
 
             .window {
                 width: 95%;
-                max-height: 95vh;
+                max-height: 90vh;
                 top: 50% !important;
                 left: 50% !important;
                 transform: translate(-50%, -50%) !important;
@@ -454,11 +614,247 @@
             .window-body .video-container video {
                 max-height: 60vh;
             }
+
+            .missions-panel {
+                display: none;
+            }
+
+            .mobile-missions-toggle {
+                display: flex !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .progress-container {
+                font-size: 10px;
+                min-width: 80px;
+                padding: var(--space-1) var(--space-2);
+                top: var(--space-1);
+                right: var(--space-1);
+            }
+
+            .progress-container .count {
+                font-size: var(--font-lg);
+            }
+
+            .desktop-icon {
+                width: 60px;
+                padding: var(--space-1);
+            }
+
+            .desktop-icon .icon {
+                font-size: 28px;
+            }
+
+            .desktop-icon .label {
+                font-size: 8px;
+            }
+
+            .window {
+                width: 98%;
+                max-height: 95vh;
+            }
+
+            .window-body {
+                padding: var(--space-2);
+            }
+
+            .window-body h3 {
+                font-size: var(--font-md);
+            }
+
+            .window-body .file-item {
+                padding: var(--space-1) var(--space-2);
+                font-size: var(--font-xs);
+            }
+
+            .window-body .btn-secondary,
+            .window-body .btn-primary {
+                font-size: var(--font-xs);
+                padding: var(--space-1) var(--space-3);
+            }
+        }
+
+        .mobile-missions-toggle {
+            display: none;
+            position: fixed;
+            bottom: 70px;
+            left: var(--space-4);
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: var(--font-xl);
+            cursor: pointer;
+            z-index: var(--z-content);
+            box-shadow: var(--shadow-lg);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-missions-toggle:hover {
+            background: var(--color-primary-hover);
+            transform: scale(1.05);
+        }
+
+        /* ==========================================
+           CONCLUSÃO ÉPICA
+           ========================================== */
+
+        .epic-complete {
+            text-align: center;
+            padding: var(--space-6);
+            animation: epicFade 1s ease forwards;
+        }
+
+        @keyframes epicFade {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .epic-complete .trophy {
+            font-size: 80px;
+            margin-bottom: var(--space-4);
+            animation: bounce 1s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .epic-complete h2 {
+            color: var(--color-success);
+            font-size: var(--font-xxl);
+            margin-bottom: var(--space-4);
+        }
+
+        .epic-complete .stats {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-6);
+            margin: var(--space-5) 0;
+            flex-wrap: wrap;
+        }
+
+        .epic-complete .stats .stat {
+            background: var(--color-background);
+            padding: var(--space-4) var(--space-6);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border);
+            min-width: 120px;
+        }
+
+        .epic-complete .stats .stat .number {
+            font-size: var(--font-xl);
+            font-weight: 700;
+            color: var(--text-bright);
+            display: block;
+        }
+
+        .epic-complete .stats .stat .label {
+            font-size: var(--font-xs);
+            color: var(--text-muted);
+        }
+
+        .epic-complete .story {
+            background: var(--color-background);
+            padding: var(--space-5);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border);
+            margin: var(--space-5) 0;
+            text-align: left;
+            line-height: 1.8;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .epic-complete .story h4 {
+            color: var(--text-bright);
+            margin-bottom: var(--space-3);
+        }
+
+        .epic-complete .story p {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-2);
+        }
+
+        .epic-complete .story .highlight {
+            color: var(--color-primary);
+            font-weight: 600;
+        }
+
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: var(--z-modal);
+            overflow: hidden;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+            animation: confettiFall 3s ease-in forwards;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) rotate(720deg);
+                opacity: 0;
+            }
         }
     </style>
 </head>
 
 <body>
+
+    <!-- ==========================================
+    NOTIFICATION
+    ========================================== -->
+
+    <div class="notification" id="notification">
+        🎉 Missão Concluída!
+    </div>
+
+    <!-- ==========================================
+    MOBILE MISSIONS TOGGLE
+    ========================================== -->
+
+    <button class="mobile-missions-toggle" id="mobileMissionsToggle" style="display:none;">
+        📋
+    </button>
+
+    <!-- ==========================================
+    MISSIONS PANEL
+    ========================================== -->
+
+    <div class="missions-panel" id="missionsPanel">
+        <h4>📋 Missões</h4>
+        <div id="missionsList"></div>
+    </div>
 
     <!-- ==========================================
     PROGRESSO
@@ -527,7 +923,7 @@
     </footer>
 
     <!-- ==========================================
-    JANELA (POPUP) - CENTRALIZADA
+    JANELA (POPUP)
     ========================================== -->
 
     <div class="window" id="window">
@@ -544,10 +940,22 @@
     </div>
 
     <!-- ==========================================
+    CONFETTI CONTAINER
+    ========================================== -->
+
+    <div class="confetti-container" id="confettiContainer"></div>
+
+    <!-- ==========================================
     SCRIPTS
     ========================================== -->
 
     <script>
+        // ==========================================
+        // CONFIGURAÇÕES
+        // ==========================================
+
+        const MISSIONS_FILE = '../cases/case001/missions.json';
+
         // ==========================================
         // RELÓGIO
         // ==========================================
@@ -563,7 +971,7 @@
         setInterval(updateClock, 10000);
 
         // ==========================================
-        // ELEMENTOS DA JANELA
+        // ELEMENTOS
         // ==========================================
 
         const windowEl = document.getElementById('window');
@@ -573,6 +981,16 @@
         const progressCount = document.getElementById('progressCount');
         const totalCount = document.getElementById('totalCount');
         const evidenceBadge = document.getElementById('evidenceBadge');
+        const notification = document.getElementById('notification');
+        const missionsList = document.getElementById('missionsList');
+        const missionsPanel = document.getElementById('missionsPanel');
+        const mobileToggle = document.getElementById('mobileMissionsToggle');
+        const confettiContainer = document.getElementById('confettiContainer');
+
+        let missionData = [];
+        let completedMissions = new Set();
+        let totalMissions = 0;
+        let caseComplete = false;
 
         function closeWindow() {
             windowEl.classList.remove('open');
@@ -590,68 +1008,285 @@
         const evidenceContent = {};
 
         // ==========================================
-        // SISTEMA DE PROGRESSO
+        // SISTEMA DE MISSÕES
         // ==========================================
 
-        let foundEvidence = new Set();
-        let totalEvidence = 0;
-
-        function markEvidenceFound(evidenceId) {
-            if (!foundEvidence.has(evidenceId)) {
-                foundEvidence.add(evidenceId);
-                updateProgress();
-                updateEvidenceBadge();
-                checkCaseComplete();
-                refreshEvidenceList();
+        async function loadMissions() {
+            try {
+                const res = await fetch(MISSIONS_FILE);
+                if (!res.ok) throw new Error('Erro ao carregar missões');
+                missionData = await res.json();
+                totalMissions = missionData.length;
+                totalCount.textContent = totalMissions;
+                renderMissions();
+                checkAutoComplete();
+            } catch (error) {
+                console.warn('Erro ao carregar missões:', error);
+                // Fallback: criar missões manualmente
+                missionData = [
+                    { id: 'm1', title: '📧 O Primeiro E-mail', description: 'Leia o e-mail de Helena.', hint: 'Caixa de entrada.',
+                        unlock: 'e1', required: [], completed: false },
+                    { id: 'm2', title: '💬 A Conversa Suspeita', description: 'Leia a conversa de Helena.',
+                        hint: 'Verifique as mensagens.', unlock: 'm1', required: ['m1'], completed: false },
+                    { id: 'm3', title: '🖼️ A Última Foto', description: 'Encontre a última foto de Helena.',
+                        hint: 'Verifique as evidências.', unlock: 'ev1', required: ['m1', 'm2'], completed: false },
+                    { id: 'm4', title: '📄 O Relatório Secreto', description: 'Analise o relatório da Sigma.',
+                        hint: 'Verifique as evidências.', unlock: 'ev2', required: ['m1', 'm2', 'm3'],
+                    completed: false },
+                    { id: 'm5', title: '🎬 A Verdade Revelada', description: 'Assista ao vídeo sobre a sala 4.',
+                        hint: 'Verifique as evidências.', unlock: 'ev3', required: ['m1', 'm2', 'm3', 'm4'],
+                        completed: false }
+                ];
+                totalMissions = missionData.length;
+                totalCount.textContent = totalMissions;
+                renderMissions();
             }
         }
 
-        function updateProgress() {
-            progressCount.textContent = foundEvidence.size;
+        function renderMissions() {
+            missionsList.innerHTML = '';
+            missionData.forEach((mission, index) => {
+                const isCompleted = completedMissions.has(mission.id);
+                const isLocked = !isMissionAvailable(mission);
+                const isActive = !isLocked && !isCompleted;
+
+                const div = document.createElement('div');
+                div.className = 'mission-item';
+                if (isLocked) div.classList.add('locked');
+                if (isActive) div.classList.add('active');
+                if (isCompleted) div.classList.add('completed');
+
+                const icon = isCompleted ? '✅' : isLocked ? '🔒' : '▶️';
+                const statusText = isCompleted ? 'Concluída' : isLocked ? 'Bloqueada' : 'Ativa';
+
+                div.innerHTML = `
+                    <span class="icon">${icon}</span>
+                    <span>${mission.title}</span>
+                    <span class="status">${statusText}</span>
+                `;
+                missionsList.appendChild(div);
+            });
+            updateProgress();
         }
 
-        function updateEvidenceBadge() {
-            const found = foundEvidence.size;
+        function isMissionAvailable(mission) {
+            if (completedMissions.has(mission.id)) return true;
+            if (!mission.required || mission.required.length === 0) return true;
+            return mission.required.every(req => completedMissions.has(req));
+        }
+
+        function checkMissionCompletion(trigger) {
+            let anyCompleted = false;
+            missionData.forEach(mission => {
+                if (completedMissions.has(mission.id)) return;
+                if (!isMissionAvailable(mission)) return;
+
+                // Verifica se a missão foi desbloqueada
+                if (mission.unlock && trigger === mission.unlock) {
+                    completedMissions.add(mission.id);
+                    anyCompleted = true;
+                    showNotification(`🎉 Missão Concluída: ${mission.title}`);
+                }
+            });
+
+            if (anyCompleted) {
+                renderMissions();
+                checkAllComplete();
+            }
+        }
+
+        function checkAutoComplete() {
+            // Verifica se alguma missão já pode ser completada automaticamente
+            missionData.forEach(mission => {
+                if (completedMissions.has(mission.id)) return;
+                if (!isMissionAvailable(mission)) return;
+
+                // Se a missão não tem unlock específico, verifica se o item já foi encontrado
+                if (!mission.unlock) {
+                    // Missão inicial - sempre disponível
+                    if (mission.required.length === 0) {
+                        // A missão 1 é completada quando o jogador abre o e-mail
+                        // Vamos marcar como completada apenas quando o jogador interagir
+                    }
+                }
+            });
+        }
+
+        function checkAllComplete() {
+            const allCompleted = missionData.every(m => completedMissions.has(m.id));
+            if (allCompleted && !caseComplete) {
+                caseComplete = true;
+                setTimeout(() => {
+                    showEpicConclusion();
+                }, 500);
+            }
+        }
+
+        // ==========================================
+        // NOTIFICAÇÃO
+        // ==========================================
+
+        let notificationTimeout = null;
+
+        function showNotification(text) {
+            notification.textContent = text;
+            notification.style.display = 'block';
+            notification.style.animation = 'none';
+            setTimeout(() => {
+                notification.style.animation = 'slideDown 0.5s ease forwards';
+            }, 10);
+
+            if (notificationTimeout) clearTimeout(notificationTimeout);
+            notificationTimeout = setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        // ==========================================
+        // PROGRESSO
+        // ==========================================
+
+        function updateProgress() {
+            const found = completedMissions.size;
+            progressCount.textContent = found;
             evidenceBadge.textContent = found;
             evidenceBadge.style.display = found > 0 ? 'block' : 'none';
         }
 
-        function checkCaseComplete() {
-            if (foundEvidence.size === totalEvidence && totalEvidence > 0) {
-                showCaseComplete();
-            }
-        }
+        // ==========================================
+        // CONCLUSÃO ÉPICA
+        // ==========================================
 
-        function refreshEvidenceList() {
-            if (windowTitle.textContent.includes('Evidências')) {
-                const app = appContent.evidence;
-                windowTitle.textContent = app.title;
-                windowBody.innerHTML = app.body;
-                windowEl.classList.add('open');
-            }
-        }
-
-        function showCaseComplete() {
+        function showEpicConclusion() {
             windowTitle.textContent = '🎉 CASO RESOLVIDO!';
+
+            // Criar confetes
+            createConfetti();
+
             windowBody.innerHTML = `
-                <div style="text-align: center; padding: var(--space-6);">
-                    <div style="font-size: 64px; margin-bottom: var(--space-4);">🎉</div>
-                    <h2 style="color: var(--color-success); font-size: var(--font-xl);">Caso Resolvido!</h2>
-                    <p style="margin-top: var(--space-4); font-size: var(--font-lg);">
-                        Você encontrou todas as <strong>${foundEvidence.size}</strong> evidências!
+                <div class="epic-complete">
+                    <div class="trophy">🏆</div>
+                    <h2>CASO RESOLVIDO!</h2>
+                    <p style="font-size: var(--font-lg); color: var(--text-secondary); margin-bottom: var(--space-4);">
+                        Você desvendou o desaparecimento de <strong style="color: var(--text-bright);">Helena Duarte</strong>
                     </p>
-                    <p style="color: var(--text-muted); margin-top: var(--space-4); max-width: 400px; margin-left: auto; margin-right: auto;">
-                        Parabéns! Você desvendou o desaparecimento de Helena Duarte.
-                    </p>
-                    <div style="margin: var(--space-6) 0;">
-                        <span class="badge badge-success" style="font-size: var(--font-md); padding: var(--space-2) var(--space-5);">
-                            ✅ Caso Concluído
-                        </span>
+
+                    <div class="stats">
+                        <div class="stat">
+                            <span class="number">${completedMissions.size}</span>
+                            <span class="label">Missões Concluídas</span>
+                        </div>
+                        <div class="stat">
+                            <span class="number">5</span>
+                            <span class="label">Evidências Encontradas</span>
+                        </div>
+                        <div class="stat">
+                            <span class="number">⭐</span>
+                            <span class="label">100%</span>
+                        </div>
                     </div>
-                    <button class="btn btn-primary" onclick="closeWindow()">Voltar ao Desktop</button>
+
+                    <div class="story">
+                        <h4>📖 O Relatório Final</h4>
+                        <p>
+                            Helena Duarte foi encontrada viva em um abrigo na zona rural.
+                            A <span class="highlight">Sigma Corp</span> estava envolvida em lavagem de dinheiro
+                            utilizando empresas de fachada nas Ilhas Cayman.
+                        </p>
+                        <p>
+                            A <span class="highlight">sala 4</span> mencionada no vídeo era o local onde
+                            os documentos eram escondidos. Com as evidências encontradas,
+                            a polícia conseguiu prender os envolvidos.
+                        </p>
+                        <p style="margin-top: var(--space-3); color: var(--color-success);">
+                            ✅ Caso encerrado com sucesso.
+                        </p>
+                    </div>
+
+                    <div style="display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap; margin-top: var(--space-4);">
+                        <button class="btn btn-primary" onclick="closeWindow()">
+                            Voltar ao Desktop
+                        </button>
+                        <button class="btn btn-secondary" onclick="showFullReport()">
+                            📄 Ver Relatório Completo
+                        </button>
+                    </div>
                 </div>
             `;
             windowEl.classList.add('open');
+        }
+
+        function showFullReport() {
+            windowTitle.textContent = '📄 Relatório Completo';
+            windowBody.innerHTML = `
+                <div style="padding: var(--space-4);">
+                    <h3>Relatório de Investigação - Caso #001</h3>
+                    <div style="margin-top: var(--space-4);">
+                        <p><strong>🕵️ Investigador:</strong> Agente Evidence</p>
+                        <p><strong>📅 Data:</strong> ${new Date().toLocaleDateString()}</p>
+                        <p><strong>⏱️ Status:</strong> <span style="color: var(--color-success);">CONCLUÍDO</span></p>
+                    </div>
+                    <div style="border-top: 1px solid var(--color-border); margin-top: var(--space-4); padding-top: var(--space-4);">
+                        <h4>📋 Cronologia dos Eventos</h4>
+                        <div style="margin-top: var(--space-3);">
+                            <div style="display: flex; gap: var(--space-4); padding: var(--space-2) 0; border-bottom: 1px solid var(--color-border);">
+                                <span style="color: var(--text-muted); font-size: var(--font-sm);">07/07/2026</span>
+                                <span>Helena descobre documentos sobre a Sigma</span>
+                            </div>
+                            <div style="display: flex; gap: var(--space-4); padding: var(--space-2) 0; border-bottom: 1px solid var(--color-border);">
+                                <span style="color: var(--text-muted); font-size: var(--font-sm);">08/07/2026</span>
+                                <span>Helena envia e-mail sobre a investigação</span>
+                            </div>
+                            <div style="display: flex; gap: var(--space-4); padding: var(--space-2) 0; border-bottom: 1px solid var(--color-border);">
+                                <span style="color: var(--text-muted); font-size: var(--font-sm);">09/07/2026</span>
+                                <span>Helena recebe e-mail anônimo ameaçador</span>
+                            </div>
+                            <div style="display: flex; gap: var(--space-4); padding: var(--space-2) 0; border-bottom: 1px solid var(--color-border);">
+                                <span style="color: var(--text-muted); font-size: var(--font-sm);">09/07/2026</span>
+                                <span>Helena vai para reunião na Sigma</span>
+                            </div>
+                            <div style="display: flex; gap: var(--space-4); padding: var(--space-2) 0; border-bottom: 1px solid var(--color-border);">
+                                <span style="color: var(--text-muted); font-size: var(--font-sm);">10/07/2026</span>
+                                <span>Helena desaparece. Celular encontrado em beco.</span>
+                            </div>
+                            <div style="display: flex; gap: var(--space-4); padding: var(--space-2) 0; border-bottom: 1px solid var(--color-border);">
+                                <span style="color: var(--text-muted); font-size: var(--font-sm);">10/07/2026</span>
+                                <span>Mensagem anônima: "A verdade está na sala 4"</span>
+                            </div>
+                            <div style="display: flex; gap: var(--space-4); padding: var(--space-2) 0;">
+                                <span style="color: var(--color-success); font-size: var(--font-sm);">12/07/2026</span>
+                                <span style="color: var(--color-success);">✅ Caso resolvido. Helena encontrada viva.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-secondary" style="margin-top: var(--space-4);" onclick="closeWindow()">Fechar</button>
+                </div>
+            `;
+            windowEl.classList.add('open');
+        }
+
+        // ==========================================
+        // CONFETTI
+        // ==========================================
+
+        function createConfetti() {
+            const colors = ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F', '#BB8FCE'];
+            for (let i = 0; i < 80; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = Math.random() * -10 + '%';
+                confetti.style.width = (Math.random() * 8 + 4) + 'px';
+                confetti.style.height = (Math.random() * 8 + 4) + 'px';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                confetti.style.animationDelay = (Math.random() * 2) + 's';
+                confetti.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)';
+                confettiContainer.appendChild(confetti);
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
+            }
         }
 
         // ==========================================
@@ -729,6 +1364,11 @@
         function openEmail(emailId) {
             const email = emailContent[emailId];
             if (!email) return;
+
+            // Verifica se abrir este e-mail completa alguma missão
+            const emailKey = 'e' + (parseInt(emailId) + 1);
+            checkMissionCompletion(emailKey);
+
             windowTitle.textContent = '📧 ' + email.subject;
             windowBody.innerHTML = `
                 <div><p><strong>De:</strong> ${email.from}</p><p><strong>Data:</strong> ${email.date}</p></div>
@@ -741,6 +1381,11 @@
         function openChat(chatId) {
             const chat = chatContent[chatId];
             if (!chat) return;
+
+            // Verifica se abrir este chat completa alguma missão
+            const chatKey = 'm' + (parseInt(chatId) + 1);
+            checkMissionCompletion(chatKey);
+
             windowTitle.textContent = '💬 ' + chat.contact;
             let html = `<h3>Conversa com ${chat.contact}</h3>`;
             chat.messages.forEach(msg => {
@@ -755,9 +1400,10 @@
             const ev = evidenceContent[evidenceId];
             if (!ev) return;
 
-            markEvidenceFound(evidenceId);
+            // Verifica se abrir esta evidência completa alguma missão
+            const evKey = 'ev' + (parseInt(evidenceId) + 1);
+            checkMissionCompletion(evKey);
 
-            // Usa o location do JSON (caminho real do arquivo)
             const filePath = `../cases/case001/${ev.location}`;
             const fileExtension = ev.title.split('.').pop().toLowerCase();
 
@@ -878,9 +1524,6 @@
                 caseData.messages = await messagesRes.json();
                 caseData.evidence = await evidenceRes.json();
 
-                totalEvidence = caseData.evidence.length;
-                totalCount.textContent = totalEvidence;
-
                 updateAppContent();
             } catch (error) {
                 console.warn('Erro ao carregar:', error);
@@ -919,7 +1562,7 @@
             let evidenceList = '';
             caseData.evidence.forEach((item, i) => {
                 const icon = item.type === 'image' ? '🖼️' : item.type === 'video' ? '🎬' : '📄';
-                const found = foundEvidence.has(i) ? ' ✅' : '';
+                const found = completedMissions.has('ev' + (i + 1)) ? ' ✅' : '';
                 evidenceList += `
                     <div class="file-item" data-evidence="${i}">
                         <span class="icon">${icon}</span>
@@ -943,13 +1586,10 @@
         }
 
         function useFallbackData() {
-            totalEvidence = 5;
-            totalCount.textContent = totalEvidence;
-
             emailContent[0] = { from: 'sistema@evidence.com', subject: 'Bem-vindo', date: 'Agora', body: '<p>Bem-vindo!</p>' };
             chatContent[0] = { contact: 'Helena Duarte', messages: [{ from: 'Helena', text: 'Olá!' }] };
 
-            ['Foto_001.png', 'Documento_001.pdf', 'video_001.mp4', 'Foto_002.png', 'Documento_002.pdf'].forEach((name, i) => {
+            ['Foto_001.png', 'Documento_001.pdf', 'video001.mp4', 'Foto_002.png', 'Documento_002.pdf'].forEach((name, i) => {
                 evidenceContent[i] = {
                     title: name,
                     desc: 'Evidência do caso.',
@@ -972,7 +1612,7 @@
             appContent.evidence.body = `
                 <h3>Evidências</h3>
                 <div class="file-list">
-                    ${['🖼️ Foto_001.png', '📄 Documento_001.pdf', '🎬 video_001.mp4', '🖼️ Foto_002.png', '📄 Documento_002.pdf'].map((item, i) =>
+                    ${['🖼️ Foto_001.png', '📄 Documento_001.pdf', '🎬 video001.mp4', '🖼️ Foto_002.png', '📄 Documento_002.pdf'].map((item, i) =>
                         `<div class="file-item" data-evidence="${i}"><span class="icon">${item.split(' ')[0]}</span><span class="name">${item.split(' ')[1]}</span><span class="size">arquivo</span></div>`
                     ).join('')}
                 </div>
@@ -980,7 +1620,7 @@
         }
 
         // ==========================================
-        // EVENTOS DE CLICK NOS ITENS
+        // EVENTOS DE CLICK
         // ==========================================
 
         document.addEventListener('click', function(e) {
@@ -1013,12 +1653,43 @@
         });
 
         // ==========================================
+        // MOBILE TOGGLE
+        // ==========================================
+
+        let missionsVisible = true;
+
+        mobileToggle.addEventListener('click', function() {
+            missionsVisible = !missionsVisible;
+            missionsPanel.style.display = missionsVisible ? 'block' : 'none';
+        });
+
+        // Detectar mobile e mostrar toggle
+        function checkMobile() {
+            if (window.innerWidth <= 768) {
+                mobileToggle.style.display = 'flex';
+                missionsPanel.style.display = 'none';
+                missionsVisible = false;
+            } else {
+                mobileToggle.style.display = 'none';
+                missionsPanel.style.display = 'block';
+                missionsVisible = true;
+            }
+        }
+
+        window.addEventListener('resize', checkMobile);
+        checkMobile();
+
+        // ==========================================
         // INICIALIZAR
         // ==========================================
 
-        loadCase().then(() => {
-            setTimeout(() => openApp('mail'), 300);
-        });
+        async function init() {
+            await loadMissions();
+            await loadCase();
+            setTimeout(() => openApp('mail'), 500);
+        }
+
+        init();
     </script>
 
 </body>
