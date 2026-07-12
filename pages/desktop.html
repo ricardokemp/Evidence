@@ -44,6 +44,45 @@
         }
 
         /* ==========================================
+           PROGRESS BAR
+           ========================================== */
+
+        .progress-container {
+            position: fixed;
+            top: var(--space-4);
+            right: var(--space-4);
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: var(--space-3) var(--space-4);
+            font-size: var(--font-sm);
+            color: var(--text-secondary);
+            z-index: var(--z-content);
+            box-shadow: var(--shadow-md);
+            backdrop-filter: blur(8px);
+            min-width: 160px;
+            text-align: center;
+        }
+
+        .progress-container .label {
+            display: block;
+            font-size: var(--font-xs);
+            color: var(--text-muted);
+            margin-bottom: var(--space-1);
+        }
+
+        .progress-container .count {
+            font-size: var(--font-xl);
+            font-weight: 700;
+            color: var(--text-bright);
+        }
+
+        .progress-container .count .total {
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        /* ==========================================
            ICON
            ========================================== */
 
@@ -80,6 +119,18 @@
             color: var(--text-secondary);
             max-width: 80px;
             word-wrap: break-word;
+        }
+
+        .desktop-icon .badge-count {
+            background: var(--color-danger);
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            border-radius: 50%;
+            padding: 2px 6px;
+            position: absolute;
+            margin-top: -10px;
+            margin-left: 30px;
         }
 
         /* ==========================================
@@ -248,6 +299,11 @@
             color: var(--text-muted);
         }
 
+        .window-body .file-item .found-badge {
+            font-size: var(--font-xs);
+            color: var(--color-success);
+        }
+
         .window-body .btn-secondary {
             background: transparent;
             border: 1px solid var(--color-border);
@@ -323,11 +379,31 @@
             .window-body {
                 padding: var(--space-3);
             }
+
+            .progress-container {
+                top: var(--space-2);
+                right: var(--space-2);
+                padding: var(--space-2) var(--space-3);
+                font-size: var(--font-xs);
+                min-width: 120px;
+            }
         }
     </style>
 </head>
 
 <body>
+
+    <!-- ==========================================
+    PROGRESSO
+    ========================================== -->
+
+    <div class="progress-container">
+        <span class="label">📊 Progresso</span>
+        <span class="count">
+            <span id="progressCount">0</span>
+            <span class="total">/ <span id="totalCount">5</span></span>
+        </span>
+    </div>
 
     <!-- ==========================================
     DESKTOP
@@ -363,6 +439,7 @@
         <a href="#" class="desktop-icon" data-app="evidence">
             <span class="icon">🔍</span>
             <span class="label">Evidências</span>
+            <span class="badge-count" id="evidenceBadge">0</span>
         </a>
 
     </main>
@@ -431,6 +508,9 @@
         const windowTitle = document.getElementById('windowTitle');
         const windowBody = document.getElementById('windowBody');
         const closeBtn = document.getElementById('closeWindow');
+        const progressCount = document.getElementById('progressCount');
+        const totalCount = document.getElementById('totalCount');
+        const evidenceBadge = document.getElementById('evidenceBadge');
 
         // ==========================================
         // FUNÇÃO: FECHAR JANELA
@@ -441,6 +521,108 @@
         }
 
         closeBtn.addEventListener('click', closeWindow);
+
+        // ==========================================
+        // DADOS DO CASO (carregados dinamicamente)
+        // ==========================================
+
+        let caseData = {
+            emails: [],
+            messages: [],
+            evidence: []
+        };
+
+        const emailContent = {};
+        const chatContent = {};
+        const evidenceContent = {};
+
+        // ==========================================
+        // SISTEMA DE PROGRESSO
+        // ==========================================
+
+        let foundEvidence = new Set();
+        let totalEvidence = 0;
+
+        function markEvidenceFound(evidenceId) {
+            if (!foundEvidence.has(evidenceId)) {
+                foundEvidence.add(evidenceId);
+                updateProgress();
+                updateEvidenceBadge();
+                checkCaseComplete();
+            }
+        }
+
+        function updateProgress() {
+            const found = foundEvidence.size;
+            progressCount.textContent = found;
+        }
+
+        function updateEvidenceBadge() {
+            const found = foundEvidence.size;
+            evidenceBadge.textContent = found;
+            evidenceBadge.style.display = found > 0 ? 'block' : 'none';
+        }
+
+        function checkCaseComplete() {
+            const found = foundEvidence.size;
+            if (found === totalEvidence && totalEvidence > 0) {
+                showCaseComplete();
+            }
+        }
+
+        function showCaseComplete() {
+            windowTitle.textContent = '🎉 CASO RESOLVIDO!';
+            windowBody.innerHTML = `
+                <div style="text-align: center; padding: var(--space-6);">
+                    <div style="font-size: 64px; margin-bottom: var(--space-4);">🎉</div>
+                    <h2 style="color: var(--color-success); font-size: var(--font-xl);">Caso Resolvido!</h2>
+                    <p style="margin-top: var(--space-4); font-size: var(--font-lg);">
+                        Você encontrou todas as <strong>${foundEvidence.size}</strong> evidências!
+                    </p>
+                    <p style="color: var(--text-muted); margin-top: var(--space-4); max-width: 400px; margin-left: auto; margin-right: auto;">
+                        Parabéns! Você desvendou o desaparecimento de Helena Duarte.
+                        A Sigma Corp estava envolvida em lavagem de dinheiro e Helena está
+                        viva, escondida em um local seguro.
+                    </p>
+                    <div style="margin: var(--space-6) 0;">
+                        <span class="badge badge-success" style="font-size: var(--font-md); padding: var(--space-2) var(--space-5);">
+                            ✅ Caso Concluído
+                        </span>
+                    </div>
+                    <div style="display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap;">
+                        <button class="btn btn-primary" onclick="closeWindow()">
+                            Voltar ao Desktop
+                        </button>
+                        <button class="btn btn-secondary" onclick="showReport()">
+                            📄 Ver Relatório
+                        </button>
+                    </div>
+                </div>
+            `;
+            windowEl.classList.add('open');
+        }
+
+        function showReport() {
+            windowTitle.textContent = '📄 Relatório do Caso';
+            windowBody.innerHTML = `
+                <div style="padding: var(--space-2);">
+                    <h3>Relatório Final - Caso #001</h3>
+                    <div style="margin-top: var(--space-4);">
+                        <p><strong>🕵️ Investigador:</strong> Agente Evidence</p>
+                        <p><strong>📅 Data:</strong> ${new Date().toLocaleDateString()}</p>
+                        <p><strong>📊 Evidências Encontradas:</strong> ${foundEvidence.size}/${totalEvidence}</p>
+                    </div>
+                    <div style="border-top: 1px solid var(--color-border); margin-top: var(--space-4); padding-top: var(--space-4);">
+                        <h4>Conclusão</h4>
+                        <p>Helena Duarte foi encontrada viva em um abrigo na zona rural.
+                        A Sigma Corp foi investigada e seus executivos estão sendo processados.
+                        O caso foi encerrado com sucesso.</p>
+                    </div>
+                    <button class="btn-secondary" style="margin-top: var(--space-4);" onclick="closeWindow()">Fechar</button>
+                </div>
+            `;
+            windowEl.classList.add('open');
+        }
 
         // ==========================================
         // CONTEÚDO DOS APLICATIVOS (fallback)
@@ -513,20 +695,6 @@
         };
 
         // ==========================================
-        // DADOS DO CASO (carregados dinamicamente)
-        // ==========================================
-
-        let caseData = {
-            emails: [],
-            messages: [],
-            evidence: []
-        };
-
-        const emailContent = {};
-        const chatContent = {};
-        const evidenceContent = {};
-
-        // ==========================================
         // FUNÇÃO: ABRIR APP
         // ==========================================
 
@@ -597,12 +765,94 @@
             const ev = evidenceContent[evidenceId];
             if (!ev) return;
 
+            // Marcar como encontrada
+            markEvidenceFound(evidenceId);
+
+            const filePath = `../cases/case001/files/${ev.title}`;
+            const fileExtension = ev.title.split('.').pop().toLowerCase();
+
             windowTitle.textContent = '🔍 ' + ev.title;
-            windowBody.innerHTML = `
+
+            let content = `
                 <h3>${ev.title}</h3>
                 <p>${ev.desc}</p>
-                <button class="btn-secondary" style="margin-top: var(--space-4);" onclick="closeWindow()">Fechar</button>
+                <div style="
+                    background: var(--color-background);
+                    padding: var(--space-4);
+                    border-radius: var(--radius-md);
+                    text-align: center;
+                    margin: var(--space-4) 0;
+                    border: 1px dashed var(--color-border);
+                ">
             `;
+
+            // Verificar o tipo de arquivo
+            if (fileExtension === 'pdf') {
+                content += `
+                    <iframe src="${filePath}" style="
+                        width: 100%;
+                        height: 400px;
+                        border: none;
+                        border-radius: var(--radius-sm);
+                    "></iframe>
+                    <br>
+                    <a href="${filePath}" target="_blank" class="btn btn-primary" style="margin-top: var(--space-3);">
+                        📥 Baixar PDF
+                    </a>
+                `;
+            } else if (fileExtension === 'jpg' || fileExtension === 'jpeg' || fileExtension === 'png' || fileExtension ===
+                'gif') {
+                content += `
+                    <img src="${filePath}" style="
+                        max-width: 100%;
+                        max-height: 400px;
+                        border-radius: var(--radius-sm);
+                        object-fit: contain;
+                    ">
+                    <br>
+                    <a href="${filePath}" target="_blank" class="btn btn-primary" style="margin-top: var(--space-3);">
+                        📥 Baixar Imagem
+                    </a>
+                `;
+            } else if (fileExtension === 'wav' || fileExtension === 'mp3' || fileExtension === 'ogg') {
+                content += `
+                    <audio controls style="width: 100%; margin: var(--space-3) 0;">
+                        <source src="${filePath}" type="audio/${fileExtension}">
+                        Seu navegador não suporta áudio.
+                    </audio>
+                    <br>
+                    <a href="${filePath}" target="_blank" class="btn btn-primary" style="margin-top: var(--space-3);">
+                        📥 Baixar Áudio
+                    </a>
+                `;
+            } else if (fileExtension === 'mp4' || fileExtension === 'webm' || fileExtension === 'mov') {
+                content += `
+                    <video controls style="width: 100%; max-height: 400px; border-radius: var(--radius-sm);">
+                        <source src="${filePath}" type="video/${fileExtension}">
+                        Seu navegador não suporta vídeo.
+                    </video>
+                    <br>
+                    <a href="${filePath}" target="_blank" class="btn btn-primary" style="margin-top: var(--space-3);">
+                        📥 Baixar Vídeo
+                    </a>
+                `;
+            } else {
+                content += `
+                    <p style="color: var(--text-muted);">
+                        📂 Arquivo: ${ev.title}
+                    </p>
+                    <a href="${filePath}" target="_blank" class="btn btn-primary" style="margin-top: var(--space-3);">
+                        📥 Baixar Arquivo
+                    </a>
+                `;
+            }
+
+            content += `
+                </div>
+                <button class="btn-secondary" onclick="closeWindow()">Fechar</button>
+            `;
+
+            windowBody.innerHTML = content;
             windowEl.classList.add('open');
         }
 
@@ -653,20 +903,30 @@
                 case001: `
                     <h3>Caso #001 - Desaparecimento</h3>
                     <div class="file-list">
-                        <div class="file-item" data-evidence-file="0">
-                            <span class="icon">📄</span>
-                            <span class="name">Relatório_Preliminar.pdf</span>
-                            <span class="size">1.8 MB</span>
-                        </div>
-                        <div class="file-item" data-evidence-file="1">
-                            <span class="icon">📄</span>
-                            <span class="name">Depoimento_Helena.pdf</span>
-                            <span class="size">0.5 MB</span>
-                        </div>
-                        <div class="file-item" data-evidence-file="2">
+                        <div class="file-item" data-evidence="0">
                             <span class="icon">🖼️</span>
-                            <span class="name">Helena_Ultima_Foto.jpg</span>
-                            <span class="size">1.2 MB</span>
+                            <span class="name">Foto_001.png</span>
+                            <span class="size">imagem</span>
+                        </div>
+                        <div class="file-item" data-evidence="1">
+                            <span class="icon">📄</span>
+                            <span class="name">Documento_001.pdf</span>
+                            <span class="size">PDF</span>
+                        </div>
+                        <div class="file-item" data-evidence="2">
+                            <span class="icon">🎬</span>
+                            <span class="name">Video_001.mp4</span>
+                            <span class="size">vídeo</span>
+                        </div>
+                        <div class="file-item" data-evidence="3">
+                            <span class="icon">🖼️</span>
+                            <span class="name">Foto_002.png</span>
+                            <span class="size">imagem</span>
+                        </div>
+                        <div class="file-item" data-evidence="4">
+                            <span class="icon">📄</span>
+                            <span class="name">Documento_002.pdf</span>
+                            <span class="size">PDF</span>
                         </div>
                     </div>
                     <button class="btn-secondary" style="margin-top: var(--space-4);" onclick="closeWindow()">
@@ -685,7 +945,6 @@
 
         async function loadCase() {
             try {
-                // Carregar os arquivos JSON do caso
                 const emailsRes = await fetch('../cases/case001/emails.json');
                 const messagesRes = await fetch('../cases/case001/messages.json');
                 const evidenceRes = await fetch('../cases/case001/evidence.json');
@@ -698,11 +957,12 @@
                 caseData.messages = await messagesRes.json();
                 caseData.evidence = await evidenceRes.json();
 
-                // Atualizar os conteúdos
+                totalEvidence = caseData.evidence.length;
+                totalCount.textContent = totalEvidence;
+
                 updateAppContent();
             } catch (error) {
                 console.warn('Erro ao carregar caso:', error);
-                // Usar dados de fallback embutidos
                 useFallbackData();
             }
         }
@@ -735,12 +995,14 @@
             // Gerar lista de evidências
             let evidenceList = '';
             caseData.evidence.forEach((item, index) => {
-                const icon = item.type === 'image' ? '🖼️' : item.type === 'audio' ? '🔊' : '📄';
+                const icon = item.type === 'image' ? '🖼️' : item.type === 'audio' ? '🔊' : item.type === 'video' ? '🎬' :
+                    '📄';
+                const found = foundEvidence.has(index) ? '✅' : '';
                 evidenceList += `
                     <div class="file-item" data-evidence="${index}">
                         <span class="icon">${icon}</span>
                         <span class="name">${item.title}</span>
-                        <span class="size">${item.type}</span>
+                        <span class="size">${item.type} ${found}</span>
                     </div>
                 `;
             });
@@ -761,7 +1023,7 @@
                 <div class="file-list">${evidenceList}</div>
             `;
 
-            // Atualizar os conteúdos de e-mails, mensagens e evidências
+            // Atualizar os conteúdos
             caseData.emails.forEach((email, index) => {
                 emailContent[index] = {
                     from: email.from,
@@ -787,12 +1049,15 @@
         }
 
         function useFallbackData() {
-            // Dados de fallback (caso os JSONs não carreguem)
+            // Dados de fallback
+            totalEvidence = 5;
+            totalCount.textContent = totalEvidence;
+
             emailContent[0] = {
                 from: 'sistema@evidence.com',
                 subject: 'Bem-vindo ao Evidence',
                 date: 'Agora',
-                body: '<p>Bem-vindo ao sistema de investigação Evidence.</p><p>Seu primeiro caso já está disponível.</p>'
+                body: '<p>Bem-vindo ao sistema de investigação Evidence.</p>'
             };
             emailContent[1] = {
                 from: 'helena.duarte@empresa.com',
@@ -807,11 +1072,26 @@
             };
 
             evidenceContent[0] = {
-                title: 'Foto_001.jpg',
-                desc: 'Última foto de Helena antes do desaparecimento.'
+                title: 'Foto_001.png',
+                desc: 'Última foto de Helena.'
+            };
+            evidenceContent[1] = {
+                title: 'Documento_001.pdf',
+                desc: 'Relatório da Sigma.'
+            };
+            evidenceContent[2] = {
+                title: 'Video_001.mp4',
+                desc: 'Recriação do momento.'
+            };
+            evidenceContent[3] = {
+                title: 'Foto_002.png',
+                desc: 'Fachada da Sigma.'
+            };
+            evidenceContent[4] = {
+                title: 'Documento_002.pdf',
+                desc: 'Lista de funcionários.'
             };
 
-            // Atualizar appContent com fallback
             appContent.mail.body = `
                 <h3>Caixa de Entrada</h3>
                 <div class="file-list">
@@ -844,8 +1124,28 @@
                 <div class="file-list">
                     <div class="file-item" data-evidence="0">
                         <span class="icon">🖼️</span>
-                        <span class="name">Foto_001.jpg</span>
+                        <span class="name">Foto_001.png</span>
                         <span class="size">imagem</span>
+                    </div>
+                    <div class="file-item" data-evidence="1">
+                        <span class="icon">📄</span>
+                        <span class="name">Documento_001.pdf</span>
+                        <span class="size">PDF</span>
+                    </div>
+                    <div class="file-item" data-evidence="2">
+                        <span class="icon">🎬</span>
+                        <span class="name">Video_001.mp4</span>
+                        <span class="size">vídeo</span>
+                    </div>
+                    <div class="file-item" data-evidence="3">
+                        <span class="icon">🖼️</span>
+                        <span class="name">Foto_002.png</span>
+                        <span class="size">imagem</span>
+                    </div>
+                    <div class="file-item" data-evidence="4">
+                        <span class="icon">📄</span>
+                        <span class="name">Documento_002.pdf</span>
+                        <span class="size">PDF</span>
                     </div>
                 </div>
             `;
@@ -856,7 +1156,6 @@
         // ==========================================
 
         document.addEventListener('click', function(e) {
-            // E-mail
             const emailItem = e.target.closest('.file-item[data-email]');
             if (emailItem) {
                 const emailId = emailItem.dataset.email;
@@ -864,7 +1163,6 @@
                 return;
             }
 
-            // Pasta
             const folderItem = e.target.closest('.file-item[data-folder]');
             if (folderItem) {
                 const folderId = folderItem.dataset.folder;
@@ -872,7 +1170,6 @@
                 return;
             }
 
-            // Chat
             const chatItem = e.target.closest('.file-item[data-chat]');
             if (chatItem) {
                 const chatId = chatItem.dataset.chat;
@@ -880,7 +1177,6 @@
                 return;
             }
 
-            // Evidência
             const evidenceItem = e.target.closest('.file-item[data-evidence]');
             if (evidenceItem) {
                 const evidenceId = evidenceItem.dataset.evidence;
@@ -893,7 +1189,6 @@
         // INICIALIZAR
         // ==========================================
 
-        // Carregar o caso e abrir o e-mail automaticamente
         loadCase().then(() => {
             setTimeout(() => {
                 openApp('mail');
