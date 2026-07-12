@@ -342,6 +342,28 @@
         }
 
         /* ==========================================
+           VÍDEO - AJUSTADO PARA CABER NA TELA
+           ========================================== */
+
+        .window-body .video-container {
+            width: 100%;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-2);
+            flex: 1;
+        }
+
+        .window-body .video-container video {
+            max-width: 100%;
+            max-height: 75vh;
+            width: auto;
+            height: auto;
+            border-radius: var(--radius-sm);
+        }
+
+        /* ==========================================
            SCROLLBAR
            ========================================== */
 
@@ -422,6 +444,14 @@
             }
 
             .window-body .image-container img {
+                max-height: 60vh;
+            }
+
+            .window-body .video-container {
+                min-height: 200px;
+            }
+
+            .window-body .video-container video {
                 max-height: 60vh;
             }
         }
@@ -762,9 +792,13 @@
                 `;
             } else if (['mp4', 'webm', 'mov', 'avi'].includes(fileExtension)) {
                 content += `
-                    <video controls style="width:100%; max-height:70vh; border-radius:var(--radius-sm);">
-                        <source src="${filePath}" type="video/${fileExtension}">
-                    </video>
+                    <div class="video-container">
+                        <video controls preload="metadata" playsinline>
+                            <source src="${filePath}" type="video/mp4">
+                            <source src="${filePath}" type="video/webm">
+                            <p>Seu navegador não suporta vídeo. <a href="${filePath}" target="_blank">Baixar</a></p>
+                        </video>
+                    </div>
                 `;
             } else if (['mp3', 'wav', 'ogg'].includes(fileExtension)) {
                 content += `
