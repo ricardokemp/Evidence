@@ -19,10 +19,10 @@
     },
     {
         "id": "ev3",
-        "title": "Video_001.mp4",
+        "title": "vdeo_001.mp4",
         "type": "video",
         "description": "Recriação do momento em que Helena recebeu a mensagem sobre a sala 4. A atmosfera é tensa e misteriosa.",
-        "location": "files/Video_001.mp4",
+        "location": "files/vdeo_001.mp4",
         "found": false,
         "tags": ["video", "sala4", "sigma", "recriacao"]
     },
