@@ -1081,7 +1081,6 @@
         // CONFIGURAÇÕES
         // ==========================================
 
-        const MISSIONS_FILE = '../cases/case001/missions.json?v=12';
         const TIMELINE_FILE = '../cases/case001/timeline.json?v=12';
         const PROCESSING_TIME = 5000;
 
@@ -1310,7 +1309,7 @@
         async function loadMissions() {
             try {
                 const timestamp = Date.now();
-                const res = await fetch(`../cases/case001/missions.json?t=${timestamp}`);
+                const res = await fetch(`../cases/case001/timeline.json?t=${timestamp}`);
                 if (!res.ok) throw new Error('Erro ao carregar missões');
                 missionData = await res.json();
                 totalMissions = missionData.length;
