@@ -872,7 +872,41 @@
             }
         }
 
-        /* Lupa animação */
+        .magnifier {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border: 3px solid var(--color-primary);
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.3) 100%);
+            backdrop-filter: blur(4px);
+            pointer-events: none;
+            display: none;
+            z-index: 10;
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+            transition: all 0.1s ease;
+            cursor: none;
+        }
+
+        .code-glow {
+            position: absolute;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-success);
+            font-weight: 700;
+            font-size: 20px;
+            letter-spacing: 4px;
+            z-index: 11;
+            font-family: var(--font-mono);
+            background: rgba(34, 197, 94, 0.15);
+            border: 2px solid var(--color-success);
+            border-radius: 8px;
+            padding: 4px 12px;
+            box-shadow: 0 0 40px rgba(34, 197, 94, 0.4);
+            animation: pulse-glow 1s ease infinite;
+        }
+
         @keyframes pulse-glow {
             0%,
             100% {
@@ -894,44 +928,6 @@
                 opacity: 1;
                 transform: translateY(0);
             }
-        }
-
-        .magnifier {
-            position: absolute;
-            width: 120px;
-            height: 120px;
-            border: 3px solid var(--color-primary);
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.3) 100%);
-            backdrop-filter: blur(4px);
-            pointer-events: none;
-            display: none;
-            z-index: 10;
-            box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
-            transition: all 0.1s ease;
-            cursor: none;
-        }
-
-        .code-glow {
-            position: absolute;
-            top: 60%;
-            left: 30%;
-            width: 60px;
-            height: 30px;
-            background: rgba(34, 197, 94, 0.2);
-            border: 2px solid var(--color-success);
-            border-radius: 8px;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            color: var(--color-success);
-            font-weight: 700;
-            font-size: 18px;
-            letter-spacing: 3px;
-            z-index: 11;
-            box-shadow: 0 0 40px rgba(34, 197, 94, 0.4);
-            animation: pulse-glow 1s ease infinite;
-            font-family: var(--font-mono);
         }
 
         .code-badge {
@@ -1049,8 +1045,8 @@
         // CONFIGURAÇÕES
         // ==========================================
 
-        const MISSIONS_FILE = '../cases/case001/missions.json?v=6';
-        const TIMELINE_FILE = '../cases/case001/timeline.json?v=6';
+        const MISSIONS_FILE = '../cases/case001/missions.json?v=7';
+        const TIMELINE_FILE = '../cases/case001/timeline.json?v=7';
         const PROCESSING_TIME = 5000;
 
         // ==========================================
@@ -1812,7 +1808,7 @@
         }
 
         // ==========================================
-        // FUNÇÃO: OPEN EVIDENCE COM LUPA INTERATIVA
+        // FUNÇÃO: OPEN EVIDENCE COM LUPA CORRIGIDA
         // ==========================================
 
         function openEvidence(evidenceId) {
@@ -1861,7 +1857,6 @@
                         ">
                 `;
 
-                // Se for a Foto_001, adicionar a lupa
                 if (isFoto1) {
                     content += `
                         <div class="magnifier" id="magnifier"></div>
@@ -1977,7 +1972,7 @@
                 }
             } else if (evidenceId === 0) {
                 // ==========================================
-                // LUPA INTERATIVA NA FOTO_001 - MISSÃO 5
+                // LUPA INTERATIVA - CORRIGIDA
                 // ==========================================
 
                 const img = document.getElementById('evidenceImage');
@@ -2001,31 +1996,41 @@
                             document.body.style.cursor = 'default';
                         });
 
-                        // Evento: mouse se move na imagem
+                        // Evento: mouse se move na imagem (CORRIGIDO - usa IMAGEM, não container)
                         img.addEventListener('mousemove', function(e) {
-                            const rect = container.getBoundingClientRect();
+                            // Usa o retângulo da IMAGEM (não do container)
+                            const rect = img.getBoundingClientRect();
+
+                            // Posiciona a lupa sobre a imagem
                             const x = e.clientX - rect.left - magnifier.offsetWidth / 2;
                             const y = e.clientY - rect.top - magnifier.offsetHeight / 2;
 
+                            // Limita a lupa dentro dos limites da imagem
                             magnifier.style.left = Math.max(0, Math.min(x, rect.width - magnifier.offsetWidth)) +
                                 'px';
                             magnifier.style.top = Math.max(0, Math.min(y, rect.height - magnifier.offsetHeight)) +
                                 'px';
                             magnifier.style.display = 'block';
 
-                            // Verificar se a lupa está sobre o código
-                            const relX = (e.clientX - rect.left) / rect.width;
-                            const relY = (e.clientY - rect.top) / rect.height;
+                            // Calcula a posição do mouse em relação à imagem
+                            const mouseX = e.clientX - rect.left;
+                            const mouseY = e.clientY - rect.top;
 
-                            const codeX = 0.30;
-                            const codeY = 0.60;
-                            const threshold = 0.12;
+                            // Posição DO CÓDIGO na imagem (67.6% largura, 33% altura)
+                            const codePixelX = rect.width * 0.676;
+                            const codePixelY = rect.height * 0.33;
+                            const threshold = 40; // pixels de distância
 
-                            const distance = Math.sqrt(Math.pow(relX - codeX, 2) + Math.pow(relY - codeY, 2));
+                            const distance = Math.hypot(mouseX - codePixelX, mouseY - codePixelY);
 
                             if (distance < threshold && !codeRevealed) {
                                 codeRevealed = true;
-                                if (codeGlow) codeGlow.style.display = 'flex';
+                                if (codeGlow) {
+                                    codeGlow.style.display = 'flex';
+                                    // Posiciona o glow exatamente sobre o código
+                                    codeGlow.style.left = (codePixelX - 30) + 'px';
+                                    codeGlow.style.top = (codePixelY - 15) + 'px';
+                                }
 
                                 showNotification('🔍 Código Encontrado!',
                                     'O número 4472 está escrito na parede ao fundo da foto.');
@@ -2036,6 +2041,7 @@
                                 badge.textContent = '✅ Código Encontrado!';
                                 container.appendChild(badge);
 
+                                // Completar a missão 5
                                 missionData.forEach(mission => {
                                     if (mission.id === 'm5' && !completedMissions.has('m5')) {
                                         if (isMissionAvailable(mission)) {
