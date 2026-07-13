@@ -1116,7 +1116,7 @@
         // CONFIGURAÇÕES
         // ==========================================
 
-        const TIMELINE_FILE = '../cases/case001/timeline.json?v=15';
+        const TIMELINE_FILE = '../cases/case001/timeline.json?v=16';
         const PROCESSING_TIME = 5000;
 
         // ==========================================
@@ -2077,6 +2077,7 @@
                             if (mission.id === 'm7' && !completedMissions.has('m7')) {
                                 if (isMissionAvailable(mission)) {
                                     completeMission('m7');
+                                    console.log('✅ Missão 7 completada (vídeo já estava no final)!');
                                 }
                             }
                         });
@@ -2100,7 +2101,7 @@
                             statusEl.style.color = 'var(--color-success)';
                         }
 
-                        console.log('🎬 Vídeo terminou! Completando Missão 7...');
+                        console.log('🎬 Vídeo 002 terminou! Completando Missão 7...');
 
                         missionData.forEach(mission => {
                             if (mission.id === 'm7' && !completedMissions.has('m7')) {
@@ -2143,6 +2144,7 @@
                             if (mission.id === 'm6' && !completedMissions.has('m6')) {
                                 if (isMissionAvailable(mission)) {
                                     completeMission('m6');
+                                    console.log('✅ Missão 6 completada (vídeo já estava no final)!');
                                 }
                             }
                         });
@@ -2150,6 +2152,15 @@
                             statusEl.textContent = '✅ Vídeo já assistido!';
                             statusEl.style.color = 'var(--color-success)';
                         }
+                        // Forçar revelação do próximo vídeo
+                        setTimeout(() => {
+                            const t8Index = timelineData.findIndex(item => item.id === 't8');
+                            if (t8Index !== -1 && !revealedItems.has('t8')) {
+                                revealItem(t8Index);
+                                currentRevealIndex = t8Index + 1;
+                                console.log('🔄 Video_002.mp4 foi desbloqueado!');
+                            }
+                        }, 500);
                         return;
                     }
 
@@ -2166,7 +2177,7 @@
                             statusEl.style.color = 'var(--color-success)';
                         }
 
-                        console.log('🎬 Vídeo terminou! Completando Missão 6...');
+                        console.log('🎬 Vídeo 001 terminou! Completando Missão 6...');
 
                         missionData.forEach(mission => {
                             if (mission.id === 'm6' && !completedMissions.has('m6')) {
@@ -2177,6 +2188,16 @@
                                 }
                             }
                         });
+
+                        // Forçar revelação do próximo vídeo (t8 - Video_002.mp4)
+                        setTimeout(() => {
+                            const t8Index = timelineData.findIndex(item => item.id === 't8');
+                            if (t8Index !== -1 && !revealedItems.has('t8')) {
+                                revealItem(t8Index);
+                                currentRevealIndex = t8Index + 1;
+                                console.log('🔄 Video_002.mp4 foi desbloqueado!');
+                            }
+                        }, 500);
                     });
 
                     video.addEventListener('pause', function() {
@@ -2280,32 +2301,53 @@
             else if (evidenceId === 3) {
                 console.log('📸 Foto_002.png aberta');
 
-                // Completar a Missão 5 (A Última Foto)
+                // 1. Completar a Missão 5 (A Última Foto)
+                let m5Completed = false;
                 missionData.forEach(mission => {
                     if (mission.id === 'm5' && !completedMissions.has('m5')) {
                         if (isMissionAvailable(mission)) {
                             completeMission('m5');
+                            m5Completed = true;
                             console.log('✅ Missão 5 completada - A Última Foto!');
                             showNotification('🖼️ A Última Foto', 'Você encontrou a última foto de Helena!');
                         }
                     }
                 });
 
-                // Depois, completar a Missão 6 (Pasta Secreta)
+                // 2. Completar a Missão 6 (Pasta Secreta) imediatamente
                 setTimeout(() => {
-                    if (completedMissions.has('m5')) {
-                        missionData.forEach(mission => {
-                            if (mission.id === 'm6' && !completedMissions.has('m6')) {
-                                if (isMissionAvailable(mission)) {
-                                    completeMission('m6');
-                                    console.log('✅ Missão 6 completada - Pasta Secreta!');
-                                    showNotification('🔐 Pasta Secreta',
-                                        'Você usou o código 4472 para acessar a pasta secreta!');
+                    let m6Completed = false;
+                    missionData.forEach(mission => {
+                        if (mission.id === 'm6' && !completedMissions.has('m6')) {
+                            if (isMissionAvailable(mission)) {
+                                completeMission('m6');
+                                m6Completed = true;
+                                console.log('✅ Missão 6 completada - Pasta Secreta!');
+                                showNotification('🔐 Pasta Secreta',
+                                    'Você usou o código 4472 para acessar a pasta secreta!');
+                            }
+                        }
+                    });
+
+                    // 3. Forçar a revelação do próximo item (t7 - Video_001.mp4)
+                    if (m6Completed || completedMissions.has('m6')) {
+                        setTimeout(() => {
+                            console.log('🔄 Forçando revelação do vídeo...');
+                            // Procurar o t7 e revelar
+                            const t7Index = timelineData.findIndex(item => item.id === 't7');
+                            if (t7Index !== -1 && !revealedItems.has('t7')) {
+                                revealItem(t7Index);
+                                currentRevealIndex = t7Index + 1;
+                                console.log('🔄 Video_001.mp4 foi desbloqueado!');
+                            } else {
+                                // Se t7 já foi revelado, tentar revelar o próximo
+                                if (currentRevealIndex < timelineData.length) {
+                                    revealNextItem();
                                 }
                             }
-                        });
+                        }, 500);
                     }
-                }, 500);
+                }, 400);
             }
             // OUTRAS EVIDÊNCIAS
             else {
