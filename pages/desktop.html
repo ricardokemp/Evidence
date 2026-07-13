@@ -1185,6 +1185,12 @@
             markItemAvailable(item.unlock, item.type);
             updateBadges();
 
+            // Atualizar pastas se estiverem abertas
+            if (windowTitle.textContent.includes('📁')) {
+                const folderId = windowTitle.textContent.replace('📁 ', '');
+                openFolder(folderId);
+            }
+
             if (revealedItems.size === timelineData.length) {
                 // Todas as pistas foram reveladas
             }
@@ -1200,7 +1206,7 @@
         }
 
         // ==========================================
-        // FUNÇÃO: COMPLETAR MISSÃO COM PROCESSAMENTO
+        // FUNÇÃO: COMPLETAR MISSÃO
         // ==========================================
 
         function completeMission(missionId) {
@@ -1583,6 +1589,237 @@
         }
 
         // ==========================================
+        // FUNÇÃO: OPEN FOLDER (COM ITENS DINÂMICOS)
+        // ==========================================
+
+        function openFolder(folderId) {
+            windowTitle.textContent = '📁 ' + folderId;
+
+            // Verificar quais itens foram desbloqueados
+            const isFoto1Revealed = revealedItems.has('t3');
+            const isFoto2Revealed = revealedItems.has('t4') || revealedItems.has('t5');
+            const isDoc1Revealed = revealedItems.has('t4');
+            const isDoc2Revealed = revealedItems.has('t5');
+            const isVideoRevealed = revealedItems.has('t5');
+
+            let folderContent = {};
+
+            // ==========================================
+            // PASTA: Documentos
+            // ==========================================
+            let documentsHTML = `
+                <h3>Documentos</h3>
+                <div class="file-list">
+            `;
+
+            if (isDoc1Revealed) {
+                documentsHTML += `
+                    <div class="file-item" data-evidence="1">
+                        <span class="icon">📄</span>
+                        <span class="name">Documento_001.pdf</span>
+                        <span class="size">PDF</span>
+                    </div>
+                `;
+            } else {
+                documentsHTML += `
+                    <div class="file-item locked-item" style="opacity:0.3; cursor:not-allowed;">
+                        <span class="icon">🔒</span>
+                        <span class="name">Documento bloqueado</span>
+                        <span class="size">Aguardando descoberta</span>
+                    </div>
+                `;
+            }
+
+            if (isDoc2Revealed) {
+                documentsHTML += `
+                    <div class="file-item" data-evidence="4">
+                        <span class="icon">📄</span>
+                        <span class="name">Documento_002.pdf</span>
+                        <span class="size">PDF</span>
+                    </div>
+                `;
+            } else {
+                documentsHTML += `
+                    <div class="file-item locked-item" style="opacity:0.3; cursor:not-allowed;">
+                        <span class="icon">🔒</span>
+                        <span class="name">Documento bloqueado</span>
+                        <span class="size">Aguardando descoberta</span>
+                    </div>
+                `;
+            }
+
+            documentsHTML += `
+                </div>
+                <button class="btn-secondary" style="margin-top:var(--space-4);" onclick="closeWindow()">Voltar</button>
+            `;
+
+            folderContent.documents = documentsHTML;
+
+            // ==========================================
+            // PASTA: Fotos
+            // ==========================================
+            let photosHTML = `
+                <h3>Fotos</h3>
+                <div class="file-list">
+            `;
+
+            if (isFoto1Revealed) {
+                photosHTML += `
+                    <div class="file-item" data-evidence="0">
+                        <span class="icon">🖼️</span>
+                        <span class="name">Foto_001.png</span>
+                        <span class="size">imagem</span>
+                    </div>
+                `;
+            } else {
+                photosHTML += `
+                    <div class="file-item locked-item" style="opacity:0.3; cursor:not-allowed;">
+                        <span class="icon">🔒</span>
+                        <span class="name">Foto bloqueada</span>
+                        <span class="size">Aguardando descoberta</span>
+                    </div>
+                `;
+            }
+
+            if (isFoto2Revealed) {
+                photosHTML += `
+                    <div class="file-item" data-evidence="3">
+                        <span class="icon">🖼️</span>
+                        <span class="name">Foto_002.png</span>
+                        <span class="size">imagem</span>
+                    </div>
+                `;
+            } else {
+                photosHTML += `
+                    <div class="file-item locked-item" style="opacity:0.3; cursor:not-allowed;">
+                        <span class="icon">🔒</span>
+                        <span class="name">Foto bloqueada</span>
+                        <span class="size">Aguardando descoberta</span>
+                    </div>
+                `;
+            }
+
+            photosHTML += `
+                </div>
+                <button class="btn-secondary" style="margin-top:var(--space-4);" onclick="closeWindow()">Voltar</button>
+            `;
+
+            folderContent.photos = photosHTML;
+
+            // ==========================================
+            // PASTA: Caso_001
+            // ==========================================
+            let case001HTML = `
+                <h3>Caso #001 - Desaparecimento</h3>
+                <div class="file-list">
+            `;
+
+            if (isFoto1Revealed) {
+                case001HTML += `
+                    <div class="file-item" data-evidence="0">
+                        <span class="icon">🖼️</span>
+                        <span class="name">Foto_001.png</span>
+                        <span class="size">imagem</span>
+                    </div>
+                `;
+            } else {
+                case001HTML += `
+                    <div class="file-item locked-item" style="opacity:0.3; cursor:not-allowed;">
+                        <span class="icon">🔒</span>
+                        <span class="name">Arquivo bloqueado</span>
+                        <span class="size">Aguardando descoberta</span>
+                    </div>
+                `;
+            }
+
+            if (isDoc1Revealed) {
+                case001HTML += `
+                    <div class="file-item" data-evidence="1">
+                        <span class="icon">📄</span>
+                        <span class="name">Documento_001.pdf</span>
+                        <span class="size">PDF</span>
+                    </div>
+                `;
+            } else {
+                case001HTML += `
+                    <div class="file-item locked-item" style="opacity:0.3; cursor:not-allowed;">
+                        <span class="icon">🔒</span>
+                        <span class="name">Arquivo bloqueado</span>
+                        <span class="size">Aguardando descoberta</span>
+                    </div>
+                `;
+            }
+
+            if (isDoc2Revealed) {
+                case001HTML += `
+                    <div class="file-item" data-evidence="4">
+                        <span class="icon">📄</span>
+                        <span class="name">Documento_002.pdf</span>
+                        <span class="size">PDF</span>
+                    </div>
+                `;
+            } else {
+                case001HTML += `
+                    <div class="file-item locked-item" style="opacity:0.3; cursor:not-allowed;">
+                        <span class="icon">🔒</span>
+                        <span class="name">Arquivo bloqueado</span>
+                        <span class="size">Aguardando descoberta</span>
+                    </div>
+                `;
+            }
+
+            if (isVideoRevealed) {
+                case001HTML += `
+                    <div class="file-item" data-evidence="2">
+                        <span class="icon">🎬</span>
+                        <span class="name">Video_001.mp4</span>
+                        <span class="size">vídeo</span>
+                    </div>
+                `;
+            } else {
+                case001HTML += `
+                    <div class="file-item locked-item" style="opacity:0.3; cursor:not-allowed;">
+                        <span class="icon">🔒</span>
+                        <span class="name">Arquivo bloqueado</span>
+                        <span class="size">Aguardando descoberta</span>
+                    </div>
+                `;
+            }
+
+            if (isFoto2Revealed) {
+                case001HTML += `
+                    <div class="file-item" data-evidence="3">
+                        <span class="icon">🖼️</span>
+                        <span class="name">Foto_002.png</span>
+                        <span class="size">imagem</span>
+                    </div>
+                `;
+            } else {
+                case001HTML += `
+                    <div class="file-item locked-item" style="opacity:0.3; cursor:not-allowed;">
+                        <span class="icon">🔒</span>
+                        <span class="name">Arquivo bloqueado</span>
+                        <span class="size">Aguardando descoberta</span>
+                    </div>
+                `;
+            }
+
+            case001HTML += `
+                </div>
+                <button class="btn-secondary" style="margin-top:var(--space-4);" onclick="closeWindow()">Voltar</button>
+            `;
+
+            folderContent.case001 = case001HTML;
+
+            // ==========================================
+            // EXIBIR CONTEÚDO
+            // ==========================================
+
+            windowBody.innerHTML = folderContent[folderId] || `<p>Pasta vazia.</p>`;
+            windowEl.classList.add('open');
+        }
+
+        // ==========================================
         // CONTEÚDO DOS APLICATIVOS
         // ==========================================
 
@@ -1599,17 +1836,17 @@
                         <div class="file-item" data-folder="documents">
                             <span class="icon">📂</span>
                             <span class="name">Documentos</span>
-                            <span class="size">12 itens</span>
+                            <span class="size">itens variáveis</span>
                         </div>
                         <div class="file-item" data-folder="photos">
                             <span class="icon">📂</span>
                             <span class="name">Fotos</span>
-                            <span class="size">8 itens</span>
+                            <span class="size">itens variáveis</span>
                         </div>
                         <div class="file-item" data-folder="case001">
                             <span class="icon">📂</span>
                             <span class="name">Caso_001</span>
-                            <span class="size">5 itens</span>
+                            <span class="size">itens variáveis</span>
                         </div>
                     </div>
                 `
@@ -1711,14 +1948,6 @@
 
             const evKey = 'ev' + (parseInt(evidenceId) + 1);
 
-            missionData.forEach(mission => {
-                if (mission.unlock === evKey && !completedMissions.has(mission.id)) {
-                    if (isMissionAvailable(mission)) {
-                        completeMission(mission.id);
-                    }
-                }
-            });
-
             const filePath = `../cases/case001/${ev.location}`;
             const fileExtension = ev.title.split('.').pop().toLowerCase();
 
@@ -1753,15 +1982,32 @@
                     </div>
                 `;
             } else if (['mp4', 'webm', 'mov', 'avi'].includes(fileExtension)) {
+                // Verificar se é o vídeo do caso (ev3 - índice 2)
+                const isCaseVideo = evidenceId === 2;
+
                 content += `
                     <div class="video-container">
-                        <video controls preload="metadata" playsinline>
+                        <video controls preload="metadata" playsinline id="caseVideo">
                             <source src="${filePath}" type="video/mp4">
                             <source src="${filePath}" type="video/webm">
                             <p>Seu navegador não suporta vídeo. <a href="${filePath}" target="_blank">Baixar</a></p>
                         </video>
                     </div>
                 `;
+
+                // Se for o vídeo do caso, adicionar evento de conclusão
+                if (isCaseVideo) {
+                    content += `
+                        <div style="margin-top: var(--space-3); padding: var(--space-3); background: var(--color-background); border-radius: var(--radius-sm); border-left: 3px solid var(--color-warning);">
+                            <p style="font-size: var(--font-sm); color: var(--text-secondary);">
+                                ⚠️ <strong>Assista ao vídeo até o final</strong> para concluir a investigação.
+                            </p>
+                            <p style="font-size: var(--font-xs); color: var(--text-muted); margin-top: var(--space-1);" id="videoStatus">
+                                ⏳ Aguardando reprodução...
+                            </p>
+                        </div>
+                    `;
+                }
             } else if (['mp3', 'wav', 'ogg'].includes(fileExtension)) {
                 content += `
                     <audio controls style="width:100%;">
@@ -1784,41 +2030,53 @@
 
             windowBody.innerHTML = content;
             windowEl.classList.add('open');
-        }
 
-        function openFolder(folderId) {
-            windowTitle.textContent = '📁 ' + folderId;
-            const folderContent = {
-                documents: `
-                    <h3>Documentos</h3>
-                    <div class="file-list">
-                        <div class="file-item"><span class="icon">📄</span><span class="name">Contrato.pdf</span><span class="size">1.2 MB</span></div>
-                        <div class="file-item"><span class="icon">📄</span><span class="name">Identidade.jpg</span><span class="size">0.8 MB</span></div>
-                    </div>
-                    <button class="btn-secondary" style="margin-top:var(--space-4);" onclick="closeWindow()">Voltar</button>
-                `,
-                photos: `
-                    <h3>Fotos</h3>
-                    <div class="file-list">
-                        <div class="file-item"><span class="icon">🖼️</span><span class="name">Foto_001.jpg</span><span class="size">2.1 MB</span></div>
-                        <div class="file-item"><span class="icon">🖼️</span><span class="name">Foto_002.jpg</span><span class="size">1.5 MB</span></div>
-                    </div>
-                    <button class="btn-secondary" style="margin-top:var(--space-4);" onclick="closeWindow()">Voltar</button>
-                `,
-                case001: `
-                    <h3>Caso #001 - Desaparecimento</h3>
-                    <div class="file-list">
-                        <div class="file-item" data-evidence="0"><span class="icon">🖼️</span><span class="name">Foto_001.png</span><span class="size">imagem</span></div>
-                        <div class="file-item" data-evidence="1"><span class="icon">📄</span><span class="name">Documento_001.pdf</span><span class="size">PDF</span></div>
-                        <div class="file-item" data-evidence="2"><span class="icon">🎬</span><span class="name">Video_001.mp4</span><span class="size">vídeo</span></div>
-                        <div class="file-item" data-evidence="3"><span class="icon">🖼️</span><span class="name">Foto_002.png</span><span class="size">imagem</span></div>
-                        <div class="file-item" data-evidence="4"><span class="icon">📄</span><span class="name">Documento_002.pdf</span><span class="size">PDF</span></div>
-                    </div>
-                    <button class="btn-secondary" style="margin-top:var(--space-4);" onclick="closeWindow()">Voltar</button>
-                `
-            };
-            windowBody.innerHTML = folderContent[folderId] || `<p>Pasta vazia.</p>`;
-            windowEl.classList.add('open');
+            // Se for o vídeo do caso, adicionar evento de conclusão
+            if (evidenceId === 2) {
+                const video = document.getElementById('caseVideo');
+                if (video) {
+                    const statusEl = document.getElementById('videoStatus');
+
+                    video.addEventListener('play', function() {
+                        if (statusEl) {
+                            statusEl.textContent = '▶️ Reproduzindo... Assista até o final.';
+                            statusEl.style.color = 'var(--text-secondary)';
+                        }
+                    });
+
+                    video.addEventListener('ended', function() {
+                        if (statusEl) {
+                            statusEl.textContent = '✅ Vídeo assistido completamente!';
+                            statusEl.style.color = 'var(--color-success)';
+                        }
+
+                        // Completar a missão 5 (ev3)
+                        const evKey = 'ev3';
+                        missionData.forEach(mission => {
+                            if (mission.unlock === evKey && !completedMissions.has(mission.id)) {
+                                if (isMissionAvailable(mission)) {
+                                    completeMission(mission.id);
+                                }
+                            }
+                        });
+                    });
+
+                    video.addEventListener('pause', function() {
+                        if (statusEl && !video.ended) {
+                            statusEl.textContent = '⏸️ Pausado. Continue assistindo para concluir.';
+                            statusEl.style.color = 'var(--color-warning)';
+                        }
+                    });
+
+                    video.addEventListener('timeupdate', function() {
+                        if (statusEl && !video.ended && video.currentTime > 0) {
+                            const percent = Math.round((video.currentTime / video.duration) * 100);
+                            statusEl.textContent = `▶️ Assistindo... ${percent}%`;
+                            statusEl.style.color = 'var(--text-secondary)';
+                        }
+                    });
+                }
+            }
         }
 
         // ==========================================
