@@ -22,7 +22,7 @@
         "title": "Video_001.mp4",
         "type": "video",
         "description": "Recriação do momento em que Helena recebeu a mensagem sobre a sala 4. A atmosfera é tensa e misteriosa.",
-        "location": "files/Video_001.mp4",
+        "location": "files/video001.mp4",
         "found": false,
         "tags": ["video", "sala4", "sigma", "recriacao"]
     },
@@ -46,20 +46,11 @@
     },
     {
         "id": "ev6",
-        "title": "Audio_001.wav",
-        "type": "audio",
-        "description": "Gravação de uma ligação de Helena para um contato desconhecido. Ela parece estar com medo e menciona 'a sala 4'.",
-        "location": "files/Audio_001.wav",
+        "title": "Video_002.mp4",
+        "type": "video",
+        "description": "Gravação de Helena antes de desaparecer. Ela revela a verdade sobre a Sigma Corp e menciona a sala 4. A atmosfera é tensa e misteriosa.",
+        "location": "files/video002.mp4",
         "found": false,
-        "tags": ["audio", "ligacao", "sala4"]
-    },
-    {
-        "id": "ev7",
-        "title": "Documento_003.pdf",
-        "type": "document",
-        "description": "Contrato de prestação de serviços da Sigma com empresas offshore. Há valores suspeitos.",
-        "location": "files/Documento_003.pdf",
-        "found": false,
-        "tags": ["sigma", "offshore", "contrato"]
+        "tags": ["video", "helena", "sala4", "sigma", "revelacao"]
     }
 ]
