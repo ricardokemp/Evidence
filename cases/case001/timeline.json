@@ -1,64 +1,64 @@
 [
     {
         "id": "t1",
-        "title": "📧 Novo E-mail Recebido",
-        "message": "Um e-mail de Helena foi encontrado na caixa de entrada. Ela menciona a investigação da Sigma.",
+        "title": "📧 O Primeiro E-mail",
+        "message": "Um e-mail de Helena foi encontrado na caixa de entrada.",
         "unlock": "e1",
         "type": "email"
     },
     {
         "id": "t2",
-        "title": "💬 Mensagem Detectada",
-        "message": "Uma conversa suspeita foi identificada no sistema de mensagens. Helena parece estar com medo.",
+        "title": "💬 A Conversa Suspeita",
+        "message": "Uma conversa suspeita foi identificada. Helena parece estar com medo.",
         "unlock": "m1",
         "type": "message"
     },
     {
         "id": "t3",
         "title": "🖼️ Foto Encontrada",
-        "message": "Uma foto foi recuperada do celular de Helena. Use a lupa para encontrar o código escondido na parede do prédio.",
+        "message": "Uma foto foi recuperada. Use a lupa para encontrar o código escondido.",
         "unlock": "ev1",
         "type": "evidence"
     },
     {
         "id": "t4",
-        "title": "📄 Documento Classificado",
-        "message": "Um relatório financeiro da Sigma Corp foi descoberto. Há movimentações suspeitas.",
+        "title": "📄 O Relatório Secreto",
+        "message": "Um relatório financeiro da Sigma Corp foi descoberto.",
         "unlock": "ev2",
         "type": "evidence"
     },
     {
         "id": "t5",
         "title": "🔍 Código Identificado",
-        "message": "O código 4472 foi encontrado na foto! Agora você pode acessar a pasta secreta.",
+        "message": "O código 4472 foi encontrado na foto!",
         "unlock": "ev1",
         "type": "evidence"
     },
     {
         "id": "t6",
-        "title": "🔐 Pasta Secreta Acessada",
-        "message": "O código 4472 abriu uma pasta secreta com novos documentos. Abra a Foto_002.png para acessar.",
+        "title": "🖼️ A Última Foto",
+        "message": "A última foto de Helena foi encontrada na pasta secreta.",
         "unlock": "ev4",
         "type": "evidence"
     },
     {
         "id": "t7",
-        "title": "🎬 Vídeo de Vigilância - Sala 4",
-        "message": "Um vídeo recriando o momento da mensagem sobre a sala 4 foi encontrado. Assista para entender o que aconteceu.",
+        "title": "🎬 Vídeo - Sala 4",
+        "message": "Vídeo recriando o momento da mensagem sobre a sala 4.",
         "unlock": "ev3",
         "type": "evidence"
     },
     {
         "id": "t8",
         "title": "🎬 A Verdade Revelada",
-        "message": "A gravação de Helena foi encontrada! Ela revela a verdade sobre a Sigma Corp. Assista até o final!",
+        "message": "A gravação de Helena foi encontrada! Assista até o final.",
         "unlock": "ev6",
         "type": "evidence"
     },
     {
         "id": "t9",
         "title": "📝 Relatório Final",
-        "message": "Preencha o relatório final para concluir a investigação.",
+        "message": "Conclua a investigação.",
         "unlock": "final",
         "type": "final"
     }
