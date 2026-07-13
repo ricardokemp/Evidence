@@ -492,6 +492,7 @@
             padding: var(--space-2);
             flex: 1;
             flex-direction: column;
+            position: relative;
         }
 
         .window-body .image-container img {
@@ -500,6 +501,7 @@
             border-radius: var(--radius-sm);
             object-fit: contain;
             transition: transform 0.5s ease;
+            cursor: none;
         }
 
         .window-body .video-container {
@@ -870,41 +872,81 @@
             }
         }
 
-        .code-reveal {
-            margin-top: var(--space-3);
-            padding: var(--space-3);
-            background: var(--color-background);
-            border-radius: var(--radius-md);
-            border: 2px solid var(--color-border);
-            text-align: center;
+        /* Lupa animação */
+        @keyframes pulse-glow {
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .magnifier {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border: 3px solid var(--color-primary);
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.3) 100%);
+            backdrop-filter: blur(4px);
+            pointer-events: none;
             display: none;
-            transition: all 0.5s ease;
+            z-index: 10;
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+            transition: all 0.1s ease;
+            cursor: none;
         }
 
-        .code-reveal.show {
-            display: block !important;
-            animation: fadeIn 0.5s ease forwards;
-        }
-
-        .code-reveal .code {
-            font-size: var(--font-xl);
+        .code-glow {
+            position: absolute;
+            top: 60%;
+            left: 30%;
+            width: 60px;
+            height: 30px;
+            background: rgba(34, 197, 94, 0.2);
+            border: 2px solid var(--color-success);
+            border-radius: 8px;
+            display: none;
+            align-items: center;
+            justify-content: center;
             color: var(--color-success);
             font-weight: 700;
-            letter-spacing: 4px;
+            font-size: 18px;
+            letter-spacing: 3px;
+            z-index: 11;
+            box-shadow: 0 0 40px rgba(34, 197, 94, 0.4);
+            animation: pulse-glow 1s ease infinite;
+            font-family: var(--font-mono);
         }
 
-        .code-reveal .hint {
+        .code-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--color-success);
+            color: white;
+            padding: 8px 16px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
             font-size: var(--font-sm);
-            color: var(--text-secondary);
-            margin-top: var(--space-1);
-        }
-
-        .zoom-buttons {
-            margin-top: var(--space-3);
-            display: flex;
-            gap: var(--space-3);
-            flex-wrap: wrap;
-            justify-content: center;
+            z-index: 20;
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.4);
+            animation: fadeIn 0.5s ease forwards;
         }
     </style>
 </head>
@@ -1007,8 +1049,8 @@
         // CONFIGURAÇÕES
         // ==========================================
 
-        const MISSIONS_FILE = '../cases/case001/missions.json?v=5';
-        const TIMELINE_FILE = '../cases/case001/timeline.json?v=5';
+        const MISSIONS_FILE = '../cases/case001/missions.json?v=6';
+        const TIMELINE_FILE = '../cases/case001/timeline.json?v=6';
         const PROCESSING_TIME = 5000;
 
         // ==========================================
@@ -1235,8 +1277,9 @@
                         hint: 'Verifique as evidências.', unlock: 'ev2', required: ['m1', 'm2', 'm3'],
                     completed: false },
                     { id: 'm5', title: '🔍 O Código Escondido', description: 'Encontre o código na foto.',
-                        hint: 'Amplie a imagem.', unlock: 'ev1', required: ['m1', 'm2', 'm3', 'm4'],
-                    completed: false },
+                        hint: 'Use a lupa para revelar o código.', unlock: 'ev1', required: ['m1', 'm2', 'm3',
+                            'm4'
+                        ], completed: false },
                     { id: 'm6', title: '🔐 A Pasta Secreta', description: 'Use o código 4472.',
                         hint: 'Código na foto.', unlock: 'ev4', required: ['m1', 'm2', 'm3', 'm4', 'm5'],
                         completed: false },
@@ -1769,7 +1812,7 @@
         }
 
         // ==========================================
-        // FUNÇÃO: OPEN EVIDENCE COM ZOOM CORRIGIDO
+        // FUNÇÃO: OPEN EVIDENCE COM LUPA INTERATIVA
         // ==========================================
 
         function openEvidence(evidenceId) {
@@ -1804,35 +1847,29 @@
                     <iframe src="${filePath}" style="width:100%; height:600px; border:none; border-radius:var(--radius-sm);"></iframe>
                 `;
             } else if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(fileExtension)) {
-                // Verificar se é a Foto_001.png (evidência 0)
                 const isFoto1 = evidenceId === 0;
 
                 content += `
-                    <div class="image-container" style="width: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                    <div class="image-container" id="imageContainer" style="position: relative;">
                         <img src="${filePath}" alt="${ev.title}" id="evidenceImage" style="
                             max-width: 100%;
                             max-height: 500px;
                             border-radius: var(--radius-sm);
                             object-fit: contain;
                             transition: transform 0.5s ease;
-                            cursor: ${isFoto1 ? 'pointer' : 'default'};
+                            cursor: ${isFoto1 ? 'none' : 'default'};
                         ">
                 `;
 
-                // Se for a Foto_001, adicionar botão de ampliar
+                // Se for a Foto_001, adicionar a lupa
                 if (isFoto1) {
                     content += `
-                        <div class="zoom-buttons">
-                            <button class="btn btn-primary" id="zoomInBtn" style="font-size: var(--font-sm); padding: var(--space-2) var(--space-4);">
-                                🔍 Ampliar Imagem
-                            </button>
-                            <button class="btn btn-secondary" id="zoomOutBtn" style="font-size: var(--font-sm); padding: var(--space-2) var(--space-4); display: none;">
-                                🔄 Reduzir
-                            </button>
-                        </div>
-                        <div class="code-reveal" id="codeReveal">
-                            <p class="code">4 4 7 2</p>
-                            <p class="hint">🔑 Código encontrado! Use-o para acessar a pasta secreta.</p>
+                        <div class="magnifier" id="magnifier"></div>
+                        <div class="code-glow" id="codeGlow">4472</div>
+                        <div style="margin-top: var(--space-3); padding: var(--space-2); background: var(--color-background); border-radius: var(--radius-sm); text-align: center; border: 1px dashed var(--color-border);">
+                            <p style="font-size: var(--font-xs); color: var(--text-muted);">
+                                🔍 <strong>Dica:</strong> Passe o mouse sobre a imagem para usar a lupa e encontrar o código escondido.
+                            </p>
                         </div>
                     `;
                 }
@@ -1913,7 +1950,6 @@
                             statusEl.style.color = 'var(--color-success)';
                         }
 
-                        // Completar a missão correspondente
                         const unlockKey = evidenceId === 2 ? 'ev3' : 'ev6';
                         missionData.forEach(mission => {
                             if (mission.unlock === unlockKey && !completedMissions.has(mission.id)) {
@@ -1941,71 +1977,75 @@
                 }
             } else if (evidenceId === 0) {
                 // ==========================================
-                // ZOOM NA FOTO_001 - MISSÃO 5 (CÓDIGO ESCONDIDO)
+                // LUPA INTERATIVA NA FOTO_001 - MISSÃO 5
                 // ==========================================
 
                 const img = document.getElementById('evidenceImage');
-                const zoomInBtn = document.getElementById('zoomInBtn');
-                const zoomOutBtn = document.getElementById('zoomOutBtn');
-                const codeReveal = document.getElementById('codeReveal');
-                let zoomed = false;
+                const container = document.getElementById('imageContainer');
 
-                // Função para aplicar zoom
-                function applyZoom() {
-                    if (!img) return;
-                    zoomed = !zoomed;
-                    if (zoomed) {
-                        img.style.transform = 'scale(2.5)';
-                        img.style.cursor = 'zoom-out';
-                        img.style.transition = 'transform 0.5s ease';
-                        if (zoomInBtn) zoomInBtn.style.display = 'none';
-                        if (zoomOutBtn) zoomOutBtn.style.display = 'inline-flex';
-                        if (codeReveal) {
-                            codeReveal.classList.add('show');
-                        }
-                        showNotification('🔍 Código Encontrado!', 'O número 4472 está escrito na parede ao fundo da foto.');
-                        // Completar a missão 5
-                        missionData.forEach(mission => {
-                            if (mission.id === 'm5' && !completedMissions.has('m5')) {
-                                if (isMissionAvailable(mission)) {
-                                    completeMission('m5');
-                                }
+                if (img && container) {
+                    const magnifier = document.getElementById('magnifier');
+                    const codeGlow = document.getElementById('codeGlow');
+                    let codeRevealed = false;
+
+                    if (magnifier) {
+                        // Evento: mouse entra na imagem
+                        img.addEventListener('mouseenter', function() {
+                            magnifier.style.display = 'block';
+                            document.body.style.cursor = 'none';
+                        });
+
+                        // Evento: mouse sai da imagem
+                        img.addEventListener('mouseleave', function() {
+                            magnifier.style.display = 'none';
+                            document.body.style.cursor = 'default';
+                        });
+
+                        // Evento: mouse se move na imagem
+                        img.addEventListener('mousemove', function(e) {
+                            const rect = container.getBoundingClientRect();
+                            const x = e.clientX - rect.left - magnifier.offsetWidth / 2;
+                            const y = e.clientY - rect.top - magnifier.offsetHeight / 2;
+
+                            magnifier.style.left = Math.max(0, Math.min(x, rect.width - magnifier.offsetWidth)) +
+                                'px';
+                            magnifier.style.top = Math.max(0, Math.min(y, rect.height - magnifier.offsetHeight)) +
+                                'px';
+                            magnifier.style.display = 'block';
+
+                            // Verificar se a lupa está sobre o código
+                            const relX = (e.clientX - rect.left) / rect.width;
+                            const relY = (e.clientY - rect.top) / rect.height;
+
+                            const codeX = 0.30;
+                            const codeY = 0.60;
+                            const threshold = 0.12;
+
+                            const distance = Math.sqrt(Math.pow(relX - codeX, 2) + Math.pow(relY - codeY, 2));
+
+                            if (distance < threshold && !codeRevealed) {
+                                codeRevealed = true;
+                                if (codeGlow) codeGlow.style.display = 'flex';
+
+                                showNotification('🔍 Código Encontrado!',
+                                    'O número 4472 está escrito na parede ao fundo da foto.');
+
+                                // Criar badge de conclusão
+                                const badge = document.createElement('div');
+                                badge.className = 'code-badge';
+                                badge.textContent = '✅ Código Encontrado!';
+                                container.appendChild(badge);
+
+                                missionData.forEach(mission => {
+                                    if (mission.id === 'm5' && !completedMissions.has('m5')) {
+                                        if (isMissionAvailable(mission)) {
+                                            completeMission('m5');
+                                        }
+                                    }
+                                });
                             }
                         });
-                    } else {
-                        img.style.transform = 'scale(1)';
-                        img.style.cursor = 'default';
-                        if (zoomInBtn) zoomInBtn.style.display = 'inline-flex';
-                        if (zoomOutBtn) zoomOutBtn.style.display = 'none';
                     }
-                }
-
-                // Evento: clique no botão de zoom
-                if (zoomInBtn) {
-                    zoomInBtn.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        applyZoom();
-                    });
-                }
-
-                // Evento: clique na imagem (toggle zoom)
-                if (img) {
-                    img.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        applyZoom();
-                    });
-                    img.style.cursor = 'pointer';
-                }
-
-                // Evento: clique no botão de reduzir
-                if (zoomOutBtn) {
-                    zoomOutBtn.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        if (img) {
-                            zoomed = true; // inverte o estado
-                            applyZoom();
-                        }
-                    });
                 }
             } else {
                 // Para outras evidências, completar a missão imediatamente
