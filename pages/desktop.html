@@ -491,15 +491,15 @@
             justify-content: center;
             padding: var(--space-2);
             flex: 1;
+            flex-direction: column;
         }
 
         .window-body .image-container img {
             max-width: 100%;
-            max-height: 75vh;
-            width: auto;
-            height: auto;
-            object-fit: contain;
+            max-height: 500px;
             border-radius: var(--radius-sm);
+            object-fit: contain;
+            transition: transform 0.5s ease;
         }
 
         .window-body .video-container {
@@ -869,6 +869,43 @@
                 opacity: 0;
             }
         }
+
+        .code-reveal {
+            margin-top: var(--space-3);
+            padding: var(--space-3);
+            background: var(--color-background);
+            border-radius: var(--radius-md);
+            border: 2px solid var(--color-border);
+            text-align: center;
+            display: none;
+            transition: all 0.5s ease;
+        }
+
+        .code-reveal.show {
+            display: block !important;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .code-reveal .code {
+            font-size: var(--font-xl);
+            color: var(--color-success);
+            font-weight: 700;
+            letter-spacing: 4px;
+        }
+
+        .code-reveal .hint {
+            font-size: var(--font-sm);
+            color: var(--text-secondary);
+            margin-top: var(--space-1);
+        }
+
+        .zoom-buttons {
+            margin-top: var(--space-3);
+            display: flex;
+            gap: var(--space-3);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
     </style>
 </head>
 
@@ -970,8 +1007,8 @@
         // CONFIGURAÇÕES
         // ==========================================
 
-        const MISSIONS_FILE = '../cases/case001/missions.json?v=3';
-        const TIMELINE_FILE = '../cases/case001/timeline.json?v=3';
+        const MISSIONS_FILE = '../cases/case001/missions.json?v=5';
+        const TIMELINE_FILE = '../cases/case001/timeline.json?v=5';
         const PROCESSING_TIME = 5000;
 
         // ==========================================
@@ -1172,7 +1209,7 @@
         }
 
         // ==========================================
-        // SISTEMA DE MISSÕES (COM TIMESTAMP)
+        // SISTEMA DE MISSÕES
         // ==========================================
 
         async function loadMissions() {
@@ -1204,7 +1241,7 @@
                         hint: 'Código na foto.', unlock: 'ev4', required: ['m1', 'm2', 'm3', 'm4', 'm5'],
                         completed: false },
                     { id: 'm7', title: '🎬 A Verdade Revelada', description: 'Assista ao vídeo.',
-                        hint: 'Verifique as evidências.', unlock: 'ev3', required: ['m1', 'm2', 'm3', 'm4',
+                        hint: 'Verifique as evidências.', unlock: 'ev6', required: ['m1', 'm2', 'm3', 'm4',
                             'm5', 'm6'
                         ], completed: false },
                     { id: 'm8', title: '📝 Relatório Final', description: 'Preencha o relatório.',
@@ -1282,7 +1319,7 @@
         }
 
         // ==========================================
-        // CARREGAR TIMELINE (COM TIMESTAMP)
+        // CARREGAR TIMELINE
         // ==========================================
 
         async function loadTimeline() {
@@ -1312,7 +1349,7 @@
                     { id: 't6', title: '🔐 Pasta Secreta', message: 'Pasta com novos documentos.',
                         unlock: 'ev4', type: 'evidence' },
                     { id: 't7', title: '🎬 Vídeo de Vigilância',
-                        message: 'Vídeo sobre a sala 4 encontrado.', unlock: 'ev3', type: 'evidence' },
+                        message: 'Vídeo sobre a sala 4 encontrado.', unlock: 'ev6', type: 'evidence' },
                     { id: 't8', title: '📝 Relatório Final', message: 'Conclua a investigação.',
                         unlock: 'final', type: 'final' }
                 ];
@@ -1486,7 +1523,7 @@
             const isDoc1Revealed = revealedItems.has('t4');
             const isDoc2Revealed = revealedItems.has('t6');
             const isVideoRevealed = revealedItems.has('t7');
-            const isAudioRevealed = revealedItems.has('t6');
+            const isVideo2Revealed = revealedItems.has('t7');
 
             let folderContent = {};
 
@@ -1584,9 +1621,9 @@
                 hasCaseItems = true;
             }
 
-            if (isAudioRevealed) {
+            if (isVideo2Revealed) {
                 case001HTML +=
-                    `<div class="file-item" data-evidence="5"><span class="icon">🔊</span><span class="name">Audio_001.wav</span><span class="size">áudio</span></div>`;
+                    `<div class="file-item" data-evidence="5"><span class="icon">🎬</span><span class="name">Video_002.mp4</span><span class="size">vídeo</span></div>`;
                 hasCaseItems = true;
             }
 
@@ -1732,7 +1769,7 @@
         }
 
         // ==========================================
-        // FUNÇÃO: OPEN EVIDENCE (CORRIGIDA)
+        // FUNÇÃO: OPEN EVIDENCE COM ZOOM CORRIGIDO
         // ==========================================
 
         function openEvidence(evidenceId) {
@@ -1767,13 +1804,44 @@
                     <iframe src="${filePath}" style="width:100%; height:600px; border:none; border-radius:var(--radius-sm);"></iframe>
                 `;
             } else if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(fileExtension)) {
+                // Verificar se é a Foto_001.png (evidência 0)
+                const isFoto1 = evidenceId === 0;
+
                 content += `
-                    <div class="image-container">
-                        <img src="${filePath}" alt="${ev.title}">
+                    <div class="image-container" style="width: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                        <img src="${filePath}" alt="${ev.title}" id="evidenceImage" style="
+                            max-width: 100%;
+                            max-height: 500px;
+                            border-radius: var(--radius-sm);
+                            object-fit: contain;
+                            transition: transform 0.5s ease;
+                            cursor: ${isFoto1 ? 'pointer' : 'default'};
+                        ">
+                `;
+
+                // Se for a Foto_001, adicionar botão de ampliar
+                if (isFoto1) {
+                    content += `
+                        <div class="zoom-buttons">
+                            <button class="btn btn-primary" id="zoomInBtn" style="font-size: var(--font-sm); padding: var(--space-2) var(--space-4);">
+                                🔍 Ampliar Imagem
+                            </button>
+                            <button class="btn btn-secondary" id="zoomOutBtn" style="font-size: var(--font-sm); padding: var(--space-2) var(--space-4); display: none;">
+                                🔄 Reduzir
+                            </button>
+                        </div>
+                        <div class="code-reveal" id="codeReveal">
+                            <p class="code">4 4 7 2</p>
+                            <p class="hint">🔑 Código encontrado! Use-o para acessar a pasta secreta.</p>
+                        </div>
+                    `;
+                }
+
+                content += `
                     </div>
                 `;
             } else if (['mp4', 'webm', 'mov', 'avi'].includes(fileExtension)) {
-                const isCaseVideo = evidenceId === 2;
+                const isCaseVideo = evidenceId === 2 || evidenceId === 5;
 
                 content += `
                     <div class="video-container">
@@ -1826,8 +1894,8 @@
 
             const evKey = 'ev' + (parseInt(evidenceId) + 1);
 
-            // Se for o vídeo (ev3), só completar quando terminar
-            if (evidenceId === 2) {
+            // Se for vídeo (ev3 ou ev6), só completar quando terminar
+            if (evidenceId === 2 || evidenceId === 5) {
                 const video = document.getElementById('caseVideo');
                 if (video) {
                     const statusEl = document.getElementById('videoStatus');
@@ -1845,8 +1913,10 @@
                             statusEl.style.color = 'var(--color-success)';
                         }
 
+                        // Completar a missão correspondente
+                        const unlockKey = evidenceId === 2 ? 'ev3' : 'ev6';
                         missionData.forEach(mission => {
-                            if (mission.unlock === 'ev3' && !completedMissions.has(mission.id)) {
+                            if (mission.unlock === unlockKey && !completedMissions.has(mission.id)) {
                                 if (isMissionAvailable(mission)) {
                                     completeMission(mission.id);
                                 }
@@ -1869,8 +1939,76 @@
                         }
                     });
                 }
+            } else if (evidenceId === 0) {
+                // ==========================================
+                // ZOOM NA FOTO_001 - MISSÃO 5 (CÓDIGO ESCONDIDO)
+                // ==========================================
+
+                const img = document.getElementById('evidenceImage');
+                const zoomInBtn = document.getElementById('zoomInBtn');
+                const zoomOutBtn = document.getElementById('zoomOutBtn');
+                const codeReveal = document.getElementById('codeReveal');
+                let zoomed = false;
+
+                // Função para aplicar zoom
+                function applyZoom() {
+                    if (!img) return;
+                    zoomed = !zoomed;
+                    if (zoomed) {
+                        img.style.transform = 'scale(2.5)';
+                        img.style.cursor = 'zoom-out';
+                        img.style.transition = 'transform 0.5s ease';
+                        if (zoomInBtn) zoomInBtn.style.display = 'none';
+                        if (zoomOutBtn) zoomOutBtn.style.display = 'inline-flex';
+                        if (codeReveal) {
+                            codeReveal.classList.add('show');
+                        }
+                        showNotification('🔍 Código Encontrado!', 'O número 4472 está escrito na parede ao fundo da foto.');
+                        // Completar a missão 5
+                        missionData.forEach(mission => {
+                            if (mission.id === 'm5' && !completedMissions.has('m5')) {
+                                if (isMissionAvailable(mission)) {
+                                    completeMission('m5');
+                                }
+                            }
+                        });
+                    } else {
+                        img.style.transform = 'scale(1)';
+                        img.style.cursor = 'default';
+                        if (zoomInBtn) zoomInBtn.style.display = 'inline-flex';
+                        if (zoomOutBtn) zoomOutBtn.style.display = 'none';
+                    }
+                }
+
+                // Evento: clique no botão de zoom
+                if (zoomInBtn) {
+                    zoomInBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        applyZoom();
+                    });
+                }
+
+                // Evento: clique na imagem (toggle zoom)
+                if (img) {
+                    img.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        applyZoom();
+                    });
+                    img.style.cursor = 'pointer';
+                }
+
+                // Evento: clique no botão de reduzir
+                if (zoomOutBtn) {
+                    zoomOutBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        if (img) {
+                            zoomed = true; // inverte o estado
+                            applyZoom();
+                        }
+                    });
+                }
             } else {
-                // Para outras evidências (imagens, PDFs, etc.), completar a missão imediatamente
+                // Para outras evidências, completar a missão imediatamente
                 missionData.forEach(mission => {
                     if (mission.unlock === evKey && !completedMissions.has(mission.id)) {
                         if (isMissionAvailable(mission)) {
@@ -1887,10 +2025,11 @@
 
         async function loadCase() {
             try {
+                const timestamp = Date.now();
                 const [emailsRes, messagesRes, evidenceRes] = await Promise.all([
                     fetch('../cases/case001/emails.json'),
                     fetch('../cases/case001/messages.json'),
-                    fetch('../cases/case001/evidence.json')
+                    fetch(`../cases/case001/evidence.json?t=${timestamp}`)
                 ]);
 
                 if (!emailsRes.ok || !messagesRes.ok || !evidenceRes.ok) throw new Error('Erro ao carregar');
@@ -2003,7 +2142,7 @@
             emailContent[0] = { from: 'sistema@evidence.com', subject: 'Bem-vindo', date: 'Agora', body: '<p>Bem-vindo!</p>' };
             chatContent[0] = { contact: 'Helena Duarte', messages: [{ from: 'Helena', text: 'Olá!' }] };
 
-            ['Foto_001.png', 'Documento_001.pdf', 'video001.mp4', 'Foto_002.png', 'Documento_002.pdf', 'Audio_001.wav']
+            ['Foto_001.png', 'Documento_001.pdf', 'video001.mp4', 'Foto_002.png', 'Documento_002.pdf', 'video002.mp4']
                 .forEach((name, i) => {
                     evidenceContent[i] = {
                         title: name,
@@ -2027,7 +2166,7 @@
             appContent.evidence.body = `
                 <h3>Evidências</h3>
                 <div class="file-list">
-                    ${['🖼️ Foto_001.png', '📄 Documento_001.pdf', '🎬 video001.mp4', '🖼️ Foto_002.png', '📄 Documento_002.pdf', '🔊 Audio_001.wav'].map((item, i) =>
+                    ${['🖼️ Foto_001.png', '📄 Documento_001.pdf', '🎬 video001.mp4', '🖼️ Foto_002.png', '📄 Documento_002.pdf', '🎬 video002.mp4'].map((item, i) =>
                         `<div class="file-item" data-evidence="${i}"><span class="icon">${item.split(' ')[0]}</span><span class="name">${item.split(' ')[1]}</span><span class="size">arquivo</span></div>`
                     ).join('')}
                 </div>
