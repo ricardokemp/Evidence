@@ -1589,7 +1589,7 @@
         }
 
         // ==========================================
-        // FUNÇÃO: OPEN FOLDER (COM ITENS DINÂMICOS)
+        // FUNÇÃO: OPEN FOLDER (COM ITENS OCULTOS - NÃO DESCOBERTOS NÃO APARECEM)
         // ==========================================
 
         function openFolder(folderId) {
@@ -1605,12 +1605,14 @@
             let folderContent = {};
 
             // ==========================================
-            // PASTA: Documentos
+            // PASTA: Documentos (mostra apenas itens descobertos)
             // ==========================================
             let documentsHTML = `
                 <h3>Documentos</h3>
                 <div class="file-list">
             `;
+
+            let hasDocuments = false;
 
             if (isDoc1Revealed) {
                 documentsHTML += `
@@ -1620,14 +1622,7 @@
                         <span class="size">PDF</span>
                     </div>
                 `;
-            } else {
-                documentsHTML += `
-                    <div class="file-item locked-item" style="opacity:0.3; cursor:not-allowed;">
-                        <span class="icon">🔒</span>
-                        <span class="name">Documento bloqueado</span>
-                        <span class="size">Aguardando descoberta</span>
-                    </div>
-                `;
+                hasDocuments = true;
             }
 
             if (isDoc2Revealed) {
@@ -1638,12 +1633,16 @@
                         <span class="size">PDF</span>
                     </div>
                 `;
-            } else {
+                hasDocuments = true;
+            }
+
+            // Se nenhum documento foi descoberto, mostrar mensagem vazia
+            if (!hasDocuments) {
                 documentsHTML += `
-                    <div class="file-item locked-item" style="opacity:0.3; cursor:not-allowed;">
-                        <span class="icon">🔒</span>
-                        <span class="name">Documento bloqueado</span>
-                        <span class="size">Aguardando descoberta</span>
+                    <div style="padding: var(--space-4); text-align: center; color: var(--text-muted);">
+                        <p style="font-size: 32px; margin-bottom: var(--space-2);">📭</p>
+                        <p>Nenhum documento encontrado ainda.</p>
+                        <p style="font-size: var(--font-xs);">Continue investigando para descobrir novos arquivos.</p>
                     </div>
                 `;
             }
@@ -1656,12 +1655,14 @@
             folderContent.documents = documentsHTML;
 
             // ==========================================
-            // PASTA: Fotos
+            // PASTA: Fotos (mostra apenas itens descobertos)
             // ==========================================
             let photosHTML = `
                 <h3>Fotos</h3>
                 <div class="file-list">
             `;
+
+            let hasPhotos = false;
 
             if (isFoto1Revealed) {
                 photosHTML += `
@@ -1671,14 +1672,7 @@
                         <span class="size">imagem</span>
                     </div>
                 `;
-            } else {
-                photosHTML += `
-                    <div class="file-item locked-item" style="opacity:0.3; cursor:not-allowed;">
-                        <span class="icon">🔒</span>
-                        <span class="name">Foto bloqueada</span>
-                        <span class="size">Aguardando descoberta</span>
-                    </div>
-                `;
+                hasPhotos = true;
             }
 
             if (isFoto2Revealed) {
@@ -1689,12 +1683,15 @@
                         <span class="size">imagem</span>
                     </div>
                 `;
-            } else {
+                hasPhotos = true;
+            }
+
+            if (!hasPhotos) {
                 photosHTML += `
-                    <div class="file-item locked-item" style="opacity:0.3; cursor:not-allowed;">
-                        <span class="icon">🔒</span>
-                        <span class="name">Foto bloqueada</span>
-                        <span class="size">Aguardando descoberta</span>
+                    <div style="padding: var(--space-4); text-align: center; color: var(--text-muted);">
+                        <p style="font-size: 32px; margin-bottom: var(--space-2);">📭</p>
+                        <p>Nenhuma foto encontrada ainda.</p>
+                        <p style="font-size: var(--font-xs);">Continue investigando para descobrir novas imagens.</p>
                     </div>
                 `;
             }
@@ -1707,12 +1704,14 @@
             folderContent.photos = photosHTML;
 
             // ==========================================
-            // PASTA: Caso_001
+            // PASTA: Caso_001 (mostra apenas itens descobertos)
             // ==========================================
             let case001HTML = `
                 <h3>Caso #001 - Desaparecimento</h3>
                 <div class="file-list">
             `;
+
+            let hasCaseItems = false;
 
             if (isFoto1Revealed) {
                 case001HTML += `
@@ -1722,14 +1721,7 @@
                         <span class="size">imagem</span>
                     </div>
                 `;
-            } else {
-                case001HTML += `
-                    <div class="file-item locked-item" style="opacity:0.3; cursor:not-allowed;">
-                        <span class="icon">🔒</span>
-                        <span class="name">Arquivo bloqueado</span>
-                        <span class="size">Aguardando descoberta</span>
-                    </div>
-                `;
+                hasCaseItems = true;
             }
 
             if (isDoc1Revealed) {
@@ -1740,14 +1732,7 @@
                         <span class="size">PDF</span>
                     </div>
                 `;
-            } else {
-                case001HTML += `
-                    <div class="file-item locked-item" style="opacity:0.3; cursor:not-allowed;">
-                        <span class="icon">🔒</span>
-                        <span class="name">Arquivo bloqueado</span>
-                        <span class="size">Aguardando descoberta</span>
-                    </div>
-                `;
+                hasCaseItems = true;
             }
 
             if (isDoc2Revealed) {
@@ -1758,14 +1743,7 @@
                         <span class="size">PDF</span>
                     </div>
                 `;
-            } else {
-                case001HTML += `
-                    <div class="file-item locked-item" style="opacity:0.3; cursor:not-allowed;">
-                        <span class="icon">🔒</span>
-                        <span class="name">Arquivo bloqueado</span>
-                        <span class="size">Aguardando descoberta</span>
-                    </div>
-                `;
+                hasCaseItems = true;
             }
 
             if (isVideoRevealed) {
@@ -1776,14 +1754,7 @@
                         <span class="size">vídeo</span>
                     </div>
                 `;
-            } else {
-                case001HTML += `
-                    <div class="file-item locked-item" style="opacity:0.3; cursor:not-allowed;">
-                        <span class="icon">🔒</span>
-                        <span class="name">Arquivo bloqueado</span>
-                        <span class="size">Aguardando descoberta</span>
-                    </div>
-                `;
+                hasCaseItems = true;
             }
 
             if (isFoto2Revealed) {
@@ -1794,12 +1765,15 @@
                         <span class="size">imagem</span>
                     </div>
                 `;
-            } else {
+                hasCaseItems = true;
+            }
+
+            if (!hasCaseItems) {
                 case001HTML += `
-                    <div class="file-item locked-item" style="opacity:0.3; cursor:not-allowed;">
-                        <span class="icon">🔒</span>
-                        <span class="name">Arquivo bloqueado</span>
-                        <span class="size">Aguardando descoberta</span>
+                    <div style="padding: var(--space-4); text-align: center; color: var(--text-muted);">
+                        <p style="font-size: 32px; margin-bottom: var(--space-2);">📭</p>
+                        <p>Nenhum arquivo do caso encontrado ainda.</p>
+                        <p style="font-size: var(--font-xs);">Continue investigando para descobrir novas pistas.</p>
                     </div>
                 `;
             }
@@ -1836,17 +1810,17 @@
                         <div class="file-item" data-folder="documents">
                             <span class="icon">📂</span>
                             <span class="name">Documentos</span>
-                            <span class="size">itens variáveis</span>
+                            <span class="size">arquivos variáveis</span>
                         </div>
                         <div class="file-item" data-folder="photos">
                             <span class="icon">📂</span>
                             <span class="name">Fotos</span>
-                            <span class="size">itens variáveis</span>
+                            <span class="size">arquivos variáveis</span>
                         </div>
                         <div class="file-item" data-folder="case001">
                             <span class="icon">📂</span>
                             <span class="name">Caso_001</span>
-                            <span class="size">itens variáveis</span>
+                            <span class="size">arquivos variáveis</span>
                         </div>
                     </div>
                 `
@@ -1901,13 +1875,8 @@
 
             const emailKey = 'e' + (parseInt(emailId) + 1);
 
-            missionData.forEach(mission => {
-                if (mission.unlock === emailKey && !completedMissions.has(mission.id)) {
-                    if (isMissionAvailable(mission)) {
-                        completeMission(mission.id);
-                    }
-                }
-            });
+            // NÃO completar missão automaticamente ao abrir e-mail
+            // A missão é completada apenas quando o jogador interage com o conteúdo
 
             windowTitle.textContent = '📧 ' + email.subject;
             windowBody.innerHTML = `
@@ -1916,6 +1885,15 @@
                 <button class="btn-secondary" style="margin-top:var(--space-4);" onclick="closeWindow()">Fechar</button>
             `;
             windowEl.classList.add('open');
+
+            // Completar a missão correspondente APÓS abrir o e-mail
+            missionData.forEach(mission => {
+                if (mission.unlock === emailKey && !completedMissions.has(mission.id)) {
+                    if (isMissionAvailable(mission)) {
+                        completeMission(mission.id);
+                    }
+                }
+            });
         }
 
         function openChat(chatId) {
@@ -1923,14 +1901,6 @@
             if (!chat) return;
 
             const chatKey = 'm' + (parseInt(chatId) + 1);
-
-            missionData.forEach(mission => {
-                if (mission.unlock === chatKey && !completedMissions.has(mission.id)) {
-                    if (isMissionAvailable(mission)) {
-                        completeMission(mission.id);
-                    }
-                }
-            });
 
             windowTitle.textContent = '💬 ' + chat.contact;
             let html = `<h3>Conversa com ${chat.contact}</h3>`;
@@ -1940,13 +1910,20 @@
             html += `<button class="btn-secondary" style="margin-top:var(--space-4);" onclick="closeWindow()">Fechar</button>`;
             windowBody.innerHTML = html;
             windowEl.classList.add('open');
+
+            // Completar a missão correspondente APÓS abrir a conversa
+            missionData.forEach(mission => {
+                if (mission.unlock === chatKey && !completedMissions.has(mission.id)) {
+                    if (isMissionAvailable(mission)) {
+                        completeMission(mission.id);
+                    }
+                }
+            });
         }
 
         function openEvidence(evidenceId) {
             const ev = evidenceContent[evidenceId];
             if (!ev) return;
-
-            const evKey = 'ev' + (parseInt(evidenceId) + 1);
 
             const filePath = `../cases/case001/${ev.location}`;
             const fileExtension = ev.title.split('.').pop().toLowerCase();
@@ -1995,7 +1972,7 @@
                     </div>
                 `;
 
-                // Se for o vídeo do caso, adicionar evento de conclusão
+                // Se for o vídeo do caso, adicionar o aviso
                 if (isCaseVideo) {
                     content += `
                         <div style="margin-top: var(--space-3); padding: var(--space-3); background: var(--color-background); border-radius: var(--radius-sm); border-left: 3px solid var(--color-warning);">
@@ -2031,7 +2008,7 @@
             windowBody.innerHTML = content;
             windowEl.classList.add('open');
 
-            // Se for o vídeo do caso, adicionar evento de conclusão
+            // Se for o vídeo do caso, adicionar evento de conclusão (SEM completar automaticamente)
             if (evidenceId === 2) {
                 const video = document.getElementById('caseVideo');
                 if (video) {
@@ -2050,7 +2027,7 @@
                             statusEl.style.color = 'var(--color-success)';
                         }
 
-                        // Completar a missão 5 (ev3)
+                        // Completar a missão 5 (ev3) APENAS quando o vídeo terminar
                         const evKey = 'ev3';
                         missionData.forEach(mission => {
                             if (mission.unlock === evKey && !completedMissions.has(mission.id)) {
@@ -2073,6 +2050,19 @@
                             const percent = Math.round((video.currentTime / video.duration) * 100);
                             statusEl.textContent = `▶️ Assistindo... ${percent}%`;
                             statusEl.style.color = 'var(--text-secondary)';
+                        }
+                    });
+                }
+            } else {
+                // Para outras evidências (não vídeo), completar a missão após abrir
+                const evKey = 'ev' + (parseInt(evidenceId) + 1);
+                // Não completar a missão ev3 aqui (será completada pelo evento 'ended' do vídeo)
+                if (evKey !== 'ev3') {
+                    missionData.forEach(mission => {
+                        if (mission.unlock === evKey && !completedMissions.has(mission.id)) {
+                            if (isMissionAvailable(mission)) {
+                                completeMission(mission.id);
+                            }
                         }
                     });
                 }
@@ -2109,44 +2099,83 @@
             caseData.emails.forEach((email, i) => {
                 const isRevealed = timelineData.some(t => t.unlock === ('e' + (i + 1)) && revealedItems.has(t.id));
                 const isLocked = !isRevealed && i > 0;
-                emailList += `
-                    <div class="file-item ${isLocked ? 'locked-item' : ''}" data-email="${i}" ${isLocked ? 'style="cursor:not-allowed;"' : ''}>
-                        <span class="icon">📩</span>
-                        <span class="name">${isLocked ? '🔒 ' : ''}${email.subject}</span>
-                        <span class="size">${isLocked ? 'Bloqueado' : email.date}</span>
+                // Não mostrar itens bloqueados - apenas ocultar
+                if (!isLocked) {
+                    emailList += `
+                        <div class="file-item" data-email="${i}">
+                            <span class="icon">📩</span>
+                            <span class="name">${email.subject}</span>
+                            <span class="size">${email.date}</span>
+                        </div>
+                    `;
+                }
+            });
+
+            // Se não houver e-mails, mostrar mensagem
+            if (!emailList) {
+                emailList = `
+                    <div style="padding: var(--space-4); text-align: center; color: var(--text-muted);">
+                        <p style="font-size: 32px; margin-bottom: var(--space-2);">📭</p>
+                        <p>Nenhum e-mail encontrado ainda.</p>
+                        <p style="font-size: var(--font-xs);">Continue investigando para descobrir novas mensagens.</p>
                     </div>
                 `;
-            });
+            }
             appContent.mail.body = `<h3>Caixa de Entrada - Caso #001</h3><div class="file-list">${emailList}</div>`;
 
             let messageList = '';
             caseData.messages.forEach((chat, i) => {
                 const isRevealed = timelineData.some(t => t.unlock === ('m' + (i + 1)) && revealedItems.has(t.id));
                 const isLocked = !isRevealed && i > 0;
-                messageList += `
-                    <div class="file-item ${isLocked ? 'locked-item' : ''}" data-chat="${i}" ${isLocked ? 'style="cursor:not-allowed;"' : ''}>
-                        <span class="icon">👤</span>
-                        <span class="name">${isLocked ? '🔒 ' : ''}${chat.contact}</span>
-                        <span class="size">${isLocked ? 'Bloqueado' : chat.messages.length + ' mensagens'}</span>
+                if (!isLocked) {
+                    messageList += `
+                        <div class="file-item" data-chat="${i}">
+                            <span class="icon">👤</span>
+                            <span class="name">${chat.contact}</span>
+                            <span class="size">${chat.messages.length} mensagens</span>
+                        </div>
+                    `;
+                }
+            });
+
+            if (!messageList) {
+                messageList = `
+                    <div style="padding: var(--space-4); text-align: center; color: var(--text-muted);">
+                        <p style="font-size: 32px; margin-bottom: var(--space-2);">💬</p>
+                        <p>Nenhuma conversa encontrada ainda.</p>
+                        <p style="font-size: var(--font-xs);">Continue investigando para descobrir novas mensagens.</p>
                     </div>
                 `;
-            });
+            }
             appContent.messages.body = `<h3>Conversas</h3><div class="file-list">${messageList}</div>`;
 
             let evidenceList = '';
             caseData.evidence.forEach((item, i) => {
                 const icon = item.type === 'image' ? '🖼️' : item.type === 'video' ? '🎬' : '📄';
                 const isRevealed = timelineData.some(t => t.unlock === ('ev' + (i + 1)) && revealedItems.has(t.id));
-                const isCompleted = completedMissions.has('ev' + (i + 1));
                 const isLocked = !isRevealed && i > 0;
-                evidenceList += `
-                    <div class="file-item ${isLocked ? 'locked-item' : ''}" data-evidence="${i}" ${isLocked ? 'style="cursor:not-allowed;"' : ''}>
-                        <span class="icon">${icon}</span>
-                        <span class="name">${isLocked ? '🔒 ' : ''}${item.title}</span>
-                        <span class="size">${isLocked ? 'Bloqueado' : isCompleted ? '✅' : item.type}</span>
+                // Para o vídeo (ev3), só mostrar se já foi revelado
+                if (!isLocked && isRevealed) {
+                    const isCompleted = completedMissions.has('ev' + (i + 1));
+                    evidenceList += `
+                        <div class="file-item" data-evidence="${i}">
+                            <span class="icon">${icon}</span>
+                            <span class="name">${item.title}</span>
+                            <span class="size">${isCompleted ? '✅' : item.type}</span>
+                        </div>
+                    `;
+                }
+            });
+
+            if (!evidenceList) {
+                evidenceList = `
+                    <div style="padding: var(--space-4); text-align: center; color: var(--text-muted);">
+                        <p style="font-size: 32px; margin-bottom: var(--space-2);">🔍</p>
+                        <p>Nenhuma evidência encontrada ainda.</p>
+                        <p style="font-size: var(--font-xs);">Continue investigando para descobrir novas pistas.</p>
                     </div>
                 `;
-            });
+            }
             appContent.evidence.body = `<h3>Evidências do Caso #001</h3><div class="file-list">${evidenceList}</div>`;
 
             caseData.emails.forEach((email, i) => {
@@ -2202,6 +2231,7 @@
             const target = e.target.closest('.file-item');
             if (!target) return;
 
+            // Verificar se o item está bloqueado (não deve acontecer pois itens bloqueados não são mostrados)
             if (target.classList.contains('locked-item')) {
                 showNotification('🔒', 'Esta pista ainda não está disponível.');
                 return;
