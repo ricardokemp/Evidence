@@ -1034,7 +1034,7 @@
         <span class="label">📊 Progresso</span>
         <span class="count">
             <span id="progressCount">0</span>
-            <span class="total">/ <span id="totalCount">8</span></span>
+            <span class="total">/ <span id="totalCount">9</span></span>
         </span>
     </div>
 
@@ -1116,7 +1116,7 @@
         // CONFIGURAÇÕES
         // ==========================================
 
-        const TIMELINE_FILE = '../cases/case001/timeline.json?v=16';
+        const TIMELINE_FILE = '../cases/case001/timeline.json?v=17';
         const PROCESSING_TIME = 5000;
 
         // ==========================================
@@ -1272,8 +1272,8 @@
                 return;
             }
 
-            // Não revelar automaticamente após os vídeos (m6 e m7)
-            if (missionId !== 'm7') {
+            // Não revelar automaticamente após os vídeos
+            if (missionId !== 'm6' && missionId !== 'm7') {
                 showProcessingOverlay('🔍 Analisando evidências...', 'Aguarde enquanto o sistema processa os dados.');
                 setTimeout(() => {
                     hideProcessingOverlay();
@@ -1935,7 +1935,7 @@
         }
 
         // ==========================================
-        // FUNÇÃO: OPEN EVIDENCE COMPLETA
+        // FUNÇÃO: OPEN EVIDENCE COMPLETA E CORRIGIDA
         // ==========================================
 
         function openEvidence(evidenceId) {
@@ -2073,18 +2073,41 @@
                 if (video) {
                     if (video.ended) {
                         console.log('✅ Vídeo já estava no final!');
+
+                        // FORÇAR CONCLUSÃO DA MISSÃO 7
                         missionData.forEach(mission => {
                             if (mission.id === 'm7' && !completedMissions.has('m7')) {
                                 if (isMissionAvailable(mission)) {
                                     completeMission('m7');
                                     console.log('✅ Missão 7 completada (vídeo já estava no final)!');
+                                    renderMissions();
+                                    updateProgress();
+                                    const allCompleted = missionData.every(m => completedMissions.has(m
+                                    .id));
+                                    if (allCompleted && !caseComplete) {
+                                        caseComplete = true;
+                                        setTimeout(() => {
+                                            showEpicConclusion();
+                                        }, 800);
+                                    }
                                 }
                             }
                         });
+
                         if (statusEl) {
                             statusEl.textContent = '✅ Vídeo já assistido!';
                             statusEl.style.color = 'var(--color-success)';
                         }
+
+                        // Forçar revelação do relatório final (t9)
+                        setTimeout(() => {
+                            const t9Index = timelineData.findIndex(item => item.id === 't9');
+                            if (t9Index !== -1 && !revealedItems.has('t9')) {
+                                revealItem(t9Index);
+                                currentRevealIndex = t9Index + 1;
+                                console.log('🔄 Relatório Final foi desbloqueado!');
+                            }
+                        }, 500);
                         return;
                     }
 
@@ -2101,8 +2124,9 @@
                             statusEl.style.color = 'var(--color-success)';
                         }
 
-                        console.log('🎬 Vídeo 002 terminou! Completando Missão 7...');
+                        console.log('🎬 Video_002 terminou! Completando Missão 7...');
 
+                        // FORÇAR CONCLUSÃO DA MISSÃO 7
                         missionData.forEach(mission => {
                             if (mission.id === 'm7' && !completedMissions.has('m7')) {
                                 if (isMissionAvailable(mission)) {
@@ -2112,6 +2136,25 @@
                                 }
                             }
                         });
+
+                        // Forçar revelação do relatório final (t9)
+                        setTimeout(() => {
+                            const t9Index = timelineData.findIndex(item => item.id === 't9');
+                            if (t9Index !== -1 && !revealedItems.has('t9')) {
+                                revealItem(t9Index);
+                                currentRevealIndex = t9Index + 1;
+                                console.log('🔄 Relatório Final foi desbloqueado!');
+                            }
+
+                            // Verificar se todas as missões foram concluídas
+                            const allCompleted = missionData.every(m => completedMissions.has(m.id));
+                            if (allCompleted && !caseComplete) {
+                                caseComplete = true;
+                                setTimeout(() => {
+                                    showEpicConclusion();
+                                }, 800);
+                            }
+                        }, 500);
                     });
 
                     video.addEventListener('pause', function() {
@@ -2333,14 +2376,12 @@
                     if (m6Completed || completedMissions.has('m6')) {
                         setTimeout(() => {
                             console.log('🔄 Forçando revelação do vídeo...');
-                            // Procurar o t7 e revelar
                             const t7Index = timelineData.findIndex(item => item.id === 't7');
                             if (t7Index !== -1 && !revealedItems.has('t7')) {
                                 revealItem(t7Index);
                                 currentRevealIndex = t7Index + 1;
                                 console.log('🔄 Video_001.mp4 foi desbloqueado!');
                             } else {
-                                // Se t7 já foi revelado, tentar revelar o próximo
                                 if (currentRevealIndex < timelineData.length) {
                                     revealNextItem();
                                 }
