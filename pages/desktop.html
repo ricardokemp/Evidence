@@ -39,10 +39,6 @@
             overflow-y: auto;
         }
 
-        /* ==========================================
-           PROGRESS BAR - TOPO DIREITO
-           ========================================== */
-
         .progress-container {
             position: fixed;
             top: var(--space-4);
@@ -77,10 +73,6 @@
             color: var(--text-muted);
             font-weight: 400;
         }
-
-        /* ==========================================
-           MISSIONS PANEL - TOPO DIREITO (abaixo do progresso)
-           ========================================== */
 
         .missions-panel {
             position: fixed;
@@ -164,10 +156,6 @@
             color: var(--color-success);
         }
 
-        /* ==========================================
-           NOTIFICATION - ESTILO IMERSIVO
-           ========================================== */
-
         .notification {
             position: fixed;
             top: 60px;
@@ -222,10 +210,6 @@
             margin-top: var(--space-2);
             display: block;
         }
-
-        /* ==========================================
-           ICON
-           ========================================== */
 
         .desktop-icon {
             display: flex;
@@ -302,10 +286,6 @@
             }
         }
 
-        /* ==========================================
-           TASKBAR
-           ========================================== */
-
         .taskbar {
             height: 56px;
             background: rgba(15, 23, 42, 0.9);
@@ -358,10 +338,6 @@
             border-color: var(--color-primary);
             color: var(--text-bright);
         }
-
-        /* ==========================================
-           WINDOW - CENTRALIZADA
-           ========================================== */
 
         .window {
             position: fixed;
@@ -474,17 +450,6 @@
             color: var(--text-muted);
         }
 
-        .window-body .file-item.locked-item {
-            opacity: 0.3;
-            cursor: not-allowed;
-            filter: grayscale(0.8);
-        }
-
-        .window-body .file-item.locked-item:hover {
-            background: transparent;
-            color: var(--text-secondary);
-        }
-
         .window-body .btn-secondary {
             background: transparent;
             border: 1px solid var(--color-border);
@@ -518,10 +483,6 @@
             transform: translateY(-2px);
         }
 
-        /* ==========================================
-           IMAGEM
-           ========================================== */
-
         .window-body .image-container {
             width: 100%;
             min-height: 300px;
@@ -541,10 +502,6 @@
             border-radius: var(--radius-sm);
         }
 
-        /* ==========================================
-           VÍDEO
-           ========================================== */
-
         .window-body .video-container {
             width: 100%;
             min-height: 300px;
@@ -563,10 +520,6 @@
             border-radius: var(--radius-sm);
         }
 
-        /* ==========================================
-           SCROLLBAR
-           ========================================== */
-
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -584,10 +537,6 @@
             background: var(--text-muted);
         }
 
-        /* ==========================================
-           RESPONSIVIDADE
-           ========================================== */
-
         @media (max-width: 1024px) {
             .missions-panel {
                 max-width: 220px;
@@ -603,24 +552,19 @@
                 padding: var(--space-3);
                 padding-top: 70px;
             }
-
             .desktop-icon {
                 width: 72px;
                 padding: var(--space-2);
             }
-
             .desktop-icon .icon {
                 font-size: 36px;
             }
-
             .desktop-icon .label {
                 font-size: 10px;
             }
-
             .taskbar .logo-small {
                 display: none;
             }
-
             .window {
                 width: 95%;
                 max-height: 90vh;
@@ -628,19 +572,15 @@
                 left: 50% !important;
                 transform: translate(-50%, -50%) !important;
             }
-
             .window-body {
                 padding: var(--space-3);
             }
-
             .window-header {
                 padding: var(--space-2) var(--space-3);
             }
-
             .window-header .title {
                 font-size: var(--font-sm);
             }
-
             .progress-container {
                 top: var(--space-2);
                 right: var(--space-2);
@@ -648,7 +588,6 @@
                 font-size: var(--font-xs);
                 min-width: 120px;
             }
-
             .missions-panel {
                 position: fixed;
                 right: var(--space-2);
@@ -658,37 +597,29 @@
                 padding: var(--space-2) var(--space-3);
                 max-height: 40vh;
             }
-
             .notification {
                 top: 50px;
                 min-width: 200px;
                 padding: var(--space-2) var(--space-3);
             }
-
             .notification .notif-icon {
                 font-size: var(--font-lg);
             }
-
             .notification .notif-title {
                 font-size: var(--font-sm);
             }
-
             .notification .notif-message {
                 font-size: var(--font-xs);
             }
-
             .window-body .image-container {
                 min-height: 200px;
             }
-
             .window-body .image-container img {
                 max-height: 60vh;
             }
-
             .window-body .video-container {
                 min-height: 200px;
             }
-
             .window-body .video-container video {
                 max-height: 60vh;
             }
@@ -702,42 +633,33 @@
                 top: var(--space-1);
                 right: var(--space-1);
             }
-
             .progress-container .count {
                 font-size: var(--font-lg);
             }
-
             .desktop-icon {
                 width: 60px;
                 padding: var(--space-1);
             }
-
             .desktop-icon .icon {
                 font-size: 28px;
             }
-
             .desktop-icon .label {
                 font-size: 8px;
             }
-
             .window {
                 width: 98%;
                 max-height: 95vh;
             }
-
             .window-body {
                 padding: var(--space-2);
             }
-
             .window-body h3 {
                 font-size: var(--font-md);
             }
-
             .window-body .file-item {
                 padding: var(--space-1) var(--space-2);
                 font-size: var(--font-xs);
             }
-
             .missions-panel {
                 position: fixed;
                 right: var(--space-1);
@@ -747,19 +669,13 @@
                 padding: var(--space-1) var(--space-2);
                 max-height: 35vh;
             }
-
             .missions-panel h4 {
                 font-size: 9px;
             }
-
             .missions-panel .mission-item {
                 font-size: 8px;
             }
         }
-
-        /* ==========================================
-           PROCESSING OVERLAY
-           ========================================== */
 
         .processing-overlay {
             position: fixed;
@@ -829,10 +745,6 @@
                 opacity: 0.5;
             }
         }
-
-        /* ==========================================
-           CONCLUSÃO ÉPICA
-           ========================================== */
 
         .epic-complete {
             text-align: center;
@@ -962,10 +874,6 @@
 
 <body>
 
-    <!-- ==========================================
-    NOTIFICATION
-    ========================================== -->
-
     <div class="notification" id="notification">
         <span class="notif-icon" id="notifIcon">📧</span>
         <span class="notif-title" id="notifTitle">Nova Evidência</span>
@@ -973,18 +881,10 @@
         <span class="notif-time" id="notifTime">Agora</span>
     </div>
 
-    <!-- ==========================================
-    MISSIONS PANEL - TOPO DIREITO
-    ========================================== -->
-
     <div class="missions-panel" id="missionsPanel">
         <h4>📋 Missões</h4>
         <div id="missionsList"></div>
     </div>
-
-    <!-- ==========================================
-    PROGRESSO
-    ========================================== -->
 
     <div class="progress-container">
         <span class="label">📊 Progresso</span>
@@ -994,20 +894,12 @@
         </span>
     </div>
 
-    <!-- ==========================================
-    PROCESSING OVERLAY
-    ========================================== -->
-
     <div class="processing-overlay" id="processingOverlay">
         <div class="spinner"></div>
         <h3 id="overlayTitle">🔍 Analisando evidências...</h3>
         <p id="overlayMessage">Aguarde enquanto o sistema processa os dados.</p>
         <span class="progress-text" id="processingProgress">5s</span>
     </div>
-
-    <!-- ==========================================
-    DESKTOP
-    ========================================== -->
 
     <main class="desktop" id="desktop">
 
@@ -1042,10 +934,6 @@
 
     </main>
 
-    <!-- ==========================================
-    TASKBAR
-    ========================================== -->
-
     <footer class="taskbar">
 
         <div class="logo-small">
@@ -1062,10 +950,6 @@
 
     </footer>
 
-    <!-- ==========================================
-    JANELA (POPUP)
-    ========================================== -->
-
     <div class="window" id="window">
 
         <div class="window-header">
@@ -1079,15 +963,7 @@
 
     </div>
 
-    <!-- ==========================================
-    CONFETTI CONTAINER
-    ========================================== -->
-
     <div class="confetti-container" id="confettiContainer"></div>
-
-    <!-- ==========================================
-    SCRIPTS
-    ========================================== -->
 
     <script>
         // ==========================================
@@ -1096,7 +972,7 @@
 
         const MISSIONS_FILE = '../cases/case001/missions.json';
         const TIMELINE_FILE = '../cases/case001/timeline.json';
-        const PROCESSING_TIME = 5000; // 5 segundos
+        const PROCESSING_TIME = 5000;
 
         // ==========================================
         // RELÓGIO
@@ -1154,10 +1030,6 @@
 
         closeBtn.addEventListener('click', closeWindow);
 
-        // ==========================================
-        // DADOS DO CASO
-        // ==========================================
-
         let caseData = { emails: [], messages: [], evidence: [] };
         const emailContent = {};
         const chatContent = {};
@@ -1171,7 +1043,6 @@
             if (currentRevealIndex >= timelineData.length) {
                 return;
             }
-
             revealItem(currentRevealIndex);
             currentRevealIndex++;
         }
@@ -1185,15 +1056,12 @@
             markItemAvailable(item.unlock, item.type);
             updateBadges();
 
-            // Atualizar pastas se estiverem abertas
             if (windowTitle.textContent.includes('📁')) {
                 const folderId = windowTitle.textContent.replace('📁 ', '');
                 openFolder(folderId);
             }
 
-            if (revealedItems.size === timelineData.length) {
-                // Todas as pistas foram reveladas
-            }
+            if (revealedItems.size === timelineData.length) {}
         }
 
         function markItemAvailable(unlock, type) {
@@ -1219,7 +1087,6 @@
             renderMissions();
             updateProgress();
 
-            // Verificar se todas as missões foram completadas
             const allCompleted = missionData.every(m => completedMissions.has(m.id));
             if (allCompleted && !caseComplete) {
                 caseComplete = true;
@@ -1229,10 +1096,8 @@
                 return;
             }
 
-            // Mostrar processamento antes de revelar a próxima pista
             showProcessingOverlay('🔍 Analisando evidências...', 'Aguarde enquanto o sistema processa os dados.');
 
-            // Revelar a próxima pista após 5 segundos
             setTimeout(() => {
                 hideProcessingOverlay();
                 revealNextItem();
@@ -1589,13 +1454,12 @@
         }
 
         // ==========================================
-        // FUNÇÃO: OPEN FOLDER (COM ITENS OCULTOS - NÃO DESCOBERTOS NÃO APARECEM)
+        // FUNÇÃO: OPEN FOLDER
         // ==========================================
 
         function openFolder(folderId) {
             windowTitle.textContent = '📁 ' + folderId;
 
-            // Verificar quais itens foram desbloqueados
             const isFoto1Revealed = revealedItems.has('t3');
             const isFoto2Revealed = revealedItems.has('t4') || revealedItems.has('t5');
             const isDoc1Revealed = revealedItems.has('t4');
@@ -1604,39 +1468,22 @@
 
             let folderContent = {};
 
-            // ==========================================
-            // PASTA: Documentos (mostra apenas itens descobertos)
-            // ==========================================
-            let documentsHTML = `
-                <h3>Documentos</h3>
-                <div class="file-list">
-            `;
-
+            // Documentos
+            let documentsHTML = `<h3>Documentos</h3><div class="file-list">`;
             let hasDocuments = false;
 
             if (isDoc1Revealed) {
-                documentsHTML += `
-                    <div class="file-item" data-evidence="1">
-                        <span class="icon">📄</span>
-                        <span class="name">Documento_001.pdf</span>
-                        <span class="size">PDF</span>
-                    </div>
-                `;
+                documentsHTML +=
+                    `<div class="file-item" data-evidence="1"><span class="icon">📄</span><span class="name">Documento_001.pdf</span><span class="size">PDF</span></div>`;
                 hasDocuments = true;
             }
 
             if (isDoc2Revealed) {
-                documentsHTML += `
-                    <div class="file-item" data-evidence="4">
-                        <span class="icon">📄</span>
-                        <span class="name">Documento_002.pdf</span>
-                        <span class="size">PDF</span>
-                    </div>
-                `;
+                documentsHTML +=
+                    `<div class="file-item" data-evidence="4"><span class="icon">📄</span><span class="name">Documento_002.pdf</span><span class="size">PDF</span></div>`;
                 hasDocuments = true;
             }
 
-            // Se nenhum documento foi descoberto, mostrar mensagem vazia
             if (!hasDocuments) {
                 documentsHTML += `
                     <div style="padding: var(--space-4); text-align: center; color: var(--text-muted);">
@@ -1647,42 +1494,22 @@
                 `;
             }
 
-            documentsHTML += `
-                </div>
-                <button class="btn-secondary" style="margin-top:var(--space-4);" onclick="closeWindow()">Voltar</button>
-            `;
-
+            documentsHTML += `</div><button class="btn-secondary" style="margin-top:var(--space-4);" onclick="closeWindow()">Voltar</button>`;
             folderContent.documents = documentsHTML;
 
-            // ==========================================
-            // PASTA: Fotos (mostra apenas itens descobertos)
-            // ==========================================
-            let photosHTML = `
-                <h3>Fotos</h3>
-                <div class="file-list">
-            `;
-
+            // Fotos
+            let photosHTML = `<h3>Fotos</h3><div class="file-list">`;
             let hasPhotos = false;
 
             if (isFoto1Revealed) {
-                photosHTML += `
-                    <div class="file-item" data-evidence="0">
-                        <span class="icon">🖼️</span>
-                        <span class="name">Foto_001.png</span>
-                        <span class="size">imagem</span>
-                    </div>
-                `;
+                photosHTML +=
+                    `<div class="file-item" data-evidence="0"><span class="icon">🖼️</span><span class="name">Foto_001.png</span><span class="size">imagem</span></div>`;
                 hasPhotos = true;
             }
 
             if (isFoto2Revealed) {
-                photosHTML += `
-                    <div class="file-item" data-evidence="3">
-                        <span class="icon">🖼️</span>
-                        <span class="name">Foto_002.png</span>
-                        <span class="size">imagem</span>
-                    </div>
-                `;
+                photosHTML +=
+                    `<div class="file-item" data-evidence="3"><span class="icon">🖼️</span><span class="name">Foto_002.png</span><span class="size">imagem</span></div>`;
                 hasPhotos = true;
             }
 
@@ -1696,75 +1523,40 @@
                 `;
             }
 
-            photosHTML += `
-                </div>
-                <button class="btn-secondary" style="margin-top:var(--space-4);" onclick="closeWindow()">Voltar</button>
-            `;
-
+            photosHTML += `</div><button class="btn-secondary" style="margin-top:var(--space-4);" onclick="closeWindow()">Voltar</button>`;
             folderContent.photos = photosHTML;
 
-            // ==========================================
-            // PASTA: Caso_001 (mostra apenas itens descobertos)
-            // ==========================================
-            let case001HTML = `
-                <h3>Caso #001 - Desaparecimento</h3>
-                <div class="file-list">
-            `;
-
+            // Caso_001
+            let case001HTML = `<h3>Caso #001 - Desaparecimento</h3><div class="file-list">`;
             let hasCaseItems = false;
 
             if (isFoto1Revealed) {
-                case001HTML += `
-                    <div class="file-item" data-evidence="0">
-                        <span class="icon">🖼️</span>
-                        <span class="name">Foto_001.png</span>
-                        <span class="size">imagem</span>
-                    </div>
-                `;
+                case001HTML +=
+                    `<div class="file-item" data-evidence="0"><span class="icon">🖼️</span><span class="name">Foto_001.png</span><span class="size">imagem</span></div>`;
                 hasCaseItems = true;
             }
 
             if (isDoc1Revealed) {
-                case001HTML += `
-                    <div class="file-item" data-evidence="1">
-                        <span class="icon">📄</span>
-                        <span class="name">Documento_001.pdf</span>
-                        <span class="size">PDF</span>
-                    </div>
-                `;
+                case001HTML +=
+                    `<div class="file-item" data-evidence="1"><span class="icon">📄</span><span class="name">Documento_001.pdf</span><span class="size">PDF</span></div>`;
                 hasCaseItems = true;
             }
 
             if (isDoc2Revealed) {
-                case001HTML += `
-                    <div class="file-item" data-evidence="4">
-                        <span class="icon">📄</span>
-                        <span class="name">Documento_002.pdf</span>
-                        <span class="size">PDF</span>
-                    </div>
-                `;
+                case001HTML +=
+                    `<div class="file-item" data-evidence="4"><span class="icon">📄</span><span class="name">Documento_002.pdf</span><span class="size">PDF</span></div>`;
                 hasCaseItems = true;
             }
 
             if (isVideoRevealed) {
-                case001HTML += `
-                    <div class="file-item" data-evidence="2">
-                        <span class="icon">🎬</span>
-                        <span class="name">Video_001.mp4</span>
-                        <span class="size">vídeo</span>
-                    </div>
-                `;
+                case001HTML +=
+                    `<div class="file-item" data-evidence="2"><span class="icon">🎬</span><span class="name">Video_001.mp4</span><span class="size">vídeo</span></div>`;
                 hasCaseItems = true;
             }
 
             if (isFoto2Revealed) {
-                case001HTML += `
-                    <div class="file-item" data-evidence="3">
-                        <span class="icon">🖼️</span>
-                        <span class="name">Foto_002.png</span>
-                        <span class="size">imagem</span>
-                    </div>
-                `;
+                case001HTML +=
+                    `<div class="file-item" data-evidence="3"><span class="icon">🖼️</span><span class="name">Foto_002.png</span><span class="size">imagem</span></div>`;
                 hasCaseItems = true;
             }
 
@@ -1778,16 +1570,8 @@
                 `;
             }
 
-            case001HTML += `
-                </div>
-                <button class="btn-secondary" style="margin-top:var(--space-4);" onclick="closeWindow()">Voltar</button>
-            `;
-
+            case001HTML += `</div><button class="btn-secondary" style="margin-top:var(--space-4);" onclick="closeWindow()">Voltar</button>`;
             folderContent.case001 = case001HTML;
-
-            // ==========================================
-            // EXIBIR CONTEÚDO
-            // ==========================================
 
             windowBody.innerHTML = folderContent[folderId] || `<p>Pasta vazia.</p>`;
             windowEl.classList.add('open');
@@ -1875,9 +1659,6 @@
 
             const emailKey = 'e' + (parseInt(emailId) + 1);
 
-            // NÃO completar missão automaticamente ao abrir e-mail
-            // A missão é completada apenas quando o jogador interage com o conteúdo
-
             windowTitle.textContent = '📧 ' + email.subject;
             windowBody.innerHTML = `
                 <div><p><strong>De:</strong> ${email.from}</p><p><strong>Data:</strong> ${email.date}</p></div>
@@ -1886,7 +1667,6 @@
             `;
             windowEl.classList.add('open');
 
-            // Completar a missão correspondente APÓS abrir o e-mail
             missionData.forEach(mission => {
                 if (mission.unlock === emailKey && !completedMissions.has(mission.id)) {
                     if (isMissionAvailable(mission)) {
@@ -1911,7 +1691,6 @@
             windowBody.innerHTML = html;
             windowEl.classList.add('open');
 
-            // Completar a missão correspondente APÓS abrir a conversa
             missionData.forEach(mission => {
                 if (mission.unlock === chatKey && !completedMissions.has(mission.id)) {
                     if (isMissionAvailable(mission)) {
@@ -1920,6 +1699,10 @@
                 }
             });
         }
+
+        // ==========================================
+        // FUNÇÃO: OPEN EVIDENCE (CORRIGIDA)
+        // ==========================================
 
         function openEvidence(evidenceId) {
             const ev = evidenceContent[evidenceId];
@@ -1959,7 +1742,6 @@
                     </div>
                 `;
             } else if (['mp4', 'webm', 'mov', 'avi'].includes(fileExtension)) {
-                // Verificar se é o vídeo do caso (ev3 - índice 2)
                 const isCaseVideo = evidenceId === 2;
 
                 content += `
@@ -1972,7 +1754,6 @@
                     </div>
                 `;
 
-                // Se for o vídeo do caso, adicionar o aviso
                 if (isCaseVideo) {
                     content += `
                         <div style="margin-top: var(--space-3); padding: var(--space-3); background: var(--color-background); border-radius: var(--radius-sm); border-left: 3px solid var(--color-warning);">
@@ -2008,7 +1789,13 @@
             windowBody.innerHTML = content;
             windowEl.classList.add('open');
 
-            // Se for o vídeo do caso, adicionar evento de conclusão (SEM completar automaticamente)
+            // ==========================================
+            // COMPLETAR MISSÃO CORRESPONDENTE
+            // ==========================================
+
+            const evKey = 'ev' + (parseInt(evidenceId) + 1);
+
+            // Se for o vídeo (ev3), só completar quando terminar
             if (evidenceId === 2) {
                 const video = document.getElementById('caseVideo');
                 if (video) {
@@ -2027,10 +1814,8 @@
                             statusEl.style.color = 'var(--color-success)';
                         }
 
-                        // Completar a missão 5 (ev3) APENAS quando o vídeo terminar
-                        const evKey = 'ev3';
                         missionData.forEach(mission => {
-                            if (mission.unlock === evKey && !completedMissions.has(mission.id)) {
+                            if (mission.unlock === 'ev3' && !completedMissions.has(mission.id)) {
                                 if (isMissionAvailable(mission)) {
                                     completeMission(mission.id);
                                 }
@@ -2054,18 +1839,14 @@
                     });
                 }
             } else {
-                // Para outras evidências (não vídeo), completar a missão após abrir
-                const evKey = 'ev' + (parseInt(evidenceId) + 1);
-                // Não completar a missão ev3 aqui (será completada pelo evento 'ended' do vídeo)
-                if (evKey !== 'ev3') {
-                    missionData.forEach(mission => {
-                        if (mission.unlock === evKey && !completedMissions.has(mission.id)) {
-                            if (isMissionAvailable(mission)) {
-                                completeMission(mission.id);
-                            }
+                // Para outras evidências (imagens, PDFs, etc.), completar a missão imediatamente
+                missionData.forEach(mission => {
+                    if (mission.unlock === evKey && !completedMissions.has(mission.id)) {
+                        if (isMissionAvailable(mission)) {
+                            completeMission(mission.id);
                         }
-                    });
-                }
+                    }
+                });
             }
         }
 
@@ -2099,7 +1880,6 @@
             caseData.emails.forEach((email, i) => {
                 const isRevealed = timelineData.some(t => t.unlock === ('e' + (i + 1)) && revealedItems.has(t.id));
                 const isLocked = !isRevealed && i > 0;
-                // Não mostrar itens bloqueados - apenas ocultar
                 if (!isLocked) {
                     emailList += `
                         <div class="file-item" data-email="${i}">
@@ -2111,7 +1891,6 @@
                 }
             });
 
-            // Se não houver e-mails, mostrar mensagem
             if (!emailList) {
                 emailList = `
                     <div style="padding: var(--space-4); text-align: center; color: var(--text-muted);">
@@ -2154,7 +1933,6 @@
                 const icon = item.type === 'image' ? '🖼️' : item.type === 'video' ? '🎬' : '📄';
                 const isRevealed = timelineData.some(t => t.unlock === ('ev' + (i + 1)) && revealedItems.has(t.id));
                 const isLocked = !isRevealed && i > 0;
-                // Para o vídeo (ev3), só mostrar se já foi revelado
                 if (!isLocked && isRevealed) {
                     const isCompleted = completedMissions.has('ev' + (i + 1));
                     evidenceList += `
@@ -2231,7 +2009,6 @@
             const target = e.target.closest('.file-item');
             if (!target) return;
 
-            // Verificar se o item está bloqueado (não deve acontecer pois itens bloqueados não são mostrados)
             if (target.classList.contains('locked-item')) {
                 showNotification('🔒', 'Esta pista ainda não está disponível.');
                 return;
