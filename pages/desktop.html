@@ -944,6 +944,15 @@
             box-shadow: 0 0 30px rgba(34, 197, 94, 0.4);
             animation: fadeIn 0.5s ease forwards;
         }
+
+        /* Correção para evitar abertura dupla */
+        .image-container .magnifier {
+            display: none !important;
+        }
+
+        .image-container.magnifier-active .magnifier {
+            display: block !important;
+        }
     </style>
 </head>
 
@@ -1045,8 +1054,8 @@
         // CONFIGURAÇÕES
         // ==========================================
 
-        const MISSIONS_FILE = '../cases/case001/missions.json?v=8';
-        const TIMELINE_FILE = '../cases/case001/timeline.json?v=8';
+        const MISSIONS_FILE = '../cases/case001/missions.json?v=9';
+        const TIMELINE_FILE = '../cases/case001/timeline.json?v=9';
         const PROCESSING_TIME = 5000;
 
         // ==========================================
@@ -1098,6 +1107,7 @@
         let currentRevealIndex = 0;
         let startTime = Date.now();
         let overlayInterval = null;
+        let foto1Opened = false; // Flag para controlar a abertura da Foto_001
 
         function closeWindow() {
             windowEl.classList.remove('open');
@@ -1159,6 +1169,13 @@
             if (!mission) return;
 
             completedMissions.add(missionId);
+
+            // Verificar se a Missão 6 foi concluída para desbloquear a Missão 7
+            if (missionId === 'm6') {
+                console.log('🔐 Missão 6 concluída! Verificando se Missão 7 pode ser desbloqueada...');
+                // A Missão 7 será desbloqueada automaticamente pelo sistema de required
+            }
+
             renderMissions();
             updateProgress();
 
@@ -1972,12 +1989,12 @@
                 }
             } else if (evidenceId === 0) {
                 // ==========================================
-                // COMPLETAR MISSÃO 3 - A ÚLTIMA FOTO
+                // COMPLETAR MISSÃO 3 - A ÚLTIMA FOTO (APENAS NA PRIMEIRA VEZ)
                 // ==========================================
 
-                console.log('📸 Foto_001 aberta - Completando Missão 3');
+                console.log('📸 Foto_001 aberta');
 
-                // Completar a Missão 3 (A Última Foto) imediatamente ao abrir
+                // Completar a Missão 3 apenas se ainda não foi concluída
                 missionData.forEach(mission => {
                     if (mission.id === 'm3' && !completedMissions.has('m3')) {
                         if (isMissionAvailable(mission)) {
@@ -1988,82 +2005,99 @@
                 });
 
                 // ==========================================
-                // LUPA INTERATIVA NA FOTO_001 - MISSÃO 5
+                // LUPA INTERATIVA - APENAS NA SEGUNDA ABERTURA
                 // ==========================================
 
-                const img = document.getElementById('evidenceImage');
-                const container = document.getElementById('imageContainer');
+                if (foto1Opened) {
+                    // Já foi aberta antes - ativar a lupa
+                    console.log('🔍 Foto_001 aberta pela segunda vez - Ativando lupa!');
 
-                if (img && container) {
-                    const magnifier = document.getElementById('magnifier');
-                    const codeGlow = document.getElementById('codeGlow');
-                    let codeRevealed = false;
+                    const img = document.getElementById('evidenceImage');
+                    const container = document.getElementById('imageContainer');
 
-                    if (magnifier) {
-                        // Evento: mouse entra na imagem
-                        img.addEventListener('mouseenter', function() {
-                            magnifier.style.display = 'block';
-                            document.body.style.cursor = 'none';
-                        });
+                    if (img && container) {
+                        const magnifier = document.getElementById('magnifier');
+                        const codeGlow = document.getElementById('codeGlow');
+                        let codeRevealed = false;
 
-                        // Evento: mouse sai da imagem
-                        img.addEventListener('mouseleave', function() {
-                            magnifier.style.display = 'none';
-                            document.body.style.cursor = 'default';
-                        });
+                        // Adicionar classe para ativar a lupa
+                        container.classList.add('magnifier-active');
 
-                        // Evento: mouse se move na imagem
-                        img.addEventListener('mousemove', function(e) {
-                            const rect = img.getBoundingClientRect();
-
-                            const x = e.clientX - rect.left - magnifier.offsetWidth / 2;
-                            const y = e.clientY - rect.top - magnifier.offsetHeight / 2;
-
-                            magnifier.style.left = Math.max(0, Math.min(x, rect.width - magnifier
-                                .offsetWidth)) + 'px';
-                            magnifier.style.top = Math.max(0, Math.min(y, rect.height - magnifier
-                                .offsetHeight)) + 'px';
-                            magnifier.style.display = 'block';
-
-                            const mouseX = e.clientX - rect.left;
-                            const mouseY = e.clientY - rect.top;
-
-                            // Posição do código na imagem (67.6% largura, 33% altura)
-                            const codePixelX = rect.width * 0.676;
-                            const codePixelY = rect.height * 0.33;
-                            const threshold = 40;
-
-                            const distance = Math.hypot(mouseX - codePixelX, mouseY - codePixelY);
-
-                            if (distance < threshold && !codeRevealed) {
-                                codeRevealed = true;
-                                if (codeGlow) {
-                                    codeGlow.style.display = 'flex';
-                                    codeGlow.style.left = (codePixelX - 30) + 'px';
-                                    codeGlow.style.top = (codePixelY - 15) + 'px';
+                        if (magnifier) {
+                            // Evento: mouse entra na imagem
+                            img.addEventListener('mouseenter', function() {
+                                if (container.classList.contains('magnifier-active')) {
+                                    magnifier.style.display = 'block';
+                                    document.body.style.cursor = 'none';
                                 }
+                            });
 
-                                showNotification('🔍 Código Encontrado!',
-                                    'O número 4472 está escrito na parede ao fundo da foto.');
+                            // Evento: mouse sai da imagem
+                            img.addEventListener('mouseleave', function() {
+                                magnifier.style.display = 'none';
+                                document.body.style.cursor = 'default';
+                            });
 
-                                // Criar badge de conclusão
-                                const badge = document.createElement('div');
-                                badge.className = 'code-badge';
-                                badge.textContent = '✅ Código Encontrado!';
-                                container.appendChild(badge);
+                            // Evento: mouse se move na imagem
+                            img.addEventListener('mousemove', function(e) {
+                                if (!container.classList.contains('magnifier-active')) return;
 
-                                // Completar a missão 5
-                                missionData.forEach(mission => {
-                                    if (mission.id === 'm5' && !completedMissions.has('m5')) {
-                                        if (isMissionAvailable(mission)) {
-                                            completeMission('m5');
-                                            console.log('✅ Missão 5 completada com a lupa!');
-                                        }
+                                const rect = img.getBoundingClientRect();
+
+                                const x = e.clientX - rect.left - magnifier.offsetWidth / 2;
+                                const y = e.clientY - rect.top - magnifier.offsetHeight / 2;
+
+                                magnifier.style.left = Math.max(0, Math.min(x, rect.width - magnifier
+                                    .offsetWidth)) + 'px';
+                                magnifier.style.top = Math.max(0, Math.min(y, rect.height - magnifier
+                                    .offsetHeight)) + 'px';
+                                magnifier.style.display = 'block';
+
+                                const mouseX = e.clientX - rect.left;
+                                const mouseY = e.clientY - rect.top;
+
+                                // Posição do código na imagem (67.6% largura, 33% altura)
+                                const codePixelX = rect.width * 0.676;
+                                const codePixelY = rect.height * 0.33;
+                                const threshold = 40;
+
+                                const distance = Math.hypot(mouseX - codePixelX, mouseY - codePixelY);
+
+                                if (distance < threshold && !codeRevealed) {
+                                    codeRevealed = true;
+                                    if (codeGlow) {
+                                        codeGlow.style.display = 'flex';
+                                        codeGlow.style.left = (codePixelX - 30) + 'px';
+                                        codeGlow.style.top = (codePixelY - 15) + 'px';
                                     }
-                                });
-                            }
-                        });
+
+                                    showNotification('🔍 Código Encontrado!',
+                                        'O número 4472 está escrito na parede ao fundo da foto.');
+
+                                    // Criar badge de conclusão
+                                    const badge = document.createElement('div');
+                                    badge.className = 'code-badge';
+                                    badge.textContent = '✅ Código Encontrado!';
+                                    container.appendChild(badge);
+
+                                    // Completar a missão 5
+                                    missionData.forEach(mission => {
+                                        if (mission.id === 'm5' && !completedMissions.has('m5')) {
+                                            if (isMissionAvailable(mission)) {
+                                                completeMission('m5');
+                                                console.log('✅ Missão 5 completada com a lupa!');
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        }
                     }
+                } else {
+                    // Primeira abertura - marcar como aberta
+                    foto1Opened = true;
+                    console.log('📸 Foto_001 aberta pela primeira vez - Lupa será ativada na próxima abertura.');
+                    showNotification('📸 Dica!', 'Feche e reabra a foto para usar a lupa e encontrar o código escondido.');
                 }
             } else {
                 // Para outras evidências, completar a missão imediatamente
