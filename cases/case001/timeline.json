@@ -30,14 +30,14 @@
     {
         "id": "t5",
         "title": "🔍 Código Identificado",
-        "message": "O código 4472 foi encontrado na foto!",
-        "unlock": "ev1",
+        "message": "O código 4472 foi encontrado na foto! Agora a pasta secreta foi desbloqueada.",
+        "unlock": "ev4",
         "type": "evidence"
     },
     {
         "id": "t6",
         "title": "🖼️ A Última Foto",
-        "message": "A última foto de Helena foi encontrada na pasta secreta.",
+        "message": "A última foto de Helena foi encontrada na pasta secreta. Abra a Foto_002.png.",
         "unlock": "ev4",
         "type": "evidence"
     },
