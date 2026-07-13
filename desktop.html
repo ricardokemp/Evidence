@@ -491,15 +491,15 @@
             justify-content: center;
             padding: var(--space-2);
             flex: 1;
+            flex-direction: column;
         }
 
         .window-body .image-container img {
             max-width: 100%;
-            max-height: 75vh;
-            width: auto;
-            height: auto;
-            object-fit: contain;
+            max-height: 500px;
             border-radius: var(--radius-sm);
+            object-fit: contain;
+            transition: transform 0.5s ease;
         }
 
         .window-body .video-container {
@@ -869,6 +869,54 @@
                 opacity: 0;
             }
         }
+
+        /* Zoom reveal animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .code-reveal {
+            margin-top: var(--space-3);
+            padding: var(--space-3);
+            background: var(--color-background);
+            border-radius: var(--radius-md);
+            border: 2px solid var(--color-border);
+            text-align: center;
+            display: none;
+        }
+
+        .code-reveal.show {
+            display: block;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .code-reveal .code {
+            font-size: var(--font-xl);
+            color: var(--color-success);
+            font-weight: 700;
+            letter-spacing: 4px;
+        }
+
+        .code-reveal .hint {
+            font-size: var(--font-sm);
+            color: var(--text-secondary);
+            margin-top: var(--space-1);
+        }
+
+        .zoom-buttons {
+            margin-top: var(--space-3);
+            display: flex;
+            gap: var(--space-3);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
     </style>
 </head>
 
@@ -970,8 +1018,8 @@
         // CONFIGURAÇÕES
         // ==========================================
 
-        const MISSIONS_FILE = '../cases/case001/missions.json?v=3';
-        const TIMELINE_FILE = '../cases/case001/timeline.json?v=3';
+        const MISSIONS_FILE = '../cases/case001/missions.json?v=4';
+        const TIMELINE_FILE = '../cases/case001/timeline.json?v=4';
         const PROCESSING_TIME = 5000;
 
         // ==========================================
@@ -1172,7 +1220,7 @@
         }
 
         // ==========================================
-        // SISTEMA DE MISSÕES (COM TIMESTAMP)
+        // SISTEMA DE MISSÕES
         // ==========================================
 
         async function loadMissions() {
@@ -1282,7 +1330,7 @@
         }
 
         // ==========================================
-        // CARREGAR TIMELINE (COM TIMESTAMP)
+        // CARREGAR TIMELINE
         // ==========================================
 
         async function loadTimeline() {
@@ -1732,7 +1780,7 @@
         }
 
         // ==========================================
-        // FUNÇÃO: OPEN EVIDENCE (CORRIGIDA)
+        // FUNÇÃO: OPEN EVIDENCE COM ZOOM
         // ==========================================
 
         function openEvidence(evidenceId) {
@@ -1767,9 +1815,39 @@
                     <iframe src="${filePath}" style="width:100%; height:600px; border:none; border-radius:var(--radius-sm);"></iframe>
                 `;
             } else if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(fileExtension)) {
+                // Verificar se é a Foto_001.png (evidência 0)
+                const isFoto1 = evidenceId === 0;
+
                 content += `
-                    <div class="image-container">
-                        <img src="${filePath}" alt="${ev.title}">
+                    <div class="image-container" style="width: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                        <img src="${filePath}" alt="${ev.title}" id="evidenceImage" style="
+                            max-width: 100%;
+                            max-height: 500px;
+                            border-radius: var(--radius-sm);
+                            object-fit: contain;
+                            transition: transform 0.5s ease;
+                        ">
+                `;
+
+                // Se for a Foto_001, adicionar botão de ampliar
+                if (isFoto1) {
+                    content += `
+                        <div class="zoom-buttons">
+                            <button class="btn btn-primary" id="zoomInBtn" style="font-size: var(--font-sm); padding: var(--space-2) var(--space-4);">
+                                🔍 Ampliar Imagem
+                            </button>
+                            <button class="btn btn-secondary" id="zoomOutBtn" style="font-size: var(--font-sm); padding: var(--space-2) var(--space-4); display: none;">
+                                🔄 Reduzir
+                            </button>
+                        </div>
+                        <div class="code-reveal" id="codeReveal">
+                            <p class="code">4 4 7 2</p>
+                            <p class="hint">🔑 Código encontrado! Use-o para acessar a pasta secreta.</p>
+                        </div>
+                    `;
+                }
+
+                content += `
                     </div>
                 `;
             } else if (['mp4', 'webm', 'mov', 'avi'].includes(fileExtension)) {
@@ -1869,8 +1947,54 @@
                         }
                     });
                 }
+            } else if (evidenceId === 0) {
+                // ==========================================
+                // ZOOM NA FOTO_001 - MISSÃO 5 (CÓDIGO ESCONDIDO)
+                // ==========================================
+
+                const img = document.getElementById('evidenceImage');
+                const zoomInBtn = document.getElementById('zoomInBtn');
+                const zoomOutBtn = document.getElementById('zoomOutBtn');
+                const codeReveal = document.getElementById('codeReveal');
+
+                if (zoomInBtn) {
+                    zoomInBtn.addEventListener('click', function() {
+                        if (img) {
+                            img.style.transform = 'scale(2.5)';
+                            img.style.cursor = 'zoom-out';
+                            zoomInBtn.style.display = 'none';
+                            zoomOutBtn.style.display = 'inline-flex';
+
+                            if (codeReveal) {
+                                codeReveal.classList.add('show');
+                            }
+
+                            showNotification('🔍 Código Encontrado!', 'O número 4472 está escrito na parede ao fundo da foto.');
+
+                            // Completar a missão 5 (O Código Escondido)
+                            missionData.forEach(mission => {
+                                if (mission.id === 'm5' && !completedMissions.has('m5')) {
+                                    if (isMissionAvailable(mission)) {
+                                        completeMission('m5');
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
+
+                if (zoomOutBtn) {
+                    zoomOutBtn.addEventListener('click', function() {
+                        if (img) {
+                            img.style.transform = 'scale(1)';
+                            img.style.cursor = 'default';
+                            zoomInBtn.style.display = 'inline-flex';
+                            zoomOutBtn.style.display = 'none';
+                        }
+                    });
+                }
             } else {
-                // Para outras evidências (imagens, PDFs, etc.), completar a missão imediatamente
+                // Para outras evidências, completar a missão imediatamente
                 missionData.forEach(mission => {
                     if (mission.unlock === evKey && !completedMissions.has(mission.id)) {
                         if (isMissionAvailable(mission)) {
