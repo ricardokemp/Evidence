@@ -6,27 +6,27 @@
             {
                 "from": "Helena",
                 "time": "2026-07-09 18:30",
-                "text": "Estou indo para a reunião com a Sigma."
+                "text": "Estou indo para a reunião com a Sigma. Algo me diz que não deveria estar fazendo isso."
+            },
+            {
+                "from": "Helena",
+                "time": "2026-07-09 19:15",
+                "text": "Eles estão mentindo. Eu vi algo que não deveria. Tem números na parede... não sei o que significa."
             },
             {
                 "from": "Helena",
                 "time": "2026-07-09 19:45",
-                "text": "Eles estão mentindo. Tem algo muito errado. Vou tentar gravar."
+                "text": "Estou com medo. Eles sabem que eu descobri. Se algo acontecer comigo, procure na foto."
             },
             {
                 "from": "Helena",
                 "time": "2026-07-09 20:15",
-                "text": "Não confie em ninguém da Sigma. Eles têm um arquivo secreto."
+                "text": "A resposta está na imagem. Eles não querem que ninguém veja. Eu gravei tudo."
             },
             {
                 "from": "Helena",
                 "time": "2026-07-09 21:00",
-                "text": "Estou saindo. Algo não está certo. Me ligue quando puder."
-            },
-            {
-                "from": "Helena",
-                "time": "2026-07-09 22:00",
-                "text": "O código é 4472. Anote. Isso pode ser importante."
+                "text": "Estou saindo. Não confie em ninguém. A verdade está escondida, mas ela pode ser revelada."
             }
         ]
     },
@@ -37,17 +37,22 @@
             {
                 "from": "Anônimo",
                 "time": "2026-07-10 23:00",
-                "text": "Você está investigando o caso errado."
+                "text": "Você está mexendo em algo que não deveria."
             },
             {
                 "from": "Anônimo",
                 "time": "2026-07-10 23:05",
-                "text": "A verdade está na sala 4 do prédio da Sigma."
+                "text": "Ela descobriu o que não devia. Agora está desaparecida."
             },
             {
                 "from": "Anônimo",
                 "time": "2026-07-11 00:15",
-                "text": "Ela ainda está viva. Mas o tempo está acabando."
+                "text": "A chave está na imagem. Mas você precisa de olhos para enxergar."
+            },
+            {
+                "from": "Anônimo",
+                "time": "2026-07-11 00:30",
+                "text": "Cuidado. Eles estão te observando também."
             }
         ]
     },
@@ -58,17 +63,17 @@
             {
                 "from": "Carlos",
                 "time": "2026-07-09 22:30",
-                "text": "Helena, você está bem? Não respondeu minhas ligações."
+                "text": "Helena, você está bem? Não respondeu minhas ligações. Estou preocupado."
             },
             {
                 "from": "Carlos",
                 "time": "2026-07-10 08:00",
-                "text": "Já entrei em contato com a polícia. O que você descobriu?"
+                "text": "Já entrei em contato com a polícia. O que você descobriu? Me ligue!"
             },
             {
                 "from": "Carlos",
                 "time": "2026-07-10 09:15",
-                "text": "Recebi um e-mail anônimo dizendo que você está em perigo."
+                "text": "Recebi um e-mail anônimo dizendo que você está em perigo. O que está acontecendo?"
             }
         ]
     },
@@ -79,7 +84,7 @@
             {
                 "from": "Mariana",
                 "time": "2026-07-07 22:30",
-                "text": "Helena, o que você encontrou? Estou preocupada."
+                "text": "Helena, você está assustada. O que viu?"
             },
             {
                 "from": "Mariana",
@@ -89,7 +94,7 @@
             {
                 "from": "Mariana",
                 "time": "2026-07-10 10:00",
-                "text": "Helena sumiu? O que aconteceu? Me ligue!"
+                "text": "Helena sumiu? O que aconteceu? Me ligue imediatamente!"
             }
         ]
     }
