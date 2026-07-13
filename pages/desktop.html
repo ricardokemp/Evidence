@@ -520,7 +520,7 @@
         .window-body .video-container video {
             max-width: 100%;
             max-height: 500px;
-            width: auto;
+            width: 100%;
             height: auto;
             border-radius: var(--radius-sm);
             background: #000;
@@ -567,7 +567,6 @@
             background: var(--text-muted);
         }
 
-        /* Botão Limpar Cache */
         #clearCacheBtn {
             position: fixed;
             bottom: 70px;
@@ -1046,7 +1045,6 @@
         <span class="progress-text" id="processingProgress">5s</span>
     </div>
 
-    <!-- Botão Limpar Cache -->
     <button id="clearCacheBtn">🗑️ Limpar Cache</button>
 
     <main class="desktop" id="desktop">
@@ -1118,8 +1116,30 @@
         // CONFIGURAÇÕES
         // ==========================================
 
-        const TIMELINE_FILE = '../cases/case001/timeline.json?v=14';
+        const TIMELINE_FILE = '../cases/case001/timeline.json?v=15';
         const PROCESSING_TIME = 5000;
+
+        // ==========================================
+        // LIMPAR CACHE
+        // ==========================================
+
+        document.getElementById('clearCacheBtn')?.addEventListener('click', function() {
+            if (confirm('Isso vai limpar todo o cache do jogo. Tem certeza?')) {
+                localStorage.clear();
+                sessionStorage.clear();
+                if ('caches' in window) {
+                    caches.keys().then(function(names) {
+                        for (let name of names) {
+                            caches.delete(name);
+                        }
+                    });
+                }
+                showNotification('🗑️ Cache Limpo', 'O cache foi limpo com sucesso! A página será recarregada.');
+                setTimeout(() => {
+                    location.reload(true);
+                }, 1000);
+            }
+        });
 
         // ==========================================
         // RELÓGIO
@@ -1134,36 +1154,6 @@
 
         updateClock();
         setInterval(updateClock, 10000);
-
-        // ==========================================
-        // LIMPAR CACHE
-        // ==========================================
-
-        document.getElementById('clearCacheBtn')?.addEventListener('click', function() {
-            if (confirm('Isso vai limpar todo o cache do jogo. Tem certeza?')) {
-                // Limpar localStorage
-                localStorage.clear();
-
-                // Limpar sessionStorage
-                sessionStorage.clear();
-
-                // Limpar cache do navegador
-                if ('caches' in window) {
-                    caches.keys().then(function(names) {
-                        for (let name of names) {
-                            caches.delete(name);
-                        }
-                    });
-                }
-
-                showNotification('🗑️ Cache Limpo', 'O cache foi limpo com sucesso! A página será recarregada.');
-
-                // Recarregar a página com força
-                setTimeout(() => {
-                    location.reload(true);
-                }, 1000);
-            }
-        });
 
         // ==========================================
         // ELEMENTOS
@@ -1282,8 +1272,8 @@
                 return;
             }
 
-            // Revelar a próxima pista automaticamente (exceto para o vídeo final)
-            if (missionId !== 'm6') {
+            // Não revelar automaticamente após os vídeos (m6 e m7)
+            if (missionId !== 'm6' && missionId !== 'm7') {
                 showProcessingOverlay('🔍 Analisando evidências...', 'Aguarde enquanto o sistema processa os dados.');
                 setTimeout(() => {
                     hideProcessingOverlay();
@@ -1370,7 +1360,6 @@
                 if (!res.ok) throw new Error('Erro ao carregar timeline');
                 timelineData = await res.json();
 
-                // Converter timeline em missões
                 missionData = timelineData.map((item, index) => {
                     const missionId = 'm' + (index + 1);
                     const required = index > 0 ? ['m' + index] : [];
@@ -1390,7 +1379,6 @@
                 totalMissions = missionData.length;
                 totalCount.textContent = totalMissions;
 
-                // Revelar o primeiro item
                 if (timelineData.length > 0) {
                     revealItem(0);
                     currentRevealIndex = 1;
@@ -1399,7 +1387,6 @@
                 renderMissions();
             } catch (error) {
                 console.warn('Erro ao carregar timeline, usando fallback:', error);
-                // Fallback com 8 missões
                 timelineData = [
                     { id: 't1', title: '📧 O Primeiro E-mail', message: 'Leia o e-mail de Helena.', unlock: 'e1',
                         type: 'email' },
@@ -1893,7 +1880,7 @@
 
             windowTitle.textContent = '💬 ' + chat.contact;
 
-            let isSinister = chatId === 0; // Helena Duarte
+            let isSinister = chatId === 0;
 
             let html = `<h3>Conversa com ${chat.contact}</h3>`;
             html +=
@@ -1984,8 +1971,6 @@
                 `;
             } else if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(fileExtension)) {
                 const isFoto1 = evidenceId === 0;
-
-                // Forçar recarga da imagem sem cache
                 const imgPath = filePath + '?t=' + Date.now();
 
                 content += `
@@ -2018,19 +2003,24 @@
             } else if (['mp4', 'webm', 'mov', 'avi'].includes(fileExtension)) {
                 const isCaseVideo = evidenceId === 2 || evidenceId === 5;
 
+                let mimeType = 'video/mp4';
+                if (fileExtension === 'webm') mimeType = 'video/webm';
+                if (fileExtension === 'mov') mimeType = 'video/quicktime';
+                if (fileExtension === 'avi') mimeType = 'video/x-msvideo';
+
                 content += `
                     <div class="video-container">
-                        <video controls preload="metadata" playsinline id="caseVideo" style="
+                        <video controls preload="auto" playsinline id="caseVideo" style="
                             max-width: 100%;
                             max-height: 500px;
-                            width: auto;
+                            width: 100%;
                             height: auto;
                             border-radius: var(--radius-sm);
                             background: #000;
                             box-shadow: var(--shadow-sm);
                         ">
+                            <source src="${filePath}" type="${mimeType}">
                             <source src="${filePath}" type="video/mp4">
-                            <source src="${filePath}" type="video/webm">
                             <p>Seu navegador não suporta vídeo. <a href="${filePath}" target="_blank" style="color: var(--color-primary);">Baixar</a></p>
                         </video>
                     </div>
@@ -2073,9 +2063,75 @@
 
             const evKey = 'ev' + (parseInt(evidenceId) + 1);
 
-            // VÍDEO 002 (ev6) - Missão 6 (A Verdade Revelada)
+            // VÍDEO 002 (ev6) - Missão 7 (A Verdade Revelada)
             if (evidenceId === 5) {
-                console.log('🎬 Video_002.mp4 aberto - Missão 6 (A Verdade Revelada)');
+                console.log('🎬 Video_002.mp4 aberto - Missão 7 (A Verdade Revelada)');
+
+                const video = document.getElementById('caseVideo');
+                const statusEl = document.getElementById('videoStatus');
+
+                if (video) {
+                    if (video.ended) {
+                        console.log('✅ Vídeo já estava no final!');
+                        missionData.forEach(mission => {
+                            if (mission.id === 'm7' && !completedMissions.has('m7')) {
+                                if (isMissionAvailable(mission)) {
+                                    completeMission('m7');
+                                }
+                            }
+                        });
+                        if (statusEl) {
+                            statusEl.textContent = '✅ Vídeo já assistido!';
+                            statusEl.style.color = 'var(--color-success)';
+                        }
+                        return;
+                    }
+
+                    video.addEventListener('play', function() {
+                        if (statusEl) {
+                            statusEl.textContent = '▶️ Reproduzindo... Assista até o final.';
+                            statusEl.style.color = 'var(--text-secondary)';
+                        }
+                    });
+
+                    video.addEventListener('ended', function() {
+                        if (statusEl) {
+                            statusEl.textContent = '✅ Vídeo assistido completamente!';
+                            statusEl.style.color = 'var(--color-success)';
+                        }
+
+                        console.log('🎬 Vídeo terminou! Completando Missão 7...');
+
+                        missionData.forEach(mission => {
+                            if (mission.id === 'm7' && !completedMissions.has('m7')) {
+                                if (isMissionAvailable(mission)) {
+                                    completeMission('m7');
+                                    console.log('✅ Missão 7 completada pelo vídeo!');
+                                    showNotification('🎬 A Verdade Revelada', 'Helena revelou a verdade sobre a Sigma!');
+                                }
+                            }
+                        });
+                    });
+
+                    video.addEventListener('pause', function() {
+                        if (statusEl && !video.ended) {
+                            statusEl.textContent = '⏸️ Pausado. Continue assistindo para concluir.';
+                            statusEl.style.color = 'var(--color-warning)';
+                        }
+                    });
+
+                    video.addEventListener('timeupdate', function() {
+                        if (statusEl && !video.ended && video.currentTime > 0) {
+                            const percent = Math.round((video.currentTime / video.duration) * 100);
+                            statusEl.textContent = `▶️ Assistindo... ${percent}%`;
+                            statusEl.style.color = 'var(--text-secondary)';
+                        }
+                    });
+                }
+            }
+            // VÍDEO 001 (ev3) - Missão 6 (Vídeo - Sala 4)
+            else if (evidenceId === 2) {
+                console.log('🎬 Video_001.mp4 aberto - Missão 6 (Vídeo - Sala 4)');
 
                 const video = document.getElementById('caseVideo');
                 const statusEl = document.getElementById('videoStatus');
@@ -2087,7 +2143,6 @@
                             if (mission.id === 'm6' && !completedMissions.has('m6')) {
                                 if (isMissionAvailable(mission)) {
                                     completeMission('m6');
-                                    console.log('✅ Missão 6 completada (vídeo já estava no final)!');
                                 }
                             }
                         });
@@ -2118,7 +2173,7 @@
                                 if (isMissionAvailable(mission)) {
                                     completeMission('m6');
                                     console.log('✅ Missão 6 completada pelo vídeo!');
-                                    showNotification('🎬 A Verdade Revelada', 'Helena revelou a verdade sobre a Sigma!');
+                                    showNotification('🎬 Vídeo - Sala 4', 'Você assistiu à recriação do momento da sala 4.');
                                 }
                             }
                         });
@@ -2139,11 +2194,6 @@
                         }
                     });
                 }
-            }
-            // VÍDEO 001 (ev3) - Vídeo da Sala 4 (não completa missão)
-            else if (evidenceId === 2) {
-                console.log('🎬 Video_001.mp4 aberto - Vídeo da Sala 4 (apenas informativo)');
-                // Não completa nenhuma missão - apenas informativo
             }
             // FOTO_001 - LUPA E CÓDIGO (Missão 3)
             else if (evidenceId === 0) {
@@ -2213,7 +2263,6 @@
                                 badge.textContent = '✅ Código Encontrado!';
                                 container.appendChild(badge);
 
-                                // COMPLETAR MISSÃO 3 - O CÓDIGO ESCONDIDO
                                 missionData.forEach(mission => {
                                     if (mission.id === 'm3' && !completedMissions.has('m3')) {
                                         if (isMissionAvailable(mission)) {
@@ -2227,17 +2276,11 @@
                     }
                 }
             }
-            // FOTO_002 - MISSÃO 5 (A ÚLTIMA FOTO) E MISSÃO 6 (PASTA SECRETA)
+            // FOTO_002 - Missão 5 (A Última Foto) + Missão 6 (Pasta Secreta)
             else if (evidenceId === 3) {
                 console.log('📸 Foto_002.png aberta');
 
-                // Forçar recarga da imagem sem cache
-                const imgElement = document.querySelector('#imageContainer img');
-                if (imgElement) {
-                    imgElement.src = filePath + '?t=' + Date.now();
-                }
-
-                // Completar a Missão 5 (A Última Foto) primeiro
+                // Completar a Missão 5 (A Última Foto)
                 missionData.forEach(mission => {
                     if (mission.id === 'm5' && !completedMissions.has('m5')) {
                         if (isMissionAvailable(mission)) {
@@ -2248,7 +2291,7 @@
                     }
                 });
 
-                // Depois, se a Missão 5 foi concluída, completar a Missão 6 (Pasta Secreta)
+                // Depois, completar a Missão 6 (Pasta Secreta)
                 setTimeout(() => {
                     if (completedMissions.has('m5')) {
                         missionData.forEach(mission => {
