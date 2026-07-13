@@ -1,7 +1,6 @@
 [
     {
         "id": "t1",
-        "time": 0,
         "title": "📧 Novo E-mail Recebido",
         "message": "Um e-mail de Helena foi encontrado na caixa de entrada. Ela menciona a investigação da Sigma.",
         "unlock": "e1",
@@ -10,7 +9,6 @@
     },
     {
         "id": "t2",
-        "time": 30,
         "title": "💬 Mensagem Detectada",
         "message": "Uma conversa suspeita foi identificada no sistema de mensagens. Helena parece estar com medo.",
         "unlock": "m1",
@@ -19,7 +17,6 @@
     },
     {
         "id": "t3",
-        "time": 60,
         "title": "🖼️ Nova Evidência Encontrada",
         "message": "Uma foto foi recuperada do celular de Helena. Ela está saindo do prédio da Sigma.",
         "unlock": "ev1",
@@ -28,7 +25,6 @@
     },
     {
         "id": "t4",
-        "time": 90,
         "title": "📄 Documento Classificado",
         "message": "Um relatório financeiro da Sigma Corp foi descoberto. Há movimentações suspeitas.",
         "unlock": "ev2",
@@ -37,7 +33,6 @@
     },
     {
         "id": "t5",
-        "time": 120,
         "title": "🎬 Vídeo de Vigilância",
         "message": "Um vídeo recriando o momento da mensagem sobre a sala 4 foi encontrado. A verdade está próxima.",
         "unlock": "ev3",

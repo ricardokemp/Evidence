@@ -79,51 +79,7 @@
         }
 
         /* ==========================================
-           TIMELINE BAR - TOPO
-           ========================================== */
-
-        .timeline-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--color-border);
-            z-index: var(--z-header);
-        }
-
-        .timeline-bar .progress {
-            height: 100%;
-            background: var(--color-primary);
-            width: 0%;
-            transition: width 1s ease;
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-        }
-
-        .timeline-info {
-            position: fixed;
-            top: var(--space-2);
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(8px);
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-md);
-            padding: var(--space-2) var(--space-4);
-            font-size: var(--font-xs);
-            color: var(--text-secondary);
-            z-index: var(--z-header);
-            text-align: center;
-            font-family: var(--font-mono);
-        }
-
-        .timeline-info .highlight {
-            color: var(--color-primary);
-            font-weight: 600;
-        }
-
-        /* ==========================================
-           MISSIONS PANEL - TOPO DIREITO
+           MISSIONS PANEL - TOPO DIREITO (abaixo do progresso)
            ========================================== */
 
         .missions-panel {
@@ -418,7 +374,7 @@
         }
 
         /* ==========================================
-           WINDOW
+           WINDOW - CENTRALIZADA
            ========================================== */
 
         .window {
@@ -717,12 +673,6 @@
                 max-height: 40vh;
             }
 
-            .timeline-info {
-                font-size: 10px;
-                padding: var(--space-1) var(--space-2);
-                top: var(--space-1);
-            }
-
             .notification {
                 top: 50px;
                 min-width: 200px;
@@ -1014,22 +964,6 @@
 <body>
 
     <!-- ==========================================
-    TIMELINE BAR
-    ========================================== -->
-
-    <div class="timeline-bar">
-        <div class="progress" id="timelineProgress"></div>
-    </div>
-
-    <!-- ==========================================
-    TIMELINE INFO
-    ========================================== -->
-
-    <div class="timeline-info" id="timelineInfo">
-        ⏳ Processando evidências... <span class="highlight" id="nextReveal">30s</span>
-    </div>
-
-    <!-- ==========================================
     NOTIFICATION
     ========================================== -->
 
@@ -1067,9 +1001,9 @@
 
     <div class="processing-overlay" id="processingOverlay">
         <div class="spinner"></div>
-        <h3>🔍 Analisando Evidências</h3>
-        <p id="processingMessage">O sistema está processando novas pistas...</p>
-        <span class="progress-text" id="processingProgress">0%</span>
+        <h3>🔍 Nova Evidência Descoberta!</h3>
+        <p id="processingMessage">Uma nova pista foi adicionada ao sistema.</p>
+        <span class="progress-text" id="processingProgress">🔓 Desbloqueado!</span>
     </div>
 
     <!-- ==========================================
@@ -1161,9 +1095,8 @@
         // CONFIGURAÇÕES
         // ==========================================
 
-        const TIMELINE_FILE = '../cases/case001/timeline.json';
         const MISSIONS_FILE = '../cases/case001/missions.json';
-        const REVEAL_INTERVAL = 30; // segundos entre cada revelação
+        const TIMELINE_FILE = '../cases/case001/timeline.json';
 
         // ==========================================
         // RELÓGIO
@@ -1199,9 +1132,6 @@
         const missionsList = document.getElementById('missionsList');
         const missionsPanel = document.getElementById('missionsPanel');
         const confettiContainer = document.getElementById('confettiContainer');
-        const timelineProgress = document.getElementById('timelineProgress');
-        const timelineInfo = document.getElementById('timelineInfo');
-        const nextReveal = document.getElementById('nextReveal');
         const processingOverlay = document.getElementById('processingOverlay');
         const processingMessage = document.getElementById('processingMessage');
         const processingProgress = document.getElementById('processingProgress');
@@ -1215,8 +1145,6 @@
         let caseComplete = false;
         let revealedItems = new Set();
         let currentRevealIndex = 0;
-        let revealTimer = null;
-        let isProcessing = false;
         let startTime = Date.now();
 
         function closeWindow() {
@@ -1235,80 +1163,18 @@
         const evidenceContent = {};
 
         // ==========================================
-        // SISTEMA DE REVELAÇÃO TEMPORAL
+        // FUNÇÃO: REVELAR PRÓXIMA PISTA
         // ==========================================
 
-        async function loadTimeline() {
-            try {
-                const res = await fetch(TIMELINE_FILE);
-                if (!res.ok) throw new Error('Erro ao carregar timeline');
-                timelineData = await res.json();
-                // Ordenar por tempo
-                timelineData.sort((a, b) => a.time - b.time);
-                // Iniciar revelação
-                startRevealSchedule();
-            } catch (error) {
-                console.warn('Erro ao carregar timeline:', error);
-                // Fallback: timeline padrão
-                timelineData = [
-                    { id: 't1', time: 0, title: '📧 Novo E-mail', message: 'Um e-mail de Helena foi encontrado.',
-                        unlock: 'e1', type: 'email' },
-                    { id: 't2', time: 30, title: '💬 Mensagem Detectada', message: 'Uma conversa suspeita foi identificada.',
-                        unlock: 'm1', type: 'message' },
-                    { id: 't3', time: 60, title: '🖼️ Nova Evidência', message: 'Uma foto foi recuperada.',
-                        unlock: 'ev1', type: 'evidence' },
-                    { id: 't4', time: 90, title: '📄 Documento Classificado', message: 'Relatório financeiro descoberto.',
-                        unlock: 'ev2', type: 'evidence' },
-                    { id: 't5', time: 120, title: '🎬 Vídeo de Vigilância',
-                        message: 'Vídeo sobre a sala 4 encontrado.', unlock: 'ev3', type: 'evidence' }
-                ];
-                startRevealSchedule();
-            }
-        }
-
-        function startRevealSchedule() {
-            // Revelar o primeiro item imediatamente
-            if (timelineData.length > 0) {
-                revealItem(0);
-                currentRevealIndex = 1;
-            }
-
-            // Agendar as próximas revelações
-            scheduleNextReveal();
-        }
-
-        function scheduleNextReveal() {
+        function revealNextItem() {
             if (currentRevealIndex >= timelineData.length) {
-                // Todas as pistas foram reveladas
-                timelineInfo.innerHTML = '✅ <span style="color: var(--color-success);">Todas as evidências foram processadas.</span>';
+                // Todas as pistas já foram reveladas
                 return;
             }
 
-            const nextItem = timelineData[currentRevealIndex];
-            const timeUntilReveal = nextItem.time - (timelineData[currentRevealIndex - 1]?.time || 0);
-
-            // Mostrar contagem regressiva
-            let remaining = timeUntilReveal;
-            nextReveal.textContent = remaining + 's';
-
-            const countdownInterval = setInterval(() => {
-                remaining--;
-                if (remaining <= 0) {
-                    clearInterval(countdownInterval);
-                    // Revelar o próximo item
-                    if (currentRevealIndex < timelineData.length) {
-                        revealItem(currentRevealIndex);
-                        currentRevealIndex++;
-                        scheduleNextReveal();
-                    }
-                } else {
-                    nextReveal.textContent = remaining + 's';
-                }
-            }, 1000);
-
-            // Atualizar progresso da timeline
-            const progress = (currentRevealIndex / timelineData.length) * 100;
-            timelineProgress.style.width = Math.min(progress, 100) + '%';
+            // Revelar o próximo item
+            revealItem(currentRevealIndex);
+            currentRevealIndex++;
         }
 
         function revealItem(index) {
@@ -1326,15 +1192,12 @@
             // Atualizar badges
             updateBadges();
 
-            // Tocar efeito (se disponível)
+            // Efeito de descoberta
             playRevealEffect();
 
             // Verificar se todas as pistas foram reveladas
             if (revealedItems.size === timelineData.length) {
-                setTimeout(() => {
-                    timelineInfo.innerHTML = '✅ <span style="color: var(--color-success);">Todas as evidências processadas. Investigue!</span>';
-                    timelineProgress.style.width = '100%';
-                }, 1000);
+                // Todas as pistas foram reveladas!
             }
         }
 
@@ -1342,8 +1205,6 @@
             // Marcar a missão correspondente como disponível
             missionData.forEach(mission => {
                 if (mission.unlock === unlock) {
-                    // A missão agora está disponível para ser completada
-                    // O jogador precisa clicar no item para completar
                     renderMissions();
                 }
             });
@@ -1352,32 +1213,31 @@
             updateAppContent();
         }
 
-        function updateBadges() {
-            // Verificar quais itens foram revelados
-            const hasNewEmail = revealedItems.has('t1');
-            const hasNewMessage = revealedItems.has('t2');
-            const hasNewEvidence = revealedItems.has('t3') || revealedItems.has('t4') || revealedItems.has('t5');
+        // ==========================================
+        // FUNÇÃO: COMPLETAR MISSÃO
+        // ==========================================
 
-            mailBadge.style.display = hasNewEmail ? 'block' : 'none';
-            messagesBadge.style.display = hasNewMessage ? 'block' : 'none';
-            evidenceBadgeNew.style.display = hasNewEvidence ? 'block' : 'none';
+        function completeMission(missionId) {
+            if (completedMissions.has(missionId)) return;
 
-            // Atualizar contador de evidências
-            const totalRevealed = revealedItems.size;
-            evidenceBadge.textContent = totalRevealed;
-            evidenceBadge.style.display = totalRevealed > 0 ? 'block' : 'none';
-        }
+            const mission = missionData.find(m => m.id === missionId);
+            if (!mission) return;
 
-        function playRevealEffect() {
-            // Pequena vibração/efeito visual
-            const overlay = document.getElementById('processingOverlay');
-            overlay.classList.add('active');
-            processingMessage.textContent = '🔍 Nova evidência encontrada...';
-            processingProgress.textContent = 'Processando...';
+            completedMissions.add(missionId);
+            renderMissions();
+            updateProgress();
 
-            setTimeout(() => {
-                overlay.classList.remove('active');
-            }, 800);
+            // Verificar se todas as missões foram completadas
+            const allCompleted = missionData.every(m => completedMissions.has(m.id));
+            if (allCompleted && !caseComplete) {
+                caseComplete = true;
+                setTimeout(() => {
+                    showEpicConclusion();
+                }, 800);
+            }
+
+            // Revelar a próxima pista automaticamente (se houver)
+            revealNextItem();
         }
 
         // ==========================================
@@ -1391,7 +1251,6 @@
             const time = now.getHours().toString().padStart(2, '0') + ':' +
                 now.getMinutes().toString().padStart(2, '0');
 
-            // Extrair ícone do título
             const iconMatch = title.match(/^(.{1,2})\s/);
             const icon = iconMatch ? iconMatch[1] : '📌';
             const cleanTitle = title.replace(/^.{1,2}\s/, '');
@@ -1411,6 +1270,17 @@
             notificationTimeout = setTimeout(() => {
                 notification.style.display = 'none';
             }, 4000);
+        }
+
+        function playRevealEffect() {
+            const overlay = document.getElementById('processingOverlay');
+            overlay.classList.add('active');
+            processingMessage.textContent = '🔓 Nova evidência desbloqueada!';
+            processingProgress.textContent = '✅ Disponível para investigação';
+
+            setTimeout(() => {
+                overlay.classList.remove('active');
+            }, 1000);
         }
 
         // ==========================================
@@ -1449,7 +1319,6 @@
 
         function renderMissions() {
             missionsList.innerHTML = '';
-            let hasActiveMission = false;
 
             missionData.forEach((mission) => {
                 const isCompleted = completedMissions.has(mission.id);
@@ -1457,7 +1326,7 @@
                 const isLocked = !isAvailable && !isCompleted;
                 const isActive = isAvailable && !isCompleted;
 
-                // Verificar se a missão foi revelada pelo timeline
+                // Verificar se a missão já foi revelada pela timeline
                 const isRevealed = isMissionRevealed(mission);
 
                 const div = document.createElement('div');
@@ -1475,7 +1344,6 @@
                 } else if (isActive && isRevealed) {
                     icon = '▶️';
                     statusText = 'Ativa';
-                    hasActiveMission = true;
                 } else if (isRevealed && !isAvailable) {
                     icon = '🔓';
                     statusText = 'Disponível';
@@ -1498,15 +1366,12 @@
         }
 
         function isMissionRevealed(mission) {
-            // Verifica se o item que desbloqueia a missão já foi revelado
             if (!mission.unlock) return true;
-            // Verificar se algum item do timeline revelou este unlock
             for (const item of timelineData) {
                 if (item.unlock === mission.unlock && revealedItems.has(item.id)) {
                     return true;
                 }
             }
-            // Se a missão não tem unlock específico ou é a primeira
             if (mission.required.length === 0) return true;
             return false;
         }
@@ -1517,32 +1382,41 @@
             return mission.required.every(req => completedMissions.has(req));
         }
 
-        function checkMissionCompletion(trigger) {
-            let anyCompleted = false;
-            missionData.forEach(mission => {
-                if (completedMissions.has(mission.id)) return;
-                if (!isMissionAvailable(mission)) return;
+        // ==========================================
+        // CARREGAR TIMELINE
+        // ==========================================
 
-                if (mission.unlock && trigger === mission.unlock) {
-                    completedMissions.add(mission.id);
-                    anyCompleted = true;
-                    showNotification('🎉 Missão Concluída!', mission.title.replace(/^.{1,3}\s/, ''));
+        async function loadTimeline() {
+            try {
+                const res = await fetch(TIMELINE_FILE);
+                if (!res.ok) throw new Error('Erro ao carregar timeline');
+                timelineData = await res.json();
+
+                // Revelar o primeiro item automaticamente
+                if (timelineData.length > 0) {
+                    revealItem(0);
+                    currentRevealIndex = 1;
                 }
-            });
+            } catch (error) {
+                console.warn('Erro ao carregar timeline:', error);
+                timelineData = [
+                    { id: 't1', title: '📧 Novo E-mail', message: 'Um e-mail de Helena foi encontrado.',
+                        unlock: 'e1', type: 'email' },
+                    { id: 't2', title: '💬 Mensagem Detectada', message: 'Uma conversa suspeita foi identificada.',
+                        unlock: 'm1', type: 'message' },
+                    { id: 't3', title: '🖼️ Nova Evidência', message: 'Uma foto foi recuperada.',
+                        unlock: 'ev1', type: 'evidence' },
+                    { id: 't4', title: '📄 Documento Classificado', message: 'Relatório financeiro descoberto.',
+                        unlock: 'ev2', type: 'evidence' },
+                    { id: 't5', title: '🎬 Vídeo de Vigilância',
+                        message: 'Vídeo sobre a sala 4 encontrado.', unlock: 'ev3', type: 'evidence' }
+                ];
 
-            if (anyCompleted) {
-                renderMissions();
-                checkAllComplete();
-            }
-        }
-
-        function checkAllComplete() {
-            const allCompleted = missionData.every(m => completedMissions.has(m.id));
-            if (allCompleted && !caseComplete) {
-                caseComplete = true;
-                setTimeout(() => {
-                    showEpicConclusion();
-                }, 800);
+                // Revelar o primeiro item
+                if (timelineData.length > 0) {
+                    revealItem(0);
+                    currentRevealIndex = 1;
+                }
             }
         }
 
@@ -1553,7 +1427,18 @@
         function updateProgress() {
             const found = completedMissions.size;
             progressCount.textContent = found;
-            evidenceBadge.textContent = found + (revealedItems.size - found > 0 ? '✨' : '');
+            evidenceBadge.textContent = found;
+            evidenceBadge.style.display = found > 0 ? 'block' : 'none';
+        }
+
+        function updateBadges() {
+            const hasNewEmail = revealedItems.has('t1');
+            const hasNewMessage = revealedItems.has('t2');
+            const hasNewEvidence = revealedItems.has('t3') || revealedItems.has('t4') || revealedItems.has('t5');
+
+            mailBadge.style.display = hasNewEmail ? 'block' : 'none';
+            messagesBadge.style.display = hasNewMessage ? 'block' : 'none';
+            evidenceBadgeNew.style.display = hasNewEvidence ? 'block' : 'none';
         }
 
         // ==========================================
@@ -1642,10 +1527,13 @@
                             ${timelineData.map((item, i) => `
                                 <div style="display: flex; gap: var(--space-4); padding: var(--space-2) 0; border-bottom: ${i < timelineData.length - 1 ? '1px solid var(--color-border)' : 'none'};">
                                     <span style="color: ${revealedItems.has(item.id) ? 'var(--color-success)' : 'var(--text-muted)'}; font-size: var(--font-sm);">
-                                        ${revealedItems.has(item.id) ? '✅' : '⏳'} ${item.time}s
+                                        ${revealedItems.has(item.id) ? '✅' : '⏳'} ${i + 1}
                                     </span>
                                     <span style="color: ${revealedItems.has(item.id) ? 'var(--text-bright)' : 'var(--text-muted)'};">
                                         ${item.title.replace(/^.{1,2}\s/, '')}
+                                    </span>
+                                    <span style="color: ${revealedItems.has(item.id) ? 'var(--color-success)' : 'var(--text-muted)'}; font-size: var(--font-xs); margin-left: auto;">
+                                        ${revealedItems.has(item.id) ? 'Desbloqueado' : 'Bloqueado'}
                                     </span>
                                 </div>
                             `).join('')}
@@ -1746,7 +1634,6 @@
             icon.addEventListener('click', function(e) {
                 e.preventDefault();
                 const app = this.dataset.app;
-                // Esconder badges ao abrir
                 if (app === 'mail') mailBadge.style.display = 'none';
                 if (app === 'messages') messagesBadge.style.display = 'none';
                 if (app === 'evidence') evidenceBadgeNew.style.display = 'none';
@@ -1762,8 +1649,17 @@
             const email = emailContent[emailId];
             if (!email) return;
 
+            // Verifica se é o e-mail correto para completar a missão
             const emailKey = 'e' + (parseInt(emailId) + 1);
-            checkMissionCompletion(emailKey);
+
+            // Verifica se este e-mail é o unlock de alguma missão
+            missionData.forEach(mission => {
+                if (mission.unlock === emailKey && !completedMissions.has(mission.id)) {
+                    if (isMissionAvailable(mission)) {
+                        completeMission(mission.id);
+                    }
+                }
+            });
 
             windowTitle.textContent = '📧 ' + email.subject;
             windowBody.innerHTML = `
@@ -1779,7 +1675,14 @@
             if (!chat) return;
 
             const chatKey = 'm' + (parseInt(chatId) + 1);
-            checkMissionCompletion(chatKey);
+
+            missionData.forEach(mission => {
+                if (mission.unlock === chatKey && !completedMissions.has(mission.id)) {
+                    if (isMissionAvailable(mission)) {
+                        completeMission(mission.id);
+                    }
+                }
+            });
 
             windowTitle.textContent = '💬 ' + chat.contact;
             let html = `<h3>Conversa com ${chat.contact}</h3>`;
@@ -1796,7 +1699,14 @@
             if (!ev) return;
 
             const evKey = 'ev' + (parseInt(evidenceId) + 1);
-            checkMissionCompletion(evKey);
+
+            missionData.forEach(mission => {
+                if (mission.unlock === evKey && !completedMissions.has(mission.id)) {
+                    if (isMissionAvailable(mission)) {
+                        completeMission(mission.id);
+                    }
+                }
+            });
 
             const filePath = `../cases/case001/${ev.location}`;
             const fileExtension = ev.title.split('.').pop().toLowerCase();
@@ -1928,7 +1838,6 @@
         function updateAppContent() {
             let emailList = '';
             caseData.emails.forEach((email, i) => {
-                // Verificar se o e-mail foi revelado
                 const isRevealed = timelineData.some(t => t.unlock === ('e' + (i + 1)) && revealedItems.has(t.id));
                 const isLocked = !isRevealed && i > 0;
                 emailList += `
@@ -2024,9 +1933,8 @@
             const target = e.target.closest('.file-item');
             if (!target) return;
 
-            // Verificar se o item está bloqueado
             if (target.classList.contains('locked-item')) {
-                showNotification('🔒', 'Esta pista ainda não está disponível. Aguarde o processamento.');
+                showNotification('🔒', 'Esta pista ainda não está disponível.');
                 return;
             }
 
@@ -2063,6 +1971,8 @@
             await loadMissions();
             await loadTimeline();
             await loadCase();
+
+            // Abrir e-mail automaticamente
             setTimeout(() => openApp('mail'), 500);
         }
 
