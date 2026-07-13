@@ -1053,8 +1053,8 @@
         // CONFIGURAÇÕES
         // ==========================================
 
-        const MISSIONS_FILE = '../cases/case001/missions.json?v=10';
-        const TIMELINE_FILE = '../cases/case001/timeline.json?v=10';
+        const MISSIONS_FILE = '../cases/case001/missions.json?v=11';
+        const TIMELINE_FILE = '../cases/case001/timeline.json?v=11';
         const PROCESSING_TIME = 5000;
 
         // ==========================================
@@ -1134,6 +1134,8 @@
             const item = timelineData[index];
             if (!item || revealedItems.has(item.id)) return;
 
+            console.log('🔄 Revelando item:', item.id, 'Unlock:', item.unlock);
+
             revealedItems.add(item.id);
             showNotification(item.title, item.message);
             markItemAvailable(item.unlock, item.type);
@@ -1144,7 +1146,11 @@
                 openFolder(folderId);
             }
 
-            if (revealedItems.size === timelineData.length) {}
+            updateAppContent();
+
+            if (revealedItems.size === timelineData.length) {
+                console.log('🎯 Todas as pistas foram reveladas!');
+            }
         }
 
         function markItemAvailable(unlock, type) {
@@ -1171,6 +1177,15 @@
             // Verificar se a Missão 6 foi concluída
             if (missionId === 'm6') {
                 console.log('🔐 Missão 6 concluída! Desbloqueando Missão 7...');
+                // Forçar a revelação da Missão 7 (t7)
+                setTimeout(() => {
+                    console.log('🔄 Forçando revelação da Missão 7...');
+                    // Verificar se t7 ainda não foi revelada
+                    const t7Exists = timelineData.some(item => item.id === 't7');
+                    if (t7Exists && currentRevealIndex < timelineData.length) {
+                        revealNextItem();
+                    }
+                }, 1000);
             }
 
             renderMissions();
@@ -1189,7 +1204,9 @@
 
             setTimeout(() => {
                 hideProcessingOverlay();
-                revealNextItem();
+                if (missionId !== 'm6') {
+                    revealNextItem();
+                }
             }, PROCESSING_TIME);
         }
 
@@ -1945,9 +1962,7 @@
                 if (video) {
                     const statusEl = document.getElementById('videoStatus');
 
-                    // Verificar se o vídeo já terminou (caso o usuário tenha assistido antes)
                     if (video.ended) {
-                        // Vídeo já foi assistido até o final
                         const unlockKey = evidenceId === 2 ? 'ev3' : 'ev6';
                         missionData.forEach(mission => {
                             if (mission.unlock === unlockKey && !completedMissions.has(mission.id)) {
@@ -1962,7 +1977,6 @@
                             statusEl.style.color = 'var(--color-success)';
                         }
                     } else {
-                        // Adicionar eventos
                         video.addEventListener('play', function() {
                             if (statusEl) {
                                 statusEl.textContent = '▶️ Reproduzindo... Assista até o final.';
@@ -2007,7 +2021,7 @@
                 }
             } else if (evidenceId === 0) {
                 // ==========================================
-                // COMPLETAR MISSÃO 3 - A ÚLTIMA FOTO
+                // FOTO_001 - LUPA ATIVA NA PRIMEIRA ABERTURA
                 // ==========================================
 
                 console.log('📸 Foto_001 aberta');
@@ -2022,10 +2036,7 @@
                     }
                 });
 
-                // ==========================================
                 // LUPA INTERATIVA - ATIVA DESDE A PRIMEIRA ABERTURA
-                // ==========================================
-
                 const img = document.getElementById('evidenceImage');
                 const container = document.getElementById('imageContainer');
 
@@ -2034,11 +2045,9 @@
                     const codeGlow = document.getElementById('codeGlow');
                     let codeRevealed = false;
 
-                    // Ativar lupa
                     container.classList.add('magnifier-active');
 
                     if (magnifier) {
-                        // Evento: mouse entra na imagem
                         img.addEventListener('mouseenter', function() {
                             if (container.classList.contains('magnifier-active')) {
                                 magnifier.style.display = 'block';
@@ -2046,13 +2055,11 @@
                             }
                         });
 
-                        // Evento: mouse sai da imagem
                         img.addEventListener('mouseleave', function() {
                             magnifier.style.display = 'none';
                             document.body.style.cursor = 'default';
                         });
 
-                        // Evento: mouse se move na imagem
                         img.addEventListener('mousemove', function(e) {
                             if (!container.classList.contains('magnifier-active')) return;
 
@@ -2070,7 +2077,6 @@
                             const mouseX = e.clientX - rect.left;
                             const mouseY = e.clientY - rect.top;
 
-                            // Posição do código na imagem (67.6% largura, 33% altura)
                             const codePixelX = rect.width * 0.676;
                             const codePixelY = rect.height * 0.33;
                             const threshold = 40;
@@ -2088,13 +2094,11 @@
                                 showNotification('🔍 Código Encontrado!',
                                     'O número 4472 está escrito na parede ao fundo da foto.');
 
-                                // Criar badge de conclusão
                                 const badge = document.createElement('div');
                                 badge.className = 'code-badge';
                                 badge.textContent = '✅ Código Encontrado!';
                                 container.appendChild(badge);
 
-                                // Completar a missão 5
                                 missionData.forEach(mission => {
                                     if (mission.id === 'm5' && !completedMissions.has('m5')) {
                                         if (isMissionAvailable(mission)) {
@@ -2108,12 +2112,41 @@
                     }
                 }
             } else {
-                // Para outras evidências, completar a missão imediatamente
-                console.log('Completando missão para evKey:', evKey);
+                // ==========================================
+                // OUTRAS EVIDÊNCIAS
+                // ==========================================
+
+                console.log('🔍 Abrindo evidência:', ev.title, 'ID:', evidenceId, 'evKey:', evKey);
+
+                // Para a Foto_002.png (ev4), completar a Missão 6
+                if (evKey === 'ev4') {
+                    console.log('📸 Foto_002.png aberta - Completando Missão 6 (Pasta Secreta)');
+
+                    const m5Completed = completedMissions.has('m5');
+                    console.log('Missão 5 concluída?', m5Completed);
+
+                    if (!m5Completed) {
+                        showNotification('⚠️', 'Você precisa encontrar o código 4472 primeiro!');
+                        return;
+                    }
+
+                    missionData.forEach(mission => {
+                        if (mission.id === 'm6' && !completedMissions.has('m6')) {
+                            if (isMissionAvailable(mission)) {
+                                completeMission('m6');
+                                console.log('✅ Missão 6 completada!');
+                                showNotification('🔐 Pasta Secreta',
+                                    'Você usou o código 4472 para acessar a pasta secreta!');
+                            }
+                        }
+                    });
+                }
+
+                // Para outras evidências
                 missionData.forEach(mission => {
                     if (mission.unlock === evKey && !completedMissions.has(mission.id)) {
                         console.log('Missão encontrada:', mission.id, 'Disponível:', isMissionAvailable(
-                        mission));
+                            mission));
                         if (isMissionAvailable(mission)) {
                             completeMission(mission.id);
                         }
