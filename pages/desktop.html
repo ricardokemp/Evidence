@@ -919,17 +919,6 @@
             }
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         .code-badge {
             position: absolute;
             top: 10px;
@@ -1174,13 +1163,10 @@
 
             completedMissions.add(missionId);
 
-            // Verificar se a Missão 6 foi concluída
             if (missionId === 'm6') {
                 console.log('🔐 Missão 6 concluída! Desbloqueando Missão 7...');
-                // Forçar a revelação da Missão 7 (t7)
                 setTimeout(() => {
                     console.log('🔄 Forçando revelação da Missão 7...');
-                    // Verificar se t7 ainda não foi revelada
                     const t7Exists = timelineData.some(item => item.id === 't7');
                     if (t7Exists && currentRevealIndex < timelineData.length) {
                         revealNextItem();
@@ -1838,7 +1824,7 @@
         }
 
         // ==========================================
-        // FUNÇÃO: OPEN EVIDENCE CORRIGIDA
+        // FUNÇÃO: OPEN EVIDENCE
         // ==========================================
 
         function openEvidence(evidenceId) {
@@ -1950,13 +1936,8 @@
             windowBody.innerHTML = content;
             windowEl.classList.add('open');
 
-            // ==========================================
-            // COMPLETAR MISSÃO CORRESPONDENTE
-            // ==========================================
-
             const evKey = 'ev' + (parseInt(evidenceId) + 1);
 
-            // Se for vídeo (ev3 ou ev6), só completar quando terminar
             if (evidenceId === 2 || evidenceId === 5) {
                 const video = document.getElementById('caseVideo');
                 if (video) {
@@ -1968,7 +1949,7 @@
                             if (mission.unlock === unlockKey && !completedMissions.has(mission.id)) {
                                 if (isMissionAvailable(mission)) {
                                     completeMission(mission.id);
-                                    console.log('✅ Missão ' + mission.id + ' completada (vídeo já estava no final)!');
+                                    console.log('✅ Missão ' + mission.id + ' completada!');
                                 }
                             }
                         });
@@ -1992,12 +1973,10 @@
 
                             const unlockKey = evidenceId === 2 ? 'ev3' : 'ev6';
                             missionData.forEach(mission => {
-                                if (mission.unlock === unlockKey && !completedMissions.has(mission
-                                .id)) {
+                                if (mission.unlock === unlockKey && !completedMissions.has(mission.id)) {
                                     if (isMissionAvailable(mission)) {
                                         completeMission(mission.id);
-                                        console.log('✅ Missão ' + mission.id +
-                                        ' completada pelo vídeo!');
+                                        console.log('✅ Missão ' + mission.id + ' completada pelo vídeo!');
                                     }
                                 }
                             });
@@ -2020,13 +1999,8 @@
                     }
                 }
             } else if (evidenceId === 0) {
-                // ==========================================
-                // FOTO_001 - LUPA ATIVA NA PRIMEIRA ABERTURA
-                // ==========================================
-
                 console.log('📸 Foto_001 aberta');
 
-                // Completar a Missão 3
                 missionData.forEach(mission => {
                     if (mission.id === 'm3' && !completedMissions.has('m3')) {
                         if (isMissionAvailable(mission)) {
@@ -2036,7 +2010,6 @@
                     }
                 });
 
-                // LUPA INTERATIVA - ATIVA DESDE A PRIMEIRA ABERTURA
                 const img = document.getElementById('evidenceImage');
                 const container = document.getElementById('imageContainer');
 
@@ -2068,10 +2041,8 @@
                             const x = e.clientX - rect.left - magnifier.offsetWidth / 2;
                             const y = e.clientY - rect.top - magnifier.offsetHeight / 2;
 
-                            magnifier.style.left = Math.max(0, Math.min(x, rect.width - magnifier
-                                .offsetWidth)) + 'px';
-                            magnifier.style.top = Math.max(0, Math.min(y, rect.height - magnifier
-                                .offsetHeight)) + 'px';
+                            magnifier.style.left = Math.max(0, Math.min(x, rect.width - magnifier.offsetWidth)) + 'px';
+                            magnifier.style.top = Math.max(0, Math.min(y, rect.height - magnifier.offsetHeight)) + 'px';
                             magnifier.style.display = 'block';
 
                             const mouseX = e.clientX - rect.left;
@@ -2091,8 +2062,7 @@
                                     codeGlow.style.top = (codePixelY - 15) + 'px';
                                 }
 
-                                showNotification('🔍 Código Encontrado!',
-                                    'O número 4472 está escrito na parede ao fundo da foto.');
+                                showNotification('🔍 Código Encontrado!', 'O número 4472 está escrito na parede ao fundo da foto.');
 
                                 const badge = document.createElement('div');
                                 badge.className = 'code-badge';
@@ -2112,13 +2082,8 @@
                     }
                 }
             } else {
-                // ==========================================
-                // OUTRAS EVIDÊNCIAS
-                // ==========================================
-
                 console.log('🔍 Abrindo evidência:', ev.title, 'ID:', evidenceId, 'evKey:', evKey);
 
-                // Para a Foto_002.png (ev4), completar a Missão 6
                 if (evKey === 'ev4') {
                     console.log('📸 Foto_002.png aberta - Completando Missão 6 (Pasta Secreta)');
 
@@ -2135,18 +2100,15 @@
                             if (isMissionAvailable(mission)) {
                                 completeMission('m6');
                                 console.log('✅ Missão 6 completada!');
-                                showNotification('🔐 Pasta Secreta',
-                                    'Você usou o código 4472 para acessar a pasta secreta!');
+                                showNotification('🔐 Pasta Secreta', 'Você usou o código 4472 para acessar a pasta secreta!');
                             }
                         }
                     });
                 }
 
-                // Para outras evidências
                 missionData.forEach(mission => {
                     if (mission.unlock === evKey && !completedMissions.has(mission.id)) {
-                        console.log('Missão encontrada:', mission.id, 'Disponível:', isMissionAvailable(
-                            mission));
+                        console.log('Missão encontrada:', mission.id, 'Disponível:', isMissionAvailable(mission));
                         if (isMissionAvailable(mission)) {
                             completeMission(mission.id);
                         }
