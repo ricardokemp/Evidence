@@ -567,6 +567,28 @@
             background: var(--text-muted);
         }
 
+        /* Botão Limpar Cache */
+        #clearCacheBtn {
+            position: fixed;
+            bottom: 70px;
+            left: var(--space-4);
+            background: rgba(239, 68, 68, 0.15);
+            color: #FCA5A5;
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            border-radius: var(--radius-md);
+            padding: var(--space-2) var(--space-3);
+            font-size: var(--font-xs);
+            cursor: pointer;
+            z-index: var(--z-content);
+            font-family: var(--font-mono);
+            transition: var(--transition-fast);
+        }
+
+        #clearCacheBtn:hover {
+            background: rgba(239, 68, 68, 0.25);
+            border-color: rgba(239, 68, 68, 0.5);
+        }
+
         @media (max-width: 1024px) {
             .missions-panel {
                 max-width: 220px;
@@ -653,6 +675,12 @@
             .window-body .video-container video {
                 max-height: 60vh;
             }
+            #clearCacheBtn {
+                bottom: 65px;
+                left: var(--space-2);
+                padding: var(--space-1) var(--space-2);
+                font-size: 9px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -703,6 +731,12 @@
                 font-size: 9px;
             }
             .missions-panel .mission-item {
+                font-size: 8px;
+            }
+            #clearCacheBtn {
+                bottom: 60px;
+                left: var(--space-1);
+                padding: var(--space-0) var(--space-1);
                 font-size: 8px;
             }
         }
@@ -1012,6 +1046,9 @@
         <span class="progress-text" id="processingProgress">5s</span>
     </div>
 
+    <!-- Botão Limpar Cache -->
+    <button id="clearCacheBtn">🗑️ Limpar Cache</button>
+
     <main class="desktop" id="desktop">
 
         <a href="#" class="desktop-icon" data-app="mail">
@@ -1081,7 +1118,7 @@
         // CONFIGURAÇÕES
         // ==========================================
 
-        const TIMELINE_FILE = '../cases/case001/timeline.json?v=12';
+        const TIMELINE_FILE = '../cases/case001/timeline.json?v=14';
         const PROCESSING_TIME = 5000;
 
         // ==========================================
@@ -1097,6 +1134,36 @@
 
         updateClock();
         setInterval(updateClock, 10000);
+
+        // ==========================================
+        // LIMPAR CACHE
+        // ==========================================
+
+        document.getElementById('clearCacheBtn')?.addEventListener('click', function() {
+            if (confirm('Isso vai limpar todo o cache do jogo. Tem certeza?')) {
+                // Limpar localStorage
+                localStorage.clear();
+
+                // Limpar sessionStorage
+                sessionStorage.clear();
+
+                // Limpar cache do navegador
+                if ('caches' in window) {
+                    caches.keys().then(function(names) {
+                        for (let name of names) {
+                            caches.delete(name);
+                        }
+                    });
+                }
+
+                showNotification('🗑️ Cache Limpo', 'O cache foi limpo com sucesso! A página será recarregada.');
+
+                // Recarregar a página com força
+                setTimeout(() => {
+                    location.reload(true);
+                }, 1000);
+            }
+        });
 
         // ==========================================
         // ELEMENTOS
@@ -1201,16 +1268,7 @@
 
             completedMissions.add(missionId);
 
-            // Verificar se a Missão 6 foi concluída
-            if (missionId === 'm6') {
-                console.log('🔐 Missão 6 concluída! Desbloqueando Missão 7...');
-                setTimeout(() => {
-                    console.log('🔄 Forçando revelação da Missão 7...');
-                    if (currentRevealIndex < timelineData.length) {
-                        revealNextItem();
-                    }
-                }, 1000);
-            }
+            console.log('✅ Missão ' + missionId + ' concluída!');
 
             renderMissions();
             updateProgress();
@@ -1224,13 +1282,12 @@
                 return;
             }
 
-            if (missionId !== 'm7') {
+            // Revelar a próxima pista automaticamente (exceto para o vídeo final)
+            if (missionId !== 'm6') {
                 showProcessingOverlay('🔍 Analisando evidências...', 'Aguarde enquanto o sistema processa os dados.');
                 setTimeout(() => {
                     hideProcessingOverlay();
-                    if (missionId !== 'm6' && missionId !== 'm7') {
-                        revealNextItem();
-                    }
+                    revealNextItem();
                 }, PROCESSING_TIME);
             }
         }
@@ -1303,47 +1360,86 @@
         }
 
         // ==========================================
-        // SISTEMA DE MISSÕES
+        // SISTEMA DE MISSÕES - USANDO TIMELINE.JSON
         // ==========================================
 
         async function loadMissions() {
             try {
                 const timestamp = Date.now();
                 const res = await fetch(`../cases/case001/timeline.json?t=${timestamp}`);
-                if (!res.ok) throw new Error('Erro ao carregar missões');
-                missionData = await res.json();
+                if (!res.ok) throw new Error('Erro ao carregar timeline');
+                timelineData = await res.json();
+
+                // Converter timeline em missões
+                missionData = timelineData.map((item, index) => {
+                    const missionId = 'm' + (index + 1);
+                    const required = index > 0 ? ['m' + index] : [];
+
+                    return {
+                        id: missionId,
+                        title: item.title,
+                        description: item.message || 'Investigue esta pista.',
+                        hint: item.message || 'Continue investigando.',
+                        unlock: item.unlock,
+                        required: required,
+                        completed: false,
+                        icon: item.title.match(/^(.{1,2})\s/)?.[1] || '📌'
+                    };
+                });
+
                 totalMissions = missionData.length;
                 totalCount.textContent = totalMissions;
+
+                // Revelar o primeiro item
+                if (timelineData.length > 0) {
+                    revealItem(0);
+                    currentRevealIndex = 1;
+                }
+
                 renderMissions();
             } catch (error) {
-                console.warn('Erro ao carregar missões:', error);
-                missionData = [
-                    { id: 'm1', title: '📧 O Primeiro E-mail', description: 'Leia o e-mail de Helena.', hint: 'Caixa de entrada.',
-                        unlock: 'e1', required: [], completed: false },
-                    { id: 'm2', title: '💬 A Conversa Suspeita', description: 'Leia a conversa de Helena.',
-                        hint: 'Verifique as mensagens.', unlock: 'm1', required: ['m1'], completed: false },
-                    { id: 'm3', title: '🔍 O Código Escondido', description: 'Encontre o código na foto.',
-                        hint: 'Use a lupa para revelar o código.', unlock: 'ev1', required: ['m1', 'm2'],
-                    completed: false },
-                    { id: 'm4', title: '📄 O Relatório Secreto', description: 'Analise o relatório da Sigma.',
-                        hint: 'Verifique as evidências.', unlock: 'ev2', required: ['m1', 'm2', 'm3'],
-                    completed: false },
-                    { id: 'm5', title: '🖼️ A Última Foto', description: 'Encontre a última foto de Helena.',
-                        hint: 'Verifique as evidências.', unlock: 'ev1', required: ['m1', 'm2', 'm3', 'm4'],
-                        completed: false },
-                    { id: 'm6', title: '🔐 A Pasta Secreta', description: 'Use o código 4472.',
-                        hint: 'Abra a Foto_002.png.', unlock: 'ev4', required: ['m1', 'm2', 'm3', 'm4', 'm5'],
-                        completed: false },
-                    { id: 'm7', title: '🎬 A Verdade Revelada', description: 'Assista ao vídeo de Helena.',
-                        hint: 'Verifique as evidências. Procure pelo Video_002.mp4.', unlock: 'ev6',
-                        required: ['m1', 'm2', 'm3', 'm4', 'm5', 'm6'], completed: false },
-                    { id: 'm8', title: '📝 Relatório Final', description: 'Preencha o relatório.',
-                        hint: 'Conclusões finais.', unlock: 'final', required: ['m1', 'm2', 'm3', 'm4',
-                            'm5', 'm6', 'm7'
-                        ], completed: false }
+                console.warn('Erro ao carregar timeline, usando fallback:', error);
+                // Fallback com 8 missões
+                timelineData = [
+                    { id: 't1', title: '📧 O Primeiro E-mail', message: 'Leia o e-mail de Helena.', unlock: 'e1',
+                        type: 'email' },
+                    { id: 't2', title: '💬 A Conversa Suspeita', message: 'Leia as mensagens de Helena.', unlock: 'm1',
+                        type: 'message' },
+                    { id: 't3', title: '🔍 O Código Escondido', message: 'Encontre o código na foto com a lupa.',
+                        unlock: 'ev1', type: 'evidence' },
+                    { id: 't4', title: '📄 O Relatório Secreto', message: 'Analise o relatório da Sigma.', unlock: 'ev2',
+                        type: 'evidence' },
+                    { id: 't5', title: '🖼️ A Última Foto', message: 'Encontre a última foto de Helena.', unlock: 'ev4',
+                        type: 'evidence' },
+                    { id: 't6', title: '🎬 A Verdade Revelada', message: 'Assista ao vídeo de Helena.', unlock: 'ev6',
+                        type: 'evidence' },
+                    { id: 't7', title: '📝 Relatório Final', message: 'Conclua a investigação.', unlock: 'final',
+                        type: 'final' }
                 ];
+
+                missionData = timelineData.map((item, index) => {
+                    const missionId = 'm' + (index + 1);
+                    const required = index > 0 ? ['m' + index] : [];
+                    return {
+                        id: missionId,
+                        title: item.title,
+                        description: item.message || 'Investigue esta pista.',
+                        hint: item.message || 'Continue investigando.',
+                        unlock: item.unlock,
+                        required: required,
+                        completed: false,
+                        icon: item.title.match(/^(.{1,2})\s/)?.[1] || '📌'
+                    };
+                });
+
                 totalMissions = missionData.length;
                 totalCount.textContent = totalMissions;
+
+                if (timelineData.length > 0) {
+                    revealItem(0);
+                    currentRevealIndex = 1;
+                }
+
                 renderMissions();
             }
         }
@@ -1364,9 +1460,7 @@
                 if (isActive && isRevealed) div.classList.add('active');
                 if (isCompleted) div.classList.add('completed');
 
-                // Extrair ícone e título
-                const iconMatch = mission.title.match(/^(.{1,2})\s/);
-                const icon = iconMatch ? iconMatch[1] : '📌';
+                const icon = mission.icon || '📌';
                 const cleanTitle = mission.title.replace(/^.{1,2}\s/, '');
 
                 let statusText = 'Bloqueada';
@@ -1406,51 +1500,6 @@
             if (completedMissions.has(mission.id)) return true;
             if (!mission.required || mission.required.length === 0) return true;
             return mission.required.every(req => completedMissions.has(req));
-        }
-
-        // ==========================================
-        // CARREGAR TIMELINE
-        // ==========================================
-
-        async function loadTimeline() {
-            try {
-                const timestamp = Date.now();
-                const res = await fetch(`../cases/case001/timeline.json?t=${timestamp}`);
-                if (!res.ok) throw new Error('Erro ao carregar timeline');
-                timelineData = await res.json();
-
-                if (timelineData.length > 0) {
-                    revealItem(0);
-                    currentRevealIndex = 1;
-                }
-            } catch (error) {
-                console.warn('Erro ao carregar timeline:', error);
-                timelineData = [
-                    { id: 't1', title: '📧 Novo E-mail', message: 'Um e-mail de Helena foi encontrado.',
-                        unlock: 'e1', type: 'email' },
-                    { id: 't2', title: '💬 Mensagem Detectada', message: 'Uma conversa suspeita foi identificada.',
-                        unlock: 'm1', type: 'message' },
-                    { id: 't3', title: '🖼️ Foto Encontrada', message: 'Use a lupa para encontrar o código.',
-                        unlock: 'ev1', type: 'evidence' },
-                    { id: 't4', title: '📄 Documento Classificado', message: 'Relatório financeiro descoberto.',
-                        unlock: 'ev2', type: 'evidence' },
-                    { id: 't5', title: '🔍 Código Identificado', message: 'Código 4472 encontrado!',
-                        unlock: 'ev1', type: 'evidence' },
-                    { id: 't6', title: '🔐 Pasta Secreta', message: 'Pasta com novos documentos.',
-                        unlock: 'ev4', type: 'evidence' },
-                    { id: 't7', title: '🎬 Vídeo - Sala 4', message: 'Vídeo recriando o momento da sala 4.',
-                        unlock: 'ev3', type: 'evidence' },
-                    { id: 't8', title: '🎬 A Verdade Revelada', message: 'Gravação de Helena encontrada!',
-                        unlock: 'ev6', type: 'evidence' },
-                    { id: 't9', title: '📝 Relatório Final', message: 'Conclua a investigação.',
-                        unlock: 'final', type: 'final' }
-                ];
-
-                if (timelineData.length > 0) {
-                    revealItem(0);
-                    currentRevealIndex = 1;
-                }
-            }
         }
 
         // ==========================================
@@ -1843,11 +1892,49 @@
             const chatKey = 'm' + (parseInt(chatId) + 1);
 
             windowTitle.textContent = '💬 ' + chat.contact;
+
+            let isSinister = chatId === 0; // Helena Duarte
+
             let html = `<h3>Conversa com ${chat.contact}</h3>`;
+            html +=
+                `<div style="margin-top: var(--space-4); ${isSinister ? 'border-left: 3px solid var(--color-danger); padding-left: var(--space-4);' : ''}">`;
+
             chat.messages.forEach(msg => {
-                html += `<div style="margin-bottom:var(--space-2);"><strong>${msg.from}:</strong> ${msg.text}</div>`;
+                const isHelena = msg.from === 'Helena';
+                html += `
+                    <div style="margin-bottom: var(--space-3); padding: var(--space-2); border-radius: var(--radius-sm); ${isHelena ? 'background: rgba(239,68,68,0.05); border-left: 2px solid rgba(239,68,68,0.3);' : ''}">
+                        <strong style="color: ${isHelena ? 'var(--color-danger)' : 'var(--text-primary)'};">
+                            ${isHelena ? '🔴' : '👤'} ${msg.from}:
+                        </strong>
+                        <span style="color: var(--text-secondary);">${msg.text}</span>
+                        <span style="font-size: var(--font-xs); color: var(--text-muted); display: block; margin-top: var(--space-1);">${msg.time}</span>
+                    </div>
+                `;
             });
+
+            html += `</div>`;
             html += `<button class="btn-secondary" style="margin-top:var(--space-4);" onclick="closeWindow()">Fechar</button>`;
+
+            if (isSinister) {
+                html = `<div style="position: relative;">
+                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; 
+                        background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(239,68,68,0.03) 2px, rgba(239,68,68,0.03) 4px);
+                        z-index: 5;
+                        animation: staticEffect 0.5s infinite;
+                    "></div>
+                    ${html}
+                </div>`;
+
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes staticEffect {
+                        0%, 100% { opacity: 0.3; }
+                        50% { opacity: 0.7; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+
             windowBody.innerHTML = html;
             windowEl.classList.add('open');
 
@@ -1898,9 +1985,12 @@
             } else if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(fileExtension)) {
                 const isFoto1 = evidenceId === 0;
 
+                // Forçar recarga da imagem sem cache
+                const imgPath = filePath + '?t=' + Date.now();
+
                 content += `
                     <div class="image-container" id="imageContainer" style="position: relative;">
-                        <img src="${filePath}" alt="${ev.title}" id="evidenceImage" style="
+                        <img src="${imgPath}" alt="${ev.title}" id="evidenceImage" style="
                             max-width: 100%;
                             max-height: 500px;
                             border-radius: var(--radius-sm);
@@ -1983,22 +2073,21 @@
 
             const evKey = 'ev' + (parseInt(evidenceId) + 1);
 
-            // VÍDEO 002 (ev6) - Missão 7
+            // VÍDEO 002 (ev6) - Missão 6 (A Verdade Revelada)
             if (evidenceId === 5) {
-                console.log('🎬 Video_002.mp4 aberto - Missão 7');
+                console.log('🎬 Video_002.mp4 aberto - Missão 6 (A Verdade Revelada)');
 
                 const video = document.getElementById('caseVideo');
                 const statusEl = document.getElementById('videoStatus');
 
                 if (video) {
-                    // Verificar se o vídeo já foi assistido
                     if (video.ended) {
                         console.log('✅ Vídeo já estava no final!');
                         missionData.forEach(mission => {
-                            if (mission.id === 'm7' && !completedMissions.has('m7')) {
+                            if (mission.id === 'm6' && !completedMissions.has('m6')) {
                                 if (isMissionAvailable(mission)) {
-                                    completeMission('m7');
-                                    console.log('✅ Missão 7 completada (vídeo já estava no final)!');
+                                    completeMission('m6');
+                                    console.log('✅ Missão 6 completada (vídeo já estava no final)!');
                                 }
                             }
                         });
@@ -2009,7 +2098,6 @@
                         return;
                     }
 
-                    // Adicionar eventos
                     video.addEventListener('play', function() {
                         if (statusEl) {
                             statusEl.textContent = '▶️ Reproduzindo... Assista até o final.';
@@ -2023,13 +2111,13 @@
                             statusEl.style.color = 'var(--color-success)';
                         }
 
-                        console.log('🎬 Vídeo terminou! Completando Missão 7...');
+                        console.log('🎬 Vídeo terminou! Completando Missão 6...');
 
                         missionData.forEach(mission => {
-                            if (mission.id === 'm7' && !completedMissions.has('m7')) {
+                            if (mission.id === 'm6' && !completedMissions.has('m6')) {
                                 if (isMissionAvailable(mission)) {
-                                    completeMission('m7');
-                                    console.log('✅ Missão 7 completada pelo vídeo!');
+                                    completeMission('m6');
+                                    console.log('✅ Missão 6 completada pelo vídeo!');
                                     showNotification('🎬 A Verdade Revelada', 'Helena revelou a verdade sobre a Sigma!');
                                 }
                             }
@@ -2052,11 +2140,14 @@
                     });
                 }
             }
-            // FOTO_001 - LUPA E CÓDIGO
+            // VÍDEO 001 (ev3) - Vídeo da Sala 4 (não completa missão)
+            else if (evidenceId === 2) {
+                console.log('🎬 Video_001.mp4 aberto - Vídeo da Sala 4 (apenas informativo)');
+                // Não completa nenhuma missão - apenas informativo
+            }
+            // FOTO_001 - LUPA E CÓDIGO (Missão 3)
             else if (evidenceId === 0) {
                 console.log('📸 Foto_001 aberta - Use a lupa para encontrar o código!');
-
-                // NÃO completar a Missão 3 aqui - será completada quando encontrar o código
 
                 const img = document.getElementById('evidenceImage');
                 const container = document.getElementById('imageContainer');
@@ -2068,7 +2159,6 @@
 
                     container.classList.add('magnifier-active');
 
-                    // Mostrar dica
                     showNotification('🔍', 'Use a lupa para encontrar o código escondido na parede do prédio!');
 
                     if (magnifier) {
@@ -2137,28 +2227,42 @@
                     }
                 }
             }
-            // FOTO_002 - MISSÃO 6 (PASTA SECRETA)
+            // FOTO_002 - MISSÃO 5 (A ÚLTIMA FOTO) E MISSÃO 6 (PASTA SECRETA)
             else if (evidenceId === 3) {
-                console.log('📸 Foto_002.png aberta - Missão 6 (Pasta Secreta)');
+                console.log('📸 Foto_002.png aberta');
 
-                const m5Completed = completedMissions.has('m5');
-                console.log('Missão 5 concluída?', m5Completed);
-
-                if (!m5Completed) {
-                    showNotification('⚠️', 'Você precisa completar a Missão 5 primeiro!');
-                    return;
+                // Forçar recarga da imagem sem cache
+                const imgElement = document.querySelector('#imageContainer img');
+                if (imgElement) {
+                    imgElement.src = filePath + '?t=' + Date.now();
                 }
 
+                // Completar a Missão 5 (A Última Foto) primeiro
                 missionData.forEach(mission => {
-                    if (mission.id === 'm6' && !completedMissions.has('m6')) {
+                    if (mission.id === 'm5' && !completedMissions.has('m5')) {
                         if (isMissionAvailable(mission)) {
-                            completeMission('m6');
-                            console.log('✅ Missão 6 completada!');
-                            showNotification('🔐 Pasta Secreta',
-                                'Você usou o código 4472 para acessar a pasta secreta!');
+                            completeMission('m5');
+                            console.log('✅ Missão 5 completada - A Última Foto!');
+                            showNotification('🖼️ A Última Foto', 'Você encontrou a última foto de Helena!');
                         }
                     }
                 });
+
+                // Depois, se a Missão 5 foi concluída, completar a Missão 6 (Pasta Secreta)
+                setTimeout(() => {
+                    if (completedMissions.has('m5')) {
+                        missionData.forEach(mission => {
+                            if (mission.id === 'm6' && !completedMissions.has('m6')) {
+                                if (isMissionAvailable(mission)) {
+                                    completeMission('m6');
+                                    console.log('✅ Missão 6 completada - Pasta Secreta!');
+                                    showNotification('🔐 Pasta Secreta',
+                                        'Você usou o código 4472 para acessar a pasta secreta!');
+                                }
+                            }
+                        });
+                    }
+                }, 500);
             }
             // OUTRAS EVIDÊNCIAS
             else {
@@ -2184,9 +2288,9 @@
             try {
                 const timestamp = Date.now();
                 const [emailsRes, messagesRes, evidenceRes] = await Promise.all([
-                    fetch('../cases/case001/emails.json'),
-                    fetch('../cases/case001/messages.json'),
-                    fetch(`../cases/case001/evidence.json?t=${timestamp}`)
+                    fetch('../cases/case001/emails.json?t=' + timestamp),
+                    fetch('../cases/case001/messages.json?t=' + timestamp),
+                    fetch('../cases/case001/evidence.json?t=' + timestamp)
                 ]);
 
                 if (!emailsRes.ok || !messagesRes.ok || !evidenceRes.ok) throw new Error('Erro ao carregar');
@@ -2374,7 +2478,6 @@
 
         async function init() {
             await loadMissions();
-            await loadTimeline();
             await loadCase();
             setTimeout(() => openApp('mail'), 500);
         }
