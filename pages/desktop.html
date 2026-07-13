@@ -890,7 +890,7 @@
         <span class="label">📊 Progresso</span>
         <span class="count">
             <span id="progressCount">0</span>
-            <span class="total">/ <span id="totalCount">5</span></span>
+            <span class="total">/ <span id="totalCount">8</span></span>
         </span>
     </div>
 
@@ -970,8 +970,8 @@
         // CONFIGURAÇÕES
         // ==========================================
 
-        const MISSIONS_FILE = '../cases/case001/missions.json';
-        const TIMELINE_FILE = '../cases/case001/timeline.json';
+        const MISSIONS_FILE = '../cases/case001/missions.json?v=3';
+        const TIMELINE_FILE = '../cases/case001/timeline.json?v=3';
         const PROCESSING_TIME = 5000;
 
         // ==========================================
@@ -1172,12 +1172,13 @@
         }
 
         // ==========================================
-        // SISTEMA DE MISSÕES
+        // SISTEMA DE MISSÕES (COM TIMESTAMP)
         // ==========================================
 
         async function loadMissions() {
             try {
-                const res = await fetch(MISSIONS_FILE);
+                const timestamp = Date.now();
+                const res = await fetch(`../cases/case001/missions.json?t=${timestamp}`);
                 if (!res.ok) throw new Error('Erro ao carregar missões');
                 missionData = await res.json();
                 totalMissions = missionData.length;
@@ -1185,6 +1186,7 @@
                 renderMissions();
             } catch (error) {
                 console.warn('Erro ao carregar missões:', error);
+                // Fallback com 8 missões
                 missionData = [
                     { id: 'm1', title: '📧 O Primeiro E-mail', description: 'Leia o e-mail de Helena.', hint: 'Caixa de entrada.',
                         unlock: 'e1', required: [], completed: false },
@@ -1195,9 +1197,20 @@
                     { id: 'm4', title: '📄 O Relatório Secreto', description: 'Analise o relatório da Sigma.',
                         hint: 'Verifique as evidências.', unlock: 'ev2', required: ['m1', 'm2', 'm3'],
                     completed: false },
-                    { id: 'm5', title: '🎬 A Verdade Revelada', description: 'Assista ao vídeo sobre a sala 4.',
-                        hint: 'Verifique as evidências.', unlock: 'ev3', required: ['m1', 'm2', 'm3', 'm4'],
-                        completed: false }
+                    { id: 'm5', title: '🔍 O Código Escondido', description: 'Encontre o código na foto.',
+                        hint: 'Amplie a imagem.', unlock: 'ev1', required: ['m1', 'm2', 'm3', 'm4'],
+                    completed: false },
+                    { id: 'm6', title: '🔐 A Pasta Secreta', description: 'Use o código 4472.',
+                        hint: 'Código na foto.', unlock: 'ev4', required: ['m1', 'm2', 'm3', 'm4', 'm5'],
+                        completed: false },
+                    { id: 'm7', title: '🎬 A Verdade Revelada', description: 'Assista ao vídeo.',
+                        hint: 'Verifique as evidências.', unlock: 'ev3', required: ['m1', 'm2', 'm3', 'm4',
+                            'm5', 'm6'
+                        ], completed: false },
+                    { id: 'm8', title: '📝 Relatório Final', description: 'Preencha o relatório.',
+                        hint: 'Conclusões finais.', unlock: 'final', required: ['m1', 'm2', 'm3', 'm4',
+                            'm5', 'm6', 'm7'
+                        ], completed: false }
                 ];
                 totalMissions = missionData.length;
                 totalCount.textContent = totalMissions;
@@ -1269,12 +1282,13 @@
         }
 
         // ==========================================
-        // CARREGAR TIMELINE
+        // CARREGAR TIMELINE (COM TIMESTAMP)
         // ==========================================
 
         async function loadTimeline() {
             try {
-                const res = await fetch(TIMELINE_FILE);
+                const timestamp = Date.now();
+                const res = await fetch(`../cases/case001/timeline.json?t=${timestamp}`);
                 if (!res.ok) throw new Error('Erro ao carregar timeline');
                 timelineData = await res.json();
 
@@ -1293,8 +1307,14 @@
                         unlock: 'ev1', type: 'evidence' },
                     { id: 't4', title: '📄 Documento Classificado', message: 'Relatório financeiro descoberto.',
                         unlock: 'ev2', type: 'evidence' },
-                    { id: 't5', title: '🎬 Vídeo de Vigilância',
-                        message: 'Vídeo sobre a sala 4 encontrado.', unlock: 'ev3', type: 'evidence' }
+                    { id: 't5', title: '🔍 Código Identificado', message: 'Código 4472 encontrado na foto.',
+                        unlock: 'ev1', type: 'evidence' },
+                    { id: 't6', title: '🔐 Pasta Secreta', message: 'Pasta com novos documentos.',
+                        unlock: 'ev4', type: 'evidence' },
+                    { id: 't7', title: '🎬 Vídeo de Vigilância',
+                        message: 'Vídeo sobre a sala 4 encontrado.', unlock: 'ev3', type: 'evidence' },
+                    { id: 't8', title: '📝 Relatório Final', message: 'Conclua a investigação.',
+                        unlock: 'final', type: 'final' }
                 ];
 
                 if (timelineData.length > 0) {
@@ -1318,7 +1338,8 @@
         function updateBadges() {
             const hasNewEmail = revealedItems.has('t1');
             const hasNewMessage = revealedItems.has('t2');
-            const hasNewEvidence = revealedItems.has('t3') || revealedItems.has('t4') || revealedItems.has('t5');
+            const hasNewEvidence = revealedItems.has('t3') || revealedItems.has('t4') || revealedItems.has('t5') ||
+                revealedItems.has('t6') || revealedItems.has('t7');
 
             mailBadge.style.display = hasNewEmail ? 'block' : 'none';
             messagesBadge.style.display = hasNewMessage ? 'block' : 'none';
@@ -1461,10 +1482,11 @@
             windowTitle.textContent = '📁 ' + folderId;
 
             const isFoto1Revealed = revealedItems.has('t3');
-            const isFoto2Revealed = revealedItems.has('t4') || revealedItems.has('t5');
+            const isFoto2Revealed = revealedItems.has('t6');
             const isDoc1Revealed = revealedItems.has('t4');
-            const isDoc2Revealed = revealedItems.has('t5');
-            const isVideoRevealed = revealedItems.has('t5');
+            const isDoc2Revealed = revealedItems.has('t6');
+            const isVideoRevealed = revealedItems.has('t7');
+            const isAudioRevealed = revealedItems.has('t6');
 
             let folderContent = {};
 
@@ -1494,7 +1516,8 @@
                 `;
             }
 
-            documentsHTML += `</div><button class="btn-secondary" style="margin-top:var(--space-4);" onclick="closeWindow()">Voltar</button>`;
+            documentsHTML +=
+                `</div><button class="btn-secondary" style="margin-top:var(--space-4);" onclick="closeWindow()">Voltar</button>`;
             folderContent.documents = documentsHTML;
 
             // Fotos
@@ -1523,7 +1546,8 @@
                 `;
             }
 
-            photosHTML += `</div><button class="btn-secondary" style="margin-top:var(--space-4);" onclick="closeWindow()">Voltar</button>`;
+            photosHTML +=
+                `</div><button class="btn-secondary" style="margin-top:var(--space-4);" onclick="closeWindow()">Voltar</button>`;
             folderContent.photos = photosHTML;
 
             // Caso_001
@@ -1560,6 +1584,12 @@
                 hasCaseItems = true;
             }
 
+            if (isAudioRevealed) {
+                case001HTML +=
+                    `<div class="file-item" data-evidence="5"><span class="icon">🔊</span><span class="name">Audio_001.wav</span><span class="size">áudio</span></div>`;
+                hasCaseItems = true;
+            }
+
             if (!hasCaseItems) {
                 case001HTML += `
                     <div style="padding: var(--space-4); text-align: center; color: var(--text-muted);">
@@ -1570,7 +1600,8 @@
                 `;
             }
 
-            case001HTML += `</div><button class="btn-secondary" style="margin-top:var(--space-4);" onclick="closeWindow()">Voltar</button>`;
+            case001HTML +=
+                `</div><button class="btn-secondary" style="margin-top:var(--space-4);" onclick="closeWindow()">Voltar</button>`;
             folderContent.case001 = case001HTML;
 
             windowBody.innerHTML = folderContent[folderId] || `<p>Pasta vazia.</p>`;
@@ -1930,7 +1961,8 @@
 
             let evidenceList = '';
             caseData.evidence.forEach((item, i) => {
-                const icon = item.type === 'image' ? '🖼️' : item.type === 'video' ? '🎬' : '📄';
+                const icon = item.type === 'image' ? '🖼️' : item.type === 'video' ? '🎬' : item.type === 'audio' ?
+                    '🔊' : '📄';
                 const isRevealed = timelineData.some(t => t.unlock === ('ev' + (i + 1)) && revealedItems.has(t.id));
                 const isLocked = !isRevealed && i > 0;
                 if (!isLocked && isRevealed) {
@@ -1971,13 +2003,14 @@
             emailContent[0] = { from: 'sistema@evidence.com', subject: 'Bem-vindo', date: 'Agora', body: '<p>Bem-vindo!</p>' };
             chatContent[0] = { contact: 'Helena Duarte', messages: [{ from: 'Helena', text: 'Olá!' }] };
 
-            ['Foto_001.png', 'Documento_001.pdf', 'video001.mp4', 'Foto_002.png', 'Documento_002.pdf'].forEach((name, i) => {
-                evidenceContent[i] = {
-                    title: name,
-                    desc: 'Evidência do caso.',
-                    location: 'files/' + name
-                };
-            });
+            ['Foto_001.png', 'Documento_001.pdf', 'video001.mp4', 'Foto_002.png', 'Documento_002.pdf', 'Audio_001.wav']
+                .forEach((name, i) => {
+                    evidenceContent[i] = {
+                        title: name,
+                        desc: 'Evidência do caso.',
+                        location: 'files/' + name
+                    };
+                });
 
             appContent.mail.body = `
                 <h3>Caixa de Entrada</h3>
@@ -1994,7 +2027,7 @@
             appContent.evidence.body = `
                 <h3>Evidências</h3>
                 <div class="file-list">
-                    ${['🖼️ Foto_001.png', '📄 Documento_001.pdf', '🎬 video001.mp4', '🖼️ Foto_002.png', '📄 Documento_002.pdf'].map((item, i) =>
+                    ${['🖼️ Foto_001.png', '📄 Documento_001.pdf', '🎬 video001.mp4', '🖼️ Foto_002.png', '📄 Documento_002.pdf', '🔊 Audio_001.wav'].map((item, i) =>
                         `<div class="file-item" data-evidence="${i}"><span class="icon">${item.split(' ')[0]}</span><span class="name">${item.split(' ')[1]}</span><span class="size">arquivo</span></div>`
                     ).join('')}
                 </div>
