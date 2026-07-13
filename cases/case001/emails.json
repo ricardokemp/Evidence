@@ -35,7 +35,7 @@
         "to": "investigador@evidence.com",
         "subject": "Caso #001 - Novas evidências",
         "date": "2026-07-12 08:00",
-        "body": "Novas evidências foram adicionadas ao caso. Verifique a pasta 'Fotos' e o arquivo 'Video_001.mp4'. Uma testemunha anônima enviou material relevante que pode conter pistas importantes sobre o desaparecimento de Helena.",
+        "body": "Novas evidências foram adicionadas ao caso. Verifique a pasta 'Fotos' e o arquivo 'Video_001.mp4'. Uma testemunha anônima enviou material relevante.",
         "read": false,
         "important": false
     },
@@ -46,6 +46,16 @@
         "subject": "Encontrei algo",
         "date": "2026-07-07 22:10",
         "body": "Mariana, encontrei documentos que provam que a Sigma está envolvida em lavagem de dinheiro. Eles usam empresas de fachada no exterior. Precisamos publicar isso.",
+        "read": false,
+        "important": true
+    },
+    {
+        "id": "e6",
+        "from": "anônimo@proton.me",
+        "to": "investigador@evidence.com",
+        "subject": "A verdade está na sala 4",
+        "date": "2026-07-12 09:30",
+        "body": "Você está no caminho certo. A sala 4 contém os documentos que provam tudo. Mas cuidado, eles estão te observando.",
         "read": false,
         "important": true
     }

@@ -22,6 +22,11 @@
                 "from": "Helena",
                 "time": "2026-07-09 21:00",
                 "text": "Estou saindo. Algo não está certo. Me ligue quando puder."
+            },
+            {
+                "from": "Helena",
+                "time": "2026-07-09 22:00",
+                "text": "O código é 4472. Anote. Isso pode ser importante."
             }
         ]
     },
@@ -64,6 +69,27 @@
                 "from": "Carlos",
                 "time": "2026-07-10 09:15",
                 "text": "Recebi um e-mail anônimo dizendo que você está em perigo."
+            }
+        ]
+    },
+    {
+        "id": "m4",
+        "contact": "Mariana Silva",
+        "messages": [
+            {
+                "from": "Mariana",
+                "time": "2026-07-07 22:30",
+                "text": "Helena, o que você encontrou? Estou preocupada."
+            },
+            {
+                "from": "Mariana",
+                "time": "2026-07-08 09:00",
+                "text": "Li seu e-mail. Isso é grave. Vamos publicar?"
+            },
+            {
+                "from": "Mariana",
+                "time": "2026-07-10 10:00",
+                "text": "Helena sumiu? O que aconteceu? Me ligue!"
             }
         ]
     }

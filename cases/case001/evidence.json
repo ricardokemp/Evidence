@@ -3,10 +3,10 @@
         "id": "ev1",
         "title": "Foto_001.png",
         "type": "image",
-        "description": "Última foto de Helena antes do desaparecimento. Ela parece preocupada e está saindo do prédio da Sigma.",
+        "description": "Última foto de Helena antes do desaparecimento. Ela parece preocupada e está saindo do prédio da Sigma. Há números escritos na parede ao fundo.",
         "location": "files/Foto_001.png",
         "found": false,
-        "tags": ["helena", "sigma", "ultima_foto"]
+        "tags": ["helena", "sigma", "ultima_foto", "codigo"]
     },
     {
         "id": "ev2",
@@ -19,10 +19,10 @@
     },
     {
         "id": "ev3",
-        "title": "vdeo_001.mp4",
+        "title": "Video_001.mp4",
         "type": "video",
         "description": "Recriação do momento em que Helena recebeu a mensagem sobre a sala 4. A atmosfera é tensa e misteriosa.",
-        "location": "files/video001.mp4",
+        "location": "files/Video_001.mp4",
         "found": false,
         "tags": ["video", "sala4", "sigma", "recriacao"]
     },
@@ -43,5 +43,23 @@
         "location": "files/Documento_002.pdf",
         "found": false,
         "tags": ["sigma", "funcionarios", "corrupcao"]
+    },
+    {
+        "id": "ev6",
+        "title": "Audio_001.wav",
+        "type": "audio",
+        "description": "Gravação de uma ligação de Helena para um contato desconhecido. Ela parece estar com medo e menciona 'a sala 4'.",
+        "location": "files/Audio_001.wav",
+        "found": false,
+        "tags": ["audio", "ligacao", "sala4"]
+    },
+    {
+        "id": "ev7",
+        "title": "Documento_003.pdf",
+        "type": "document",
+        "description": "Contrato de prestação de serviços da Sigma com empresas offshore. Há valores suspeitos.",
+        "location": "files/Documento_003.pdf",
+        "found": false,
+        "tags": ["sigma", "offshore", "contrato"]
     }
 ]

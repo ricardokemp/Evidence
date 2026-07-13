@@ -4,39 +4,55 @@
         "title": "📧 Novo E-mail Recebido",
         "message": "Um e-mail de Helena foi encontrado na caixa de entrada. Ela menciona a investigação da Sigma.",
         "unlock": "e1",
-        "type": "email",
-        "icon": "📧"
+        "type": "email"
     },
     {
         "id": "t2",
         "title": "💬 Mensagem Detectada",
         "message": "Uma conversa suspeita foi identificada no sistema de mensagens. Helena parece estar com medo.",
         "unlock": "m1",
-        "type": "message",
-        "icon": "💬"
+        "type": "message"
     },
     {
         "id": "t3",
         "title": "🖼️ Nova Evidência Encontrada",
         "message": "Uma foto foi recuperada do celular de Helena. Ela está saindo do prédio da Sigma.",
         "unlock": "ev1",
-        "type": "evidence",
-        "icon": "🖼️"
+        "type": "evidence"
     },
     {
         "id": "t4",
         "title": "📄 Documento Classificado",
         "message": "Um relatório financeiro da Sigma Corp foi descoberto. Há movimentações suspeitas.",
         "unlock": "ev2",
-        "type": "evidence",
-        "icon": "📄"
+        "type": "evidence"
     },
     {
         "id": "t5",
+        "title": "🔍 Código Identificado",
+        "message": "Um código numérico foi encontrado na foto. Parece ser 4472.",
+        "unlock": "ev1",
+        "type": "evidence"
+    },
+    {
+        "id": "t6",
+        "title": "🔐 Pasta Secreta Acessada",
+        "message": "O código 4472 abriu uma pasta secreta com novos documentos.",
+        "unlock": "ev4",
+        "type": "evidence"
+    },
+    {
+        "id": "t7",
         "title": "🎬 Vídeo de Vigilância",
-        "message": "Um vídeo recriando o momento da mensagem sobre a sala 4 foi encontrado. A verdade está próxima.",
+        "message": "Um vídeo recriando o momento da mensagem sobre a sala 4 foi encontrado.",
         "unlock": "ev3",
-        "type": "evidence",
-        "icon": "🎬"
+        "type": "evidence"
+    },
+    {
+        "id": "t8",
+        "title": "📝 Relatório Final",
+        "message": "Preencha o relatório final para concluir a investigação.",
+        "unlock": "final",
+        "type": "final"
     }
 ]
