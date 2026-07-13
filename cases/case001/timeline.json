@@ -1,50 +1,47 @@
 [
     {
-        "date": "2026-07-07",
-        "time": "22:10",
-        "event": "Helena envia e-mail para Mariana sobre descoberta de lavagem de dinheiro",
-        "evidence": "e5"
+        "id": "t1",
+        "time": 0,
+        "title": "📧 Novo E-mail Recebido",
+        "message": "Um e-mail de Helena foi encontrado na caixa de entrada. Ela menciona a investigação da Sigma.",
+        "unlock": "e1",
+        "type": "email",
+        "icon": "📧"
     },
     {
-        "date": "2026-07-08",
-        "time": "14:23",
-        "event": "Helena envia e-mail para editor sobre investigação da Sigma",
-        "evidence": "e1"
+        "id": "t2",
+        "time": 30,
+        "title": "💬 Mensagem Detectada",
+        "message": "Uma conversa suspeita foi identificada no sistema de mensagens. Helena parece estar com medo.",
+        "unlock": "m1",
+        "type": "message",
+        "icon": "💬"
     },
     {
-        "date": "2026-07-09",
-        "time": "09:15",
-        "event": "Helena recebe e-mail anônimo ameaçador",
-        "evidence": "e2"
+        "id": "t3",
+        "time": 60,
+        "title": "🖼️ Nova Evidência Encontrada",
+        "message": "Uma foto foi recuperada do celular de Helena. Ela está saindo do prédio da Sigma.",
+        "unlock": "ev1",
+        "type": "evidence",
+        "icon": "🖼️"
     },
     {
-        "date": "2026-07-09",
-        "time": "18:30",
-        "event": "Helena vai para reunião na Sigma",
-        "evidence": "m1"
+        "id": "t4",
+        "time": 90,
+        "title": "📄 Documento Classificado",
+        "message": "Um relatório financeiro da Sigma Corp foi descoberto. Há movimentações suspeitas.",
+        "unlock": "ev2",
+        "type": "evidence",
+        "icon": "📄"
     },
     {
-        "date": "2026-07-09",
-        "time": "21:00",
-        "event": "Última mensagem de Helena: 'Estou saindo'",
-        "evidence": "m1"
-    },
-    {
-        "date": "2026-07-10",
-        "time": "08:00",
-        "event": "Helena não aparece no trabalho. Celular encontrado em beco.",
-        "evidence": ""
-    },
-    {
-        "date": "2026-07-10",
-        "time": "23:00",
-        "event": "Anônimo envia mensagem: 'A verdade está na sala 4'",
-        "evidence": "m2"
-    },
-    {
-        "date": "2026-07-12",
-        "time": "08:00",
-        "event": "Caso #001 é aberto no Evidence",
-        "evidence": "e4"
+        "id": "t5",
+        "time": 120,
+        "title": "🎬 Vídeo de Vigilância",
+        "message": "Um vídeo recriando o momento da mensagem sobre a sala 4 foi encontrado. A verdade está próxima.",
+        "unlock": "ev3",
+        "type": "evidence",
+        "icon": "🎬"
     }
 ]
