@@ -1045,8 +1045,8 @@
         // CONFIGURAÇÕES
         // ==========================================
 
-        const MISSIONS_FILE = '../cases/case001/missions.json?v=7';
-        const TIMELINE_FILE = '../cases/case001/timeline.json?v=7';
+        const MISSIONS_FILE = '../cases/case001/missions.json?v=8';
+        const TIMELINE_FILE = '../cases/case001/timeline.json?v=8';
         const PROCESSING_TIME = 5000;
 
         // ==========================================
@@ -1808,7 +1808,7 @@
         }
 
         // ==========================================
-        // FUNÇÃO: OPEN EVIDENCE COM LUPA CORRIGIDA
+        // FUNÇÃO: OPEN EVIDENCE CORRIGIDA
         // ==========================================
 
         function openEvidence(evidenceId) {
@@ -1972,7 +1972,23 @@
                 }
             } else if (evidenceId === 0) {
                 // ==========================================
-                // LUPA INTERATIVA - CORRIGIDA
+                // COMPLETAR MISSÃO 3 - A ÚLTIMA FOTO
+                // ==========================================
+
+                console.log('📸 Foto_001 aberta - Completando Missão 3');
+
+                // Completar a Missão 3 (A Última Foto) imediatamente ao abrir
+                missionData.forEach(mission => {
+                    if (mission.id === 'm3' && !completedMissions.has('m3')) {
+                        if (isMissionAvailable(mission)) {
+                            completeMission('m3');
+                            console.log('✅ Missão 3 completada ao abrir a foto!');
+                        }
+                    }
+                });
+
+                // ==========================================
+                // LUPA INTERATIVA NA FOTO_001 - MISSÃO 5
                 // ==========================================
 
                 const img = document.getElementById('evidenceImage');
@@ -1996,30 +2012,26 @@
                             document.body.style.cursor = 'default';
                         });
 
-                        // Evento: mouse se move na imagem (CORRIGIDO - usa IMAGEM, não container)
+                        // Evento: mouse se move na imagem
                         img.addEventListener('mousemove', function(e) {
-                            // Usa o retângulo da IMAGEM (não do container)
                             const rect = img.getBoundingClientRect();
 
-                            // Posiciona a lupa sobre a imagem
                             const x = e.clientX - rect.left - magnifier.offsetWidth / 2;
                             const y = e.clientY - rect.top - magnifier.offsetHeight / 2;
 
-                            // Limita a lupa dentro dos limites da imagem
-                            magnifier.style.left = Math.max(0, Math.min(x, rect.width - magnifier.offsetWidth)) +
-                                'px';
-                            magnifier.style.top = Math.max(0, Math.min(y, rect.height - magnifier.offsetHeight)) +
-                                'px';
+                            magnifier.style.left = Math.max(0, Math.min(x, rect.width - magnifier
+                                .offsetWidth)) + 'px';
+                            magnifier.style.top = Math.max(0, Math.min(y, rect.height - magnifier
+                                .offsetHeight)) + 'px';
                             magnifier.style.display = 'block';
 
-                            // Calcula a posição do mouse em relação à imagem
                             const mouseX = e.clientX - rect.left;
                             const mouseY = e.clientY - rect.top;
 
-                            // Posição DO CÓDIGO na imagem (67.6% largura, 33% altura)
+                            // Posição do código na imagem (67.6% largura, 33% altura)
                             const codePixelX = rect.width * 0.676;
                             const codePixelY = rect.height * 0.33;
-                            const threshold = 40; // pixels de distância
+                            const threshold = 40;
 
                             const distance = Math.hypot(mouseX - codePixelX, mouseY - codePixelY);
 
@@ -2027,7 +2039,6 @@
                                 codeRevealed = true;
                                 if (codeGlow) {
                                     codeGlow.style.display = 'flex';
-                                    // Posiciona o glow exatamente sobre o código
                                     codeGlow.style.left = (codePixelX - 30) + 'px';
                                     codeGlow.style.top = (codePixelY - 15) + 'px';
                                 }
@@ -2046,6 +2057,7 @@
                                     if (mission.id === 'm5' && !completedMissions.has('m5')) {
                                         if (isMissionAvailable(mission)) {
                                             completeMission('m5');
+                                            console.log('✅ Missão 5 completada com a lupa!');
                                         }
                                     }
                                 });
@@ -2055,8 +2067,11 @@
                 }
             } else {
                 // Para outras evidências, completar a missão imediatamente
+                console.log('Completando missão para evKey:', evKey);
                 missionData.forEach(mission => {
                     if (mission.unlock === evKey && !completedMissions.has(mission.id)) {
+                        console.log('Missão encontrada:', mission.id, 'Disponível:', isMissionAvailable(
+                        mission));
                         if (isMissionAvailable(mission)) {
                             completeMission(mission.id);
                         }
