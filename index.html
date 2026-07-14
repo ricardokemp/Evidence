@@ -423,7 +423,6 @@
         .empty-state .icon { font-size: 48px; margin-bottom: 16px; opacity: 0.4; }
         .empty-state h3 { color: var(--text-secondary); margin-bottom: 4px; }
 
-        /* Notification */
         .custom-notification {
             position: fixed;
             bottom: 80px;
@@ -443,17 +442,9 @@
             font-weight: 500;
         }
 
-        .custom-notification.success {
-            border-left: 4px solid var(--success);
-        }
-
-        .custom-notification.warning {
-            border-left: 4px solid var(--warning);
-        }
-
-        .custom-notification.info {
-            border-left: 4px solid var(--accent);
-        }
+        .custom-notification.success { border-left: 4px solid var(--success); }
+        .custom-notification.warning { border-left: 4px solid var(--warning); }
+        .custom-notification.info { border-left: 4px solid var(--accent); }
 
         @media (max-width: 768px) {
             .sidebar { width: 60px; padding: 12px 6px; }
@@ -503,7 +494,7 @@
             <div class="sidebar-item" data-folder="photos">
                 <span class="icon">🖼️</span>
                 <span>Fotos</span>
-                <span class="badge" id="photosBadge">4</span>
+                <span class="badge" id="photosBadge">3</span>
             </div>
             <div class="sidebar-item" data-folder="messages">
                 <span class="icon">💬</span>
@@ -602,8 +593,6 @@
                         id: 'photo1', 
                         name: 'Laboratório', 
                         icon: '🖼️', 
-                        size: '2.8 MB', 
-                        date: '10/03/2026', 
                         desc: 'O laboratório onde Helena trabalhava. Algo parece fora do lugar...',
                         image: 'assets/images/laboratorio.png',
                         evidence: true,
@@ -613,8 +602,6 @@
                         id: 'photo2', 
                         name: 'Arquivo Azul', 
                         icon: '🖼️', 
-                        size: '1.2 MB', 
-                        date: '08/03/2026', 
                         desc: 'O misterioso arquivo azul. O que ele contém?',
                         image: 'assets/images/arquivo-azul.png',
                         evidence: true,
@@ -624,8 +611,6 @@
                         id: 'photo3', 
                         name: 'Anotações', 
                         icon: '🖼️', 
-                        size: '1.5 MB', 
-                        date: '09/03/2026', 
                         desc: 'Anotações confusas. Parece que ela estava com pressa.',
                         image: 'assets/images/anotacoes.png',
                         evidence: true,
@@ -637,7 +622,6 @@
                         id: 'msg1', 
                         name: 'Dr. Ricardo Alves', 
                         icon: '💬', 
-                        preview: 'Helena, pare com isso!', 
                         date: '09/03/2026',
                         sender: 'Dr. Ricardo Alves',
                         content: 'Helena, pare com isso!\n\nO que você está fazendo é perigoso.\n\nSe continuar, vai se arrepender.\n\nPor favor, reconsidere.',
@@ -648,7 +632,6 @@
                         id: 'msg2', 
                         name: 'Profa. Sofia Lima', 
                         icon: '💬', 
-                        preview: 'Helena, estou preocupada.', 
                         date: '07/03/2026',
                         sender: 'Profa. Sofia Lima',
                         content: 'Helena, estou preocupada.\n\nVocê tem agido estranho.\n\nSe precisar de ajuda, estou aqui.\n\nNão enfrente isso sozinha.',
@@ -659,7 +642,6 @@
                         id: 'msg3', 
                         name: 'Desconhecido', 
                         icon: '💬', 
-                        preview: 'Sabemos o que você descobriu.', 
                         date: '10/03/2026',
                         sender: 'Desconhecido',
                         content: 'Sabemos o que você descobriu.\n\nArquivo Azul.\n\nVocê não deveria ter visto isso.\n\nPare agora.\n\nOu as consequências serão graves.',
@@ -670,7 +652,6 @@
                         id: 'msg4', 
                         name: 'Helena Mendes', 
                         icon: '💬', 
-                        preview: 'Ricardo, preciso te contar a verdade.', 
                         date: '08/03/2026',
                         sender: 'Helena Mendes',
                         content: 'Ricardo, preciso te contar a verdade.\n\nSobre o Projeto Azul.\n\nNão é o que pensam.\n\nEles estão escondendo algo.\n\nEncontre o arquivo. Leia as cláusulas.',
@@ -683,8 +664,6 @@
                         id: 'doc1', 
                         name: 'Relatorio_Projeto_Azul.pdf', 
                         icon: '📄', 
-                        size: '2.3 MB', 
-                        date: '15/02/2026', 
                         desc: 'Relatório completo do Projeto Azul. Contém informações confidenciais.',
                         content: 'PROJETO AZUL - RELATÓRIO FINAL\n\nObjetivo: Pesquisa sobre [DADOS CENSURADOS]\n\nResultados: [CENSURADO]\n\nConclusão: O projeto foi bem-sucedido. Mas os custos foram... [PÁGINA RASGADA]',
                         evidence: true,
@@ -694,8 +673,6 @@
                         id: 'doc2', 
                         name: 'Termo_de_Sigilo.pdf', 
                         icon: '📄', 
-                        size: '856 KB', 
-                        date: '20/01/2026', 
                         desc: 'Termo de sigilo assinado por todos os envolvidos no projeto.',
                         content: 'TERMO DE SIGILO\n\nEu, abaixo assinado, declaro que...\n\nCláusula 7: Não revelarei qualquer informação sobre o Projeto Azul.\n\nCláusula 12: Em caso de descumprimento, [INFORMAÇÃO CENSURADA]',
                         evidence: true,
@@ -708,7 +685,6 @@
                         name: 'Ligacao_Helena_10-03.mp3', 
                         icon: '🎤', 
                         duration: '04:28', 
-                        date: '10/03/2026', 
                         desc: 'Última ligação de Helena. Ela parece assustada.',
                         transcript: '[00:00] - Helena: Alô? Sofia?\n[00:05] - Sofia: Helena! Graças a Deus!\n[00:10] - Helena: Sofia, preciso de ajuda.\n[00:18] - Helena: Eles descobriram que eu sei.\n[00:30] - Helena: O Projeto Azul. Não é o que parece.\n[01:10] - [Ruído de porta se abrindo]\n[01:20] - Helena: Preciso ir. Me desculpa.\n[01:35] - [Ligação cai]',
                         evidence: true,
@@ -721,7 +697,6 @@
                         name: 'CCTV_Lab_10-03.mp4', 
                         icon: '🎥', 
                         duration: '02:15', 
-                        date: '10/03/2026', 
                         desc: 'Câmera de segurança do laboratório. Helena sai correndo.',
                         transcript: '[00:00] - Laboratório vazio\n[00:30] - Helena entra correndo\n[00:45] - Ela pega um arquivo azul\n[01:00] - Alguém aparece na porta\n[01:15] - Helena corre pela saída de emergência',
                         evidence: true,
@@ -730,9 +705,9 @@
                 ],
                 map: {
                     locations: [
-                        { name: 'Laboratório Central', status: '🔴', date: '10/03' },
-                        { name: 'Escritório de Helena', status: '🟡', date: '08/03' },
-                        { name: 'Arquivo Central', status: '🟢', date: '09/03' }
+                        { name: 'Laboratório Central', status: '🔴' },
+                        { name: 'Escritório de Helena', status: '🟡' },
+                        { name: 'Arquivo Central', status: '🟢' }
                     ]
                 },
                 evidence: [
@@ -755,7 +730,7 @@
             // ============================================
 
             const EVIDENCE_ORDER = [
-                'ev_001', // Foto do Laboratório
+                'ev_001', // Laboratório
                 'ev_002', // Arquivo Azul
                 'ev_003', // Anotações
                 'ev_004', // Mensagem de Ricardo
@@ -839,7 +814,6 @@
                 progressLabel.textContent = progress + '%';
                 evidenceBadge.textContent = `${found}/${total}`;
                 
-                // Verificar se completou
                 if (found === total && total > 0) {
                     setTimeout(() => {
                         showNotification('🎉 PARABÉNS! Você desvendou todo o mistério!', 'success');
@@ -871,6 +845,7 @@
                 const folderContent = document.getElementById('folderContent');
                 welcome.style.display = 'flex';
                 folderContent.innerHTML = '';
+                updateActiveSidebarItem('welcome');
             }
 
             function renderFolder(folder) {
@@ -946,7 +921,7 @@
                             ${evidenceHtml}
                             <span class="file-icon">${item.icon || '📄'}</span>
                             <div class="file-name">${item.name}</div>
-                            <div class="file-meta">${meta}</div>
+                            ${meta ? `<div class="file-meta">${meta}</div>` : ''}
                             ${desc ? `<div style="font-size:11px;color:var(--text-muted);margin-top:6px;line-height:1.4;">${desc}</div>` : ''}
                             ${isLocked ? `<div style="font-size:10px;color:var(--warning);margin-top:4px;">🔒 Encontre mais pistas</div>` : ''}
                         </div>
@@ -985,12 +960,12 @@
                 `;
 
                 locations.forEach(loc => {
+                    const statusColor = loc.status === '🔴' ? 'var(--danger)' : loc.status === '🟡' ? 'var(--warning)' : 'var(--success)';
                     html += `
-                        <div style="display:flex;align-items:center;gap:16px;padding:12px 16px;background:var(--bg-card);border-radius:var(--radius-sm);border-left:3px solid ${loc.status === '🔴' ? 'var(--danger)' : loc.status === '🟡' ? 'var(--warning)' : 'var(--success)'};">
+                        <div style="display:flex;align-items:center;gap:16px;padding:12px 16px;background:var(--bg-card);border-radius:var(--radius-sm);border-left:3px solid ${statusColor};">
                             <span style="font-size:20px;">${loc.status}</span>
                             <div>
                                 <div style="font-weight:500;">${loc.name}</div>
-                                <div style="font-size:12px;color:var(--text-muted);">${loc.date}</div>
                             </div>
                             <span style="margin-left:auto;font-size:12px;color:var(--text-muted);">📍</span>
                         </div>
@@ -999,7 +974,7 @@
 
                 html += `
                         <div style="margin-top:8px;padding:12px 16px;background:var(--bg-card);border-radius:var(--radius-sm);font-size:13px;color:var(--text-muted);text-align:center;">
-                            🟢 Descoberto &nbsp;·&nbsp; 🟡 Investigações em andamento &nbsp;·&nbsp; 🔴 Pendente
+                            🟢 Descoberto &nbsp;·&nbsp; 🟡 Investigação &nbsp;·&nbsp; 🔴 Pendente
                         </div>
                     </div>
                 `;
@@ -1100,10 +1075,6 @@
                             <img src="${file.image}" alt="${file.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                             <div style="display:none;color:var(--text-muted);padding:20px;">⚠️ Imagem não encontrada</div>
                             <p>${file.desc || 'Sem descrição disponível.'}</p>
-                            <div class="meta">
-                                ${file.date ? `📅 ${file.date}` : ''}
-                                ${file.size ? ` · 📦 ${file.size}` : ''}
-                            </div>
                         </div>
                     `;
                 } else {
@@ -1111,11 +1082,7 @@
                         <div class="file-preview">
                             <span class="big-icon">${file.icon || '📄'}</span>
                             <p>${file.desc || file.preview || 'Sem descrição disponível.'}</p>
-                            <div class="meta">
-                                ${file.date ? `📅 ${file.date}` : ''}
-                                ${file.size ? ` · 📦 ${file.size}` : ''}
-                                ${file.duration ? ` · ⏱️ ${file.duration}` : ''}
-                            </div>
+                            ${file.duration ? `<div class="meta">⏱️ ${file.duration}</div>` : ''}
                         </div>
                     `;
 
@@ -1125,14 +1092,12 @@
                                 <div style="background:var(--bg-card);padding:16px 20px;border-radius:var(--radius-sm);border-left:3px solid var(--accent);">
                                     <div style="font-size:13px;color:var(--text-muted);margin-bottom:4px;">${file.sender || file.name}</div>
                                     <div style="font-size:16px;line-height:1.8;white-space:pre-wrap;">${file.content}</div>
-                                    <div style="font-size:12px;color:var(--text-muted);margin-top:8px;">${file.date}</div>
                                 </div>
                             </div>
                         `;
                     }
                 }
 
-                // Adicionar badge de evidência se for uma
                 if (file.evidence && file.evidenceId) {
                     const ev = STORY_DATA.evidence.find(e => e.id === file.evidenceId);
                     if (ev && ev.found) {
@@ -1143,7 +1108,6 @@
                 viewerBody.innerHTML = bodyHtml;
                 viewerOverlay.classList.add('open');
 
-                // Marcar evidência como encontrada
                 if (file.evidence && file.evidenceId) {
                     const ev = STORY_DATA.evidence.find(e => e.id === file.evidenceId);
                     if (ev && !ev.found) {
@@ -1151,7 +1115,6 @@
                         updateProgress();
                         showNotification(`✅ Nova evidência encontrada: ${ev.name}!`, 'success');
                         
-                        // Verificar se completou
                         const total = STORY_DATA.evidence.length;
                         const foundCount = STORY_DATA.evidence.filter(e => e.found).length;
                         if (foundCount === total) {
