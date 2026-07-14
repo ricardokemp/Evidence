@@ -1,0 +1,307 @@
+# ============================================
+# ROBOTS.TXT - Evidence
+# ============================================
+# Instruções para bots de busca
+# Website: https://evidence.com
+# Última atualização: 2026-03-31
+# ============================================
+
+# ============================================
+# REGRAS GERAIS
+# ============================================
+
+# Permitir todos os bots em todas as páginas
+User-agent: *
+Allow: /
+
+# Bloquear áreas administrativas
+Disallow: /admin/
+Disallow: /private/
+Disallow: /api/
+Disallow: /cgi-bin/
+Disallow: /tmp/
+Disallow: /logs/
+Disallow: /backup/
+
+# Bloquear arquivos sensíveis
+Disallow: /*.sql$
+Disallow: /*.log$
+Disallow: /*.env$
+Disallow: /*.json$
+Disallow: /*.yml$
+Disallow: /*.yaml$
+Disallow: /*.toml$
+
+# Bloquear pastas de configuração
+Disallow: /.git/
+Disallow: /.vscode/
+Disallow: /.idea/
+Disallow: /node_modules/
+Disallow: /vendor/
+Disallow: /bower_components/
+
+# Bloquear arquivos temporários
+Disallow: /*.tmp$
+Disallow: /*.temp$
+Disallow: /*.bak$
+Disallow: /*.old$
+Disallow: /*.swp$
+Disallow: /*.swo$
+
+# ============================================
+# REGRAS PARA BOTS ESPECÍFICOS
+# ============================================
+
+# Googlebot
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 2
+Disallow: /*?*
+Disallow: /*?utm_*
+Disallow: /*?ref=*
+Disallow: /*?source=*
+
+# Bingbot
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 2
+Disallow: /*?*
+Disallow: /*?utm_*
+
+# Yahoo! Slurp
+User-agent: Slurp
+Allow: /
+Crawl-delay: 5
+Disallow: /*?*
+
+# DuckDuckGo
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 3
+Disallow: /*?*
+
+# Baidu (China)
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 5
+Disallow: /*?*
+
+# Yandex (Russia)
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 3
+Disallow: /*?*
+
+# Facebook
+User-agent: facebookexternalhit
+Allow: /
+Crawl-delay: 1
+
+# Twitter
+User-agent: Twitterbot
+Allow: /
+Crawl-delay: 1
+
+# LinkedIn
+User-agent: LinkedInBot
+Allow: /
+Crawl-delay: 1
+
+# Pinterest
+User-agent: Pinterestbot
+Allow: /
+Crawl-delay: 1
+
+# WhatsApp
+User-agent: WhatsApp
+Allow: /
+Crawl-delay: 1
+
+# Telegram
+User-agent: TelegramBot
+Allow: /
+Crawl-delay: 1
+
+# Slack
+User-agent: Slackbot
+Allow: /
+Crawl-delay: 1
+
+# Discord
+User-agent: Discordbot
+Allow: /
+Crawl-delay: 1
+
+# ============================================
+# REGRAS PARA BOTS INDESEJÁVEIS
+# ============================================
+
+# Bloquear bots maliciosos conhecidos
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: dotbot
+Disallow: /
+
+User-agent: rogerbot
+Disallow: /
+
+User-agent: Exabot
+Disallow: /
+
+User-agent: AspiegelBot
+Disallow: /
+
+User-agent: YandexImages
+Disallow: /
+
+User-agent: YandexVideo
+Disallow: /
+
+# ============================================
+# REGRAS PARA ARQUIVOS ESPECÍFICOS
+# ============================================
+
+# Permitir acesso a recursos estáticos
+Allow: /assets/
+Allow: /css/
+Allow: /js/
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.gif$
+Allow: /*.svg$
+Allow: /*.webp$
+Allow: /*.ico$
+Allow: /*.pdf$
+
+# Bloquear acesso a arquivos de dados
+Disallow: /data/
+Disallow: /*.json$
+
+# Bloquear acesso a arquivos de configuração
+Disallow: /*.config$
+Disallow: /*.conf$
+
+# ============================================
+# SITEMAP E HOST
+# ============================================
+
+# Localização do sitemap
+Sitemap: https://evidence.com/sitemap.xml
+
+# Host (opcional)
+Host: https://evidence.com
+
+# ============================================
+# CRAWL DELAY (Tempo entre requisições)
+# ============================================
+
+# Delay padrão para todos os bots
+Crawl-delay: 5
+
+# ============================================
+# REGRAS DE SEGURANÇA
+# ============================================
+
+# Evitar indexação de páginas de teste
+Disallow: /test/
+Disallow: /teste/
+Disallow: /staging/
+Disallow: /dev/
+Disallow: /development/
+
+# Evitar indexação de páginas de erro
+Disallow: /404.html
+Disallow: /error/
+Disallow: /errors/
+
+# Evitar indexação de páginas de login
+Disallow: /login
+Disallow: /signin
+Disallow: /entrar
+Disallow: /register
+Disallow: /cadastro
+Disallow: /signup
+Disallow: /logout
+Disallow: /sair
+Disallow: /forgot-password
+Disallow: /esqueci-senha
+Disallow: /reset-password
+Disallow: /redefinir-senha
+
+# ============================================
+# REGRAS PARA A PWA (PROGRESSIVE WEB APP)
+# ============================================
+
+# Permitir que o Service Worker seja acessado
+Allow: /service-worker.js
+Allow: /manifest.json
+
+# Permitir ícones do PWA
+Allow: /assets/icons/
+
+# ============================================
+# REGRAS PARA SEO
+# ============================================
+
+# Garantir que as páginas principais sejam indexadas
+Allow: /
+Allow: /cases/
+Allow: /about/
+Allow: /contact/
+Allow: /privacy/
+Allow: /terms/
+
+# ============================================
+# REGRAS PARA IMAGENS
+# ============================================
+
+User-agent: Googlebot-Image
+Allow: /assets/images/
+Allow: /assets/icons/
+Allow: /assets/screenshots/
+Crawl-delay: 2
+
+User-agent: *
+Allow: /assets/images/*.jpg$
+Allow: /assets/images/*.png$
+Allow: /assets/images/*.gif$
+Allow: /assets/images/*.svg$
+Allow: /assets/images/*.webp$
+
+# ============================================
+# REGRAS PARA VÍDEOS
+# ============================================
+
+User-agent: *
+Allow: /assets/video/*.mp4$
+Allow: /assets/video/*.webm$
+Allow: /assets/video/*.ogg$
+
+# ============================================
+# REGRAS PARA ÁUDIO
+# ============================================
+
+User-agent: *
+Allow: /assets/audio/*.mp3$
+Allow: /assets/audio/*.wav$
+Allow: /assets/audio/*.ogg$
+Allow: /assets/audio/*.m4a$
+
+# ============================================
+# COMENTÁRIOS E NOTAS
+# ============================================
+
+# Nota: Este arquivo é atualizado regularmente
+# Para sugestões ou problemas, entre em contato com o administrador
+# Última revisão: 2026-03-31
+# Versão: 1.0.0

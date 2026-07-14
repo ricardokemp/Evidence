@@ -1,0 +1,320 @@
+# ============================================
+# .HTACCESS - Evidence
+# Configuração para servidor Apache
+# Versão: 1.0.0
+# ============================================
+
+# Ativar Rewrite Engine
+RewriteEngine On
+
+# ============================================
+# SEGURANÇA
+# ============================================
+
+# Bloquear acesso a arquivos sensíveis
+<FilesMatch "\.(env|json|config|yml|yaml|toml|sql|log|bak|old|swp|swo|md|gitignore|htaccess)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Bloquear acesso a pastas sensíveis
+RedirectMatch 404 ^/(\.git|\.vscode|\.idea|node_modules|vendor|bower_components|tmp|temp|logs|backup|docs)/
+
+# Proteger o .htaccess
+<Files .htaccess>
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Prevenir listagem de diretórios
+Options -Indexes
+
+# ============================================
+# SEGURANÇA DE CABEÇALHOS
+# ============================================
+
+<IfModule mod_headers.c>
+    # X-Frame-Options (prevenir clickjacking)
+    Header always set X-Frame-Options "SAMEORIGIN"
+    
+    # X-Content-Type-Options (prevenir MIME sniffing)
+    Header always set X-Content-Type-Options "nosniff"
+    
+    # X-XSS-Protection (prevenir XSS)
+    Header always set X-XSS-Protection "1; mode=block"
+    
+    # Referrer Policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Content Security Policy (CSP)
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self';"
+    
+    # Permissions Policy
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+</IfModule>
+
+# ============================================
+# CACHE E COMPRESSÃO
+# ============================================
+
+# Compressão GZIP
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json application/xml application/rss+xml application/atom+xml application/x-font-ttf application/x-font-opentype image/svg+xml
+</IfModule>
+
+# Cache de arquivos estáticos
+<IfModule mod_expires.c>
+    ExpiresActive On
+    
+    # Imagens
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+    ExpiresByType image/avif "access plus 1 year"
+    
+    # CSS e JavaScript
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    
+    # Fontes
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType font/ttf "access plus 1 year"
+    ExpiresByType font/eot "access plus 1 year"
+    ExpiresByType font/otf "access plus 1 year"
+    ExpiresByType application/font-woff "access plus 1 year"
+    ExpiresByType application/font-woff2 "access plus 1 year"
+    
+    # Áudio e Vídeo
+    ExpiresByType audio/mpeg "access plus 1 year"
+    ExpiresByType audio/ogg "access plus 1 year"
+    ExpiresByType audio/wav "access plus 1 year"
+    ExpiresByType audio/webm "access plus 1 year"
+    ExpiresByType video/mp4 "access plus 1 year"
+    ExpiresByType video/webm "access plus 1 year"
+    ExpiresByType video/ogg "access plus 1 year"
+    
+    # Documentos
+    ExpiresByType application/pdf "access plus 1 year"
+    ExpiresByType application/zip "access plus 1 year"
+    
+    # PWA
+    ExpiresByType application/json "access plus 1 hour"
+</IfModule>
+
+# ============================================
+# HEADERS ADICIONAIS
+# ============================================
+
+<IfModule mod_headers.c>
+    # Forçar download de arquivos específicos
+    <FilesMatch "\.(pdf|zip|rar|exe|msi)$">
+        Header set Content-Disposition "attachment"
+    </FilesMatch>
+</IfModule>
+
+# ============================================
+# REDIRECIONAMENTOS
+# ============================================
+
+# Redirecionar 404 para página inicial
+ErrorDocument 404 /index.html
+ErrorDocument 403 /index.html
+ErrorDocument 500 /index.html
+
+# Forçar HTTPS (descomente para usar)
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# Forçar WWW (descomente para usar)
+# RewriteCond %{HTTP_HOST} !^www\. [NC]
+# RewriteRule ^(.*)$ https://www.%{HTTP_HOST}/$1 [R=301,L]
+
+# Redirecionar para HTTPS + WWW (descomente para usar)
+# RewriteCond %{HTTPS} off [OR]
+# RewriteCond %{HTTP_HOST} !^www\. [NC]
+# RewriteRule ^(.*)$ https://www.%{HTTP_HOST}/$1 [R=301,L]
+
+# Redirecionar URLs antigas para novas (exemplo)
+# Redirect 301 /old-page.html /new-page.html
+
+# ============================================
+# PWA - SERVICE WORKER
+# ============================================
+
+# Permitir acesso ao service-worker.js
+<Files "service-worker.js">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+    Header set Service-Worker-Allowed "/"
+</Files>
+
+# Permitir acesso ao manifest.json
+<Files "manifest.json">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+</Files>
+
+# ============================================
+# PERFORMANCE
+# ============================================
+
+# Keep-Alive
+<IfModule mod_headers.c>
+    Header set Connection keep-alive
+</IfModule>
+
+# ============================================
+# REDIRECIONAMENTOS DE URL AMIGÁVEIS
+# ============================================
+
+# Páginas principais
+RewriteRule ^$ index.html [L]
+RewriteRule ^sobre$ index.html [L]
+RewriteRule ^contato$ index.html [L]
+RewriteRule ^blog$ index.html [L]
+RewriteRule ^faq$ index.html [L]
+RewriteRule ^privacidade$ index.html [L]
+RewriteRule ^termos$ index.html [L]
+RewriteRule ^cookies$ index.html [L]
+RewriteRule ^como-jogar$ index.html [L]
+
+# Casos/Investigações
+RewriteRule ^caso/([0-9]+)$ index.html?case=$1 [L]
+RewriteRule ^investigacao/([0-9]+)$ index.html?case=$1 [L]
+RewriteRule ^cases/([a-z0-9-]+)$ index.html?case=$1 [L]
+
+# Blog Posts
+RewriteRule ^blog/([a-z0-9-]+)$ index.html?post=$1 [L]
+
+# Recursos
+RewriteRule ^recursos$ index.html [L]
+RewriteRule ^documentacao$ index.html [L]
+RewriteRule ^api$ index.html [L]
+
+# Comunidade
+RewriteRule ^comunidade$ index.html [L]
+RewriteRule ^forum$ index.html [L]
+RewriteRule ^eventos$ index.html [L]
+
+# Suporte
+RewriteRule ^suporte$ index.html [L]
+RewriteRule ^ajuda$ index.html [L]
+RewriteRule ^faq$ index.html [L]
+
+# Download
+RewriteRule ^download$ index.html [L]
+RewriteRule ^download/(.*)$ index.html [L]
+
+# ============================================
+# BLOQUEAR BOTS MALICIOSOS
+# ============================================
+
+# Bloquear bots conhecidos
+<IfModule mod_rewrite.c>
+    RewriteCond %{HTTP_USER_AGENT} (ahrefs|semrush|majestic|dotbot|rogerbot|exabot|yandexbot|baiduspider|sogou) [NC]
+    RewriteRule .* - [F,L]
+</IfModule>
+
+# ============================================
+# BLOQUEAR IPs MALICIOSOS
+# ============================================
+
+# Bloquear IPs específicos (descomente para usar)
+# <Limit GET POST>
+#     order allow,deny
+#     deny from 123.45.67.89
+#     allow from all
+# </Limit>
+
+# ============================================
+# PREVENIR HOTLINKING
+# ============================================
+
+# Prevenir hotlinking de imagens (descomente para usar)
+# RewriteCond %{HTTP_REFERER} !^$
+# RewriteCond %{HTTP_REFERER} !^https?://(www\.)?evidence\.com [NC]
+# RewriteRule \.(jpg|jpeg|png|gif|webp|svg)$ - [F,L]
+
+# ============================================
+# CORREÇÃO DE TIPOS MIME
+# ============================================
+
+<IfModule mod_mime.c>
+    # JSON
+    AddType application/json .json
+    
+    # Manifest
+    AddType application/json .webmanifest
+    
+    # JavaScript
+    AddType application/javascript .js
+    
+    # CSS
+    AddType text/css .css
+    
+    # Fontes
+    AddType font/woff .woff
+    AddType font/woff2 .woff2
+    AddType application/font-ttf .ttf
+    AddType application/font-eot .eot
+    AddType application/font-otf .otf
+    
+    # Áudio
+    AddType audio/mpeg .mp3
+    AddType audio/ogg .ogg
+    AddType audio/wav .wav
+    AddType audio/webm .webm
+    
+    # Vídeo
+    AddType video/mp4 .mp4
+    AddType video/webm .webm
+    AddType video/ogg .ogv
+    
+    # Imagens
+    AddType image/webp .webp
+    AddType image/avif .avif
+    AddType image/svg+xml .svg
+    
+    # Documentos
+    AddType application/pdf .pdf
+</IfModule>
+
+# ============================================
+# PROTEÇÃO CONTRA INJEÇÃO DE SQL
+# ============================================
+
+# Prevenir injeção de SQL (descomente para usar)
+# RewriteCond %{QUERY_STRING} (select|insert|update|delete|drop|alter|exec) [NC]
+# RewriteRule .* - [F,L]
+
+# ============================================
+# PROTEÇÃO CONTRA XSS
+# ============================================
+
+# Prevenir XSS (descomente para usar)
+# RewriteCond %{QUERY_STRING} (<|>|%3C|%3E) [NC]
+# RewriteRule .* - [F,L]
+
+# ============================================
+# MOBILE DETECTION
+# ============================================
+
+# Detectar dispositivos móveis (descomente para usar)
+# RewriteCond %{HTTP_USER_AGENT} "android|blackberry|iphone|ipod|iemobile|opera mobile|palmos|webos|googlebot-mobile" [NC]
+# RewriteRule ^$ /mobile.html [L]
+
+# ============================================
+# COMENTÁRIOS E NOTAS
+# ============================================
+
+# Nota: Este arquivo é otimizado para o projeto Evidence
+# Para mais informações, consulte a documentação
+# Última atualização: 2026-03-31

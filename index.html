@@ -1,145 +1,1071 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Evidence | Digital Investigation Platform</title>
-
-
-    <!-- CSS Base -->
-
-    <link rel="stylesheet" href="css/reset.css">
-
-    <link rel="stylesheet" href="css/variables.css">
-
-    <link rel="stylesheet" href="css/components.css">
-
-    <link rel="stylesheet" href="css/animations.css">
-
-    <link rel="stylesheet" href="css/style.css">
-
-
-    <!-- Fonte -->
-
+    <title>Evidence - Arquivo Encontrado</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
-
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ===== RESET & VARIABLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a2e;
+            --bg-hover: #2a2a44;
+            --border-color: #2a2a44;
+            --text-primary: #e8e8f0;
+            --text-secondary: #8888aa;
+            --text-muted: #555577;
+            --accent: #6c63ff;
+            --accent-hover: #7c73ff;
+            --accent-glow: rgba(108, 99, 255, 0.15);
+            --success: #00d4aa;
+            --warning: #ffb74d;
+            --danger: #ff6b6b;
+            --radius: 12px;
+            --radius-sm: 8px;
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
 
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 4px;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+            height: 60px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .logo small {
+            font-size: 11px;
+            font-weight: 400;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-actions button {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 6px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .header-actions button:hover {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border-color: var(--accent);
+        }
+
+        .header-actions .btn-primary {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .header-actions .btn-primary:hover {
+            background: var(--accent-hover);
+            border-color: var(--accent-hover);
+        }
+
+        /* ===== MAIN LAYOUT ===== */
+        main {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: 220px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 16px 12px;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            padding: 8px 12px 4px;
+            font-weight: 600;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .sidebar-item:hover {
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+
+        .sidebar-item.active {
+            background: var(--accent-glow);
+            color: var(--accent);
+        }
+
+        .sidebar-item .icon {
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .sidebar-item .badge {
+            margin-left: auto;
+            background: var(--bg-card);
+            padding: 1px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .sidebar-item.active .badge {
+            background: var(--accent);
+            color: white;
+        }
+
+        .sidebar-divider {
+            border: none;
+            border-top: 1px solid var(--border-color);
+            margin: 8px 12px;
+        }
+
+        /* ===== CONTENT AREA ===== */
+        .content {
+            flex: 1;
+            padding: 24px 32px;
+            overflow-y: auto;
+            background: var(--bg-primary);
+        }
+
+        /* ===== WELCOME SCREEN ===== */
+        .welcome {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        .welcome-icon {
+            font-size: 64px;
+            margin-bottom: 24px;
+            opacity: 0.6;
+        }
+
+        .welcome h1 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .welcome p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 6px;
+        }
+
+        .welcome .hint {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-top: 12px;
+        }
+
+        /* ===== FILE GRID ===== */
+        .file-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 16px;
+            padding: 4px 0;
+        }
+
+        .file-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 20px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .file-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .file-card .file-icon {
+            font-size: 40px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .file-card .file-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .file-card .file-meta {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* ===== VIEWER ===== */
+        .viewer-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .viewer-overlay.open {
+            display: flex;
+        }
+
+        .viewer-window {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 640px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            animation: slideUp 0.25s ease;
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+        }
+
+        .viewer-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        .viewer-header .title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .viewer-header .title .ext {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .viewer-close {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 24px;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 0 4px;
+            line-height: 1;
+        }
+
+        .viewer-close:hover {
+            color: var(--danger);
+        }
+
+        .viewer-body {
+            padding: 24px 20px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .viewer-body .file-preview {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .viewer-body .file-preview .big-icon {
+            font-size: 72px;
+            display: block;
+            margin-bottom: 16px;
+        }
+
+        .viewer-body .file-preview p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .viewer-body .file-preview .meta {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 12px;
+        }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-container {
+            padding: 8px 24px;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-shrink: 0;
+            height: 44px;
+        }
+
+        .progress-track {
+            flex: 1;
+            height: 4px;
+            background: var(--bg-card);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--success));
+            border-radius: 4px;
+            transition: width 0.6s ease;
+            width: 0%;
+        }
+
+        .progress-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            min-width: 48px;
+            text-align: right;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.97);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* ===== EMPTY STATE ===== */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-state .icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.4;
+        }
+
+        .empty-state h3 {
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 60px;
+                padding: 12px 6px;
+            }
+
+            .sidebar-item span:not(.icon) {
+                display: none;
+            }
+
+            .sidebar-item .badge {
+                display: none;
+            }
+
+            .sidebar-item {
+                padding: 10px;
+                justify-content: center;
+            }
+
+            .content {
+                padding: 16px;
+            }
+
+            .file-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+
+            .viewer-window {
+                width: 95%;
+                max-height: 90vh;
+            }
+
+            .logo small {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 8px 12px;
+            }
+            
+            .logo {
+                font-size: 16px;
+            }
+
+            .header-actions button {
+                font-size: 11px;
+                padding: 4px 10px;
+            }
+        }
+    </style>
 </head>
-
-
 <body>
 
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="logo">
+            EVIDENCE <span>⏺</span>
+            <small>· ARQUIVO ENCONTRADO</small>
+        </div>
+        <div class="header-actions">
+            <button id="newCaseBtn">📂 Novo Caso</button>
+            <button id="resetBtn">↺</button>
+            <button class="btn-primary" id="continueBtn">Continuar</button>
+        </div>
+    </header>
 
-<header class="header">
+    <!-- ===== MAIN ===== -->
+    <main>
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-label">Explorar</div>
+            
+            <div class="sidebar-item active" data-folder="welcome">
+                <span class="icon">🏠</span>
+                <span>Início</span>
+            </div>
+            
+            <div class="sidebar-item" data-folder="photos">
+                <span class="icon">🖼️</span>
+                <span>Fotos</span>
+                <span class="badge">4</span>
+            </div>
+            
+            <div class="sidebar-item" data-folder="messages">
+                <span class="icon">💬</span>
+                <span>Mensagens</span>
+                <span class="badge">3</span>
+            </div>
+            
+            <div class="sidebar-item" data-folder="documents">
+                <span class="icon">📄</span>
+                <span>Documentos</span>
+                <span class="badge">2</span>
+            </div>
+            
+            <div class="sidebar-item" data-folder="audio">
+                <span class="icon">🎤</span>
+                <span>Áudios</span>
+                <span class="badge">1</span>
+            </div>
+            
+            <div class="sidebar-item" data-folder="video">
+                <span class="icon">🎥</span>
+                <span>Vídeos</span>
+                <span class="badge">1</span>
+            </div>
+            
+            <hr class="sidebar-divider">
+            
+            <div class="sidebar-item" data-folder="map">
+                <span class="icon">📍</span>
+                <span>Mapa</span>
+            </div>
+            
+            <div class="sidebar-item" data-folder="trash">
+                <span class="icon">🗑️</span>
+                <span>Lixeira</span>
+            </div>
+            
+            <hr class="sidebar-divider">
+            
+            <div class="sidebar-label">Investimento</div>
+            
+            <div class="sidebar-item" data-folder="evidence">
+                <span class="icon">⭐</span>
+                <span>Evidências</span>
+                <span class="badge">3/7</span>
+            </div>
+        </aside>
 
-    <div class="logo">
-        EVIDENCE
+        <!-- CONTENT -->
+        <section class="content" id="content">
+            <!-- Welcome Screen -->
+            <div class="welcome" id="welcomeScreen">
+                <div class="welcome-icon">📁</div>
+                <h1>Arquivo Encontrado</h1>
+                <p>Um computador abandonado foi entregue à sua investigação.</p>
+                <p>Tudo o que aconteceu está escondido em seus arquivos.</p>
+                <p style="color: var(--text-muted); font-size: 14px; margin-top: 4px;">
+                    Não existe ordem correta para descobrir a verdade.
+                </p>
+                <div class="hint">
+                    ↳ Selecione uma pasta no menu lateral para começar
+                </div>
+            </div>
+
+            <!-- Dynamic content rendered by JS -->
+            <div id="folderContent"></div>
+        </section>
+    </main>
+
+    <!-- ===== PROGRESS BAR ===== -->
+    <footer class="progress-container">
+        <span style="font-size: 13px; color: var(--text-muted);">🔍</span>
+        <span style="font-size: 12px; color: var(--text-secondary); font-weight: 500;">Progresso</span>
+        <div class="progress-track">
+            <div class="progress-fill" id="progressFill" style="width: 14%;"></div>
+        </div>
+        <span class="progress-label" id="progressLabel">14%</span>
+    </footer>
+
+    <!-- ===== VIEWER OVERLAY ===== -->
+    <div class="viewer-overlay" id="viewerOverlay">
+        <div class="viewer-window">
+            <div class="viewer-header">
+                <span class="title" id="viewerTitle">
+                    📄 documento.pdf
+                    <span class="ext">· PDF</span>
+                </span>
+                <button class="viewer-close" id="viewerClose">✕</button>
+            </div>
+            <div class="viewer-body" id="viewerBody">
+                <div class="file-preview">
+                    <span class="big-icon">📄</span>
+                    <p>Conteúdo do arquivo aqui.</p>
+                    <div class="meta">Última modificação: hoje</div>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <script>
+        // ================================================================
+        //  EVIDENCE - APPLICATION LOGIC
+        // ================================================================
 
-    <nav>
+        (function() {
+            'use strict';
 
-        <a href="pages/login.html" class="btn">
-            Entrar
-        </a>
+            // ----- DATA -------------------------------------------------
+            const STORY_DATA = {
+                photos: [
+                    { id: 'photo1', name: 'IMG_20260312_1845.jpg', icon: '🖼️', size: '2.4 MB', date: '12/03/2026', desc: 'Estação de trem vazia à noite. Há uma sombra ao fundo.' },
+                    { id: 'photo2', name: 'IMG_20260315_0912.jpg', icon: '🖼️', size: '3.1 MB', date: '15/03/2026', desc: 'Páginas amareladas de um diário. A letra é trêmula.' },
+                    { id: 'photo3', name: 'IMG_20260318_2230.jpg', icon: '🖼️', size: '1.8 MB', date: '18/03/2026', desc: 'Reflexo em uma janela. Alguém observa.' },
+                    { id: 'photo4', name: 'IMG_20260322_0541.jpg', icon: '🖼️', size: '4.2 MB', date: '22/03/2026', desc: 'Contrato assinado. O nome está ilegível.' },
+                ],
+                messages: [
+                    { id: 'msg1', name: 'Ana — 12/03', icon: '💬', preview: 'Você está aí?', date: '12/03/2026' },
+                    { id: 'msg2', name: 'Lucas — 15/03', icon: '💬', preview: 'Não abra a pasta azul.', date: '15/03/2026' },
+                    { id: 'msg3', name: 'Carlos — 18/03', icon: '💬', preview: 'Eles sabem que você encontrou.', date: '18/03/2026' },
+                ],
+                documents: [
+                    { id: 'doc1', name: 'Diário_2026.pdf', icon: '📄', size: '156 KB', date: '12/03/2026', desc: 'Entradas de um diário pessoal. Algumas páginas foram rasgadas.' },
+                    { id: 'doc2', name: 'Contrato_Assinado.pdf', icon: '📄', size: '89 KB', date: '22/03/2026', desc: 'Contrato com cláusulas suspeitas. A assinatura é de alguém que não deveria estar ali.' },
+                ],
+                audio: [
+                    { id: 'audio1', name: 'Ligação_15-03.mp3', icon: '🎤', duration: '03:12', date: '15/03/2026', desc: 'Gravação de uma ligação. Vozes abafadas ao fundo.' },
+                ],
+                video: [
+                    { id: 'video1', name: 'CCTV_Estacao.mp4', icon: '🎥', duration: '00:47', date: '12/03/2026', desc: 'Circuito interno da estação. Um vulto passa às 18:45.' },
+                ],
+                map: {
+                    locations: [
+                        { name: 'Estação Central', status: '🔴', date: '12/03' },
+                        { name: 'Rua das Acácias, 47', status: '🟡', date: '15/03' },
+                        { name: 'Arquivo Público', status: '🟢', date: '22/03' },
+                    ]
+                },
+                evidence: [
+                    { id: 'ev1', name: 'Foto da Estação', found: true },
+                    { id: 'ev2', name: 'Bilhete de Trem', found: true },
+                    { id: 'ev3', name: 'Contrato', found: true },
+                    { id: 'ev4', name: 'Chave USB', found: false },
+                    { id: 'ev5', name: 'Gravação de Áudio', found: false },
+                    { id: 'ev6', name: 'Pasta Oculta', found: false },
+                    { id: 'ev7', name: 'Diário Completo', found: false },
+                ]
+            };
 
-    </nav>
+            // ----- STATE -------------------------------------------------
+            let currentFolder = 'welcome';
+            let progress = 14;
+            let selectedFile = null;
 
+            // ----- DOM REFS ---------------------------------------------
+            const content = document.getElementById('content');
+            const sidebar = document.getElementById('sidebar');
+            const progressFill = document.getElementById('progressFill');
+            const progressLabel = document.getElementById('progressLabel');
 
-</header>
+            const viewerOverlay = document.getElementById('viewerOverlay');
+            const viewerTitle = document.getElementById('viewerTitle');
+            const viewerBody = document.getElementById('viewerBody');
+            const viewerClose = document.getElementById('viewerClose');
 
+            // ----- RENDER FUNCTIONS -------------------------------------
 
+            function renderWelcome() {
+                const welcome = document.getElementById('welcomeScreen');
+                const folderContent = document.getElementById('folderContent');
+                welcome.style.display = 'flex';
+                folderContent.innerHTML = '';
+            }
 
-<main>
+            function renderFolder(folder) {
+                const welcome = document.getElementById('welcomeScreen');
+                const folderContent = document.getElementById('folderContent');
+                welcome.style.display = 'none';
 
+                let items = [];
+                let title = '';
+                let icon = '';
 
-<section class="hero">
+                switch (folder) {
+                    case 'photos':
+                        items = STORY_DATA.photos;
+                        title = 'Fotos';
+                        icon = '🖼️';
+                        break;
+                    case 'messages':
+                        items = STORY_DATA.messages;
+                        title = 'Mensagens';
+                        icon = '💬';
+                        break;
+                    case 'documents':
+                        items = STORY_DATA.documents;
+                        title = 'Documentos';
+                        icon = '📄';
+                        break;
+                    case 'audio':
+                        items = STORY_DATA.audio;
+                        title = 'Áudios';
+                        icon = '🎤';
+                        break;
+                    case 'video':
+                        items = STORY_DATA.video;
+                        title = 'Vídeos';
+                        icon = '🎥';
+                        break;
+                    case 'map':
+                        folderContent.innerHTML = renderMap();
+                        return;
+                    case 'evidence':
+                        folderContent.innerHTML = renderEvidence();
+                        return;
+                    case 'trash':
+                        folderContent.innerHTML = renderEmpty('🗑️', 'Lixeira vazia', 'Nenhum arquivo foi descartado ainda.');
+                        return;
+                    default:
+                        folderContent.innerHTML = renderEmpty('📂', 'Pasta vazia', 'Nenhum arquivo encontrado aqui.');
+                        return;
+                }
 
+                if (items.length === 0) {
+                    folderContent.innerHTML = renderEmpty('📂', 'Pasta vazia', 'Nenhum arquivo encontrado aqui.');
+                    return;
+                }
 
-<div class="hero-content fade-in">
+                let html = `
+                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+                        <span style="font-size:28px;">${icon}</span>
+                        <h2 style="font-weight:700;font-size:22px;">${title}</h2>
+                        <span style="color:var(--text-muted);font-size:13px;">${items.length} itens</span>
+                    </div>
+                    <div class="file-grid">
+                `;
 
+                items.forEach(item => {
+                    const meta = item.size || item.duration || item.date || '';
+                    const desc = item.desc || item.preview || '';
+                    html += `
+                        <div class="file-card" data-id="${item.id}" data-folder="${folder}">
+                            <span class="file-icon">${item.icon || '📄'}</span>
+                            <div class="file-name">${item.name}</div>
+                            <div class="file-meta">${meta}</div>
+                            ${desc ? `<div style="font-size:11px;color:var(--text-muted);margin-top:6px;line-height:1.4;">${desc}</div>` : ''}
+                        </div>
+                    `;
+                });
 
-    <p class="badge badge-danger">
-        CLASSIFIED SYSTEM
-    </p>
+                html += '</div>';
+                folderContent.innerHTML = html;
 
+                // Attach click listeners to file cards
+                document.querySelectorAll('.file-card').forEach(el => {
+                    el.addEventListener('click', function() {
+                        const id = this.dataset.id;
+                        const folder = this.dataset.folder;
+                        openFile(folder, id);
+                    });
+                });
+            }
 
-    <h1>
-        Investigue.
-        Descubra.
-        Revele a verdade.
-    </h1>
+            function renderMap() {
+                const locations = STORY_DATA.map.locations;
+                let html = `
+                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+                        <span style="font-size:28px;">📍</span>
+                        <h2 style="font-weight:700;font-size:22px;">Mapa</h2>
+                        <span style="color:var(--text-muted);font-size:13px;">${locations.length} locais</span>
+                    </div>
+                    <div style="background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:var(--radius);padding:32px 24px;min-height:300px;display:flex;flex-direction:column;gap:12px;">
+                `;
 
+                locations.forEach(loc => {
+                    html += `
+                        <div style="display:flex;align-items:center;gap:16px;padding:12px 16px;background:var(--bg-card);border-radius:var(--radius-sm);border-left:3px solid ${loc.status === '🔴' ? 'var(--danger)' : loc.status === '🟡' ? 'var(--warning)' : 'var(--success)'};">
+                            <span style="font-size:20px;">${loc.status}</span>
+                            <div>
+                                <div style="font-weight:500;">${loc.name}</div>
+                                <div style="font-size:12px;color:var(--text-muted);">${loc.date}</div>
+                            </div>
+                            <span style="margin-left:auto;font-size:12px;color:var(--text-muted);">📍</span>
+                        </div>
+                    `;
+                });
 
-    <p>
+                html += `
+                        <div style="margin-top:8px;padding:12px 16px;background:var(--bg-card);border-radius:var(--radius-sm);font-size:13px;color:var(--text-muted);text-align:center;">
+                            🟢 Descoberto &nbsp;·&nbsp; 🟡 Investigações em andamento &nbsp;·&nbsp; 🔴 Pendente
+                        </div>
+                    </div>
+                `;
+                return html;
+            }
 
-        Evidence é uma plataforma de investigação digital
-        onde arquivos, mensagens, documentos e sistemas
-        escondem histórias esperando para serem descobertas.
+            function renderEvidence() {
+                const items = STORY_DATA.evidence;
+                const found = items.filter(e => e.found).length;
+                const total = items.length;
 
-    </p>
+                let html = `
+                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+                        <span style="font-size:28px;">⭐</span>
+                        <h2 style="font-weight:700;font-size:22px;">Evidências</h2>
+                        <span style="color:var(--text-muted);font-size:13px;">${found}/${total} encontradas</span>
+                    </div>
+                    <div style="display:grid;gap:8px;">
+                `;
 
+                items.forEach(ev => {
+                    html += `
+                        <div style="display:flex;align-items:center;gap:14px;padding:12px 16px;background:var(--bg-secondary);border:1px solid ${ev.found ? 'var(--success)' : 'var(--border-color)'};border-radius:var(--radius-sm);">
+                            <span style="font-size:20px;">${ev.found ? '✅' : '⬜'}</span>
+                            <span style="font-weight:500;${ev.found ? '' : 'color:var(--text-muted);'}">${ev.name}</span>
+                            <span style="margin-left:auto;font-size:12px;color:var(--text-muted);">${ev.found ? 'Encontrado' : 'Pendente'}</span>
+                        </div>
+                    `;
+                });
 
+                html += '</div>';
+                return html;
+            }
 
-    <a href="pages/login.html" class="btn btn-primary glow">
+            function renderEmpty(icon, title, desc) {
+                return `
+                    <div class="empty-state">
+                        <div class="icon">${icon}</div>
+                        <h3>${title}</h3>
+                        <p>${desc}</p>
+                    </div>
+                `;
+            }
 
-        Iniciar Investigação
+            // ----- OPEN FILE ---------------------------------------------
 
-    </a>
+            function openFile(folder, id) {
+                let items = [];
+                let file = null;
 
+                switch (folder) {
+                    case 'photos': items = STORY_DATA.photos; break;
+                    case 'messages': items = STORY_DATA.messages; break;
+                    case 'documents': items = STORY_DATA.documents; break;
+                    case 'audio': items = STORY_DATA.audio; break;
+                    case 'video': items = STORY_DATA.video; break;
+                    default: return;
+                }
 
-</div>
+                file = items.find(item => item.id === id);
+                if (!file) return;
 
+                selectedFile = file;
 
-</section>
+                // Update viewer
+                const iconMap = {
+                    'photos': '🖼️',
+                    'messages': '💬',
+                    'documents': '📄',
+                    'audio': '🎤',
+                    'video': '🎥'
+                };
 
+                const ext = file.name ? file.name.split('.').pop().toUpperCase() : 'FILE';
+                viewerTitle.innerHTML = `
+                    ${file.icon || '📄'} ${file.name}
+                    <span class="ext">· ${ext}</span>
+                `;
 
+                let bodyHtml = `
+                    <div class="file-preview">
+                        <span class="big-icon">${file.icon || '📄'}</span>
+                        <p>${file.desc || file.preview || 'Sem descrição disponível.'}</p>
+                        <div class="meta">
+                            ${file.date ? `📅 ${file.date}` : ''}
+                            ${file.size ? ` · 📦 ${file.size}` : ''}
+                            ${file.duration ? ` · ⏱️ ${file.duration}` : ''}
+                        </div>
+                    </div>
+                `;
 
-<section class="container">
+                // Special content for messages
+                if (folder === 'messages' && file.preview) {
+                    bodyHtml = `
+                        <div style="padding:8px 0;">
+                            <div style="background:var(--bg-card);padding:16px 20px;border-radius:var(--radius-sm);border-left:3px solid var(--accent);">
+                                <div style="font-size:13px;color:var(--text-muted);margin-bottom:4px;">${file.name}</div>
+                                <div style="font-size:16px;line-height:1.6;">${file.preview}</div>
+                                <div style="font-size:12px;color:var(--text-muted);margin-top:8px;">${file.date}</div>
+                            </div>
+                        </div>
+                    `;
+                }
 
+                viewerBody.innerHTML = bodyHtml;
+                viewerOverlay.classList.add('open');
 
-<div class="card">
+                // Update progress (simulate discovery)
+                if (progress < 100) {
+                    progress = Math.min(progress + 3, 100);
+                    updateProgress();
+                }
+            }
 
+            // ----- UPDATE PROGRESS ---------------------------------------
 
-<h2 class="card-title">
+            function updateProgress() {
+                progressFill.style.width = progress + '%';
+                progressLabel.textContent = progress + '%';
+            }
 
-Sistema de Investigação Digital
+            // ----- SIDEBAR NAVIGATION ------------------------------------
 
-</h2>
+            function navigateTo(folder) {
+                currentFolder = folder;
 
+                // Update sidebar active state
+                document.querySelectorAll('.sidebar-item').forEach(el => {
+                    el.classList.remove('active');
+                    if (el.dataset.folder === folder) {
+                        el.classList.add('active');
+                    }
+                });
 
-<p class="card-text">
+                if (folder === 'welcome') {
+                    renderWelcome();
+                } else {
+                    renderFolder(folder);
+                }
+            }
 
-Acesse ambientes virtuais completos,
-analise evidências, explore arquivos,
-leia mensagens e conecte informações
-para solucionar casos.
+            // ----- RESET / NEW CASE --------------------------------------
 
-</p>
+            function resetProgress() {
+                progress = 0;
+                updateProgress();
+                // Reset evidence found status
+                STORY_DATA.evidence.forEach(ev => ev.found = false);
+                // Mark some as found for demo
+                STORY_DATA.evidence[0].found = true;
+                STORY_DATA.evidence[1].found = true;
+                STORY_DATA.evidence[2].found = true;
+                progress = 14;
+                updateProgress();
+                navigateTo('welcome');
+            }
 
+            // ----- EVENT LISTENERS ---------------------------------------
 
-</div>
+            // Sidebar clicks
+            sidebar.addEventListener('click', function(e) {
+                const item = e.target.closest('.sidebar-item');
+                if (!item) return;
+                const folder = item.dataset.folder;
+                if (folder) {
+                    navigateTo(folder);
+                }
+            });
 
+            // Viewer close
+            viewerClose.addEventListener('click', function() {
+                viewerOverlay.classList.remove('open');
+            });
 
-</section>
+            viewerOverlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    viewerOverlay.classList.remove('open');
+                }
+            });
 
+            // Keyboard shortcut: Escape to close viewer
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && viewerOverlay.classList.contains('open')) {
+                    viewerOverlay.classList.remove('open');
+                }
+            });
 
+            // Continue button
+            document.getElementById('continueBtn').addEventListener('click', function() {
+                if (currentFolder === 'welcome') {
+                    navigateTo('photos');
+                } else {
+                    navigateTo('welcome');
+                }
+            });
 
-</main>
+            // New Case
+            document.getElementById('newCaseBtn').addEventListener('click', function() {
+                if (confirm('Iniciar um novo caso irá limpar o progresso atual. Continuar?')) {
+                    resetProgress();
+                }
+            });
 
+            // Reset
+            document.getElementById('resetBtn').addEventListener('click', function() {
+                resetProgress();
+            });
 
+            // ----- INIT -------------------------------------------------
 
-<script src="js/main.js"></script>
+            // Set initial progress
+            updateProgress();
 
+            // Mark some evidence as found
+            STORY_DATA.evidence[0].found = true;
+            STORY_DATA.evidence[1].found = true;
+            STORY_DATA.evidence[2].found = true;
+
+            // Show welcome
+            renderWelcome();
+
+            console.log('🔍 Evidence — Arquivo Encontrado');
+            console.log('📁 Explore as pastas para descobrir a história.');
+
+        })();
+    </script>
 
 </body>
-
 </html>

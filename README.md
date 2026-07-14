@@ -1,65 +1,57 @@
-# Evidence
+# 🔍 Evidence - Arquivo Encontrado
 
-Evidence is an immersive digital investigation platform where players solve interactive cases through emails, documents, messages, videos, databases and virtual computer systems.
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Made with Love](https://img.shields.io/badge/Made%20with-❤️-red.svg)](https://github.com/seu-usuario/evidence)
 
-The project aims to provide a realistic investigation experience directly in the browser, with future support for augmented reality, AI-assisted investigations and cross-device gameplay.
+Uma experiência imersiva de narrativa interativa onde você investiga evidências digitais para desvendar uma história oculta.
 
----
-
-## Current Status
-
-🚧 Early Development
+![Evidence Demo](https://via.placeholder.com/1200x600/1a1a2e/6c63ff?text=Evidence+-+Arquivo+Encontrado)
 
 ---
 
-## Planned Features
+## 📖 Sobre o Projeto
 
-- Interactive digital investigations
-- Virtual operating system
-- Email client
-- File explorer
-- Messaging system
-- Digital evidence database
-- Interactive maps
-- AI investigation assistant
-- Augmented Reality integration
-- Case editor
-- Marketplace for investigation cases
+**Evidence** não é um livro comum. É uma plataforma de narrativa investigativa onde você:
+
+- 🔍 **Explora** arquivos de um computador abandonado
+- 📁 **Descobre** fotos, mensagens, documentos e áudios
+- 🧩 **Conecta** as pistas para reconstruir a história
+- 🎯 **Investiga** no seu próprio ritmo, sem ordem linear
+
+Em vez de virar páginas, você navega por pastas e arquivos, exatamente como faria em um computador real. Cada descoberta desbloqueia novas evidências até que toda a verdade seja revelada.
 
 ---
 
-## Technology
+## ✨ Funcionalidades
 
-- HTML5
-- CSS3
-- JavaScript (ES6)
+### 🎮 Navegação Não-Linear
+- Explore qualquer pasta a qualquer momento
+- Cada arquivo contém pistas únicas
+- A história se revela conforme você investiga
 
-Future versions may include backend services and mobile applications.
+### 📁 Sistema de Arquivos
+- **Fotos** - Imagens com metadados e descrições
+- **Mensagens** - Conversas entre personagens
+- **Documentos** - PDFs, contratos e diários
+- **Áudios** - Gravações misteriosas
+- **Vídeos** - Câmeras de segurança e evidências
+- **Mapa** - Localização de eventos importantes
+- **Evidências** - Acompanhamento do progresso
 
----
+### 🎨 Interface Imersiva
+- Design inspirado em softwares forenses
+- Tema escuro para imersão total
+- Animações suaves e feedback visual
+- Visualizador de arquivos em modal
+- Barra de progresso dinâmica
 
-## Roadmap
-
-### Version 0.1
-- Landing Page
-
-### Version 0.2
-- Authentication
-
-### Version 0.3
-- Dashboard
-
-### Version 0.4
-- Virtual Desktop
-
-### Version 0.5
-- Investigation Engine
-
-### Version 1.0
-- Public Release
+### 📱 Responsivo
+- Funciona em desktop, tablet e mobile
+- Interface adaptativa
+- Experiência consistente em todos os dispositivos
 
 ---
 
-## License
+## 🚀 Demonstração
 
-Private project.
+### Tela Inicial

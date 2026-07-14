@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testes - Evidence</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0f;
+            color: #e8e8f0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #e8e8f0, #6c63ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #8888aa;
+            margin-bottom: 40px;
+        }
+
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .test-card {
+            background: #12121a;
+            border: 1px solid #2a2a44;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.25s ease;
+        }
+
+        .test-card:hover {
+            border-color: #6c63ff;
+            transform: translateY(-2px);
+        }
+
+        .test-card .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .test-card .title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e8e8f0;
+        }
+
+        .test-card .status {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        .status.pending {
+            background: #2a2a44;
+            color: #8888aa;
+        }
+
+        .status.passed {
+            background: rgba(0, 212, 170, 0.2);
+            color: #00d4aa;
+        }
+
+        .status.failed {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+        }
+
+        .test-card .description {
+            color: #8888aa;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .test-card .details {
+            background: #0a0a0f;
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 12px;
+            color: #555577;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            display: none;
+        }
+
+        .test-card .details.show {
+            display: block;
+        }
+
+        .btn {
+            background: transparent;
+            border: 1px solid #2a2a44;
+            color: #8888aa;
+            padding: 6px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-family: inherit;
+        }
+
+        .btn:hover {
+            background: #1a1a2e;
+            color: #e8e8f0;
+            border-color: #6c63ff;
+        }
+
+        .btn-primary {
+            background: #6c63ff;
+            border-color: #6c63ff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #7c73ff;
+            border-color: #7c73ff;
+        }
+
+        .btn-success {
+            background: #00d4aa;
+            border-color: #00d4aa;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #00e8bb;
+            border-color: #00e8bb;
+        }
+
+        .btn-danger {
+            background: #ff6b6b;
+            border-color: #ff6b6b;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #ff7b7b;
+            border-color: #ff7b7b;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .summary {
+            background: #12121a;
+            border: 1px solid #2a2a44;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 16px;
+            text-align: center;
+        }
+
+        .summary-item {
+            padding: 12px;
+        }
+
+        .summary-item .number {
+            font-size: 28px;
+            font-weight: 800;
+            color: #6c63ff;
+        }
+
+        .summary-item .label {
+            font-size: 12px;
+            color: #8888aa;
+            margin-top: 4px;
+        }
+
+        .summary-item .number.passed {
+            color: #00d4aa;
+        }
+
+        .summary-item .number.failed {
+            color: #ff6b6b;
+        }
+
+        .log {
+            background: #12121a;
+            border: 1px solid #2a2a44;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .log-entry {
+            font-size: 12px;
+            color: #555577;
+            padding: 2px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .log-entry .time {
+            color: #2a2a44;
+        }
+
+        .log-entry .info {
+            color: #6c63ff;
+        }
+
+        .log-entry .success {
+            color: #00d4aa;
+        }
+
+        .log-entry .error {
+            color: #ff6b6b;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 24px; }
+            .test-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Testes do Sistema</h1>
+        <p class="subtitle">Evidence - Verificação de integridade e funcionalidade</p>
+
+        <!-- Summary -->
+        <div class="summary" id="summary">
+            <div class="summary-item">
+                <div class="number" id="totalTests">0</div>
+                <div class="label">Total de Testes</div>
+            </div>
+            <div class="summary-item">
+                <div class="number passed" id="passedTests">0</div>
+                <div class="label">✅ Aprovados</div>
+            </div>
+            <div class="summary-item">
+                <div class="number failed" id="failedTests">0</div>
+                <div class="label">❌ Falhos</div>
+            </div>
+            <div class="summary-item">
+                <div class="number" id="coverage">0%</div>
+                <div class="label">📊 Cobertura</div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div style="margin-bottom: 20px; display: flex; gap: 8px; flex-wrap: wrap;">
+            <button class="btn btn-primary" onclick="runAllTests()">▶️ Executar Todos os Testes</button>
+            <button class="btn btn-success" onclick="runCriticalTests()">⭐ Testes Críticos</button>
+            <button class="btn btn-secondary" onclick="clearLog()">🗑️ Limpar Log</button>
+            <button class="btn btn-danger" onclick="exportResults()">📤 Exportar Resultados</button>
+        </div>
+
+        <!-- Test Grid -->
+        <div class="test-grid" id="testGrid">
+            <!-- Gerado por JavaScript -->
+        </div>
+
+        <!-- Log -->
+        <div class="log" id="logContainer">
+            <div class="log-entry">
+                <span class="time">[${new Date().toLocaleTimeString()}]</span>
+                <span class="info">🔍 Sistema de testes inicializado</span>
+            </div>
+            <div class="log-entry">
+                <span class="time">[${new Date().toLocaleTimeString()}]</span>
+                <span class="info">📋 Aguardando execução dos testes...</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // SISTEMA DE TESTES
+        // ============================================
+
+        class TestRunner {
+            constructor() {
+                this.tests = [];
+                this.results = [];
+                this.total = 0;
+                this.passed = 0;
+                this.failed = 0;
+                this.logs = [];
+            }
+
+            addTest(name, fn, category = 'Geral', critical = false) {
+                this.tests.push({
+                    id: this.tests.length + 1,
+                    name,
+                    fn,
+                    category,
+                    critical,
+                    status: 'pending'
+                });
+            }
+
+            async runAll() {
+                this.results = [];
+                this.passed = 0;
+                this.failed = 0;
+                this.total = this.tests.length;
+
+                for (const test of this.tests) {
+                    try {
+                        const start = performance.now();
+                        const result = await test.fn();
+                        const duration = performance.now() - start;
+                        
+                        test.status = result ? 'passed' : 'failed';
+                        if (result) this.passed++; else this.failed++;
+                        
+                        this.results.push({
+                            test: test,
+                            passed: result,
+                            duration: duration,
+                            error: null
+                        });
+                    } catch (error) {
+                        test.status = 'failed';
+                        this.failed++;
+                        this.results.push({
+                            test: test,
+                            passed: false,
+                            duration: 0,
+                            error: error.message
+                        });
+                    }
+                }
+
+                this.updateUI();
+                return this.results;
+            }
+
+            async runCritical() {
+                const critical = this.tests.filter(t => t.critical);
+                if (critical.length === 0) {
+                    this.log('⚠️ Nenhum teste crítico encontrado');
+                    return;
+                }
+
+                this.results = [];
+                this.passed = 0;
+                this.failed = 0;
+                this.total = critical.length;
+
+                for (const test of critical) {
+                    try {
+                        const start = performance.now();
+                        const result = await test.fn();
+                        const duration = performance.now() - start;
+                        
+                        test.status = result ? 'passed' : 'failed';
+                        if (result) this.passed++; else this.failed++;
+                        
+                        this.results.push({
+                            test: test,
+                            passed: result,
+                            duration: duration,
+                            error: null
+                        });
+                    } catch (error) {
+                        test.status = 'failed';
+                        this.failed++;
+                        this.results.push({
+                            test: test,
+                            passed: false,
+                            duration: 0,
+                            error: error.message
+                        });
+                    }
+                }
+
+                this.updateUI();
+                return this.results;
+            }
+
+            log(message, type = 'info') {
+                const time = new Date().toLocaleTimeString();
+                const entry = { time, message, type };
+                this.logs.push(entry);
+                
+                const container = document.getElementById('logContainer');
+                const div = document.createElement('div');
+                div.className = 'log-entry';
+                div.innerHTML = `
+                    <span class="time">[${time}]</span>
+                    <span class="${type}">${message}</span>
+                `;
+                container.appendChild(div);
+                container.scrollTop = container.scrollHeight;
+            }
+
+            updateUI() {
+                // Update summary
+                document.getElementById('totalTests').textContent = this.total;
+                document.getElementById('passedTests').textContent = this.passed;
+                document.getElementById('failedTests').textContent = this.failed;
+                document.getElementById('coverage').textContent = 
+                    this.total > 0 ? Math.round((this.passed / this.total) * 100) + '%' : '0%';
+
+                // Update test cards
+                const grid = document.getElementById('testGrid');
+                grid.innerHTML = '';
+
+                this.tests.forEach(test => {
+                    const card = document.createElement('div');
+                    card.className = 'test-card';
+
+                    const result = this.results.find(r => r.test.id === test.id);
+                    const status = result ? (result.passed ? 'passed' : 'failed') : 'pending';
+                    const statusText = status === 'passed' ? '✅ Aprovado' : 
+                                      status === 'failed' ? '❌ Falhou' : '⏳ Pendente';
+                    const duration = result ? result.duration.toFixed(1) : '-';
+
+                    card.innerHTML = `
+                        <div class="header">
+                            <span class="title">#${test.id} ${test.name}</span>
+                            <span class="status ${status}">${statusText}</span>
+                        </div>
+                        <div class="description">
+                            <strong>Categoria:</strong> ${test.category}
+                            ${test.critical ? ' ⭐ Crítico' : ''}
+                            <br>
+                            <strong>Duração:</strong> ${duration}ms
+                            ${result && result.error ? `<br><strong>Erro:</strong> ${result.error}` : ''}
+                        </div>
+                        <div class="actions">
+                            <button class="btn btn-secondary" onclick="showDetails(${test.id})">📋 Detalhes</button>
+                            <button class="btn btn-secondary" onclick="runTest(${test.id})">▶️ Executar</button>
+                        </div>
+                        <div class="details" id="details-${test.id}">
+                            <pre>${test.fn.toString()}</pre>
+                        </div>
+                    `;
+
+                    grid.appendChild(card);
+                });
+
+                // Log completion
+                this.log(`✅ Testes completos: ${this.passed}/${this.total} aprovados`);
+                if (this.failed > 0) {
+                    this.log(`⚠️ ${this.failed} testes falharam`, 'error');
+                }
+            }
+
+            clearLog() {
+                const container = document.getElementById('logContainer');
+                container.innerHTML = '';
+                this.logs = [];
+                this.log('🗑️ Log limpo');
+            }
+
+            exportResults() {
+                const data = {
+                    timestamp: new Date().toISOString(),
+                    total: this.total,
+                    passed: this.passed,
+                    failed: this.failed,
+                    results: this.results.map(r => ({
+                        test: r.test.name,
+                        passed: r.passed,
+                        duration: r.duration,
+                        error: r.error
+                    })),
+                    logs: this.logs
+                };
+
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `test-results-${new Date().toISOString().slice(0,10)}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+
+                this.log('📤 Resultados exportados');
+            }
+        }
+
+        // ============================================
+        // DEFINIR TESTES
+        // ============================================
+
+        const testRunner = new TestRunner();
+
+        // Testes de Sistema
+        testRunner.addTest('Verificar DataHelper', () => {
+            return typeof window.DataHelper !== 'undefined';
+        }, 'Sistema', true);
+
+        testRunner.addTest('Verificar EVIDENCE_DATA', () => {
+            return typeof window.EVIDENCE_DATA !== 'undefined';
+        }, 'Sistema', true);
+
+        testRunner.addTest('Verificar localStorage', () => {
+            try {
+                localStorage.setItem('test', 'test');
+                localStorage.removeItem('test');
+                return true;
+            } catch {
+                return false;
+            }
+        }, 'Sistema', true);
+
+        testRunner.addTest('Verificar navigator.onLine', () => {
+            return navigator.onLine !== undefined;
+        }, 'Sistema', false);
+
+        // Testes de Dados
+        testRunner.addTest('Carregar fotos', () => {
+            const photos = DataHelper.getFiles('photos');
+            return photos && photos.length > 0;
+        }, 'Dados', true);
+
+        testRunner.addTest('Carregar mensagens', () => {
+            const messages = DataHelper.getFiles('messages');
+            return messages && messages.length > 0;
+        }, 'Dados', true);
+
+        testRunner.addTest('Carregar documentos', () => {
+            const docs = DataHelper.getFiles('documents');
+            return docs && docs.length > 0;
+        }, 'Dados', true);
+
+        testRunner.addTest('Carregar evidências', () => {
+            const evidence = DataHelper.getEvidence();
+            return evidence && evidence.length > 0;
+        }, 'Dados', true);
+
+        testRunner.addTest('Calcular progresso', () => {
+            const progress = DataHelper.getProgress();
+            return typeof progress === 'number' && progress >= 0 && progress <= 100;
+        }, 'Dados', false);
+
+        // Testes de Storage
+        testRunner.addTest('Verificar StorageManager', () => {
+            return typeof window.StorageManager !== 'undefined';
+        }, 'Storage', true);
+
+        testRunner.addTest('Verificar EvidenceStorage', () => {
+            return typeof window.EvidenceStorage !== 'undefined';
+        }, 'Storage', true);
+
+        testRunner.addTest('Salvar no localStorage', () => {
+            try {
+                const storage = new EvidenceStorage();
+                storage.saveGame({ test: true });
+                const loaded = storage.loadGame();
+                return loaded && loaded.test === true;
+            } catch {
+                return false;
+            }
+        }, 'Storage', true);
+
+        // Testes de Interface
+        testRunner.addTest('Verificar DOM principal', () => {
+            return document.getElementById('sidebar') !== null &&
+                   document.getElementById('content') !== null;
+        }, 'UI', true);
+
+        testRunner.addTest('Verificar visualizador', () => {
+            return document.getElementById('viewerOverlay') !== null;
+        }, 'UI', false);
+
+        testRunner.addTest('Verificar progress bar', () => {
+            return document.getElementById('progressFill') !== null;
+        }, 'UI', false);
+
+        // Testes de PWA
+        testRunner.addTest('Verificar manifest.json', () => {
+            return document.querySelector('link[rel="manifest"]') !== null;
+        }, 'PWA', false);
+
+        testRunner.addTest('Verificar Service Worker', () => {
+            return 'serviceWorker' in navigator;
+        }, 'PWA', false);
+
+        testRunner.addTest('Verificar tema', () => {
+            const meta = document.querySelector('meta[name="theme-color"]');
+            return meta !== null && meta.content === '#6c63ff';
+        }, 'PWA', false);
+
+        // ============================================
+        // FUNÇÕES DE CONTROLE
+        // ============================================
+
+        async function runAllTests() {
+            testRunner.log('▶️ Executando todos os testes...', 'info');
+            await testRunner.runAll();
+        }
+
+        async function runCriticalTests() {
+            testRunner.log('⭐ Executando testes críticos...', 'info');
+            await testRunner.runCritical();
+        }
+
+        function showDetails(id) {
+            const details = document.getElementById(`details-${id}`);
+            if (details) {
+                details.classList.toggle('show');
+            }
+        }
+
+        async function runTest(id) {
+            const test = testRunner.tests.find(t => t.id === id);
+            if (!test) return;
+
+            testRunner.log(`▶️ Executando teste: ${test.name}`, 'info');
+            
+            try {
+                const start = performance.now();
+                const result = await test.fn();
+                const duration = performance.now() - start;
+                
+                test.status = result ? 'passed' : 'failed';
+                if (result) testRunner.passed++; else testRunner.failed++;
+                
+                testRunner.results.push({
+                    test: test,
+                    passed: result,
+                    duration: duration,
+                    error: null
+                });
+                
+                testRunner.log(`${result ? '✅' : '❌'} ${test.name} (${duration.toFixed(1)}ms)`, 
+                              result ? 'success' : 'error');
+                testRunner.updateUI();
+            } catch (error) {
+                test.status = 'failed';
+                testRunner.failed++;
+                testRunner.results.push({
+                    test: test,
+                    passed: false,
+                    duration: 0,
+                    error: error.message
+                });
+                testRunner.log(`❌ ${test.name} - Erro: ${error.message}`, 'error');
+                testRunner.updateUI();
+            }
+        }
+
+        function clearLog() {
+            testRunner.clearLog();
+        }
+
+        function exportResults() {
+            testRunner.exportResults();
+        }
+
+        // ============================================
+        // INICIAR
+        // ============================================
+
+        // Executar testes críticos automaticamente
+        document.addEventListener('DOMContentLoaded', () => {
+            testRunner.log('🔍 Inicializando testes...', 'info');
+            setTimeout(() => {
+                runCriticalTests();
+            }, 500);
+        });
+
+        // ============================================
+        // EXPORTAR
+        // ============================================
+
+        window.runAllTests = runAllTests;
+        window.runCriticalTests = runCriticalTests;
+        window.showDetails = showDetails;
+        window.runTest = runTest;
+        window.clearLog = clearLog;
+        window.exportResults = exportResults;
+
+        console.log('🧪 Test Runner initialized!');
+        console.log(`📋 ${testRunner.tests.length} tests registered`);
+    </script>
+</body>
+</html>
