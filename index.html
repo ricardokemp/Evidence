@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        /* ===== RESET & VARIABLES ===== */
         * {
             margin: 0;
             padding: 0;
@@ -48,20 +47,10 @@
             user-select: none;
         }
 
-        /* ===== SCROLLBAR ===== */
-        ::-webkit-scrollbar {
-            width: 4px;
-            height: 4px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--bg-secondary);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--accent);
-            border-radius: 4px;
-        }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
 
-        /* ===== HEADER ===== */
         header {
             background: var(--bg-secondary);
             border-bottom: 1px solid var(--border-color);
@@ -83,16 +72,8 @@
             gap: 10px;
         }
 
-        .logo span {
-            color: var(--accent);
-        }
-
-        .logo small {
-            font-size: 11px;
-            font-weight: 400;
-            color: var(--text-muted);
-            letter-spacing: 0.5px;
-        }
+        .logo span { color: var(--accent); }
+        .logo small { font-size: 11px; font-weight: 400; color: var(--text-muted); letter-spacing: 0.5px; }
 
         .header-actions {
             display: flex;
@@ -130,14 +111,12 @@
             border-color: var(--accent-hover);
         }
 
-        /* ===== MAIN LAYOUT ===== */
         main {
             display: flex;
             flex: 1;
             overflow: hidden;
         }
 
-        /* ===== SIDEBAR ===== */
         .sidebar {
             width: 220px;
             background: var(--bg-secondary);
@@ -169,7 +148,6 @@
             color: var(--text-secondary);
             font-size: 14px;
             font-weight: 500;
-            position: relative;
         }
 
         .sidebar-item:hover {
@@ -182,12 +160,7 @@
             color: var(--accent);
         }
 
-        .sidebar-item .icon {
-            font-size: 18px;
-            width: 24px;
-            text-align: center;
-        }
-
+        .sidebar-item .icon { font-size: 18px; width: 24px; text-align: center; }
         .sidebar-item .badge {
             margin-left: auto;
             background: var(--bg-card);
@@ -208,7 +181,6 @@
             margin: 8px 12px;
         }
 
-        /* ===== CONTENT AREA ===== */
         .content {
             flex: 1;
             padding: 24px 32px;
@@ -216,7 +188,6 @@
             background: var(--bg-primary);
         }
 
-        /* ===== WELCOME SCREEN ===== */
         .welcome {
             display: flex;
             flex-direction: column;
@@ -228,12 +199,7 @@
             margin: 0 auto;
         }
 
-        .welcome-icon {
-            font-size: 64px;
-            margin-bottom: 24px;
-            opacity: 0.6;
-        }
-
+        .welcome-icon { font-size: 64px; margin-bottom: 24px; opacity: 0.6; }
         .welcome h1 {
             font-size: 28px;
             font-weight: 800;
@@ -242,21 +208,9 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        .welcome p { color: var(--text-secondary); font-size: 15px; line-height: 1.7; margin-bottom: 6px; }
+        .welcome .hint { color: var(--text-muted); font-size: 13px; margin-top: 12px; }
 
-        .welcome p {
-            color: var(--text-secondary);
-            font-size: 15px;
-            line-height: 1.7;
-            margin-bottom: 6px;
-        }
-
-        .welcome .hint {
-            color: var(--text-muted);
-            font-size: 13px;
-            margin-top: 12px;
-        }
-
-        /* ===== FILE GRID ===== */
         .file-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -280,25 +234,10 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
-        .file-card .file-icon {
-            font-size: 40px;
-            display: block;
-            margin-bottom: 10px;
-        }
+        .file-card .file-icon { font-size: 40px; display: block; margin-bottom: 10px; }
+        .file-card .file-name { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+        .file-card .file-meta { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
 
-        .file-card .file-name {
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--text-primary);
-        }
-
-        .file-card .file-meta {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
-
-        /* ===== VIEWER ===== */
         .viewer-overlay {
             position: fixed;
             inset: 0;
@@ -311,9 +250,7 @@
             animation: fadeIn 0.2s ease;
         }
 
-        .viewer-overlay.open {
-            display: flex;
-        }
+        .viewer-overlay.open { display: flex; }
 
         .viewer-window {
             background: var(--bg-secondary);
@@ -337,21 +274,8 @@
             flex-shrink: 0;
         }
 
-        .viewer-header .title {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .viewer-header .title .ext {
-            font-size: 11px;
-            color: var(--text-muted);
-            font-weight: 400;
-        }
-
+        .viewer-header .title { font-size: 15px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 10px; }
+        .viewer-header .title .ext { font-size: 11px; color: var(--text-muted); font-weight: 400; }
         .viewer-close {
             background: transparent;
             border: none;
@@ -362,40 +286,37 @@
             padding: 0 4px;
             line-height: 1;
         }
+        .viewer-close:hover { color: var(--danger); }
 
-        .viewer-close:hover {
-            color: var(--danger);
-        }
-
-        .viewer-body {
-            padding: 24px 20px;
-            overflow-y: auto;
+        .viewer-body { 
+            padding: 24px 20px; 
+            overflow-y: auto; 
             flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .viewer-body .file-preview {
-            text-align: center;
+        .viewer-body .file-preview { 
+            text-align: center; 
             padding: 20px 0;
+            width: 100%;
         }
 
-        .viewer-body .file-preview .big-icon {
-            font-size: 72px;
-            display: block;
+        .viewer-body .file-preview img {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: 8px;
             margin-bottom: 16px;
+            object-fit: contain;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
         }
 
-        .viewer-body .file-preview p {
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
+        .viewer-body .file-preview .big-icon { font-size: 72px; display: block; margin-bottom: 16px; }
+        .viewer-body .file-preview p { color: var(--text-secondary); line-height: 1.6; }
+        .viewer-body .file-preview .meta { font-size: 12px; color: var(--text-muted); margin-top: 12px; }
 
-        .viewer-body .file-preview .meta {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-top: 12px;
-        }
-
-        /* ===== PROGRESS BAR ===== */
         .progress-container {
             padding: 8px 24px;
             background: var(--bg-secondary);
@@ -431,7 +352,6 @@
             text-align: right;
         }
 
-        /* ===== ANIMATIONS ===== */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -448,81 +368,35 @@
             }
         }
 
-        /* ===== EMPTY STATE ===== */
         .empty-state {
             text-align: center;
             padding: 60px 20px;
             color: var(--text-muted);
         }
 
-        .empty-state .icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-            opacity: 0.4;
-        }
+        .empty-state .icon { font-size: 48px; margin-bottom: 16px; opacity: 0.4; }
+        .empty-state h3 { color: var(--text-secondary); margin-bottom: 4px; }
 
-        .empty-state h3 {
-            color: var(--text-secondary);
-            margin-bottom: 4px;
-        }
-
-        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
-            .sidebar {
-                width: 60px;
-                padding: 12px 6px;
-            }
-
-            .sidebar-item span:not(.icon) {
-                display: none;
-            }
-
-            .sidebar-item .badge {
-                display: none;
-            }
-
-            .sidebar-item {
-                padding: 10px;
-                justify-content: center;
-            }
-
-            .content {
-                padding: 16px;
-            }
-
-            .file-grid {
-                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            }
-
-            .viewer-window {
-                width: 95%;
-                max-height: 90vh;
-            }
-
-            .logo small {
-                display: none;
-            }
+            .sidebar { width: 60px; padding: 12px 6px; }
+            .sidebar-item span:not(.icon) { display: none; }
+            .sidebar-item .badge { display: none; }
+            .sidebar-item { padding: 10px; justify-content: center; }
+            .content { padding: 16px; }
+            .file-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+            .viewer-window { width: 95%; max-height: 90vh; }
+            .logo small { display: none; }
         }
 
         @media (max-width: 480px) {
-            header {
-                padding: 8px 12px;
-            }
-            
-            .logo {
-                font-size: 16px;
-            }
-
-            .header-actions button {
-                font-size: 11px;
-                padding: 4px 10px;
-            }
+            header { padding: 8px 12px; }
+            .logo { font-size: 16px; }
+            .header-actions button { font-size: 11px; padding: 4px 10px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== HEADER ===== -->
     <header>
         <div class="logo">
             EVIDENCE <span>⏺</span>
@@ -535,73 +409,57 @@
         </div>
     </header>
 
-    <!-- ===== MAIN ===== -->
     <main>
-        <!-- SIDEBAR -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-label">Explorar</div>
-            
             <div class="sidebar-item active" data-folder="welcome">
                 <span class="icon">🏠</span>
                 <span>Início</span>
             </div>
-            
             <div class="sidebar-item" data-folder="photos">
                 <span class="icon">🖼️</span>
                 <span>Fotos</span>
                 <span class="badge">4</span>
             </div>
-            
             <div class="sidebar-item" data-folder="messages">
                 <span class="icon">💬</span>
                 <span>Mensagens</span>
-                <span class="badge">3</span>
+                <span class="badge">4</span>
             </div>
-            
             <div class="sidebar-item" data-folder="documents">
                 <span class="icon">📄</span>
                 <span>Documentos</span>
                 <span class="badge">2</span>
             </div>
-            
             <div class="sidebar-item" data-folder="audio">
                 <span class="icon">🎤</span>
                 <span>Áudios</span>
                 <span class="badge">1</span>
             </div>
-            
             <div class="sidebar-item" data-folder="video">
                 <span class="icon">🎥</span>
                 <span>Vídeos</span>
                 <span class="badge">1</span>
             </div>
-            
             <hr class="sidebar-divider">
-            
             <div class="sidebar-item" data-folder="map">
                 <span class="icon">📍</span>
                 <span>Mapa</span>
             </div>
-            
             <div class="sidebar-item" data-folder="trash">
                 <span class="icon">🗑️</span>
                 <span>Lixeira</span>
             </div>
-            
             <hr class="sidebar-divider">
-            
             <div class="sidebar-label">Investimento</div>
-            
             <div class="sidebar-item" data-folder="evidence">
                 <span class="icon">⭐</span>
                 <span>Evidências</span>
-                <span class="badge">3/7</span>
+                <span class="badge">7/9</span>
             </div>
         </aside>
 
-        <!-- CONTENT -->
         <section class="content" id="content">
-            <!-- Welcome Screen -->
             <div class="welcome" id="welcomeScreen">
                 <div class="welcome-icon">📁</div>
                 <h1>Arquivo Encontrado</h1>
@@ -614,23 +472,19 @@
                     ↳ Selecione uma pasta no menu lateral para começar
                 </div>
             </div>
-
-            <!-- Dynamic content rendered by JS -->
             <div id="folderContent"></div>
         </section>
     </main>
 
-    <!-- ===== PROGRESS BAR ===== -->
     <footer class="progress-container">
         <span style="font-size: 13px; color: var(--text-muted);">🔍</span>
         <span style="font-size: 12px; color: var(--text-secondary); font-weight: 500;">Progresso</span>
         <div class="progress-track">
-            <div class="progress-fill" id="progressFill" style="width: 14%;"></div>
+            <div class="progress-fill" id="progressFill" style="width: 78%;"></div>
         </div>
-        <span class="progress-label" id="progressLabel">14%</span>
+        <span class="progress-label" id="progressLabel">78%</span>
     </footer>
 
-    <!-- ===== VIEWER OVERLAY ===== -->
     <div class="viewer-overlay" id="viewerOverlay">
         <div class="viewer-window">
             <div class="viewer-header">
@@ -651,71 +505,111 @@
     </div>
 
     <script>
-        // ================================================================
-        //  EVIDENCE - APPLICATION LOGIC
-        // ================================================================
-
         (function() {
             'use strict';
 
-            // ----- DATA -------------------------------------------------
+            // ============================================
+            // DATA
+            // ============================================
+
             const STORY_DATA = {
                 photos: [
-                    { id: 'photo1', name: 'IMG_20260312_1845.jpg', icon: '🖼️', size: '2.4 MB', date: '12/03/2026', desc: 'Estação de trem vazia à noite. Há uma sombra ao fundo.' },
-                    { id: 'photo2', name: 'IMG_20260315_0912.jpg', icon: '🖼️', size: '3.1 MB', date: '15/03/2026', desc: 'Páginas amareladas de um diário. A letra é trêmula.' },
-                    { id: 'photo3', name: 'IMG_20260318_2230.jpg', icon: '🖼️', size: '1.8 MB', date: '18/03/2026', desc: 'Reflexo em uma janela. Alguém observa.' },
-                    { id: 'photo4', name: 'IMG_20260322_0541.jpg', icon: '🖼️', size: '4.2 MB', date: '22/03/2026', desc: 'Contrato assinado. O nome está ilegível.' },
+                    { 
+                        id: 'photo1', 
+                        name: 'Estação Central', 
+                        icon: '🖼️', 
+                        size: '2.4 MB', 
+                        date: '12/03/2026', 
+                        desc: 'A estação estava vazia, mas algo estava errado...',
+                        image: 'assets/images/estacao.png'
+                    },
+                    { 
+                        id: 'photo2', 
+                        name: 'O Diário', 
+                        icon: '🖼️', 
+                        size: '3.1 MB', 
+                        date: '15/03/2026', 
+                        desc: 'Páginas amareladas com uma escrita trêmula.',
+                        image: 'assets/images/diario.png'
+                    },
+                    { 
+                        id: 'photo3', 
+                        name: 'Reflexo', 
+                        icon: '🖼️', 
+                        size: '1.8 MB', 
+                        date: '18/03/2026', 
+                        desc: 'Reflexo em uma janela escura. Alguém observa.',
+                        image: 'assets/images/reflexo.png'
+                    },
+                    { 
+                        id: 'photo4', 
+                        name: 'Contrato', 
+                        icon: '🖼️', 
+                        size: '4.2 MB', 
+                        date: '22/03/2026', 
+                        desc: 'Contrato com uma assinatura ilegível.',
+                        image: 'assets/images/contrato.png'
+                    }
                 ],
                 messages: [
                     { id: 'msg1', name: 'Ana — 12/03', icon: '💬', preview: 'Você está aí?', date: '12/03/2026' },
                     { id: 'msg2', name: 'Lucas — 15/03', icon: '💬', preview: 'Não abra a pasta azul.', date: '15/03/2026' },
                     { id: 'msg3', name: 'Carlos — 18/03', icon: '💬', preview: 'Eles sabem que você encontrou.', date: '18/03/2026' },
+                    { id: 'msg4', name: 'Desconhecido — 22/03', icon: '💬', preview: 'O contrato não é o que parece.', date: '22/03/2026' }
                 ],
                 documents: [
                     { id: 'doc1', name: 'Diário_2026.pdf', icon: '📄', size: '156 KB', date: '12/03/2026', desc: 'Entradas de um diário pessoal. Algumas páginas foram rasgadas.' },
-                    { id: 'doc2', name: 'Contrato_Assinado.pdf', icon: '📄', size: '89 KB', date: '22/03/2026', desc: 'Contrato com cláusulas suspeitas. A assinatura é de alguém que não deveria estar ali.' },
+                    { id: 'doc2', name: 'Contrato_Assinado.pdf', icon: '📄', size: '89 KB', date: '22/03/2026', desc: 'Contrato com cláusulas suspeitas.' }
                 ],
                 audio: [
-                    { id: 'audio1', name: 'Ligação_15-03.mp3', icon: '🎤', duration: '03:12', date: '15/03/2026', desc: 'Gravação de uma ligação. Vozes abafadas ao fundo.' },
+                    { id: 'audio1', name: 'Ligação_15-03.mp3', icon: '🎤', duration: '03:12', date: '15/03/2026', desc: 'Gravação de uma ligação. Vozes abafadas ao fundo.' }
                 ],
                 video: [
-                    { id: 'video1', name: 'CCTV_Estacao.mp4', icon: '🎥', duration: '00:47', date: '12/03/2026', desc: 'Circuito interno da estação. Um vulto passa às 18:45.' },
+                    { id: 'video1', name: 'CCTV_Estacao.mp4', icon: '🎥', duration: '00:47', date: '12/03/2026', desc: 'Circuito interno da estação. Um vulto passa às 18:45.' }
                 ],
                 map: {
                     locations: [
                         { name: 'Estação Central', status: '🔴', date: '12/03' },
                         { name: 'Rua das Acácias, 47', status: '🟡', date: '15/03' },
-                        { name: 'Arquivo Público', status: '🟢', date: '22/03' },
+                        { name: 'Arquivo Público', status: '🟢', date: '22/03' }
                     ]
                 },
                 evidence: [
                     { id: 'ev1', name: 'Foto da Estação', found: true },
-                    { id: 'ev2', name: 'Bilhete de Trem', found: true },
+                    { id: 'ev2', name: 'Páginas do Diário', found: true },
                     { id: 'ev3', name: 'Contrato', found: true },
-                    { id: 'ev4', name: 'Chave USB', found: false },
-                    { id: 'ev5', name: 'Gravação de Áudio', found: false },
-                    { id: 'ev6', name: 'Pasta Oculta', found: false },
-                    { id: 'ev7', name: 'Diário Completo', found: false },
+                    { id: 'ev4', name: 'Mensagem de Ana', found: true },
+                    { id: 'ev5', name: 'Alerta de Lucas', found: true },
+                    { id: 'ev6', name: 'Alerta de Carlos', found: true },
+                    { id: 'ev7', name: 'Mensagem do Desconhecido', found: false },
+                    { id: 'ev8', name: 'Gravação de Áudio', found: true },
+                    { id: 'ev9', name: 'Vídeo da Estação', found: true }
                 ]
             };
 
-            // ----- STATE -------------------------------------------------
-            let currentFolder = 'welcome';
-            let progress = 14;
-            let selectedFile = null;
+            // ============================================
+            // STATE
+            // ============================================
 
-            // ----- DOM REFS ---------------------------------------------
+            let currentFolder = 'welcome';
+            let progress = 78;
+
+            // ============================================
+            // DOM REFS
+            // ============================================
+
             const content = document.getElementById('content');
             const sidebar = document.getElementById('sidebar');
             const progressFill = document.getElementById('progressFill');
             const progressLabel = document.getElementById('progressLabel');
-
             const viewerOverlay = document.getElementById('viewerOverlay');
             const viewerTitle = document.getElementById('viewerTitle');
             const viewerBody = document.getElementById('viewerBody');
             const viewerClose = document.getElementById('viewerClose');
 
-            // ----- RENDER FUNCTIONS -------------------------------------
+            // ============================================
+            // RENDER FUNCTIONS
+            // ============================================
 
             function renderWelcome() {
                 const welcome = document.getElementById('welcomeScreen');
@@ -803,7 +697,6 @@
                 html += '</div>';
                 folderContent.innerHTML = html;
 
-                // Attach click listeners to file cards
                 document.querySelectorAll('.file-card').forEach(el => {
                     el.addEventListener('click', function() {
                         const id = this.dataset.id;
@@ -884,7 +777,9 @@
                 `;
             }
 
-            // ----- OPEN FILE ---------------------------------------------
+            // ============================================
+            // OPEN FILE - COM SUPORTE A IMAGENS!
+            // ============================================
 
             function openFile(folder, id) {
                 let items = [];
@@ -902,71 +797,80 @@
                 file = items.find(item => item.id === id);
                 if (!file) return;
 
-                selectedFile = file;
-
-                // Update viewer
-                const iconMap = {
-                    'photos': '🖼️',
-                    'messages': '💬',
-                    'documents': '📄',
-                    'audio': '🎤',
-                    'video': '🎥'
-                };
-
                 const ext = file.name ? file.name.split('.').pop().toUpperCase() : 'FILE';
                 viewerTitle.innerHTML = `
                     ${file.icon || '📄'} ${file.name}
                     <span class="ext">· ${ext}</span>
                 `;
 
-                let bodyHtml = `
-                    <div class="file-preview">
-                        <span class="big-icon">${file.icon || '📄'}</span>
-                        <p>${file.desc || file.preview || 'Sem descrição disponível.'}</p>
-                        <div class="meta">
-                            ${file.date ? `📅 ${file.date}` : ''}
-                            ${file.size ? ` · 📦 ${file.size}` : ''}
-                            ${file.duration ? ` · ⏱️ ${file.duration}` : ''}
-                        </div>
-                    </div>
-                `;
+                let bodyHtml = '';
 
-                // Special content for messages
-                if (folder === 'messages' && file.preview) {
+                // VERIFICA SE É UMA FOTO COM IMAGEM
+                if (folder === 'photos' && file.image) {
                     bodyHtml = `
-                        <div style="padding:8px 0;">
-                            <div style="background:var(--bg-card);padding:16px 20px;border-radius:var(--radius-sm);border-left:3px solid var(--accent);">
-                                <div style="font-size:13px;color:var(--text-muted);margin-bottom:4px;">${file.name}</div>
-                                <div style="font-size:16px;line-height:1.6;">${file.preview}</div>
-                                <div style="font-size:12px;color:var(--text-muted);margin-top:8px;">${file.date}</div>
+                        <div class="file-preview">
+                            <img src="${file.image}" alt="${file.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <div style="display:none;color:var(--text-muted);padding:20px;">⚠️ Imagem não encontrada</div>
+                            <p>${file.desc || 'Sem descrição disponível.'}</p>
+                            <div class="meta">
+                                ${file.date ? `📅 ${file.date}` : ''}
+                                ${file.size ? ` · 📦 ${file.size}` : ''}
                             </div>
                         </div>
                     `;
+                } else {
+                    // Fallback para outros arquivos
+                    bodyHtml = `
+                        <div class="file-preview">
+                            <span class="big-icon">${file.icon || '📄'}</span>
+                            <p>${file.desc || file.preview || 'Sem descrição disponível.'}</p>
+                            <div class="meta">
+                                ${file.date ? `📅 ${file.date}` : ''}
+                                ${file.size ? ` · 📦 ${file.size}` : ''}
+                                ${file.duration ? ` · ⏱️ ${file.duration}` : ''}
+                            </div>
+                        </div>
+                    `;
+
+                    // Para mensagens, mostra o preview especial
+                    if (folder === 'messages' && file.preview) {
+                        bodyHtml = `
+                            <div style="padding:8px 0;width:100%;">
+                                <div style="background:var(--bg-card);padding:16px 20px;border-radius:var(--radius-sm);border-left:3px solid var(--accent);">
+                                    <div style="font-size:13px;color:var(--text-muted);margin-bottom:4px;">${file.name}</div>
+                                    <div style="font-size:16px;line-height:1.6;">${file.preview}</div>
+                                    <div style="font-size:12px;color:var(--text-muted);margin-top:8px;">${file.date}</div>
+                                </div>
+                            </div>
+                        `;
+                    }
                 }
 
                 viewerBody.innerHTML = bodyHtml;
                 viewerOverlay.classList.add('open');
 
-                // Update progress (simulate discovery)
                 if (progress < 100) {
                     progress = Math.min(progress + 3, 100);
                     updateProgress();
                 }
             }
 
-            // ----- UPDATE PROGRESS ---------------------------------------
+            // ============================================
+            // UPDATE PROGRESS
+            // ============================================
 
             function updateProgress() {
                 progressFill.style.width = progress + '%';
                 progressLabel.textContent = progress + '%';
             }
 
-            // ----- SIDEBAR NAVIGATION ------------------------------------
+            // ============================================
+            // NAVIGATION
+            // ============================================
 
             function navigateTo(folder) {
                 currentFolder = folder;
 
-                // Update sidebar active state
                 document.querySelectorAll('.sidebar-item').forEach(el => {
                     el.classList.remove('active');
                     if (el.dataset.folder === folder) {
@@ -981,25 +885,23 @@
                 }
             }
 
-            // ----- RESET / NEW CASE --------------------------------------
-
             function resetProgress() {
                 progress = 0;
-                updateProgress();
-                // Reset evidence found status
                 STORY_DATA.evidence.forEach(ev => ev.found = false);
-                // Mark some as found for demo
-                STORY_DATA.evidence[0].found = true;
-                STORY_DATA.evidence[1].found = true;
-                STORY_DATA.evidence[2].found = true;
-                progress = 14;
+                // Marca algumas como encontradas para demo
+                ['ev1', 'ev2', 'ev3', 'ev4', 'ev5', 'ev6', 'ev8', 'ev9'].forEach(id => {
+                    const ev = STORY_DATA.evidence.find(e => e.id === id);
+                    if (ev) ev.found = true;
+                });
+                progress = 78;
                 updateProgress();
                 navigateTo('welcome');
             }
 
-            // ----- EVENT LISTENERS ---------------------------------------
+            // ============================================
+            // EVENT LISTENERS
+            // ============================================
 
-            // Sidebar clicks
             sidebar.addEventListener('click', function(e) {
                 const item = e.target.closest('.sidebar-item');
                 if (!item) return;
@@ -1009,7 +911,6 @@
                 }
             });
 
-            // Viewer close
             viewerClose.addEventListener('click', function() {
                 viewerOverlay.classList.remove('open');
             });
@@ -1020,14 +921,12 @@
                 }
             });
 
-            // Keyboard shortcut: Escape to close viewer
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape' && viewerOverlay.classList.contains('open')) {
                     viewerOverlay.classList.remove('open');
                 }
             });
 
-            // Continue button
             document.getElementById('continueBtn').addEventListener('click', function() {
                 if (currentFolder === 'welcome') {
                     navigateTo('photos');
@@ -1036,33 +935,28 @@
                 }
             });
 
-            // New Case
             document.getElementById('newCaseBtn').addEventListener('click', function() {
                 if (confirm('Iniciar um novo caso irá limpar o progresso atual. Continuar?')) {
                     resetProgress();
                 }
             });
 
-            // Reset
             document.getElementById('resetBtn').addEventListener('click', function() {
-                resetProgress();
+                if (confirm('Resetar o progresso?')) {
+                    resetProgress();
+                }
             });
 
-            // ----- INIT -------------------------------------------------
+            // ============================================
+            // INIT
+            // ============================================
 
-            // Set initial progress
             updateProgress();
-
-            // Mark some evidence as found
-            STORY_DATA.evidence[0].found = true;
-            STORY_DATA.evidence[1].found = true;
-            STORY_DATA.evidence[2].found = true;
-
-            // Show welcome
             renderWelcome();
 
-            console.log('🔍 Evidence — Arquivo Encontrado');
+            console.log('🔍 Evidence - Arquivo Encontrado');
             console.log('📁 Explore as pastas para descobrir a história.');
+            console.log('📸 As fotos agora mostram imagens reais!');
 
         })();
     </script>
