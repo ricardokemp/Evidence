@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Evidence - Arquivo Encontrado</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -43,6 +43,8 @@
             --whatsapp-time: #8696a0;
             --whatsapp-header: #202c33;
             --whatsapp-input: #2a3942;
+            --whatsapp-reply-bg: #1f2c33;
+            --whatsapp-reply-hover: #2a3942;
         }
 
         body {
@@ -220,10 +222,6 @@
         .welcome p { color: var(--text-secondary); font-size: 15px; line-height: 1.7; margin-bottom: 6px; }
         .welcome .hint { color: var(--text-muted); font-size: 13px; margin-top: 12px; }
 
-        /* ============================================
-           FILE GRID
-           ============================================ */
-
         .file-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -282,29 +280,75 @@
         }
 
         /* ============================================
-           WHATSAPP STYLE MESSAGES
+           WHATSAPP INTERACTIVO ESTILO IPHONE
            ============================================ */
 
-        .whatsapp-container {
-            background: var(--bg-secondary);
-            border-radius: var(--radius);
-            border: 1px solid var(--border-color);
+        .phone-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            min-height: 500px;
+        }
+
+        .iphone-frame {
+            width: 380px;
+            max-width: 100%;
+            height: 700px;
+            max-height: 80vh;
+            background: #000;
+            border-radius: 44px;
+            padding: 12px;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.05);
+            position: relative;
+        }
+
+        .iphone-frame::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 25px;
+            background: #1a1a1a;
+            border-radius: 20px;
+            z-index: 10;
+        }
+
+        .iphone-screen {
+            width: 100%;
+            height: 100%;
+            background: var(--whatsapp-bg);
+            border-radius: 36px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            height: 100%;
-            min-height: 400px;
-            max-height: 70vh;
         }
 
         .whatsapp-header {
             background: var(--whatsapp-header);
-            padding: 12px 20px;
+            padding: 12px 16px;
             display: flex;
             align-items: center;
-            gap: 14px;
-            border-bottom: 1px solid var(--border-color);
+            gap: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
             flex-shrink: 0;
+            padding-top: 32px;
+        }
+
+        .whatsapp-header .back-btn {
+            color: var(--whatsapp-text-out);
+            font-size: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            background: none;
+            border: none;
+        }
+
+        .whatsapp-header .back-btn:hover {
+            color: var(--whatsapp-green-light);
         }
 
         .whatsapp-header .avatar {
@@ -340,21 +384,38 @@
             color: var(--whatsapp-green-light);
         }
 
+        .whatsapp-header .actions {
+            display: flex;
+            gap: 16px;
+            color: var(--whatsapp-time);
+            font-size: 18px;
+        }
+
         .whatsapp-messages {
             flex: 1;
-            padding: 16px 20px;
+            padding: 12px 16px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 2px;
             background: var(--whatsapp-bg);
             min-height: 300px;
         }
 
+        .whatsapp-messages::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .whatsapp-messages::-webkit-scrollbar-thumb {
+            background: var(--whatsapp-time);
+            border-radius: 10px;
+        }
+
+        /* Mensagem recebida */
         .whatsapp-message {
             display: flex;
             flex-direction: column;
-            max-width: 80%;
+            max-width: 85%;
             animation: messageSlide 0.3s ease;
         }
 
@@ -395,7 +456,10 @@
             padding-left: 4px;
         }
 
-        .whatsapp-message .time {
+        .whatsapp-message .time-row {
+            display: flex;
+            align-items: center;
+            gap: 4px;
             font-size: 10px;
             color: var(--whatsapp-time);
             margin-top: 2px;
@@ -403,85 +467,96 @@
             align-self: flex-end;
         }
 
-        .whatsapp-message.out .time {
-            color: var(--whatsapp-time);
-        }
-
-        .whatsapp-message .status-icon {
+        .whatsapp-message .time-row .status-icon {
             font-size: 12px;
-            margin-left: 4px;
-        }
-
-        .whatsapp-footer {
-            padding: 10px 16px;
-            background: var(--whatsapp-header);
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-shrink: 0;
-        }
-
-        .whatsapp-footer .input {
-            flex: 1;
-            background: var(--whatsapp-input);
-            border: none;
-            border-radius: 8px;
-            padding: 10px 16px;
-            color: var(--text-primary);
-            font-size: 14px;
-            font-family: inherit;
-            outline: none;
-        }
-
-        .whatsapp-footer .input::placeholder {
-            color: var(--whatsapp-time);
-        }
-
-        .whatsapp-footer .send-btn {
-            background: var(--whatsapp-green);
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 18px;
-            color: white;
-            flex-shrink: 0;
-        }
-
-        .whatsapp-footer .send-btn:hover {
-            background: var(--whatsapp-green-light);
-            transform: scale(1.05);
-        }
-
-        .whatsapp-footer .send-btn:active {
-            transform: scale(0.95);
         }
 
         .whatsapp-message .evidence-badge-msg {
-            font-size: 11px;
+            font-size: 10px;
             color: var(--accent);
             margin-top: 4px;
             padding: 2px 8px;
             background: var(--accent-glow);
             border-radius: 4px;
             display: inline-block;
+            align-self: flex-start;
+        }
+
+        /* ============================================
+           REPLIES (BOTÕES DE RESPOSTA)
+           ============================================ */
+
+        .whatsapp-replies {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 8px 0;
+            margin-top: 4px;
+        }
+
+        .reply-btn {
+            background: var(--whatsapp-reply-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 10px 16px;
+            color: var(--text-primary);
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: left;
+            font-family: inherit;
+            width: 100%;
+        }
+
+        .reply-btn:hover {
+            background: var(--whatsapp-reply-hover);
+            border-color: var(--accent);
+            transform: translateX(4px);
+        }
+
+        .reply-btn:active {
+            transform: scale(0.98);
+        }
+
+        .reply-btn .reply-emoji {
+            margin-right: 8px;
+        }
+
+        /* ============================================
+           TYPING INDICATOR
+           ============================================ */
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: var(--whatsapp-bubble-in);
+            border-radius: 12px;
+            max-width: 60px;
+            animation: messageSlide 0.3s ease;
+            align-self: flex-start;
+        }
+
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background: var(--whatsapp-time);
+            border-radius: 50%;
+            animation: typingBounce 1.2s ease-in-out infinite;
+        }
+
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typingBounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-6px); }
         }
 
         @keyframes messageSlide {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* ============================================
@@ -547,26 +622,11 @@
             align-items: center;
         }
 
-        .viewer-body .file-preview { 
-            text-align: center; 
-            padding: 20px 0;
-            width: 100%;
-        }
-
-        .viewer-body .file-preview img {
-            max-width: 100%;
-            max-height: 400px;
-            border-radius: 8px;
-            margin-bottom: 16px;
-            object-fit: contain;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-        }
-
+        .viewer-body .file-preview { text-align: center; padding: 20px 0; width: 100%; }
+        .viewer-body .file-preview img { max-width: 100%; max-height: 400px; border-radius: 8px; margin-bottom: 16px; object-fit: contain; background: var(--bg-card); border: 1px solid var(--border-color); }
         .viewer-body .file-preview .big-icon { font-size: 72px; display: block; margin-bottom: 16px; }
         .viewer-body .file-preview p { color: var(--text-secondary); line-height: 1.6; }
         .viewer-body .file-preview .meta { font-size: 12px; color: var(--text-muted); margin-top: 12px; }
-        
         .viewer-body .file-preview .evidence-found {
             margin-top: 12px;
             padding: 8px 16px;
@@ -646,15 +706,6 @@
             to { opacity: 1; transform: translateX(0); }
         }
 
-        @keyframes hintPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-        }
-
-        /* ============================================
-           NOTIFICATIONS
-           ============================================ */
-
         .empty-state {
             text-align: center;
             padding: 60px 20px;
@@ -726,8 +777,10 @@
             .hint-notification { bottom: 130px; font-size: 13px; padding: 10px 16px; }
             .celebration-notification { padding: 24px 20px !important; }
             .celebration-notification div { font-size: 14px !important; }
-            .whatsapp-message { max-width: 90%; }
-            .whatsapp-messages { padding: 12px; }
+            .iphone-frame { height: 600px; border-radius: 32px; padding: 8px; }
+            .iphone-frame::before { width: 100px; height: 20px; top: 14px; }
+            .iphone-screen { border-radius: 28px; }
+            .whatsapp-header { padding-top: 24px; }
         }
 
         @media (max-width: 480px) {
@@ -735,9 +788,13 @@
             .logo { font-size: 16px; }
             .header-actions button { font-size: 11px; padding: 4px 10px; }
             .file-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
-            .whatsapp-container { min-height: 300px; max-height: 60vh; }
+            .iphone-frame { height: 500px; border-radius: 24px; padding: 6px; }
+            .iphone-frame::before { width: 80px; height: 16px; top: 10px; }
+            .iphone-screen { border-radius: 20px; }
+            .whatsapp-header { padding: 8px 12px; padding-top: 18px; }
             .whatsapp-header .info .name { font-size: 14px; }
             .whatsapp-message .bubble { font-size: 13px; padding: 6px 10px; }
+            .reply-btn { font-size: 13px; padding: 8px 12px; }
         }
     </style>
 </head>
@@ -839,7 +896,9 @@
             // ============================================
 
             const AppState = {
-                currentFile: null
+                currentFile: null,
+                currentChatIndex: 0,
+                chatCompleted: false
             };
 
             // ============================================
@@ -852,58 +911,105 @@
                     { id: 'photo2', name: 'Arquivo Azul', icon: '🖼️', desc: 'O misterioso arquivo azul. O que ele contém?', image: 'assets/images/arquivo-azul.png', evidence: true, evidenceId: 'ev_002', folder: 'photos' },
                     { id: 'photo3', name: 'Anotações', icon: '🖼️', desc: 'Anotações confusas. Parece que ela estava com pressa.', image: 'assets/images/anotacoes.png', evidence: true, evidenceId: 'ev_003', folder: 'photos' }
                 ],
-                messages: [
-                    { 
-                        id: 'msg1', 
-                        name: 'Dr. Ricardo Alves', 
-                        icon: '👤', 
-                        sender: 'Dr. Ricardo Alves',
-                        isOut: false,
-                        content: 'Helena, pare com isso!\nO que você está fazendo é perigoso.\nSe continuar, vai se arrepender.\nPor favor, reconsidere.',
-                        evidence: true, 
-                        evidenceId: 'ev_004', 
-                        folder: 'messages',
-                        time: '16:45',
-                        status: 'read'
+                // ============================================
+                // CHAT CONVERSATIONS (INTERATIVO)
+                // ============================================
+                chatConversations: [
+                    {
+                        id: 'chat_001',
+                        contact: 'Dr. Ricardo Alves',
+                        avatar: 'R',
+                        evidenceId: 'ev_004',
+                        evidenceName: 'Mensagem de Ricardo',
+                        messages: [
+                            {
+                                from: 'contact',
+                                text: 'Helena, pare com isso! O que você está fazendo é perigoso. Se continuar, vai se arrepender. Por favor, reconsidere.',
+                                time: '16:45'
+                            }
+                        ],
+                        replies: [
+                            { text: 'O que você quer dizer com isso?', emoji: '😰' },
+                            { text: 'Estou apenas investigando a verdade.', emoji: '🔍' },
+                            { text: 'Por que você está tão preocupado?', emoji: '🤔' }
+                        ],
+                        nextMessage: {
+                            from: 'contact',
+                            text: 'Você não entende! O Projeto Azul não é o que parece. Eles estão vigiando tudo. Se você continuar, vai acabar como ela...',
+                            time: '16:48'
+                        }
                     },
-                    { 
-                        id: 'msg2', 
-                        name: 'Profa. Sofia Lima', 
-                        icon: '👤', 
-                        sender: 'Profa. Sofia Lima',
-                        isOut: false,
-                        content: 'Helena, estou preocupada.\nVocê tem agido estranho.\nSe precisar de ajuda, estou aqui.\nNão enfrente isso sozinha.',
-                        evidence: true, 
-                        evidenceId: 'ev_005', 
-                        folder: 'messages',
-                        time: '22:10',
-                        status: 'read'
+                    {
+                        id: 'chat_002',
+                        contact: 'Profa. Sofia Lima',
+                        avatar: 'S',
+                        evidenceId: 'ev_005',
+                        evidenceName: 'Mensagem de Sofia',
+                        messages: [
+                            {
+                                from: 'contact',
+                                text: 'Helena, estou preocupada. Você tem agido estranho. Se precisar de ajuda, estou aqui. Não enfrente isso sozinha.',
+                                time: '22:10'
+                            }
+                        ],
+                        replies: [
+                            { text: 'O que você sabe sobre o Projeto Azul?', emoji: '📋' },
+                            { text: 'Estou bem, só estou cansada.', emoji: '😴' },
+                            { text: 'Preciso te contar algo importante.', emoji: '⚠️' }
+                        ],
+                        nextMessage: {
+                            from: 'contact',
+                            text: 'Sei que você encontrou algo no laboratório. Por favor, tenha cuidado. Eles não querem que ninguém saiba a verdade.',
+                            time: '22:15'
+                        }
                     },
-                    { 
-                        id: 'msg3', 
-                        name: 'Desconhecido', 
-                        icon: '👤', 
-                        sender: 'Desconhecido',
-                        isOut: false,
-                        content: 'Sabemos o que você descobriu.\nArquivo Azul.\nVocê não deveria ter visto isso.\nPare agora.\nOu as consequências serão graves.',
-                        evidence: true, 
-                        evidenceId: 'ev_006', 
-                        folder: 'messages',
-                        time: '07:30',
-                        status: 'read'
+                    {
+                        id: 'chat_003',
+                        contact: 'Desconhecido',
+                        avatar: '?',
+                        evidenceId: 'ev_006',
+                        evidenceName: 'Mensagem do Desconhecido',
+                        messages: [
+                            {
+                                from: 'contact',
+                                text: 'Sabemos o que você descobriu. Arquivo Azul. Você não deveria ter visto isso. Pare agora. Ou as consequências serão graves.',
+                                time: '07:30'
+                            }
+                        ],
+                        replies: [
+                            { text: 'Quem é você?', emoji: '❓' },
+                            { text: 'Não vou parar até descobrir a verdade.', emoji: '💪' },
+                            { text: 'O que vocês estão escondendo?', emoji: '🔎' }
+                        ],
+                        nextMessage: {
+                            from: 'contact',
+                            text: 'Isso é um aviso final. Apague tudo que encontrou. Não destrua sua vida por algo que não te pertence.',
+                            time: '07:33'
+                        }
                     },
-                    { 
-                        id: 'msg4', 
-                        name: 'Helena Mendes', 
-                        icon: '👤', 
-                        sender: 'Helena Mendes',
-                        isOut: true,
-                        content: 'Ricardo, preciso te contar a verdade.\nSobre o Projeto Azul.\nNão é o que pensam.\nEles estão escondendo algo.\nEncontre o arquivo. Leia as cláusulas.',
-                        evidence: true, 
-                        evidenceId: 'ev_007', 
-                        folder: 'messages',
-                        time: '23:50',
-                        status: 'sent'
+                    {
+                        id: 'chat_004',
+                        contact: 'Helena Mendes',
+                        avatar: 'H',
+                        evidenceId: 'ev_007',
+                        evidenceName: 'Confissão de Helena',
+                        messages: [
+                            {
+                                from: 'contact',
+                                text: 'Ricardo, preciso te contar a verdade. Sobre o Projeto Azul. Não é o que pensam. Eles estão escondendo algo. Encontre o arquivo. Leia as cláusulas.',
+                                time: '23:50'
+                            }
+                        ],
+                        replies: [
+                            { text: 'O que você descobriu, Helena?', emoji: '😨' },
+                            { text: 'Estou com medo. O que eles fizeram?', emoji: '😰' },
+                            { text: 'Onde você está? Preciso te encontrar.', emoji: '📍' }
+                        ],
+                        nextMessage: {
+                            from: 'contact',
+                            text: 'Estou no laboratório. Mas preciso ir. Eles estão chegando. Encontre o arquivo. Tudo está lá. Prometa que vai encontrar.',
+                            time: '23:55'
+                        }
                     }
                 ],
                 documents: [
@@ -958,6 +1064,7 @@
 
             let currentFolder = 'welcome';
             let progress = 0;
+            let chatHistory = {};
 
             // ============================================
             // DOM REFS
@@ -1149,12 +1256,11 @@
             }
 
             // ============================================
-            // MARCAR EVIDÊNCIA AO FECHAR A CAIXA
+            // MARCAR EVIDÊNCIA
             // ============================================
 
-            function markEvidenceOnClose(file) {
-                if (!file || !file.evidence || !file.evidenceId) return;
-                const ev = STORY_DATA.evidence.find(e => e.id === file.evidenceId);
+            function markEvidenceFound(evidenceId) {
+                const ev = STORY_DATA.evidence.find(e => e.id === evidenceId);
                 if (ev && !ev.found) {
                     ev.found = true;
                     updateProgress();
@@ -1166,65 +1272,109 @@
                     setTimeout(() => {
                         if (currentFolder !== 'welcome') renderFolder(currentFolder);
                     }, 500);
+                    return true;
                 }
+                return false;
             }
 
             // ============================================
-            // WHATSAPP RENDER
+            // WHATSAPP INTERACTIVO
             // ============================================
 
-            function renderWhatsAppMessages(message) {
-                return `
-                    <div class="whatsapp-message ${message.isOut ? 'out' : 'in'}">
-                        ${!message.isOut ? `<div class="sender">${message.sender}</div>` : ''}
-                        <div class="bubble">${message.content.replace(/\n/g, '<br>')}</div>
-                        <div class="time">
-                            ${message.time || '00:00'}
-                            ${message.isOut ? `<span class="status-icon">${message.status === 'read' ? '✓✓' : '✓'}</span>` : ''}
-                            ${message.evidence ? '<span class="evidence-badge-msg">⭐ Evidência</span>' : ''}
-                        </div>
-                    </div>
-                `;
+            function getChatProgress(chatId) {
+                if (!chatHistory[chatId]) {
+                    chatHistory[chatId] = { step: 0, replied: false };
+                }
+                return chatHistory[chatId];
             }
 
-            function renderMessages(folder) {
-                const items = STORY_DATA.messages || [];
-                const visibleItems = getVisibleItems(items);
-
-                if (visibleItems.length === 0) {
-                    return renderEmpty('💬', 'Nenhuma mensagem disponível', 'Continue investigando para desbloquear mensagens.');
+            function renderWhatsAppInteractive(chat) {
+                const progress = getChatProgress(chat.id);
+                const allMessages = [...chat.messages];
+                
+                // Adicionar mensagem de resposta se já respondeu
+                if (progress.replied && chat.nextMessage) {
+                    allMessages.push(chat.nextMessage);
                 }
 
-                // Pegar a primeira mensagem visível para exibir no header
-                const firstMsg = visibleItems[0];
-                const contactName = firstMsg ? firstMsg.sender || 'Contato' : 'Contato';
-
-                let html = `
-                    <div class="whatsapp-container">
-                        <div class="whatsapp-header">
-                            <div class="avatar">${contactName.charAt(0).toUpperCase()}</div>
-                            <div class="info">
-                                <div class="name">${contactName}</div>
-                                <div class="status online">🟢 Online</div>
+                let messagesHtml = allMessages.map((msg, index) => {
+                    const isOut = msg.from === 'user';
+                    return `
+                        <div class="whatsapp-message ${isOut ? 'out' : 'in'}" style="animation-delay: ${index * 0.1}s">
+                            ${!isOut ? `<div class="sender">${chat.contact}</div>` : ''}
+                            <div class="bubble">${msg.text.replace(/\n/g, '<br>')}</div>
+                            <div class="time-row">
+                                ${msg.time || '00:00'}
+                                ${isOut ? `<span class="status-icon">✓✓</span>` : ''}
                             </div>
                         </div>
-                        <div class="whatsapp-messages">
-                `;
+                    `;
+                }).join('');
 
-                visibleItems.forEach(msg => {
-                    html += renderWhatsAppMessages(msg);
-                });
-
-                html += `
+                // Mostrar indicador de digitação se a mensagem chegou mas não respondeu
+                let repliesHtml = '';
+                if (!progress.replied && chat.replies) {
+                    repliesHtml = `
+                        <div class="typing-indicator">
+                            <span></span><span></span><span></span>
                         </div>
-                        <div class="whatsapp-footer">
-                            <input class="input" placeholder="Digite uma mensagem..." disabled>
-                            <button class="send-btn" disabled>📤</button>
+                        <div class="whatsapp-replies">
+                            ${chat.replies.map((reply, idx) => `
+                                <button class="reply-btn" data-chat="${chat.id}" data-reply="${idx}">
+                                    <span class="reply-emoji">${reply.emoji || '💬'}</span>
+                                    ${reply.text}
+                                </button>
+                            `).join('')}
+                        </div>
+                    `;
+                }
+
+                // Se já respondeu e tem mensagem de confirmação
+                let completedHtml = '';
+                if (progress.replied && chat.nextMessage) {
+                    completedHtml = `
+                        <div style="text-align:center;padding:12px;color:var(--whatsapp-time);font-size:13px;border-top:1px solid var(--border-color);margin-top:8px;">
+                            ✅ Mensagem enviada! Evidência desbloqueada.
+                        </div>
+                    `;
+                }
+
+                return `
+                    <div class="phone-container">
+                        <div class="iphone-frame">
+                            <div class="iphone-screen">
+                                <!-- HEADER -->
+                                <div class="whatsapp-header">
+                                    <button class="back-btn" onclick="window.navigateTo('messages')">‹</button>
+                                    <div class="avatar">${chat.avatar}</div>
+                                    <div class="info">
+                                        <div class="name">${chat.contact}</div>
+                                        <div class="status online">🟢 Online</div>
+                                    </div>
+                                    <div class="actions">
+                                        <span>📞</span>
+                                        <span>📹</span>
+                                        <span>⋮</span>
+                                    </div>
+                                </div>
+
+                                <!-- MESSAGES -->
+                                <div class="whatsapp-messages" id="whatsappMessages">
+                                    ${messagesHtml}
+                                    ${repliesHtml}
+                                    ${completedHtml}
+                                </div>
+
+                                <!-- FOOTER -->
+                                <div class="whatsapp-footer">
+                                    <button class="emoji-btn">😊</button>
+                                    <input class="input" placeholder="Digite uma mensagem..." disabled>
+                                    <button class="send-btn" disabled>📤</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 `;
-
-                return html;
             }
 
             // ============================================
@@ -1239,15 +1389,80 @@
                 updateActiveSidebarItem('welcome');
             }
 
+            function renderMessages(folder) {
+                const chats = STORY_DATA.chatConversations || [];
+                
+                // Mostrar apenas chats desbloqueados
+                const visibleChats = chats.filter(chat => {
+                    return canFindEvidence(chat.evidenceId);
+                });
+
+                if (visibleChats.length === 0) {
+                    const folderContent = document.getElementById('folderContent');
+                    folderContent.innerHTML = renderEmpty('💬', 'Nenhuma conversa disponível', 'Continue investigando para desbloquear mensagens.');
+                    updateActiveSidebarItem('messages');
+                    return;
+                }
+
+                // Se tem chat, mostrar o primeiro disponível
+                const currentChat = visibleChats[0];
+                const folderContent = document.getElementById('folderContent');
+                folderContent.innerHTML = renderWhatsAppInteractive(currentChat);
+                updateActiveSidebarItem('messages');
+
+                // Event listeners para os botões de resposta
+                setTimeout(() => {
+                    document.querySelectorAll('.reply-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const chatId = this.dataset.chat;
+                            const replyIdx = parseInt(this.dataset.reply);
+                            const chat = STORY_DATA.chatConversations.find(c => c.id === chatId);
+                            if (!chat) return;
+
+                            const progress = getChatProgress(chatId);
+                            if (progress.replied) return;
+
+                            // Marcar como respondido
+                            progress.replied = true;
+                            
+                            // Adicionar mensagem do usuário
+                            const reply = chat.replies[replyIdx];
+                            const userMsg = {
+                                from: 'user',
+                                text: reply.text,
+                                time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+                            };
+                            chat.messages.push(userMsg);
+
+                            // Marcar evidência como encontrada
+                            const found = markEvidenceFound(chat.evidenceId);
+                            
+                            // Recarregar o chat
+                            renderMessages('messages');
+                            
+                            // Rolar para o final
+                            setTimeout(() => {
+                                const container = document.getElementById('whatsappMessages');
+                                if (container) container.scrollTop = container.scrollHeight;
+                            }, 100);
+                        });
+                    });
+
+                    // Rolar para o final
+                    setTimeout(() => {
+                        const container = document.getElementById('whatsappMessages');
+                        if (container) container.scrollTop = container.scrollHeight;
+                    }, 200);
+                }, 300);
+            }
+
             function renderFolder(folder) {
                 const welcome = document.getElementById('welcomeScreen');
                 const folderContent = document.getElementById('folderContent');
                 welcome.style.display = 'none';
 
-                // Se for mensagens, usar o WhatsApp
                 if (folder === 'messages') {
-                    folderContent.innerHTML = renderMessages(folder);
-                    updateActiveSidebarItem(folder);
+                    renderMessages(folder);
                     return;
                 }
 
@@ -1423,7 +1638,6 @@
 
                 switch (folder) {
                     case 'photos': items = STORY_DATA.photos; break;
-                    case 'messages': items = STORY_DATA.messages; break;
                     case 'documents': items = STORY_DATA.documents; break;
                     case 'audio': items = STORY_DATA.audio; break;
                     case 'video': items = STORY_DATA.video; break;
@@ -1456,17 +1670,6 @@
                             <p>${file.desc || 'Sem descrição disponível.'}</p>
                         </div>
                     `;
-                } else if (folder === 'messages') {
-                    bodyHtml = `
-                        <div style="width:100%;max-width:100%;">
-                            <div style="background:var(--bg-card);padding:16px 20px;border-radius:var(--radius-sm);border-left:3px solid var(--accent);">
-                                <div style="font-size:13px;color:var(--text-muted);margin-bottom:4px;">${file.sender || file.name}</div>
-                                <div style="font-size:15px;line-height:1.8;white-space:pre-wrap;">${file.content}</div>
-                                <div style="font-size:11px;color:var(--text-muted);margin-top:8px;">${file.time || '00:00'}</div>
-                            </div>
-                            ${file.evidence ? '<div class="evidence-found">⭐ EVIDÊNCIA ENCONTRADA!</div>' : ''}
-                        </div>
-                    `;
                 } else {
                     bodyHtml = `
                         <div class="file-preview">
@@ -1496,7 +1699,13 @@
             function closeViewer() {
                 viewerOverlay.classList.remove('open');
                 if (AppState.currentFile) {
-                    markEvidenceOnClose(AppState.currentFile);
+                    const file = AppState.currentFile;
+                    if (file.evidence && file.evidenceId) {
+                        const ev = STORY_DATA.evidence.find(e => e.id === file.evidenceId);
+                        if (ev && !ev.found) {
+                            markEvidenceFound(file.evidenceId);
+                        }
+                    }
                     AppState.currentFile = null;
                 }
             }
@@ -1518,11 +1727,18 @@
             function resetProgress() {
                 if (!confirm('🔄 Iniciar um novo caso irá apagar todo o seu progresso atual. Deseja continuar?')) return;
                 STORY_DATA.evidence.forEach(ev => ev.found = false);
+                chatHistory = {};
                 progress = 0;
                 updateProgress();
                 navigateTo('welcome');
                 showNotification('📂 Novo caso iniciado! Boa sorte!', 'info');
             }
+
+            // ============================================
+            // EXPOSE NAVIGATE TO GLOBAL
+            // ============================================
+
+            window.navigateTo = navigateTo;
 
             // ============================================
             // EVENT LISTENERS
@@ -1559,7 +1775,7 @@
 
             console.log('🔍 Evidence - O Mistério do Arquivo Azul');
             console.log('📁 Explore as pastas para descobrir a verdade.');
-            console.log('💬 Mensagens no estilo WhatsApp!');
+            console.log('💬 Mensagens interativas estilo WhatsApp!');
             console.log('📈 Encontre todas as 11 evidências em ordem!');
 
         })();
