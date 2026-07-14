@@ -1,396 +1,344 @@
 /* ============================================
    EVIDENCE - Data Layer
-   Versão: 1.0.0
+   História: O Mistério do Arquivo Azul
+   Versão: 2.0.0 - Com Sistema de Progressão
    ============================================ */
 
-// ============================================
-// MAIN DATA STRUCTURE
-// ============================================
-
 const EVIDENCE_DATA = {
-    // ----- Metadata -----
     meta: {
-        title: 'Arquivo Encontrado',
-        version: '1.0.0',
+        title: 'O Mistério do Arquivo Azul',
+        version: '2.0.0',
         author: 'Evidence Team',
         lastUpdated: '2026-07-14',
         totalCases: 1,
         currentCase: 'case01'
     },
 
-    // ----- Case 01: O Arquivo Encontrado -----
     case01: {
         id: 'case01',
-        title: 'O Arquivo Encontrado',
-        subtitle: 'Um computador abandonado foi entregue à sua investigação.',
-        description: 'Em um escritório vazio, um computador antigo foi deixado para trás. Dentro dele, arquivos que contam uma história que ninguém quer que seja descoberta.',
+        title: 'O Mistério do Arquivo Azul',
+        subtitle: 'Uma cientista desapareceu. Seu computador guarda as respostas.',
+        description: 'A Dra. Helena Mendes, renomada cientista, desapareceu há 3 dias. Em seu computador, encontramos um arquivo chamado "Projeto Azul" - protegido por senha. Você precisa encontrar as pistas para desvendar o que aconteceu.',
         status: 'active',
         
-        // ----- Files Structure -----
         files: {
-            // ----- PHOTOS -----
+            // ----- FOTOS -----
             photos: [
                 {
-                    id: 'photo_001',
-                    name: 'Estação Central',
+                    id: 'photo1',
+                    name: 'Laboratório',
                     type: 'image',
                     icon: '🖼️',
-                    size: '2.4 MB',
-                    dimensions: '1920x1080',
-                    date: '2026-03-12',
-                    time: '18:45',
-                    location: 'Estação Central',
-                    description: 'A estação estava vazia, mas algo estava errado... Uma sombra suspeita ao fundo.',
-                    image: 'assets/images/estacao.png',
-                    metadata: {
-                        camera: 'iPhone 15 Pro',
-                        aperture: 'f/1.8',
-                        iso: '400',
-                        flash: false,
-                        gps: '-23.5505, -46.6333'
-                    },
-                    tags: ['estação', 'noite', 'sombra', 'suspeito'],
+                    size: '2.8 MB',
+                    date: '10/03/2026',
+                    time: '14:30',
+                    location: 'Laboratório Central',
+                    description: 'O laboratório onde Helena trabalhava. Algo parece fora do lugar...',
+                    image: 'assets/images/laboratorio.png',
+                    tags: ['laboratório', 'cientista', 'experimento'],
                     evidence: true,
                     evidenceId: 'ev_001',
-                    found: true
-                },
-                {
-                    id: 'photo_002',
-                    name: 'O Diário',
-                    type: 'image',
-                    icon: '🖼️',
-                    size: '3.1 MB',
-                    dimensions: '4032x3024',
-                    date: '2026-03-15',
-                    time: '09:12',
-                    location: 'Arquivo Público',
-                    description: 'Páginas amareladas com uma escrita trêmula. Algumas palavras estão borradas.',
-                    image: 'assets/images/diario.png',
-                    metadata: {
-                        camera: 'Canon EOS R6',
-                        aperture: 'f/2.8',
-                        iso: '100',
-                        flash: false,
-                        gps: '-23.5405, -46.6233'
-                    },
-                    tags: ['diário', 'manuscrito', 'arquivo'],
-                    evidence: true,
-                    evidenceId: 'ev_002',
-                    found: true
-                },
-                {
-                    id: 'photo_003',
-                    name: 'Reflexo',
-                    type: 'image',
-                    icon: '🖼️',
-                    size: '1.8 MB',
-                    dimensions: '2048x1536',
-                    date: '2026-03-18',
-                    time: '22:30',
-                    location: 'Rua das Acácias, 47',
-                    description: 'Reflexo em uma janela escura. Alguém observa do outro lado da rua.',
-                    image: 'assets/images/reflexo.png',
-                    metadata: {
-                        camera: 'Samsung Galaxy S24',
-                        aperture: 'f/1.8',
-                        iso: '800',
-                        flash: false,
-                        gps: '-23.5605, -46.6433'
-                    },
-                    tags: ['reflexo', 'observação', 'noite'],
-                    evidence: false,
                     found: false
                 },
                 {
-                    id: 'photo_004',
-                    name: 'Contrato',
+                    id: 'photo2',
+                    name: 'Arquivo Azul',
                     type: 'image',
                     icon: '🖼️',
-                    size: '4.2 MB',
-                    dimensions: '6000x4000',
-                    date: '2026-03-22',
-                    time: '05:41',
-                    location: 'Escritório Central',
-                    description: 'Contrato com uma assinatura ilegível. Algo parece errado com este documento.',
-                    image: 'assets/images/contrato.png',
-                    metadata: {
-                        camera: 'Sony A7IV',
-                        aperture: 'f/2.8',
-                        iso: '200',
-                        flash: true,
-                        gps: '-23.5705, -46.6533'
-                    },
-                    tags: ['contrato', 'documento', 'assinatura'],
+                    size: '1.2 MB',
+                    date: '08/03/2026',
+                    time: '09:15',
+                    location: 'Escritório de Helena',
+                    description: 'O misterioso arquivo azul. O que ele contém?',
+                    image: 'assets/images/arquivo-azul.png',
+                    tags: ['arquivo', 'azul', 'mistério'],
+                    evidence: true,
+                    evidenceId: 'ev_002',
+                    found: false
+                },
+                {
+                    id: 'photo3',
+                    name: 'Anotações',
+                    type: 'image',
+                    icon: '🖼️',
+                    size: '1.5 MB',
+                    date: '09/03/2026',
+                    time: '11:20',
+                    location: 'Mesa de Helena',
+                    description: 'Anotações confusas. Parece que ela estava com pressa.',
+                    image: 'assets/images/anotacoes.png',
+                    tags: ['anotações', 'pressa', 'código'],
                     evidence: true,
                     evidenceId: 'ev_003',
-                    found: true
+                    found: false
                 }
             ],
 
-            // ----- MESSAGES -----
+            // ----- MENSAGENS -----
             messages: [
                 {
-                    id: 'msg_001',
+                    id: 'msg1',
                     type: 'message',
                     icon: '💬',
-                    sender: 'Ana',
+                    sender: 'Dr. Ricardo Alves',
                     senderId: 'char_001',
-                    recipient: 'Você',
-                    date: '2026-03-12',
-                    time: '19:23',
-                    preview: 'Você está aí?',
-                    content: 'Você está aí?\n\nPreciso falar com você. É urgente.\n\nVi algo que não deveria ter visto. Na estação.\n\nMe encontra no café amanhã.\n\nPor favor, vem.',
+                    recipient: 'Helena',
+                    date: '09/03/2026',
+                    time: '16:45',
+                    preview: 'Helena, pare com isso!',
+                    content: 'Helena, pare com isso!\n\nO que você está fazendo é perigoso.\n\nSe continuar, vai se arrepender.\n\nPor favor, reconsidere.\n\nEu não quero ver você se machucar.',
                     status: 'read',
-                    attachments: [],
-                    tags: ['urgente', 'testemunha', 'estação'],
+                    tags: ['alerta', 'perigo', 'discussão'],
                     evidence: true,
                     evidenceId: 'ev_004',
-                    found: true
+                    found: false
                 },
                 {
-                    id: 'msg_002',
+                    id: 'msg2',
                     type: 'message',
                     icon: '💬',
-                    sender: 'Lucas',
+                    sender: 'Profa. Sofia Lima',
                     senderId: 'char_002',
-                    recipient: 'Você',
-                    date: '2026-03-15',
-                    time: '14:07',
-                    preview: 'Não abra a pasta azul.',
-                    content: 'Não abra a pasta azul.\n\nPor favor, confie em mim.\n\nAlgumas coisas são melhor deixadas como estão.\n\nVocê não está pronto para o que vai encontrar.',
+                    recipient: 'Helena',
+                    date: '07/03/2026',
+                    time: '22:10',
+                    preview: 'Helena, estou preocupada.',
+                    content: 'Helena, estou preocupada.\n\nVocê tem agido estranho.\n\nSe precisar de ajuda, estou aqui.\n\nNão importa o que esteja acontecendo.\n\nNão enfrente isso sozinha.',
                     status: 'read',
-                    attachments: [],
-                    tags: ['alerta', 'perigo', 'pasta azul'],
+                    tags: ['preocupação', 'amiga', 'ajuda'],
                     evidence: true,
                     evidenceId: 'ev_005',
-                    found: true
+                    found: false
                 },
                 {
-                    id: 'msg_003',
-                    type: 'message',
-                    icon: '💬',
-                    sender: 'Carlos',
-                    senderId: 'char_003',
-                    recipient: 'Você',
-                    date: '2026-03-18',
-                    time: '23:41',
-                    preview: 'Eles sabem que você encontrou.',
-                    content: 'Eles sabem que você encontrou.\n\nVocê precisa sumir.\n\nApague tudo e vá para o hotel.\n\nEu te encontro lá.\n\nNão confie em ninguém.',
-                    status: 'read',
-                    attachments: [],
-                    tags: ['alerta', 'fuga', 'perigo'],
-                    evidence: true,
-                    evidenceId: 'ev_006',
-                    found: true
-                },
-                {
-                    id: 'msg_004',
+                    id: 'msg3',
                     type: 'message',
                     icon: '💬',
                     sender: 'Desconhecido',
                     senderId: null,
-                    recipient: 'Você',
-                    date: '2026-03-22',
-                    time: '06:02',
-                    preview: 'O contrato não é o que parece.',
-                    content: 'O contrato não é o que parece.\n\nLeia as cláusulas 7 e 12.\n\nTudo muda quando você sabe o que procurar.\n\nA verdade está escondida no que não foi dito.',
+                    recipient: 'Helena',
+                    date: '10/03/2026',
+                    time: '07:30',
+                    preview: 'Sabemos o que você descobriu.',
+                    content: 'Sabemos o que você descobriu.\n\nArquivo Azul.\n\nVocê não deveria ter visto isso.\n\nPare agora.\n\nOu as consequências serão graves.',
                     status: 'unread',
-                    attachments: [],
-                    tags: ['mistério', 'contrato', 'cláusulas'],
+                    tags: ['ameaça', 'arquivo azul', 'perigo'],
+                    evidence: true,
+                    evidenceId: 'ev_006',
+                    found: false
+                },
+                {
+                    id: 'msg4',
+                    type: 'message',
+                    icon: '💬',
+                    sender: 'Helena Mendes',
+                    senderId: 'char_003',
+                    recipient: 'Dr. Ricardo',
+                    date: '08/03/2026',
+                    time: '23:50',
+                    preview: 'Ricardo, preciso te contar a verdade.',
+                    content: 'Ricardo, preciso te contar a verdade.\n\nSobre o Projeto Azul.\n\nNão é o que pensam.\n\nEles estão escondendo algo.\n\nEncontre o arquivo. Leia as cláusulas.\n\nTudo está lá.',
+                    status: 'sent',
+                    tags: ['verdade', 'projeto', 'confissão'],
                     evidence: true,
                     evidenceId: 'ev_007',
                     found: false
                 }
             ],
 
-            // ----- DOCUMENTS -----
+            // ----- DOCUMENTOS -----
             documents: [
                 {
-                    id: 'doc_001',
-                    name: 'Diario_2026.pdf',
+                    id: 'doc1',
+                    name: 'Relatorio_Projeto_Azul.pdf',
                     type: 'document',
                     icon: '📄',
-                    size: '156 KB',
-                    pages: 24,
-                    date: '2026-03-12',
-                    description: 'Entradas de um diário pessoal. Algumas páginas foram rasgadas.',
-                    content: '12 de março de 2026\n\nHoje encontrei algo que não deveria.\n\nO contrato. A pasta azul. Tudo está conectado.\n\nEles vão tentar me silenciar.\n\nPreciso deixar registrado antes que seja tarde demais.\n\n[Páginas rasgadas]\n\n...não confie em ninguém, nem mesmo em quem você ama...',
-                    tags: ['diário', 'pessoal', 'rasgado', 'contrato'],
-                    evidence: true,
-                    evidenceId: 'ev_002',
-                    found: true
-                },
-                {
-                    id: 'doc_002',
-                    name: 'Contrato_Assinado.pdf',
-                    type: 'document',
-                    icon: '📄',
-                    size: '89 KB',
-                    pages: 8,
-                    date: '2026-03-22',
-                    description: 'Contrato com cláusulas suspeitas. A assinatura parece ser de alguém que não deveria estar ali.',
-                    content: 'CONTRATO DE PRESTAÇÃO DE SERVIÇOS\n\nCláusula 7: O contratado não poderá divulgar qualquer informação referente ao objeto deste contrato sob pena de...\n\nCláusula 12: Em caso de descumprimento, o contratado estará sujeito a...\n\n[Assinatura ilegível]\n\nData: 22/03/2026',
-                    tags: ['contrato', 'legal', 'suspeito', 'cláusulas'],
-                    evidence: true,
-                    evidenceId: 'ev_003',
-                    found: true
-                }
-            ],
-
-            // ----- AUDIO -----
-            audio: [
-                {
-                    id: 'audio_001',
-                    name: 'Ligacao_15-03.mp3',
-                    type: 'audio',
-                    icon: '🎤',
-                    duration: '03:12',
-                    date: '2026-03-15',
-                    time: '22:15',
-                    description: 'Gravação de uma ligação. Vozes abafadas ao fundo.',
-                    transcript: '[00:00] - Você: Alô?\n[00:05] - Voz feminina: Por favor, me ajuda...\n[00:12] - Você: Ana? É você?\n[00:18] - Ana: Eles estão me seguindo...\n[00:32] - Ana: Preciso desaparecer.\n[00:52] - Ana: Não posso dizer...\n[01:10] - Ana: A pasta azul... está tudo lá...\n[01:28] - [Ligação cai]',
-                    tags: ['ligação', 'choro', 'desespero', 'ana'],
+                    size: '2.3 MB',
+                    pages: 15,
+                    date: '15/02/2026',
+                    description: 'Relatório completo do Projeto Azul. Contém informações confidenciais.',
+                    content: 'PROJETO AZUL - RELATÓRIO FINAL\n\nObjetivo: Pesquisa sobre [DADOS CENSURADOS]\n\nResultados: [CENSURADO]\n\nConclusão: O projeto foi bem-sucedido. Mas os custos foram... [PÁGINA RASGADA]\n\nRecomendação: Encerrar imediatamente.\n\nAssinatura: Dra. Helena Mendes\n\nData: 15/02/2026',
+                    tags: ['relatório', 'projeto azul', 'confidencial'],
                     evidence: true,
                     evidenceId: 'ev_008',
-                    found: true
-                }
-            ],
-
-            // ----- VIDEO -----
-            video: [
+                    found: false
+                },
                 {
-                    id: 'video_001',
-                    name: 'CCTV_Estacao_12-03.mp4',
-                    type: 'video',
-                    icon: '🎥',
-                    duration: '00:47',
-                    date: '2026-03-12',
-                    time: '18:45',
-                    description: 'Circuito interno da estação. Um vulto passa rapidamente pelo corredor.',
-                    thumbnail: null,
-                    transcript: '[00:00] - Imagem estática do corredor vazio\n[00:15] - Um vulto passa pela esquerda\n[00:22] - O vulto parece carregar algo\n[00:35] - O vulto desaparece na direita',
-                    tags: ['cctv', 'estação', 'vulto', 'segurança'],
+                    id: 'doc2',
+                    name: 'Termo_de_Sigilo.pdf',
+                    type: 'document',
+                    icon: '📄',
+                    size: '856 KB',
+                    pages: 3,
+                    date: '20/01/2026',
+                    description: 'Termo de sigilo assinado por todos os envolvidos no projeto.',
+                    content: 'TERMO DE SIGILO\n\nEu, abaixo assinado, declaro que...\n\nCláusula 7: Não revelarei qualquer informação sobre o Projeto Azul.\n\nCláusula 12: Em caso de descumprimento, [INFORMAÇÃO CENSURADA]\n\nAssinaturas:\n- Dra. Helena Mendes\n- Dr. Ricardo Alves\n- [ILEGÍVEL]',
+                    tags: ['sigilo', 'contrato', 'cláusulas'],
                     evidence: true,
                     evidenceId: 'ev_009',
-                    found: true
+                    found: false
                 }
             ],
 
-            // ----- LOCATIONS -----
+            // ----- ÁUDIO -----
+            audio: [
+                {
+                    id: 'audio1',
+                    name: 'Ligacao_Helena_10-03.mp3',
+                    type: 'audio',
+                    icon: '🎤',
+                    duration: '04:28',
+                    date: '10/03/2026',
+                    time: '19:15',
+                    description: 'Última ligação de Helena. Ela parece assustada.',
+                    transcript: '[00:00] - Helena: Alô? Sofia?\n[00:05] - Sofia: Helena! Graças a Deus!\n[00:10] - Helena: Sofia, preciso de ajuda.\n[00:18] - Helena: Eles descobriram que eu sei.\n[00:25] - Sofia: Sabe o quê?\n[00:30] - Helena: O Projeto Azul. Não é o que parece.\n[00:45] - Helena: Eu tenho provas. Estão no arquivo.\n[01:10] - [Ruído de porta se abrindo]\n[01:20] - Helena: Preciso ir. Me desculpa.\n[01:35] - [Ligação cai]\n[01:45] - [Fim da gravação]',
+                    tags: ['ligação', 'desespero', 'prova'],
+                    evidence: true,
+                    evidenceId: 'ev_010',
+                    found: false
+                }
+            ],
+
+            // ----- VÍDEO -----
+            video: [
+                {
+                    id: 'video1',
+                    name: 'CCTV_Lab_10-03.mp4',
+                    type: 'video',
+                    icon: '🎥',
+                    duration: '02:15',
+                    date: '10/03/2026',
+                    time: '20:30',
+                    description: 'Câmera de segurança do laboratório. Helena sai correndo.',
+                    transcript: '[00:00] - Laboratório vazio\n[00:30] - Helena entra correndo\n[00:45] - Ela pega um arquivo azul\n[01:00] - Alguém aparece na porta\n[01:15] - Helena corre pela saída de emergência\n[01:45] - [Fim do vídeo]',
+                    tags: ['cctv', 'laboratório', 'fuga'],
+                    evidence: true,
+                    evidenceId: 'ev_011',
+                    found: false
+                }
+            ],
+
+            // ----- LOCALIZAÇÕES -----
             locations: [
                 {
                     id: 'loc_001',
-                    name: 'Estação Central',
-                    address: 'Av. Central, 1000 - Centro',
-                    date: '2026-03-12',
+                    name: 'Laboratório Central',
+                    address: 'Av. da Ciência, 1000 - Campus Universitário',
+                    date: '10/03/2026',
                     status: 'investigated',
-                    description: 'Local do primeiro avistamento. A estação estava vazia.',
+                    description: 'Último local conhecido de Helena. O laboratório está vazio.',
                     coordinates: { lat: -23.5505, lng: -46.6333 },
-                    evidence: ['photo_001', 'video_001']
+                    evidence: ['photo1', 'video1']
                 },
                 {
                     id: 'loc_002',
-                    name: 'Rua das Acácias, 47',
-                    address: 'Rua das Acácias, 47 - Vila Nova',
-                    date: '2026-03-18',
-                    status: 'pending',
-                    description: 'Casa abandonada. Reflexos nas janelas sugerem que alguém estava observando.',
-                    coordinates: { lat: -23.5605, lng: -46.6433 },
-                    evidence: ['photo_003']
+                    name: 'Escritório de Helena',
+                    address: 'Prédio de Pesquisas, Sala 307 - Campus Universitário',
+                    date: '08/03/2026',
+                    status: 'investigated',
+                    description: 'Escritório de Helena. O arquivo azul estava aqui.',
+                    coordinates: { lat: -23.5455, lng: -46.6283 },
+                    evidence: ['photo2', 'photo3']
                 },
                 {
                     id: 'loc_003',
-                    name: 'Arquivo Público',
+                    name: 'Arquivo Central',
                     address: 'Rua dos Arquivos, 200 - Centro',
-                    date: '2026-03-15',
-                    status: 'investigated',
-                    description: 'Documentos históricos foram acessados dias antes do incidente.',
+                    date: '09/03/2026',
+                    status: 'pending',
+                    description: 'Helena esteve aqui pouco antes de desaparecer.',
                     coordinates: { lat: -23.5405, lng: -46.6233 },
-                    evidence: ['photo_002', 'doc_001']
-                },
-                {
-                    id: 'loc_004',
-                    name: 'Escritório Central',
-                    address: 'Av. Empresarial, 500 - Torre B, Sala 1204',
-                    date: '2026-03-22',
-                    status: 'locked',
-                    description: 'Último local conhecido. O contrato foi assinado aqui.',
-                    coordinates: { lat: -23.5705, lng: -46.6533 },
-                    evidence: ['photo_004', 'doc_002']
+                    evidence: ['doc1', 'doc2']
                 }
             ],
 
-            // ----- EVIDENCE -----
+            // ----- EVIDÊNCIAS (ORDEM DE PROGRESSÃO) -----
             evidence: [
                 { 
                     id: 'ev_001', 
-                    name: 'Foto da Estação', 
-                    description: 'Imagem da estação vazia com uma sombra ao fundo.', 
-                    found: true, 
+                    name: 'Foto do Laboratório', 
+                    description: 'Imagem do laboratório de Helena.', 
+                    found: false, 
                     importance: 'high',
                     category: 'Visual'
                 },
                 { 
                     id: 'ev_002', 
-                    name: 'Páginas do Diário', 
-                    description: 'Páginas rasgadas de um diário pessoal.', 
-                    found: true, 
-                    importance: 'high',
-                    category: 'Documento'
+                    name: 'Arquivo Azul', 
+                    description: 'Misterioso arquivo azul.', 
+                    found: false, 
+                    importance: 'critical',
+                    category: 'Visual'
                 },
                 { 
                     id: 'ev_003', 
-                    name: 'Contrato', 
-                    description: 'Contrato com cláusulas suspeitas.', 
-                    found: true, 
-                    importance: 'critical',
-                    category: 'Documento'
+                    name: 'Anotações de Helena', 
+                    description: 'Anotações confusas e apressadas.', 
+                    found: false, 
+                    importance: 'high',
+                    category: 'Visual'
                 },
                 { 
                     id: 'ev_004', 
-                    name: 'Mensagem de Ana', 
-                    description: 'Primeira mensagem de Ana - "Você está aí?"', 
-                    found: true, 
+                    name: 'Mensagem de Ricardo', 
+                    description: 'Alerta de Ricardo para Helena parar.', 
+                    found: false, 
                     importance: 'medium',
                     category: 'Comunicação'
                 },
                 { 
                     id: 'ev_005', 
-                    name: 'Alerta de Lucas', 
-                    description: 'Mensagem de Lucas - "Não abra a pasta azul"', 
-                    found: true, 
-                    importance: 'high',
+                    name: 'Mensagem de Sofia', 
+                    description: 'Preocupação de Sofia com Helena.', 
+                    found: false, 
+                    importance: 'medium',
                     category: 'Comunicação'
                 },
                 { 
                     id: 'ev_006', 
-                    name: 'Alerta de Carlos', 
-                    description: 'Mensagem de Carlos - "Eles sabem"', 
-                    found: true, 
-                    importance: 'high',
+                    name: 'Mensagem do Desconhecido', 
+                    description: 'Ameaça sobre o Arquivo Azul.', 
+                    found: false, 
+                    importance: 'critical',
                     category: 'Comunicação'
                 },
                 { 
                     id: 'ev_007', 
-                    name: 'Mensagem do Desconhecido', 
-                    description: 'Mensagem sobre o contrato - "Leia as cláusulas 7 e 12"', 
+                    name: 'Confissão de Helena', 
+                    description: 'Helena diz a verdade a Ricardo.', 
                     found: false, 
                     importance: 'critical',
                     category: 'Comunicação'
                 },
                 { 
                     id: 'ev_008', 
-                    name: 'Gravação de Áudio', 
-                    description: 'Gravação da ligação com Ana.', 
-                    found: true, 
+                    name: 'Relatório do Projeto', 
+                    description: 'Relatório completo do Projeto Azul.', 
+                    found: false, 
+                    importance: 'critical',
+                    category: 'Documento'
+                },
+                { 
+                    id: 'ev_009', 
+                    name: 'Termo de Sigilo', 
+                    description: 'Termo assinado por todos.', 
+                    found: false, 
+                    importance: 'high',
+                    category: 'Documento'
+                },
+                { 
+                    id: 'ev_010', 
+                    name: 'Ligação de Helena', 
+                    description: 'Última ligação de Helena.', 
+                    found: false, 
                     importance: 'high',
                     category: 'Áudio'
                 },
                 { 
-                    id: 'ev_009', 
-                    name: 'Vídeo da Estação', 
-                    description: 'Vídeo da câmera de segurança.', 
-                    found: true, 
+                    id: 'ev_011', 
+                    name: 'Vídeo do Laboratório', 
+                    description: 'Helena foge do laboratório.', 
+                    found: false, 
                     importance: 'medium',
                     category: 'Vídeo'
                 }
@@ -400,83 +348,76 @@ const EVIDENCE_DATA = {
             timeline: [
                 { 
                     id: 'tl_001', 
-                    date: '2026-03-12', 
-                    event: 'Primeiro avistamento na estação', 
-                    evidence: ['photo_001', 'video_001'],
-                    description: 'A estação estava vazia, mas as câmeras captaram algo.'
+                    date: '07/03/2026', 
+                    event: 'Sofia envia mensagem preocupada', 
+                    evidence: ['msg2'],
+                    description: 'Sofia nota que Helena está estranha.'
                 },
                 { 
                     id: 'tl_002', 
-                    date: '2026-03-15', 
-                    event: 'Descoberta do diário no arquivo público', 
-                    evidence: ['photo_002', 'doc_001'],
-                    description: 'Páginas de um diário são encontradas.'
+                    date: '08/03/2026', 
+                    event: 'Helena confessa a Ricardo', 
+                    evidence: ['msg4'],
+                    description: 'Helena diz que precisa contar a verdade.'
                 },
                 { 
                     id: 'tl_003', 
-                    date: '2026-03-15', 
-                    event: 'Alerta de Lucas - "Não abra a pasta azul"', 
-                    evidence: ['msg_002'],
-                    description: 'Lucas envia um alerta sobre a pasta azul.'
+                    date: '09/03/2026', 
+                    event: 'Ricardo alerta Helena', 
+                    evidence: ['msg1'],
+                    description: 'Ricardo diz que Helena está em perigo.'
                 },
                 { 
                     id: 'tl_004', 
-                    date: '2026-03-18', 
-                    event: 'Reflexo na janela', 
-                    evidence: ['photo_003'],
-                    description: 'Alguém observa da rua das Acácias.'
+                    date: '10/03/2026', 
+                    event: 'Helena recebe ameaça', 
+                    evidence: ['msg3'],
+                    description: 'Desconhecido ameaça Helena.'
                 },
                 { 
                     id: 'tl_005', 
-                    date: '2026-03-18', 
-                    event: 'Carlos alerta - "Eles sabem"', 
-                    evidence: ['msg_003'],
-                    description: 'Carlos diz que descobriram que você encontrou algo.'
+                    date: '10/03/2026', 
+                    event: 'Helena foge do laboratório', 
+                    evidence: ['video1'],
+                    description: 'Helena sai correndo do laboratório.'
                 },
                 { 
                     id: 'tl_006', 
-                    date: '2026-03-22', 
-                    event: 'Contrato assinado no escritório central', 
-                    evidence: ['photo_004', 'doc_002'],
-                    description: 'Um contrato suspeito é assinado.'
-                },
-                { 
-                    id: 'tl_007', 
-                    date: '2026-03-22', 
-                    event: 'Mensagem do desconhecido', 
-                    evidence: ['msg_004'],
-                    description: 'Alguém envia uma mensagem sobre as cláusulas.'
+                    date: '10/03/2026', 
+                    event: 'Última ligação de Helena', 
+                    evidence: ['audio1'],
+                    description: 'Helena liga para Sofia desesperada.'
                 }
             ],
 
-            // ----- CHARACTERS -----
+            // ----- PERSONAGENS -----
             characters: [
                 {
                     id: 'char_001',
-                    name: 'Ana',
-                    role: 'Testemunha',
-                    description: 'Trabalhava na estação central. Foi a primeira a ver algo estranho.',
-                    status: 'missing',
-                    messages: ['msg_001'],
-                    lastSeen: '2026-03-15'
+                    name: 'Dr. Ricardo Alves',
+                    role: 'Colega de Trabalho',
+                    description: 'Trabalhava com Helena no laboratório. Parece preocupado com ela.',
+                    status: 'active',
+                    messages: ['msg1', 'msg4'],
+                    lastSeen: '09/03/2026'
                 },
                 {
                     id: 'char_002',
-                    name: 'Lucas',
-                    role: 'Informante',
-                    description: 'Parece saber mais do que revela. Avisou sobre a "pasta azul".',
+                    name: 'Profa. Sofia Lima',
+                    role: 'Amiga e Confidente',
+                    description: 'Melhor amiga de Helena. Está muito preocupada.',
                     status: 'active',
-                    messages: ['msg_002'],
-                    lastSeen: '2026-03-15'
+                    messages: ['msg2', 'audio1'],
+                    lastSeen: '10/03/2026'
                 },
                 {
                     id: 'char_003',
-                    name: 'Carlos',
-                    role: 'Investigador',
-                    description: 'Trabalha no caso. Parece estar em perigo também.',
-                    status: 'active',
-                    messages: ['msg_003'],
-                    lastSeen: '2026-03-18'
+                    name: 'Dra. Helena Mendes',
+                    role: 'Cientista Desaparecida',
+                    description: 'Cientista brilhante. Desapareceu após descobrir algo sobre o Projeto Azul.',
+                    status: 'missing',
+                    messages: ['msg4', 'audio1'],
+                    lastSeen: '10/03/2026'
                 }
             ]
         }
@@ -596,7 +537,7 @@ if (typeof module !== 'undefined' && module.exports) {
 }
 
 console.log('🔍 Evidence - Data Layer Loaded');
-console.log(`📁 Total Cases: ${Object.keys(EVIDENCE_DATA).filter(key => key !== 'meta').length}`);
-console.log(`📊 Total Evidence: ${DataHelper.getTotalEvidenceCount()}`);
-console.log(`📈 Progress: ${DataHelper.getProgress()}%`);
-console.log('ℹ️ Use DataHelper to interact with the data.');
+console.log('📖 História: O Mistério do Arquivo Azul (v2.0)');
+console.log(`📊 Total de Evidências: ${DataHelper.getTotalEvidenceCount()}`);
+console.log(`📈 Progresso: ${DataHelper.getProgress()}%`);
+console.log('🔒 Sistema de progressão ativo!');

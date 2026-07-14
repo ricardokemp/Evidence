@@ -1,6 +1,6 @@
 /* ============================================
    EVIDENCE - UI Components
-   Versão: 1.0.0
+   Versão: 2.0.0 - Com Sistema de Progressão
    ============================================ */
 
 (function() {
@@ -12,7 +12,7 @@
 
     const Components = {
         /**
-         * Create a button component
+         * Criar um botão
          */
         Button: function({ 
             text, 
@@ -56,7 +56,7 @@
         },
 
         /**
-         * Create a card component
+         * Criar um card
          */
         Card: function({ 
             title, 
@@ -104,7 +104,7 @@
         },
 
         /**
-         * Create a modal component
+         * Criar um modal
          */
         Modal: function({ 
             title, 
@@ -146,7 +146,6 @@
             overlay.appendChild(modal);
             document.body.appendChild(overlay);
 
-            // Event listeners
             const closeModal = () => {
                 if (onClose) onClose();
                 overlay.remove();
@@ -166,7 +165,6 @@
                 if (e.target === overlay) closeModal();
             });
 
-            // ESC key
             const escHandler = (e) => {
                 if (e.key === 'Escape') {
                     closeModal();
@@ -183,7 +181,7 @@
         },
 
         /**
-         * Create a toast notification
+         * Criar uma notificação toast
          */
         Toast: function({ 
             message, 
@@ -210,7 +208,6 @@
                 <button class="toast-close" data-close>&times;</button>
             `;
 
-            // Add to container
             let container = document.getElementById('toast-container');
             if (!container) {
                 container = document.createElement('div');
@@ -221,7 +218,6 @@
 
             container.appendChild(toast);
 
-            // Auto close
             if (duration > 0) {
                 setTimeout(() => {
                     toast.classList.add('toast-exit');
@@ -232,7 +228,6 @@
                 }, duration);
             }
 
-            // Manual close
             toast.querySelector('[data-close]')?.addEventListener('click', () => {
                 toast.classList.add('toast-exit');
                 setTimeout(() => {
@@ -245,7 +240,7 @@
         },
 
         /**
-         * Create a progress bar
+         * Criar uma barra de progresso
          */
         ProgressBar: function({ 
             value = 0, 
@@ -280,7 +275,7 @@
         },
 
         /**
-         * Create a tag/badge
+         * Criar uma tag/badge
          */
         Tag: function({ 
             text, 
@@ -310,7 +305,7 @@
         },
 
         /**
-         * Create an input field
+         * Criar um campo de input
          */
         Input: function({ 
             type = 'text',
@@ -374,15 +369,17 @@
         },
 
         /**
-         * Create a file item
+         * Criar um item de arquivo
          */
         FileItem: function({ 
             file, 
             onClick = null,
-            selected = false
+            selected = false,
+            locked = false,
+            evidence = false
         } = {}) {
             const item = document.createElement('div');
-            item.className = `file-item ${selected ? 'selected' : ''}`;
+            item.className = `file-item ${selected ? 'selected' : ''} ${locked ? 'locked' : ''}`;
             
             const icon = file.icon || '📄';
             const name = file.name || 'Arquivo';
@@ -394,10 +391,11 @@
                     <div class="file-item-name">${name}</div>
                     ${meta ? `<div class="file-item-meta">${meta}</div>` : ''}
                 </div>
-                ${file.evidence ? '<span class="file-item-evidence">⭐</span>' : ''}
+                ${evidence ? '<span class="file-item-evidence">⭐</span>' : ''}
+                ${locked ? '<span class="file-item-lock">🔒</span>' : ''}
             `;
 
-            if (onClick) {
+            if (onClick && !locked) {
                 item.style.cursor = 'pointer';
                 item.addEventListener('click', () => onClick(file));
             }
@@ -406,13 +404,12 @@
         },
 
         /**
-         * Create a search input with results
+         * Criar uma barra de busca
          */
         SearchBar: function({ 
             placeholder = 'Buscar...',
             onSearch = null,
             onSelect = null,
-            results = [],
             className = ''
         } = {}) {
             const container = document.createElement('div');
@@ -463,7 +460,7 @@
                         <span class="result-icon">${item.icon || '📄'}</span>
                         <div class="result-info">
                             <div class="result-name">${item.name}</div>
-                            <div class="result-desc">${item.description || ''}</div>
+                            <div class="result-desc">${item.desc || item.description || ''}</div>
                         </div>
                         <span class="result-folder">${item.folder || ''}</span>
                     </div>
@@ -486,14 +483,12 @@
                 });
             }
 
-            // Close on outside click
             document.addEventListener('click', (e) => {
                 if (!container.contains(e.target)) {
                     resultsContainer.style.display = 'none';
                 }
             });
 
-            // ESC to close
             input.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
                     resultsContainer.style.display = 'none';
@@ -514,7 +509,7 @@
         },
 
         /**
-         * Create a timeline component
+         * Criar uma timeline
          */
         Timeline: function({ 
             events = [],
@@ -530,7 +525,6 @@
                 return container;
             }
 
-            // Sort by date
             const sorted = [...events].sort((a, b) => {
                 return new Date(a.date) - new Date(b.date);
             });
@@ -557,7 +551,7 @@
         },
 
         /**
-         * Create a badge counter
+         * Criar um badge de contagem
          */
         Badge: function({ 
             count, 
@@ -579,7 +573,7 @@
         },
 
         /**
-         * Create a loading spinner
+         * Criar um spinner de loading
          */
         Spinner: function({ 
             size = 'medium',
@@ -599,7 +593,7 @@
         },
 
         /**
-         * Create a divider
+         * Criar um divider
          */
         Divider: function({ 
             text = '',
@@ -622,7 +616,7 @@
         },
 
         /**
-         * Create a tooltip
+         * Criar um tooltip
          */
         Tooltip: function({ 
             content, 
@@ -674,7 +668,7 @@
         },
 
         /**
-         * Create an accordion
+         * Criar um accordion
          */
         Accordion: function({ 
             items = [],
@@ -735,7 +729,7 @@
         },
 
         /**
-         * Create a tabs component
+         * Criar um componente de tabs
          */
         Tabs: function({ 
             tabs = [],
@@ -772,7 +766,6 @@
             container.appendChild(header);
             container.appendChild(content);
 
-            // Event listeners
             tabHeaders.forEach((btn, index) => {
                 btn.addEventListener('click', () => {
                     tabHeaders.forEach(b => b.classList.remove('active'));
@@ -787,6 +780,42 @@
                     }
                 });
             });
+
+            return container;
+        },
+
+        /**
+         * Criar um componente de progresso de evidências
+         */
+        EvidenceProgress: function({ 
+            evidence = [],
+            className = ''
+        } = {}) {
+            const container = document.createElement('div');
+            container.className = `evidence-progress ${className}`.trim();
+
+            const found = evidence.filter(e => e.found).length;
+            const total = evidence.length;
+            const percentage = total > 0 ? Math.round((found / total) * 100) : 0;
+
+            container.innerHTML = `
+                <div class="evidence-progress-header">
+                    <span class="evidence-progress-title">⭐ Evidências</span>
+                    <span class="evidence-progress-count">${found}/${total}</span>
+                </div>
+                <div class="evidence-progress-bar">
+                    <div class="evidence-progress-fill" style="width: ${percentage}%;"></div>
+                </div>
+                <div class="evidence-progress-items">
+                    ${evidence.map(ev => `
+                        <div class="evidence-item ${ev.found ? 'found' : 'missing'}">
+                            <span class="evidence-item-icon">${ev.found ? '✅' : '⬜'}</span>
+                            <span class="evidence-item-name">${ev.name}</span>
+                            <span class="evidence-item-status">${ev.found ? 'Encontrado' : 'Pendente'}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
 
             return container;
         }
@@ -804,6 +833,6 @@
         module.exports = { Components };
     }
 
-    console.log('🧩 Evidence - Components Loaded');
+    console.log('🧩 Evidence - Components Loaded (v2.0)');
 
 })();

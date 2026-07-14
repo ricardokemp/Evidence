@@ -1,6 +1,6 @@
 /* ============================================
    EVIDENCE - Storage System
-   Versão: 1.0.0
+   Versão: 2.0.0 - Com Sistema de Progressão
    ============================================ */
 
 (function() {
@@ -13,19 +13,15 @@
     class StorageManager {
         constructor() {
             this.prefix = 'evidence_';
-            this.version = '1.0.0';
+            this.version = '2.0.0';
             this.storage = window.localStorage;
             this.available = this.checkAvailability();
             
-            // Try to migrate from old versions
             this.migrate();
             
             console.log(`💾 Storage Manager initialized (${this.available ? 'available' : 'unavailable'})`);
         }
 
-        /**
-         * Check if localStorage is available
-         */
         checkAvailability() {
             try {
                 const test = '__test__';
@@ -38,16 +34,10 @@
             }
         }
 
-        /**
-         * Get a key with prefix
-         */
         getKey(key) {
             return `${this.prefix}${key}`;
         }
 
-        /**
-         * Save data
-         */
         set(key, data) {
             if (!this.available) return false;
             
@@ -61,9 +51,6 @@
             }
         }
 
-        /**
-         * Get data
-         */
         get(key, defaultValue = null) {
             if (!this.available) return defaultValue;
             
@@ -71,7 +58,6 @@
                 const value = this.storage.getItem(this.getKey(key));
                 if (value === null) return defaultValue;
                 
-                // Try to parse JSON
                 try {
                     return JSON.parse(value);
                 } catch {
@@ -83,9 +69,6 @@
             }
         }
 
-        /**
-         * Remove data
-         */
         remove(key) {
             if (!this.available) return false;
             
@@ -98,9 +81,6 @@
             }
         }
 
-        /**
-         * Clear all data with prefix
-         */
         clear() {
             if (!this.available) return false;
             
@@ -118,9 +98,6 @@
             }
         }
 
-        /**
-         * Get all keys with prefix
-         */
         keys() {
             if (!this.available) return [];
             
@@ -134,9 +111,6 @@
             }
         }
 
-        /**
-         * Get storage size
-         */
         getSize() {
             if (!this.available) return 0;
             
@@ -144,7 +118,7 @@
                 let total = 0;
                 for (let key in this.storage) {
                     if (this.storage.hasOwnProperty(key)) {
-                        total += this.storage[key].length * 2; // UTF-16
+                        total += this.storage[key].length * 2;
                     }
                 }
                 return total;
@@ -154,35 +128,23 @@
             }
         }
 
-        /**
-         * Check if key exists
-         */
         has(key) {
             if (!this.available) return false;
             return this.storage.getItem(this.getKey(key)) !== null;
         }
 
-        /**
-         * Migrate from old versions
-         */
         migrate() {
             const version = this.get('version');
             if (version === this.version) return;
 
-            // Migration logic here
             if (!version) {
-                // First time - initialize
                 this.set('version', this.version);
                 this.set('created', new Date().toISOString());
             } else {
-                // Update version
                 this.set('version', this.version);
             }
         }
 
-        /**
-         * Get storage usage info
-         */
         getInfo() {
             const keys = this.keys();
             const size = this.getSize();
@@ -198,9 +160,6 @@
             };
         }
 
-        /**
-         * Format bytes to human readable
-         */
         formatSize(bytes) {
             if (bytes === 0) return '0 B';
             const units = ['B', 'KB', 'MB', 'GB'];
@@ -219,14 +178,12 @@
             this.cache = new Map();
             this.pendingSaves = new Map();
             this.saveTimeout = null;
-            
-            // Auto-save interval
-            this.autoSaveInterval = 30000; // 30 seconds
+            this.autoSaveInterval = 30000;
             this.startAutoSave();
         }
 
         /**
-         * Save game state
+         * Salvar estado completo do jogo
          */
         saveGame(state) {
             const data = {
@@ -246,10 +203,9 @@
         }
 
         /**
-         * Load game state
+         * Carregar estado do jogo
          */
         loadGame() {
-            // Check cache first
             if (this.cache.has('game_state')) {
                 return this.cache.get('game_state');
             }
@@ -266,7 +222,7 @@
         }
 
         /**
-         * Save user progress
+         * Salvar progresso do jogador
          */
         saveProgress(progressData) {
             const current = this.loadGame() || {};
@@ -282,7 +238,7 @@
         }
 
         /**
-         * Get user progress
+         * Carregar progresso do jogador
          */
         getProgress() {
             const game = this.loadGame();
@@ -290,7 +246,7 @@
         }
 
         /**
-         * Save evidence status
+         * Salvar status de uma evidência
          */
         saveEvidence(evidenceId, found) {
             const progress = this.getProgress() || {};
@@ -300,7 +256,7 @@
         }
 
         /**
-         * Get evidence status
+         * Carregar status de uma evidência
          */
         getEvidence(evidenceId) {
             const progress = this.getProgress();
@@ -309,7 +265,7 @@
         }
 
         /**
-         * Get all evidence status
+         * Carregar todas as evidências
          */
         getAllEvidence() {
             const progress = this.getProgress();
@@ -317,7 +273,7 @@
         }
 
         /**
-         * Save user notes
+         * Salvar anotação do usuário
          */
         saveNote(note) {
             const progress = this.getProgress() || {};
@@ -332,7 +288,7 @@
         }
 
         /**
-         * Get all notes
+         * Carregar anotações
          */
         getNotes() {
             const progress = this.getProgress();
@@ -340,7 +296,7 @@
         }
 
         /**
-         * Delete a note
+         * Deletar anotação
          */
         deleteNote(noteId) {
             const progress = this.getProgress() || {};
@@ -350,7 +306,7 @@
         }
 
         /**
-         * Update a note
+         * Atualizar anotação
          */
         updateNote(noteId, updates) {
             const progress = this.getProgress() || {};
@@ -367,7 +323,7 @@
         }
 
         /**
-         * Save user settings
+         * Salvar configurações
          */
         saveSettings(settings) {
             const game = this.loadGame() || {};
@@ -383,7 +339,7 @@
         }
 
         /**
-         * Get user settings
+         * Carregar configurações
          */
         getSettings() {
             const game = this.loadGame();
@@ -391,7 +347,7 @@
         }
 
         /**
-         * Save game history
+         * Salvar histórico de ações
          */
         saveHistory(action) {
             const game = this.loadGame() || {};
@@ -401,7 +357,6 @@
                 timestamp: new Date().toISOString()
             });
             
-            // Keep only last 1000 actions
             if (history.length > 1000) {
                 history.splice(0, history.length - 1000);
             }
@@ -410,7 +365,7 @@
         }
 
         /**
-         * Get game history
+         * Carregar histórico
          */
         getHistory(limit = 50) {
             const game = this.loadGame();
@@ -419,7 +374,7 @@
         }
 
         /**
-         * Clear game data
+         * Limpar dados do jogo
          */
         clearGame() {
             this.cache.clear();
@@ -429,7 +384,7 @@
         }
 
         /**
-         * Export game data
+         * Exportar dados do jogo
          */
         exportData() {
             const game = this.loadGame();
@@ -443,12 +398,11 @@
         }
 
         /**
-         * Import game data
+         * Importar dados do jogo
          */
         importData(data) {
             if (!data || typeof data !== 'object') return false;
             
-            // Validate data
             if (!data.progress && !data.settings) {
                 console.error('❌ Invalid import data');
                 return false;
@@ -464,14 +418,14 @@
         }
 
         /**
-         * Generate unique ID
+         * Gerar ID único
          */
         generateId() {
             return Date.now().toString(36) + Math.random().toString(36).substr(2, 6);
         }
 
         /**
-         * Get game time (total time played)
+         * Calcular tempo total de jogo
          */
         getGameTime() {
             const game = this.loadGame();
@@ -485,7 +439,7 @@
         }
 
         /**
-         * Start auto-save
+         * Iniciar auto-save
          */
         startAutoSave() {
             if (this.saveTimeout) return;
@@ -496,7 +450,7 @@
         }
 
         /**
-         * Stop auto-save
+         * Parar auto-save
          */
         stopAutoSave() {
             if (this.saveTimeout) {
@@ -506,12 +460,11 @@
         }
 
         /**
-         * Auto-save current state
+         * Auto-save
          */
         autoSave() {
             const game = this.loadGame();
             if (game) {
-                // Update total time
                 game.totalTime = this.getGameTime();
                 game.autoSavedAt = new Date().toISOString();
                 this.saveGame(game);
@@ -519,15 +472,13 @@
         }
 
         /**
-         * Debounced save (for frequent saves)
+         * Salvar com debounce
          */
         debouncedSave(key, data, delay = 1000) {
-            // Clear existing timeout for this key
             if (this.pendingSaves.has(key)) {
                 clearTimeout(this.pendingSaves.get(key));
             }
 
-            // Set new timeout
             const timeout = setTimeout(() => {
                 this.saveGame(data);
                 this.pendingSaves.delete(key);
@@ -537,17 +488,48 @@
         }
 
         /**
-         * Get storage info
+         * Informações do storage
          */
         getStorageInfo() {
             return this.storage.getInfo();
         }
 
         /**
-         * Check if storage is available
+         * Verificar disponibilidade
          */
         isAvailable() {
             return this.storage.available;
+        }
+
+        /**
+         * Sincronizar com o STORY_DATA atual
+         */
+        syncWithStoryData() {
+            if (typeof window.STORY_DATA === 'undefined') {
+                console.warn('⚠️ STORY_DATA não encontrado para sincronizar');
+                return false;
+            }
+
+            const progress = this.getProgress();
+            if (!progress || !progress.evidence) {
+                return false;
+            }
+
+            // Sincronizar evidências
+            const evidence = window.STORY_DATA.evidence || [];
+            evidence.forEach(ev => {
+                if (progress.evidence[ev.id] !== undefined) {
+                    ev.found = progress.evidence[ev.id];
+                }
+            });
+
+            // Atualizar progresso
+            if (window.Evidence && window.Evidence.reload) {
+                window.Evidence.reload();
+            }
+
+            console.log('🔄 Synced with STORY_DATA');
+            return true;
         }
     }
 
@@ -559,14 +541,25 @@
         window.StorageManager = StorageManager;
         window.EvidenceStorage = EvidenceStorage;
         
-        // Create global instance
+        // Criar instância global
         window.evidenceStorage = new EvidenceStorage();
+        
+        // Sincronizar automaticamente após carregar
+        if (document.readyState === 'complete') {
+            window.evidenceStorage.syncWithStoryData();
+        } else {
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(() => {
+                    window.evidenceStorage.syncWithStoryData();
+                }, 500);
+            });
+        }
     }
 
     if (typeof module !== 'undefined' && module.exports) {
         module.exports = { StorageManager, EvidenceStorage };
     }
 
-    console.log('💾 Evidence - Storage System Loaded');
+    console.log('💾 Evidence - Storage System Loaded (v2.0)');
 
 })();

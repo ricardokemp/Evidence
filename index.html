@@ -226,6 +226,7 @@
             text-align: center;
             cursor: pointer;
             transition: var(--transition);
+            position: relative;
         }
 
         .file-card:hover {
@@ -234,9 +235,34 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
+        .file-card.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .file-card.locked:hover {
+            border-color: var(--border-color);
+            transform: none;
+            box-shadow: none;
+        }
+
         .file-card .file-icon { font-size: 40px; display: block; margin-bottom: 10px; }
         .file-card .file-name { font-size: 13px; font-weight: 500; color: var(--text-primary); }
         .file-card .file-meta { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+        .file-card .lock-icon {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 14px;
+            color: var(--warning);
+        }
+        .file-card .evidence-badge {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            font-size: 12px;
+            color: var(--accent);
+        }
 
         .viewer-overlay {
             position: fixed;
@@ -316,6 +342,15 @@
         .viewer-body .file-preview .big-icon { font-size: 72px; display: block; margin-bottom: 16px; }
         .viewer-body .file-preview p { color: var(--text-secondary); line-height: 1.6; }
         .viewer-body .file-preview .meta { font-size: 12px; color: var(--text-muted); margin-top: 12px; }
+        
+        .viewer-body .file-preview .evidence-found {
+            margin-top: 12px;
+            padding: 8px 16px;
+            background: var(--accent-glow);
+            border-radius: var(--radius-sm);
+            color: var(--accent);
+            font-size: 13px;
+        }
 
         .progress-container {
             padding: 8px 24px;
@@ -368,6 +403,17 @@
             }
         }
 
+        @keyframes notificationSlide {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
         .empty-state {
             text-align: center;
             padding: 60px 20px;
@@ -376,6 +422,38 @@
 
         .empty-state .icon { font-size: 48px; margin-bottom: 16px; opacity: 0.4; }
         .empty-state h3 { color: var(--text-secondary); margin-bottom: 4px; }
+
+        /* Notification */
+        .custom-notification {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 12px 24px;
+            color: var(--text-primary);
+            font-size: 14px;
+            z-index: 999;
+            animation: notificationSlide 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            max-width: 90%;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .custom-notification.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .custom-notification.warning {
+            border-left: 4px solid var(--warning);
+        }
+
+        .custom-notification.info {
+            border-left: 4px solid var(--accent);
+        }
 
         @media (max-width: 768px) {
             .sidebar { width: 60px; padding: 12px 6px; }
@@ -386,12 +464,18 @@
             .file-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
             .viewer-window { width: 95%; max-height: 90vh; }
             .logo small { display: none; }
+            .custom-notification { 
+                bottom: 70px;
+                font-size: 12px;
+                padding: 10px 16px;
+            }
         }
 
         @media (max-width: 480px) {
             header { padding: 8px 12px; }
             .logo { font-size: 16px; }
             .header-actions button { font-size: 11px; padding: 4px 10px; }
+            .file-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
         }
     </style>
 </head>
@@ -419,27 +503,27 @@
             <div class="sidebar-item" data-folder="photos">
                 <span class="icon">🖼️</span>
                 <span>Fotos</span>
-                <span class="badge">4</span>
+                <span class="badge" id="photosBadge">4</span>
             </div>
             <div class="sidebar-item" data-folder="messages">
                 <span class="icon">💬</span>
                 <span>Mensagens</span>
-                <span class="badge">4</span>
+                <span class="badge" id="messagesBadge">4</span>
             </div>
             <div class="sidebar-item" data-folder="documents">
                 <span class="icon">📄</span>
                 <span>Documentos</span>
-                <span class="badge">2</span>
+                <span class="badge" id="documentsBadge">2</span>
             </div>
             <div class="sidebar-item" data-folder="audio">
                 <span class="icon">🎤</span>
                 <span>Áudios</span>
-                <span class="badge">1</span>
+                <span class="badge" id="audioBadge">1</span>
             </div>
             <div class="sidebar-item" data-folder="video">
                 <span class="icon">🎥</span>
                 <span>Vídeos</span>
-                <span class="badge">1</span>
+                <span class="badge" id="videoBadge">1</span>
             </div>
             <hr class="sidebar-divider">
             <div class="sidebar-item" data-folder="map">
@@ -451,11 +535,11 @@
                 <span>Lixeira</span>
             </div>
             <hr class="sidebar-divider">
-            <div class="sidebar-label">Investimento</div>
+            <div class="sidebar-label">Investigação</div>
             <div class="sidebar-item" data-folder="evidence">
                 <span class="icon">⭐</span>
                 <span>Evidências</span>
-                <span class="badge">7/9</span>
+                <span class="badge" id="evidenceBadge">0/11</span>
             </div>
         </aside>
 
@@ -480,9 +564,9 @@
         <span style="font-size: 13px; color: var(--text-muted);">🔍</span>
         <span style="font-size: 12px; color: var(--text-secondary); font-weight: 500;">Progresso</span>
         <div class="progress-track">
-            <div class="progress-fill" id="progressFill" style="width: 78%;"></div>
+            <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
         </div>
-        <span class="progress-label" id="progressLabel">78%</span>
+        <span class="progress-label" id="progressLabel">0%</span>
     </footer>
 
     <div class="viewer-overlay" id="viewerOverlay">
@@ -509,90 +593,187 @@
             'use strict';
 
             // ============================================
-            // DATA
+            // DATA - HISTÓRIA: O MISTÉRIO DO ARQUIVO AZUL
             // ============================================
 
             const STORY_DATA = {
                 photos: [
                     { 
                         id: 'photo1', 
-                        name: 'Estação Central', 
+                        name: 'Laboratório', 
                         icon: '🖼️', 
-                        size: '2.4 MB', 
-                        date: '12/03/2026', 
-                        desc: 'A estação estava vazia, mas algo estava errado...',
-                        image: 'assets/images/estacao.png'
+                        size: '2.8 MB', 
+                        date: '10/03/2026', 
+                        desc: 'O laboratório onde Helena trabalhava. Algo parece fora do lugar...',
+                        image: 'assets/images/laboratorio.png',
+                        evidence: true,
+                        evidenceId: 'ev_001'
                     },
                     { 
                         id: 'photo2', 
-                        name: 'O Diário', 
+                        name: 'Arquivo Azul', 
                         icon: '🖼️', 
-                        size: '3.1 MB', 
-                        date: '15/03/2026', 
-                        desc: 'Páginas amareladas com uma escrita trêmula.',
-                        image: 'assets/images/diario.png'
+                        size: '1.2 MB', 
+                        date: '08/03/2026', 
+                        desc: 'O misterioso arquivo azul. O que ele contém?',
+                        image: 'assets/images/arquivo-azul.png',
+                        evidence: true,
+                        evidenceId: 'ev_002'
                     },
                     { 
                         id: 'photo3', 
-                        name: 'Reflexo', 
+                        name: 'Anotações', 
                         icon: '🖼️', 
-                        size: '1.8 MB', 
-                        date: '18/03/2026', 
-                        desc: 'Reflexo em uma janela escura. Alguém observa.',
-                        image: 'assets/images/reflexo.png'
-                    },
-                    { 
-                        id: 'photo4', 
-                        name: 'Contrato', 
-                        icon: '🖼️', 
-                        size: '4.2 MB', 
-                        date: '22/03/2026', 
-                        desc: 'Contrato com uma assinatura ilegível.',
-                        image: 'assets/images/contrato.png'
+                        size: '1.5 MB', 
+                        date: '09/03/2026', 
+                        desc: 'Anotações confusas. Parece que ela estava com pressa.',
+                        image: 'assets/images/anotacoes.png',
+                        evidence: true,
+                        evidenceId: 'ev_003'
                     }
                 ],
                 messages: [
-                    { id: 'msg1', name: 'Ana — 12/03', icon: '💬', preview: 'Você está aí?', date: '12/03/2026' },
-                    { id: 'msg2', name: 'Lucas — 15/03', icon: '💬', preview: 'Não abra a pasta azul.', date: '15/03/2026' },
-                    { id: 'msg3', name: 'Carlos — 18/03', icon: '💬', preview: 'Eles sabem que você encontrou.', date: '18/03/2026' },
-                    { id: 'msg4', name: 'Desconhecido — 22/03', icon: '💬', preview: 'O contrato não é o que parece.', date: '22/03/2026' }
+                    { 
+                        id: 'msg1', 
+                        name: 'Dr. Ricardo Alves', 
+                        icon: '💬', 
+                        preview: 'Helena, pare com isso!', 
+                        date: '09/03/2026',
+                        sender: 'Dr. Ricardo Alves',
+                        content: 'Helena, pare com isso!\n\nO que você está fazendo é perigoso.\n\nSe continuar, vai se arrepender.\n\nPor favor, reconsidere.',
+                        evidence: true,
+                        evidenceId: 'ev_004'
+                    },
+                    { 
+                        id: 'msg2', 
+                        name: 'Profa. Sofia Lima', 
+                        icon: '💬', 
+                        preview: 'Helena, estou preocupada.', 
+                        date: '07/03/2026',
+                        sender: 'Profa. Sofia Lima',
+                        content: 'Helena, estou preocupada.\n\nVocê tem agido estranho.\n\nSe precisar de ajuda, estou aqui.\n\nNão enfrente isso sozinha.',
+                        evidence: true,
+                        evidenceId: 'ev_005'
+                    },
+                    { 
+                        id: 'msg3', 
+                        name: 'Desconhecido', 
+                        icon: '💬', 
+                        preview: 'Sabemos o que você descobriu.', 
+                        date: '10/03/2026',
+                        sender: 'Desconhecido',
+                        content: 'Sabemos o que você descobriu.\n\nArquivo Azul.\n\nVocê não deveria ter visto isso.\n\nPare agora.\n\nOu as consequências serão graves.',
+                        evidence: true,
+                        evidenceId: 'ev_006'
+                    },
+                    { 
+                        id: 'msg4', 
+                        name: 'Helena Mendes', 
+                        icon: '💬', 
+                        preview: 'Ricardo, preciso te contar a verdade.', 
+                        date: '08/03/2026',
+                        sender: 'Helena Mendes',
+                        content: 'Ricardo, preciso te contar a verdade.\n\nSobre o Projeto Azul.\n\nNão é o que pensam.\n\nEles estão escondendo algo.\n\nEncontre o arquivo. Leia as cláusulas.',
+                        evidence: true,
+                        evidenceId: 'ev_007'
+                    }
                 ],
                 documents: [
-                    { id: 'doc1', name: 'Diário_2026.pdf', icon: '📄', size: '156 KB', date: '12/03/2026', desc: 'Entradas de um diário pessoal. Algumas páginas foram rasgadas.' },
-                    { id: 'doc2', name: 'Contrato_Assinado.pdf', icon: '📄', size: '89 KB', date: '22/03/2026', desc: 'Contrato com cláusulas suspeitas.' }
+                    { 
+                        id: 'doc1', 
+                        name: 'Relatorio_Projeto_Azul.pdf', 
+                        icon: '📄', 
+                        size: '2.3 MB', 
+                        date: '15/02/2026', 
+                        desc: 'Relatório completo do Projeto Azul. Contém informações confidenciais.',
+                        content: 'PROJETO AZUL - RELATÓRIO FINAL\n\nObjetivo: Pesquisa sobre [DADOS CENSURADOS]\n\nResultados: [CENSURADO]\n\nConclusão: O projeto foi bem-sucedido. Mas os custos foram... [PÁGINA RASGADA]',
+                        evidence: true,
+                        evidenceId: 'ev_008'
+                    },
+                    { 
+                        id: 'doc2', 
+                        name: 'Termo_de_Sigilo.pdf', 
+                        icon: '📄', 
+                        size: '856 KB', 
+                        date: '20/01/2026', 
+                        desc: 'Termo de sigilo assinado por todos os envolvidos no projeto.',
+                        content: 'TERMO DE SIGILO\n\nEu, abaixo assinado, declaro que...\n\nCláusula 7: Não revelarei qualquer informação sobre o Projeto Azul.\n\nCláusula 12: Em caso de descumprimento, [INFORMAÇÃO CENSURADA]',
+                        evidence: true,
+                        evidenceId: 'ev_009'
+                    }
                 ],
                 audio: [
-                    { id: 'audio1', name: 'Ligação_15-03.mp3', icon: '🎤', duration: '03:12', date: '15/03/2026', desc: 'Gravação de uma ligação. Vozes abafadas ao fundo.' }
+                    { 
+                        id: 'audio1', 
+                        name: 'Ligacao_Helena_10-03.mp3', 
+                        icon: '🎤', 
+                        duration: '04:28', 
+                        date: '10/03/2026', 
+                        desc: 'Última ligação de Helena. Ela parece assustada.',
+                        transcript: '[00:00] - Helena: Alô? Sofia?\n[00:05] - Sofia: Helena! Graças a Deus!\n[00:10] - Helena: Sofia, preciso de ajuda.\n[00:18] - Helena: Eles descobriram que eu sei.\n[00:30] - Helena: O Projeto Azul. Não é o que parece.\n[01:10] - [Ruído de porta se abrindo]\n[01:20] - Helena: Preciso ir. Me desculpa.\n[01:35] - [Ligação cai]',
+                        evidence: true,
+                        evidenceId: 'ev_010'
+                    }
                 ],
                 video: [
-                    { id: 'video1', name: 'CCTV_Estacao.mp4', icon: '🎥', duration: '00:47', date: '12/03/2026', desc: 'Circuito interno da estação. Um vulto passa às 18:45.' }
+                    { 
+                        id: 'video1', 
+                        name: 'CCTV_Lab_10-03.mp4', 
+                        icon: '🎥', 
+                        duration: '02:15', 
+                        date: '10/03/2026', 
+                        desc: 'Câmera de segurança do laboratório. Helena sai correndo.',
+                        transcript: '[00:00] - Laboratório vazio\n[00:30] - Helena entra correndo\n[00:45] - Ela pega um arquivo azul\n[01:00] - Alguém aparece na porta\n[01:15] - Helena corre pela saída de emergência',
+                        evidence: true,
+                        evidenceId: 'ev_011'
+                    }
                 ],
                 map: {
                     locations: [
-                        { name: 'Estação Central', status: '🔴', date: '12/03' },
-                        { name: 'Rua das Acácias, 47', status: '🟡', date: '15/03' },
-                        { name: 'Arquivo Público', status: '🟢', date: '22/03' }
+                        { name: 'Laboratório Central', status: '🔴', date: '10/03' },
+                        { name: 'Escritório de Helena', status: '🟡', date: '08/03' },
+                        { name: 'Arquivo Central', status: '🟢', date: '09/03' }
                     ]
                 },
                 evidence: [
-                    { id: 'ev1', name: 'Foto da Estação', found: true },
-                    { id: 'ev2', name: 'Páginas do Diário', found: true },
-                    { id: 'ev3', name: 'Contrato', found: true },
-                    { id: 'ev4', name: 'Mensagem de Ana', found: true },
-                    { id: 'ev5', name: 'Alerta de Lucas', found: true },
-                    { id: 'ev6', name: 'Alerta de Carlos', found: true },
-                    { id: 'ev7', name: 'Mensagem do Desconhecido', found: false },
-                    { id: 'ev8', name: 'Gravação de Áudio', found: true },
-                    { id: 'ev9', name: 'Vídeo da Estação', found: true }
+                    { id: 'ev_001', name: 'Foto do Laboratório', found: false },
+                    { id: 'ev_002', name: 'Arquivo Azul', found: false },
+                    { id: 'ev_003', name: 'Anotações de Helena', found: false },
+                    { id: 'ev_004', name: 'Mensagem de Ricardo', found: false },
+                    { id: 'ev_005', name: 'Mensagem de Sofia', found: false },
+                    { id: 'ev_006', name: 'Mensagem do Desconhecido', found: false },
+                    { id: 'ev_007', name: 'Confissão de Helena', found: false },
+                    { id: 'ev_008', name: 'Relatório do Projeto', found: false },
+                    { id: 'ev_009', name: 'Termo de Sigilo', found: false },
+                    { id: 'ev_010', name: 'Ligação de Helena', found: false },
+                    { id: 'ev_011', name: 'Vídeo do Laboratório', found: false }
                 ]
             };
+
+            // ============================================
+            // ORDEM DE PROGRESSÃO
+            // ============================================
+
+            const EVIDENCE_ORDER = [
+                'ev_001', // Foto do Laboratório
+                'ev_002', // Arquivo Azul
+                'ev_003', // Anotações
+                'ev_004', // Mensagem de Ricardo
+                'ev_005', // Mensagem de Sofia
+                'ev_006', // Mensagem do Desconhecido
+                'ev_007', // Confissão de Helena
+                'ev_008', // Relatório do Projeto
+                'ev_009', // Termo de Sigilo
+                'ev_010', // Ligação de Helena
+                'ev_011'  // Vídeo do Laboratório
+            ];
 
             // ============================================
             // STATE
             // ============================================
 
             let currentFolder = 'welcome';
-            let progress = 78;
+            let progress = 0;
 
             // ============================================
             // DOM REFS
@@ -606,6 +787,80 @@
             const viewerTitle = document.getElementById('viewerTitle');
             const viewerBody = document.getElementById('viewerBody');
             const viewerClose = document.getElementById('viewerClose');
+            const evidenceBadge = document.getElementById('evidenceBadge');
+
+            // ============================================
+            // NOTIFICATION SYSTEM
+            // ============================================
+
+            function showNotification(message, type = 'info') {
+                const old = document.querySelector('.custom-notification');
+                if (old) old.remove();
+                
+                const notif = document.createElement('div');
+                notif.className = `custom-notification ${type}`;
+                notif.textContent = message;
+                document.body.appendChild(notif);
+                
+                setTimeout(() => {
+                    notif.style.opacity = '0';
+                    notif.style.transition = 'opacity 0.3s ease';
+                    setTimeout(() => notif.remove(), 300);
+                }, 3000);
+            }
+
+            // ============================================
+            // PROGRESS SYSTEM
+            // ============================================
+
+            function canFindEvidence(evidenceId) {
+                const ev = STORY_DATA.evidence.find(e => e.id === evidenceId);
+                if (ev && ev.found) return true;
+                
+                const index = EVIDENCE_ORDER.indexOf(evidenceId);
+                if (index === -1) return true;
+                
+                for (let i = 0; i < index; i++) {
+                    const prevId = EVIDENCE_ORDER[i];
+                    const prevEv = STORY_DATA.evidence.find(e => e.id === prevId);
+                    if (!prevEv || !prevEv.found) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            function updateProgress() {
+                const found = STORY_DATA.evidence.filter(e => e.found).length;
+                const total = STORY_DATA.evidence.length;
+                progress = Math.round((found / total) * 100);
+                
+                progressFill.style.width = progress + '%';
+                progressLabel.textContent = progress + '%';
+                evidenceBadge.textContent = `${found}/${total}`;
+                
+                // Verificar se completou
+                if (found === total && total > 0) {
+                    setTimeout(() => {
+                        showNotification('🎉 PARABÉNS! Você desvendou todo o mistério!', 'success');
+                    }, 500);
+                }
+            }
+
+            function resetProgress() {
+                if (!confirm('🔄 Iniciar um novo caso irá apagar todo o seu progresso atual. Deseja continuar?')) {
+                    return;
+                }
+                
+                STORY_DATA.evidence.forEach(ev => {
+                    ev.found = false;
+                });
+                
+                progress = 0;
+                updateProgress();
+                navigateTo('welcome');
+                showNotification('📂 Novo caso iniciado! Boa sorte!', 'info');
+            }
 
             // ============================================
             // RENDER FUNCTIONS
@@ -628,47 +883,32 @@
                 let icon = '';
 
                 switch (folder) {
-                    case 'photos':
-                        items = STORY_DATA.photos;
-                        title = 'Fotos';
-                        icon = '🖼️';
-                        break;
-                    case 'messages':
-                        items = STORY_DATA.messages;
-                        title = 'Mensagens';
-                        icon = '💬';
-                        break;
-                    case 'documents':
-                        items = STORY_DATA.documents;
-                        title = 'Documentos';
-                        icon = '📄';
-                        break;
-                    case 'audio':
-                        items = STORY_DATA.audio;
-                        title = 'Áudios';
-                        icon = '🎤';
-                        break;
-                    case 'video':
-                        items = STORY_DATA.video;
-                        title = 'Vídeos';
-                        icon = '🎥';
-                        break;
+                    case 'photos': items = STORY_DATA.photos; title = 'Fotos'; icon = '🖼️'; break;
+                    case 'messages': items = STORY_DATA.messages; title = 'Mensagens'; icon = '💬'; break;
+                    case 'documents': items = STORY_DATA.documents; title = 'Documentos'; icon = '📄'; break;
+                    case 'audio': items = STORY_DATA.audio; title = 'Áudios'; icon = '🎤'; break;
+                    case 'video': items = STORY_DATA.video; title = 'Vídeos'; icon = '🎥'; break;
                     case 'map':
                         folderContent.innerHTML = renderMap();
+                        updateActiveSidebarItem(folder);
                         return;
                     case 'evidence':
                         folderContent.innerHTML = renderEvidence();
+                        updateActiveSidebarItem(folder);
                         return;
                     case 'trash':
                         folderContent.innerHTML = renderEmpty('🗑️', 'Lixeira vazia', 'Nenhum arquivo foi descartado ainda.');
+                        updateActiveSidebarItem(folder);
                         return;
                     default:
                         folderContent.innerHTML = renderEmpty('📂', 'Pasta vazia', 'Nenhum arquivo encontrado aqui.');
+                        updateActiveSidebarItem(folder);
                         return;
                 }
 
                 if (items.length === 0) {
                     folderContent.innerHTML = renderEmpty('📂', 'Pasta vazia', 'Nenhum arquivo encontrado aqui.');
+                    updateActiveSidebarItem(folder);
                     return;
                 }
 
@@ -684,12 +924,31 @@
                 items.forEach(item => {
                     const meta = item.size || item.duration || item.date || '';
                     const desc = item.desc || item.preview || '';
+                    const isEvidence = item.evidence || false;
+                    const isFound = isEvidence ? getEvidenceStatus(item.evidenceId) : true;
+                    const isLocked = isEvidence && !canFindEvidence(item.evidenceId);
+                    
+                    let lockHtml = '';
+                    let evidenceHtml = '';
+                    
+                    if (isLocked) {
+                        lockHtml = '<span class="lock-icon">🔒</span>';
+                    }
+                    if (isEvidence && isFound) {
+                        evidenceHtml = '<span class="evidence-badge">⭐</span>';
+                    }
+                    
+                    const cardClass = isLocked ? 'file-card locked' : 'file-card';
+                    
                     html += `
-                        <div class="file-card" data-id="${item.id}" data-folder="${folder}">
+                        <div class="${cardClass}" data-id="${item.id}" data-folder="${folder}" ${isLocked ? 'data-locked="true"' : ''}>
+                            ${lockHtml}
+                            ${evidenceHtml}
                             <span class="file-icon">${item.icon || '📄'}</span>
                             <div class="file-name">${item.name}</div>
                             <div class="file-meta">${meta}</div>
                             ${desc ? `<div style="font-size:11px;color:var(--text-muted);margin-top:6px;line-height:1.4;">${desc}</div>` : ''}
+                            ${isLocked ? `<div style="font-size:10px;color:var(--warning);margin-top:4px;">🔒 Encontre mais pistas</div>` : ''}
                         </div>
                     `;
                 });
@@ -697,13 +956,21 @@
                 html += '</div>';
                 folderContent.innerHTML = html;
 
-                document.querySelectorAll('.file-card').forEach(el => {
+                document.querySelectorAll('.file-card:not(.locked)').forEach(el => {
                     el.addEventListener('click', function() {
                         const id = this.dataset.id;
                         const folder = this.dataset.folder;
                         openFile(folder, id);
                     });
                 });
+
+                updateActiveSidebarItem(folder);
+            }
+
+            function getEvidenceStatus(evidenceId) {
+                if (!evidenceId) return true;
+                const ev = STORY_DATA.evidence.find(e => e.id === evidenceId);
+                return ev ? ev.found : true;
             }
 
             function renderMap() {
@@ -754,11 +1021,15 @@
                 `;
 
                 items.forEach(ev => {
+                    const isLocked = !ev.found && !canFindEvidence(ev.id);
+                    const statusText = ev.found ? '✅ Encontrado' : (isLocked ? '🔒 Bloqueado' : '🔍 Disponível');
+                    const statusColor = ev.found ? 'var(--success)' : (isLocked ? 'var(--text-muted)' : 'var(--warning)');
+                    
                     html += `
                         <div style="display:flex;align-items:center;gap:14px;padding:12px 16px;background:var(--bg-secondary);border:1px solid ${ev.found ? 'var(--success)' : 'var(--border-color)'};border-radius:var(--radius-sm);">
                             <span style="font-size:20px;">${ev.found ? '✅' : '⬜'}</span>
                             <span style="font-weight:500;${ev.found ? '' : 'color:var(--text-muted);'}">${ev.name}</span>
-                            <span style="margin-left:auto;font-size:12px;color:var(--text-muted);">${ev.found ? 'Encontrado' : 'Pendente'}</span>
+                            <span style="margin-left:auto;font-size:12px;color:${statusColor};font-weight:500;">${statusText}</span>
                         </div>
                     `;
                 });
@@ -777,8 +1048,17 @@
                 `;
             }
 
+            function updateActiveSidebarItem(folder) {
+                document.querySelectorAll('.sidebar-item').forEach(el => {
+                    el.classList.remove('active');
+                    if (el.dataset.folder === folder) {
+                        el.classList.add('active');
+                    }
+                });
+            }
+
             // ============================================
-            // OPEN FILE - COM SUPORTE A IMAGENS!
+            // OPEN FILE
             // ============================================
 
             function openFile(folder, id) {
@@ -797,6 +1077,15 @@
                 file = items.find(item => item.id === id);
                 if (!file) return;
 
+                // Verificar se é uma evidência bloqueada
+                if (file.evidence && file.evidenceId) {
+                    const ev = STORY_DATA.evidence.find(e => e.id === file.evidenceId);
+                    if (ev && !ev.found && !canFindEvidence(file.evidenceId)) {
+                        showNotification('🔒 Você precisa encontrar mais pistas primeiro!', 'warning');
+                        return;
+                    }
+                }
+
                 const ext = file.name ? file.name.split('.').pop().toUpperCase() : 'FILE';
                 viewerTitle.innerHTML = `
                     ${file.icon || '📄'} ${file.name}
@@ -805,7 +1094,6 @@
 
                 let bodyHtml = '';
 
-                // VERIFICA SE É UMA FOTO COM IMAGEM
                 if (folder === 'photos' && file.image) {
                     bodyHtml = `
                         <div class="file-preview">
@@ -819,7 +1107,6 @@
                         </div>
                     `;
                 } else {
-                    // Fallback para outros arquivos
                     bodyHtml = `
                         <div class="file-preview">
                             <span class="big-icon">${file.icon || '📄'}</span>
@@ -832,13 +1119,12 @@
                         </div>
                     `;
 
-                    // Para mensagens, mostra o preview especial
-                    if (folder === 'messages' && file.preview) {
+                    if (folder === 'messages' && file.content) {
                         bodyHtml = `
                             <div style="padding:8px 0;width:100%;">
                                 <div style="background:var(--bg-card);padding:16px 20px;border-radius:var(--radius-sm);border-left:3px solid var(--accent);">
-                                    <div style="font-size:13px;color:var(--text-muted);margin-bottom:4px;">${file.name}</div>
-                                    <div style="font-size:16px;line-height:1.6;">${file.preview}</div>
+                                    <div style="font-size:13px;color:var(--text-muted);margin-bottom:4px;">${file.sender || file.name}</div>
+                                    <div style="font-size:16px;line-height:1.8;white-space:pre-wrap;">${file.content}</div>
                                     <div style="font-size:12px;color:var(--text-muted);margin-top:8px;">${file.date}</div>
                                 </div>
                             </div>
@@ -846,22 +1132,35 @@
                     }
                 }
 
+                // Adicionar badge de evidência se for uma
+                if (file.evidence && file.evidenceId) {
+                    const ev = STORY_DATA.evidence.find(e => e.id === file.evidenceId);
+                    if (ev && ev.found) {
+                        bodyHtml = bodyHtml.replace('</div>', '<div class="evidence-found">⭐ EVIDÊNCIA ENCONTRADA!</div></div>');
+                    }
+                }
+
                 viewerBody.innerHTML = bodyHtml;
                 viewerOverlay.classList.add('open');
 
-                if (progress < 100) {
-                    progress = Math.min(progress + 3, 100);
-                    updateProgress();
+                // Marcar evidência como encontrada
+                if (file.evidence && file.evidenceId) {
+                    const ev = STORY_DATA.evidence.find(e => e.id === file.evidenceId);
+                    if (ev && !ev.found) {
+                        ev.found = true;
+                        updateProgress();
+                        showNotification(`✅ Nova evidência encontrada: ${ev.name}!`, 'success');
+                        
+                        // Verificar se completou
+                        const total = STORY_DATA.evidence.length;
+                        const foundCount = STORY_DATA.evidence.filter(e => e.found).length;
+                        if (foundCount === total) {
+                            setTimeout(() => {
+                                showNotification('🎉 PARABÉNS! Você desvendou todo o mistério!', 'success');
+                            }, 500);
+                        }
+                    }
                 }
-            }
-
-            // ============================================
-            // UPDATE PROGRESS
-            // ============================================
-
-            function updateProgress() {
-                progressFill.style.width = progress + '%';
-                progressLabel.textContent = progress + '%';
             }
 
             // ============================================
@@ -883,19 +1182,6 @@
                 } else {
                     renderFolder(folder);
                 }
-            }
-
-            function resetProgress() {
-                progress = 0;
-                STORY_DATA.evidence.forEach(ev => ev.found = false);
-                // Marca algumas como encontradas para demo
-                ['ev1', 'ev2', 'ev3', 'ev4', 'ev5', 'ev6', 'ev8', 'ev9'].forEach(id => {
-                    const ev = STORY_DATA.evidence.find(e => e.id === id);
-                    if (ev) ev.found = true;
-                });
-                progress = 78;
-                updateProgress();
-                navigateTo('welcome');
             }
 
             // ============================================
@@ -935,17 +1221,8 @@
                 }
             });
 
-            document.getElementById('newCaseBtn').addEventListener('click', function() {
-                if (confirm('Iniciar um novo caso irá limpar o progresso atual. Continuar?')) {
-                    resetProgress();
-                }
-            });
-
-            document.getElementById('resetBtn').addEventListener('click', function() {
-                if (confirm('Resetar o progresso?')) {
-                    resetProgress();
-                }
-            });
+            document.getElementById('newCaseBtn').addEventListener('click', resetProgress);
+            document.getElementById('resetBtn').addEventListener('click', resetProgress);
 
             // ============================================
             // INIT
@@ -954,9 +1231,10 @@
             updateProgress();
             renderWelcome();
 
-            console.log('🔍 Evidence - Arquivo Encontrado');
-            console.log('📁 Explore as pastas para descobrir a história.');
-            console.log('📸 As fotos agora mostram imagens reais!');
+            console.log('🔍 Evidence - O Mistério do Arquivo Azul');
+            console.log('📁 Explore as pastas para descobrir a verdade.');
+            console.log('📈 Encontre todas as 11 evidências em ordem!');
+            console.log('🔒 Cada evidência desbloqueia a próxima.');
 
         })();
     </script>
