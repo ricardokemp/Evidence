@@ -13,7 +13,7 @@ const EVIDENCE_DATA = {
         title: 'Arquivo Encontrado',
         version: '1.0.0',
         author: 'Evidence Team',
-        lastUpdated: '2026-03-31',
+        lastUpdated: '2026-07-14',
         totalCases: 1,
         currentCase: 'case01'
     },
@@ -24,7 +24,7 @@ const EVIDENCE_DATA = {
         title: 'O Arquivo Encontrado',
         subtitle: 'Um computador abandonado foi entregue à sua investigação.',
         description: 'Em um escritório vazio, um computador antigo foi deixado para trás. Dentro dele, arquivos que contam uma história que ninguém quer que seja descoberta.',
-        status: 'active', // 'active' | 'completed' | 'locked'
+        status: 'active',
         
         // ----- Files Structure -----
         files: {
@@ -32,7 +32,7 @@ const EVIDENCE_DATA = {
             photos: [
                 {
                     id: 'photo_001',
-                    name: 'IMG_20260312_1845.jpg',
+                    name: 'Estação Central',
                     type: 'image',
                     icon: '🖼️',
                     size: '2.4 MB',
@@ -40,7 +40,8 @@ const EVIDENCE_DATA = {
                     date: '2026-03-12',
                     time: '18:45',
                     location: 'Estação Central',
-                    description: 'Estação de trem vazia à noite. Há uma sombra ao fundo que parece observar.',
+                    description: 'A estação estava vazia, mas algo estava errado... Uma sombra suspeita ao fundo.',
+                    image: 'assets/images/estacao.png',
                     metadata: {
                         camera: 'iPhone 15 Pro',
                         aperture: 'f/1.8',
@@ -55,7 +56,7 @@ const EVIDENCE_DATA = {
                 },
                 {
                     id: 'photo_002',
-                    name: 'IMG_20260315_0912.jpg',
+                    name: 'O Diário',
                     type: 'image',
                     icon: '🖼️',
                     size: '3.1 MB',
@@ -63,7 +64,8 @@ const EVIDENCE_DATA = {
                     date: '2026-03-15',
                     time: '09:12',
                     location: 'Arquivo Público',
-                    description: 'Páginas amareladas de um diário. A letra é trêmula e algumas palavras estão borradas.',
+                    description: 'Páginas amareladas com uma escrita trêmula. Algumas palavras estão borradas.',
+                    image: 'assets/images/diario.png',
                     metadata: {
                         camera: 'Canon EOS R6',
                         aperture: 'f/2.8',
@@ -78,7 +80,7 @@ const EVIDENCE_DATA = {
                 },
                 {
                     id: 'photo_003',
-                    name: 'IMG_20260318_2230.jpg',
+                    name: 'Reflexo',
                     type: 'image',
                     icon: '🖼️',
                     size: '1.8 MB',
@@ -86,7 +88,8 @@ const EVIDENCE_DATA = {
                     date: '2026-03-18',
                     time: '22:30',
                     location: 'Rua das Acácias, 47',
-                    description: 'Reflexo em uma janela. Alguém observa do outro lado da rua.',
+                    description: 'Reflexo em uma janela escura. Alguém observa do outro lado da rua.',
+                    image: 'assets/images/reflexo.png',
                     metadata: {
                         camera: 'Samsung Galaxy S24',
                         aperture: 'f/1.8',
@@ -100,7 +103,7 @@ const EVIDENCE_DATA = {
                 },
                 {
                     id: 'photo_004',
-                    name: 'IMG_20260322_0541.jpg',
+                    name: 'Contrato',
                     type: 'image',
                     icon: '🖼️',
                     size: '4.2 MB',
@@ -108,7 +111,8 @@ const EVIDENCE_DATA = {
                     date: '2026-03-22',
                     time: '05:41',
                     location: 'Escritório Central',
-                    description: 'Contrato assinado. O nome do signatário está parcialmente ilegível.',
+                    description: 'Contrato com uma assinatura ilegível. Algo parece errado com este documento.',
+                    image: 'assets/images/contrato.png',
                     metadata: {
                         camera: 'Sony A7IV',
                         aperture: 'f/2.8',
@@ -120,28 +124,6 @@ const EVIDENCE_DATA = {
                     evidence: true,
                     evidenceId: 'ev_003',
                     found: true
-                },
-                {
-                    id: 'photo_005',
-                    name: 'IMG_20260325_1342.jpg',
-                    type: 'image',
-                    icon: '🖼️',
-                    size: '3.8 MB',
-                    dimensions: '4032x3024',
-                    date: '2026-03-25',
-                    time: '13:42',
-                    location: 'Hotel Central - Quarto 307',
-                    description: 'Uma mala aberta com roupas. Parece que alguém saiu com pressa.',
-                    metadata: {
-                        camera: 'iPhone 15 Pro',
-                        aperture: 'f/1.8',
-                        iso: '250',
-                        flash: false,
-                        gps: '-23.5455, -46.6383'
-                    },
-                    tags: ['hotel', 'mala', 'pressa'],
-                    evidence: false,
-                    found: false
                 }
             ],
 
@@ -218,23 +200,6 @@ const EVIDENCE_DATA = {
                     evidence: true,
                     evidenceId: 'ev_007',
                     found: false
-                },
-                {
-                    id: 'msg_005',
-                    type: 'message',
-                    icon: '💬',
-                    sender: 'Ana',
-                    senderId: 'char_001',
-                    recipient: 'Você',
-                    date: '2026-03-13',
-                    time: '08:15',
-                    preview: 'Não fui ao café. Estou com medo.',
-                    content: 'Não fui ao café. Estou com medo.\n\nAlguém estava me observando.\n\nVi um carro preto parado em frente à minha casa.\n\nAcho que eles sabem que eu vi.',
-                    status: 'read',
-                    attachments: [],
-                    tags: ['medo', 'observação', 'carro preto'],
-                    evidence: false,
-                    found: false
                 }
             ],
 
@@ -248,7 +213,7 @@ const EVIDENCE_DATA = {
                     size: '156 KB',
                     pages: 24,
                     date: '2026-03-12',
-                    description: 'Entradas de um diário pessoal. Algumas páginas foram rasgadas e outras estão manchadas.',
+                    description: 'Entradas de um diário pessoal. Algumas páginas foram rasgadas.',
                     content: '12 de março de 2026\n\nHoje encontrei algo que não deveria.\n\nO contrato. A pasta azul. Tudo está conectado.\n\nEles vão tentar me silenciar.\n\nPreciso deixar registrado antes que seja tarde demais.\n\n[Páginas rasgadas]\n\n...não confie em ninguém, nem mesmo em quem você ama...',
                     tags: ['diário', 'pessoal', 'rasgado', 'contrato'],
                     evidence: true,
@@ -269,34 +234,6 @@ const EVIDENCE_DATA = {
                     evidence: true,
                     evidenceId: 'ev_003',
                     found: true
-                },
-                {
-                    id: 'doc_003',
-                    name: 'Relatorio_Policial.pdf',
-                    type: 'document',
-                    icon: '📄',
-                    size: '2.3 MB',
-                    pages: 46,
-                    date: '2026-03-15',
-                    description: 'Relatório oficial da polícia sobre o caso. Muitas informações estão censuradas.',
-                    content: 'RELATÓRIO DE OCORRÊNCIA\n\nCaso nº 2026-0312\n\n[CENSURADO - 3 páginas]\n\nTestemunhas: Ana S., Carlos M., Lucas R.\n\n[CENSURADO - 12 páginas]\n\nEvidências encontradas: Fotografias, documentos, gravações.\n\n[CENSURADO - 8 páginas]\n\nSuspeitos: [CENSURADO]\n\nStatus: Em andamento',
-                    tags: ['polícia', 'oficial', 'censurado', 'relatório'],
-                    evidence: false,
-                    found: false
-                },
-                {
-                    id: 'doc_004',
-                    name: 'Notas_Investigacao.txt',
-                    type: 'document',
-                    icon: '📄',
-                    size: '12 KB',
-                    pages: 1,
-                    date: '2026-03-20',
-                    description: 'Anotações de um investigador particular. Códigos e referências enigmáticas.',
-                    content: 'CASO: Arquivo Encontrado\n\nPistas:\n- Estação Central: 12/03 - 18:45\n- Arquivo Público: 15/03 - 09:12\n- Rua das Acácias: 18/03 - 22:30\n- Escritório Central: 22/03 - 05:41\n\nConexões:\n[CONT] → [DIÁRIO] → [PASTA AZUL]\n\nSuspeitos:\n- ?\n\nPróximos passos:\n- Verificar câmeras do hotel',
-                    tags: ['investigação', 'anotações', 'códigos'],
-                    evidence: false,
-                    found: false
                 }
             ],
 
@@ -310,26 +247,12 @@ const EVIDENCE_DATA = {
                     duration: '03:12',
                     date: '2026-03-15',
                     time: '22:15',
-                    description: 'Gravação de uma ligação telefônica. Vozes abafadas ao fundo e alguém chorando.',
-                    transcript: '[00:00] - Você: Alô?\n[00:05] - Voz feminina: Por favor, me ajuda...\n[00:12] - Você: Ana? É você?\n[00:18] - Ana: Eles estão me seguindo...\n[00:25] - Ruído de fundo: [carro passando]\n[00:32] - Ana: Preciso desaparecer.\n[00:45] - Você: Onde você está?\n[00:52] - Ana: Não posso dizer...\n[01:10] - Ana: A pasta azul... está tudo lá...\n[01:28] - [Ligação cai]\n[01:45] - [Fim da gravação]',
+                    description: 'Gravação de uma ligação. Vozes abafadas ao fundo.',
+                    transcript: '[00:00] - Você: Alô?\n[00:05] - Voz feminina: Por favor, me ajuda...\n[00:12] - Você: Ana? É você?\n[00:18] - Ana: Eles estão me seguindo...\n[00:32] - Ana: Preciso desaparecer.\n[00:52] - Ana: Não posso dizer...\n[01:10] - Ana: A pasta azul... está tudo lá...\n[01:28] - [Ligação cai]',
                     tags: ['ligação', 'choro', 'desespero', 'ana'],
                     evidence: true,
                     evidenceId: 'ev_008',
                     found: true
-                },
-                {
-                    id: 'audio_002',
-                    name: 'Entrevista_18-03.mp3',
-                    type: 'audio',
-                    icon: '🎤',
-                    duration: '15:47',
-                    date: '2026-03-18',
-                    time: '14:30',
-                    description: 'Entrevista com uma testemunha. O tom de voz sugere que ela está escondendo algo.',
-                    transcript: '[00:00] - Entrevistador: Pode me dizer o que viu?\n[00:12] - Testemunha: Eu... eu não tenho certeza...\n[00:28] - Entrevistador: Por favor, qualquer detalhe pode ajudar.\n[00:45] - Testemunha: Havia um homem... ele parecia perdido.\n[01:02] - Entrevistador: Como ele era?\n[01:15] - Testemunha: Não me lembro... [pausa longa]\n[01:45] - Testemunha: Talvez eu devesse ir.\n[02:10] - [Som de passos se afastando]',
-                    tags: ['entrevista', 'testemunha', 'suspeita'],
-                    evidence: false,
-                    found: false
                 }
             ],
 
@@ -345,7 +268,7 @@ const EVIDENCE_DATA = {
                     time: '18:45',
                     description: 'Circuito interno da estação. Um vulto passa rapidamente pelo corredor.',
                     thumbnail: null,
-                    transcript: '[00:00] - Imagem estática do corredor vazio\n[00:15] - Um vulto passa pela esquerda\n[00:22] - O vulto parece carregar algo\n[00:35] - O vulto desaparece na direita\n[00:47] - Fim do vídeo',
+                    transcript: '[00:00] - Imagem estática do corredor vazio\n[00:15] - Um vulto passa pela esquerda\n[00:22] - O vulto parece carregar algo\n[00:35] - O vulto desaparece na direita',
                     tags: ['cctv', 'estação', 'vulto', 'segurança'],
                     evidence: true,
                     evidenceId: 'ev_009',
@@ -361,7 +284,7 @@ const EVIDENCE_DATA = {
                     address: 'Av. Central, 1000 - Centro',
                     date: '2026-03-12',
                     status: 'investigated',
-                    description: 'Local do primeiro avistamento. A estação estava vazia, mas as câmeras captaram algo estranho.',
+                    description: 'Local do primeiro avistamento. A estação estava vazia.',
                     coordinates: { lat: -23.5505, lng: -46.6333 },
                     evidence: ['photo_001', 'video_001']
                 },
@@ -391,19 +314,9 @@ const EVIDENCE_DATA = {
                     address: 'Av. Empresarial, 500 - Torre B, Sala 1204',
                     date: '2026-03-22',
                     status: 'locked',
-                    description: 'Último local conhecido antes do desaparecimento. O contrato foi assinado aqui.',
+                    description: 'Último local conhecido. O contrato foi assinado aqui.',
                     coordinates: { lat: -23.5705, lng: -46.6533 },
                     evidence: ['photo_004', 'doc_002']
-                },
-                {
-                    id: 'loc_005',
-                    name: 'Hotel Central',
-                    address: 'Rua do Comércio, 45 - Centro',
-                    date: '2026-03-25',
-                    status: 'pending',
-                    description: 'Quarto 307. Roupas foram deixadas para trás com pressa.',
-                    coordinates: { lat: -23.5455, lng: -46.6383 },
-                    evidence: ['photo_005']
                 }
             ],
 
@@ -428,7 +341,7 @@ const EVIDENCE_DATA = {
                 { 
                     id: 'ev_003', 
                     name: 'Contrato', 
-                    description: 'Contrato assinado com cláusulas suspeitas.', 
+                    description: 'Contrato com cláusulas suspeitas.', 
                     found: true, 
                     importance: 'critical',
                     category: 'Documento'
@@ -480,46 +393,6 @@ const EVIDENCE_DATA = {
                     found: true, 
                     importance: 'medium',
                     category: 'Vídeo'
-                },
-                { 
-                    id: 'ev_010', 
-                    name: 'Diário Completo', 
-                    description: 'O diário completo com todas as páginas.', 
-                    found: false, 
-                    importance: 'critical',
-                    category: 'Documento'
-                },
-                { 
-                    id: 'ev_011', 
-                    name: 'Chave USB', 
-                    description: 'Chave USB encontrada no escritório.', 
-                    found: false, 
-                    importance: 'high',
-                    category: 'Objeto'
-                },
-                { 
-                    id: 'ev_012', 
-                    name: 'Relatório Policial', 
-                    description: 'Relatório oficial com informações censuradas.', 
-                    found: false, 
-                    importance: 'medium',
-                    category: 'Documento'
-                },
-                { 
-                    id: 'ev_013', 
-                    name: 'Pasta Oculta', 
-                    description: 'Pasta oculta no sistema do computador.', 
-                    found: false, 
-                    importance: 'critical',
-                    category: 'Digital'
-                },
-                { 
-                    id: 'ev_014', 
-                    name: 'Anotações do Investigador', 
-                    description: 'Notas de um investigador particular.', 
-                    found: false, 
-                    importance: 'medium',
-                    category: 'Documento'
                 }
             ],
 
@@ -530,70 +403,49 @@ const EVIDENCE_DATA = {
                     date: '2026-03-12', 
                     event: 'Primeiro avistamento na estação', 
                     evidence: ['photo_001', 'video_001'],
-                    description: 'A estação estava vazia, mas as câmeras captaram algo estranho.'
+                    description: 'A estação estava vazia, mas as câmeras captaram algo.'
                 },
                 { 
                     id: 'tl_002', 
-                    date: '2026-03-13', 
-                    event: 'Ana envia mensagem preocupada', 
-                    evidence: ['msg_005'],
-                    description: 'Ana não foi ao café. Está com medo.'
-                },
-                { 
-                    id: 'tl_003', 
                     date: '2026-03-15', 
                     event: 'Descoberta do diário no arquivo público', 
                     evidence: ['photo_002', 'doc_001'],
-                    description: 'Páginas de um diário são encontradas no arquivo público.'
+                    description: 'Páginas de um diário são encontradas.'
                 },
                 { 
-                    id: 'tl_004', 
+                    id: 'tl_003', 
                     date: '2026-03-15', 
                     event: 'Alerta de Lucas - "Não abra a pasta azul"', 
                     evidence: ['msg_002'],
                     description: 'Lucas envia um alerta sobre a pasta azul.'
                 },
                 { 
-                    id: 'tl_005', 
-                    date: '2026-03-15', 
-                    event: 'Gravação de áudio com Ana', 
-                    evidence: ['audio_001'],
-                    description: 'Ana liga desesperada. Diz que precisa desaparecer.'
-                },
-                { 
-                    id: 'tl_006', 
+                    id: 'tl_004', 
                     date: '2026-03-18', 
                     event: 'Reflexo na janela', 
                     evidence: ['photo_003'],
                     description: 'Alguém observa da rua das Acácias.'
                 },
                 { 
-                    id: 'tl_007', 
+                    id: 'tl_005', 
                     date: '2026-03-18', 
                     event: 'Carlos alerta - "Eles sabem"', 
                     evidence: ['msg_003'],
                     description: 'Carlos diz que descobriram que você encontrou algo.'
                 },
                 { 
-                    id: 'tl_008', 
+                    id: 'tl_006', 
                     date: '2026-03-22', 
                     event: 'Contrato assinado no escritório central', 
                     evidence: ['photo_004', 'doc_002'],
                     description: 'Um contrato suspeito é assinado.'
                 },
                 { 
-                    id: 'tl_009', 
+                    id: 'tl_007', 
                     date: '2026-03-22', 
                     event: 'Mensagem do desconhecido', 
                     evidence: ['msg_004'],
-                    description: 'Alguém envia uma mensagem sobre as cláusulas 7 e 12 do contrato.'
-                },
-                { 
-                    id: 'tl_010', 
-                    date: '2026-03-25', 
-                    event: 'Hotel Central - Mala abandonada', 
-                    evidence: ['photo_005'],
-                    description: 'Alguém saiu com pressa do quarto 307.'
+                    description: 'Alguém envia uma mensagem sobre as cláusulas.'
                 }
             ],
 
@@ -603,60 +455,30 @@ const EVIDENCE_DATA = {
                     id: 'char_001',
                     name: 'Ana',
                     role: 'Testemunha',
-                    description: 'Trabalhava na estação central. Foi a primeira a ver algo estranho. Desde então, está desaparecida.',
+                    description: 'Trabalhava na estação central. Foi a primeira a ver algo estranho.',
                     status: 'missing',
-                    messages: ['msg_001', 'msg_005'],
-                    photo: null,
+                    messages: ['msg_001'],
                     lastSeen: '2026-03-15'
                 },
                 {
                     id: 'char_002',
                     name: 'Lucas',
                     role: 'Informante',
-                    description: 'Parece saber mais do que revela. Avisou sobre a "pasta azul". Pode estar em perigo.',
+                    description: 'Parece saber mais do que revela. Avisou sobre a "pasta azul".',
                     status: 'active',
                     messages: ['msg_002'],
-                    photo: null,
                     lastSeen: '2026-03-15'
                 },
                 {
                     id: 'char_003',
                     name: 'Carlos',
                     role: 'Investigador',
-                    description: 'Trabalha no caso. Parece estar em perigo também. Enviou um alerta urgente.',
+                    description: 'Trabalha no caso. Parece estar em perigo também.',
                     status: 'active',
                     messages: ['msg_003'],
-                    photo: null,
                     lastSeen: '2026-03-18'
-                },
-                {
-                    id: 'char_004',
-                    name: 'Desconhecido',
-                    role: 'Misterioso',
-                    description: 'Enviou mensagens sobre o contrato. Identidade desconhecida.',
-                    status: 'unknown',
-                    messages: ['msg_004'],
-                    photo: null,
-                    lastSeen: '2026-03-22'
                 }
-            ],
-
-            // ----- TAGS -----
-            tags: [
-                { name: 'urgente', count: 2 },
-                { name: 'testemunha', count: 2 },
-                { name: 'alerta', count: 3 },
-                { name: 'perigo', count: 3 },
-                { name: 'estação', count: 3 },
-                { name: 'contrato', count: 3 },
-                { name: 'documento', count: 3 },
-                { name: 'evidência', count: 5 },
-                { name: 'suspeito', count: 2 },
-                { name: 'noite', count: 3 }
-            ],
-
-            // ----- NOTES (user annotations) -----
-            notes: []
+            ]
         }
     }
 };
@@ -666,67 +488,43 @@ const EVIDENCE_DATA = {
 // ============================================
 
 const DataHelper = {
-    /**
-     * Get a specific case by ID
-     */
     getCase: (caseId = 'case01') => {
         return EVIDENCE_DATA[caseId] || null;
     },
 
-    /**
-     * Get files from a specific folder
-     */
     getFiles: (folder, caseId = 'case01') => {
         const caseData = DataHelper.getCase(caseId);
         if (!caseData) return [];
         return caseData.files[folder] || [];
     },
 
-    /**
-     * Get a specific file by ID
-     */
     getFile: (folder, fileId, caseId = 'case01') => {
         const files = DataHelper.getFiles(folder, caseId);
         return files.find(file => file.id === fileId) || null;
     },
 
-    /**
-     * Get all evidence
-     */
     getEvidence: (caseId = 'case01') => {
         const caseData = DataHelper.getCase(caseId);
         if (!caseData) return [];
         return caseData.files.evidence || [];
     },
 
-    /**
-     * Get found evidence count
-     */
     getFoundEvidenceCount: (caseId = 'case01') => {
         const evidence = DataHelper.getEvidence(caseId);
         return evidence.filter(e => e.found).length;
     },
 
-    /**
-     * Get total evidence count
-     */
     getTotalEvidenceCount: (caseId = 'case01') => {
         const evidence = DataHelper.getEvidence(caseId);
         return evidence.length;
     },
 
-    /**
-     * Get progress percentage
-     */
     getProgress: (caseId = 'case01') => {
         const found = DataHelper.getFoundEvidenceCount(caseId);
         const total = DataHelper.getTotalEvidenceCount(caseId);
         return total > 0 ? Math.round((found / total) * 100) : 0;
     },
 
-    /**
-     * Mark evidence as found
-     */
     markEvidenceFound: (evidenceId, caseId = 'case01') => {
         const evidence = DataHelper.getEvidence(caseId);
         const item = evidence.find(e => e.id === evidenceId);
@@ -737,64 +535,24 @@ const DataHelper = {
         return false;
     },
 
-    /**
-     * Get all files marked as evidence
-     */
-    getEvidenceFiles: (caseId = 'case01') => {
-        const caseData = DataHelper.getCase(caseId);
-        if (!caseData) return [];
-        
-        const results = [];
-        const folders = ['photos', 'messages', 'documents', 'audio', 'video'];
-        
-        folders.forEach(folder => {
-            const files = caseData.files[folder] || [];
-            const evidenceFiles = files.filter(file => file.evidence === true);
-            results.push(...evidenceFiles.map(file => ({ ...file, folder })));
-        });
-        
-        return results;
-    },
-
-    /**
-     * Get timeline events
-     */
     getTimeline: (caseId = 'case01') => {
         const caseData = DataHelper.getCase(caseId);
         if (!caseData) return [];
         return caseData.files.timeline || [];
     },
 
-    /**
-     * Get characters
-     */
     getCharacters: (caseId = 'case01') => {
         const caseData = DataHelper.getCase(caseId);
         if (!caseData) return [];
         return caseData.files.characters || [];
     },
 
-    /**
-     * Get locations
-     */
     getLocations: (caseId = 'case01') => {
         const caseData = DataHelper.getCase(caseId);
         if (!caseData) return [];
         return caseData.files.locations || [];
     },
 
-    /**
-     * Get tags
-     */
-    getTags: (caseId = 'case01') => {
-        const caseData = DataHelper.getCase(caseId);
-        if (!caseData) return [];
-        return caseData.files.tags || [];
-    },
-
-    /**
-     * Search files by query
-     */
     searchFiles: (query, caseId = 'case01') => {
         const caseData = DataHelper.getCase(caseId);
         if (!caseData || !query || query.trim().length < 2) return [];
@@ -821,46 +579,6 @@ const DataHelper = {
         });
         
         return results;
-    },
-
-    /**
-     * Get file count by folder
-     */
-    getFolderCount: (folder, caseId = 'case01') => {
-        const files = DataHelper.getFiles(folder, caseId);
-        return files.length;
-    },
-
-    /**
-     * Get evidence by importance
-     */
-    getEvidenceByImportance: (importance, caseId = 'case01') => {
-        const evidence = DataHelper.getEvidence(caseId);
-        return evidence.filter(e => e.importance === importance);
-    },
-
-    /**
-     * Get total files count
-     */
-    getTotalFilesCount: (caseId = 'case01') => {
-        const caseData = DataHelper.getCase(caseId);
-        if (!caseData) return 0;
-        
-        const folders = ['photos', 'messages', 'documents', 'audio', 'video'];
-        let total = 0;
-        folders.forEach(folder => {
-            total += (caseData.files[folder] || []).length;
-        });
-        return total;
-    },
-
-    /**
-     * Get status of a specific file (found/not found)
-     */
-    getFileStatus: (folder, fileId, caseId = 'case01') => {
-        const file = DataHelper.getFile(folder, fileId, caseId);
-        if (!file) return null;
-        return file.found !== undefined ? file.found : false;
     }
 };
 
@@ -868,24 +586,17 @@ const DataHelper = {
 // EXPORT
 // ============================================
 
-// For browser:
 if (typeof window !== 'undefined') {
     window.EVIDENCE_DATA = EVIDENCE_DATA;
     window.DataHelper = DataHelper;
 }
 
-// For Node.js / ES Modules:
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { EVIDENCE_DATA, DataHelper };
 }
-
-// ============================================
-// CONSOLE HELP
-// ============================================
 
 console.log('🔍 Evidence - Data Layer Loaded');
 console.log(`📁 Total Cases: ${Object.keys(EVIDENCE_DATA).filter(key => key !== 'meta').length}`);
 console.log(`📊 Total Evidence: ${DataHelper.getTotalEvidenceCount()}`);
 console.log(`📈 Progress: ${DataHelper.getProgress()}%`);
 console.log('ℹ️ Use DataHelper to interact with the data.');
-console.log('📝 Example: DataHelper.getFiles("photos")');
