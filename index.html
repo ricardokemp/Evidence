@@ -243,6 +243,10 @@
             box-shadow: none;
         }
 
+        .file-card.hidden {
+            display: none !important;
+        }
+
         .file-card .file-icon { font-size: 40px; display: block; margin-bottom: 10px; }
         .file-card .file-name { font-size: 13px; font-weight: 500; color: var(--text-primary); }
         .file-card .file-meta { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
@@ -415,6 +419,11 @@
             to { opacity: 1; transform: translateX(0); }
         }
 
+        @keyframes hintPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
         .empty-state {
             text-align: center;
             padding: 60px 20px;
@@ -447,6 +456,28 @@
         .custom-notification.warning { border-left: 4px solid var(--warning); }
         .custom-notification.info { border-left: 4px solid var(--accent); }
 
+        .hint-notification {
+            position: fixed;
+            bottom: 140px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-card);
+            border: 1px solid var(--accent);
+            border-radius: var(--radius);
+            padding: 14px 28px;
+            color: var(--text-primary);
+            font-size: 15px;
+            z-index: 999;
+            animation: notificationSlide 0.4s ease;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 40px rgba(108,99,255,0.15);
+            max-width: 90%;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .hint-notification .emoji { font-size: 20px; }
+        .hint-notification .highlight { color: var(--accent); font-weight: 700; }
+
         @media (max-width: 768px) {
             .sidebar { width: 60px; padding: 12px 6px; }
             .sidebar-item span:not(.icon) { display: none; }
@@ -457,6 +488,7 @@
             .viewer-window { width: 95%; max-height: 90vh; }
             .logo small { display: none; }
             .custom-notification { bottom: 70px; font-size: 12px; padding: 10px 16px; }
+            .hint-notification { bottom: 130px; font-size: 13px; padding: 10px 16px; }
             .celebration-notification { padding: 24px 20px !important; }
             .celebration-notification div { font-size: 14px !important; }
         }
@@ -491,23 +523,23 @@
             </div>
             <div class="sidebar-item" data-folder="photos">
                 <span class="icon">🖼️</span><span>Fotos</span>
-                <span class="badge" id="photosBadge">3</span>
+                <span class="badge" id="photosBadge">0</span>
             </div>
             <div class="sidebar-item" data-folder="messages">
                 <span class="icon">💬</span><span>Mensagens</span>
-                <span class="badge" id="messagesBadge">4</span>
+                <span class="badge" id="messagesBadge">0</span>
             </div>
             <div class="sidebar-item" data-folder="documents">
                 <span class="icon">📄</span><span>Documentos</span>
-                <span class="badge" id="documentsBadge">2</span>
+                <span class="badge" id="documentsBadge">0</span>
             </div>
             <div class="sidebar-item" data-folder="audio">
                 <span class="icon">🎤</span><span>Áudios</span>
-                <span class="badge" id="audioBadge">1</span>
+                <span class="badge" id="audioBadge">0</span>
             </div>
             <div class="sidebar-item" data-folder="video">
                 <span class="icon">🎥</span><span>Vídeos</span>
-                <span class="badge" id="videoBadge">1</span>
+                <span class="badge" id="videoBadge">0</span>
             </div>
             <hr class="sidebar-divider">
             <div class="sidebar-item" data-folder="map">
@@ -583,25 +615,25 @@
 
             const STORY_DATA = {
                 photos: [
-                    { id: 'photo1', name: 'Laboratório', icon: '🖼️', desc: 'O laboratório onde Helena trabalhava. Algo parece fora do lugar...', image: 'assets/images/laboratorio.png', evidence: true, evidenceId: 'ev_001' },
-                    { id: 'photo2', name: 'Arquivo Azul', icon: '🖼️', desc: 'O misterioso arquivo azul. O que ele contém?', image: 'assets/images/arquivo-azul.png', evidence: true, evidenceId: 'ev_002' },
-                    { id: 'photo3', name: 'Anotações', icon: '🖼️', desc: 'Anotações confusas. Parece que ela estava com pressa.', image: 'assets/images/anotacoes.png', evidence: true, evidenceId: 'ev_003' }
+                    { id: 'photo1', name: 'Laboratório', icon: '🖼️', desc: 'O laboratório onde Helena trabalhava. Algo parece fora do lugar...', image: 'assets/images/laboratorio.png', evidence: true, evidenceId: 'ev_001', folder: 'photos' },
+                    { id: 'photo2', name: 'Arquivo Azul', icon: '🖼️', desc: 'O misterioso arquivo azul. O que ele contém?', image: 'assets/images/arquivo-azul.png', evidence: true, evidenceId: 'ev_002', folder: 'photos' },
+                    { id: 'photo3', name: 'Anotações', icon: '🖼️', desc: 'Anotações confusas. Parece que ela estava com pressa.', image: 'assets/images/anotacoes.png', evidence: true, evidenceId: 'ev_003', folder: 'photos' }
                 ],
                 messages: [
-                    { id: 'msg1', name: 'Dr. Ricardo Alves', icon: '💬', sender: 'Dr. Ricardo Alves', content: 'Helena, pare com isso!\n\nO que você está fazendo é perigoso.\n\nSe continuar, vai se arrepender.\n\nPor favor, reconsidere.', evidence: true, evidenceId: 'ev_004' },
-                    { id: 'msg2', name: 'Profa. Sofia Lima', icon: '💬', sender: 'Profa. Sofia Lima', content: 'Helena, estou preocupada.\n\nVocê tem agido estranho.\n\nSe precisar de ajuda, estou aqui.\n\nNão enfrente isso sozinha.', evidence: true, evidenceId: 'ev_005' },
-                    { id: 'msg3', name: 'Desconhecido', icon: '💬', sender: 'Desconhecido', content: 'Sabemos o que você descobriu.\n\nArquivo Azul.\n\nVocê não deveria ter visto isso.\n\nPare agora.\n\nOu as consequências serão graves.', evidence: true, evidenceId: 'ev_006' },
-                    { id: 'msg4', name: 'Helena Mendes', icon: '💬', sender: 'Helena Mendes', content: 'Ricardo, preciso te contar a verdade.\n\nSobre o Projeto Azul.\n\nNão é o que pensam.\n\nEles estão escondendo algo.\n\nEncontre o arquivo. Leia as cláusulas.', evidence: true, evidenceId: 'ev_007' }
+                    { id: 'msg1', name: 'Dr. Ricardo Alves', icon: '💬', sender: 'Dr. Ricardo Alves', content: 'Helena, pare com isso!\n\nO que você está fazendo é perigoso.\n\nSe continuar, vai se arrepender.\n\nPor favor, reconsidere.', evidence: true, evidenceId: 'ev_004', folder: 'messages' },
+                    { id: 'msg2', name: 'Profa. Sofia Lima', icon: '💬', sender: 'Profa. Sofia Lima', content: 'Helena, estou preocupada.\n\nVocê tem agido estranho.\n\nSe precisar de ajuda, estou aqui.\n\nNão enfrente isso sozinha.', evidence: true, evidenceId: 'ev_005', folder: 'messages' },
+                    { id: 'msg3', name: 'Desconhecido', icon: '💬', sender: 'Desconhecido', content: 'Sabemos o que você descobriu.\n\nArquivo Azul.\n\nVocê não deveria ter visto isso.\n\nPare agora.\n\nOu as consequências serão graves.', evidence: true, evidenceId: 'ev_006', folder: 'messages' },
+                    { id: 'msg4', name: 'Helena Mendes', icon: '💬', sender: 'Helena Mendes', content: 'Ricardo, preciso te contar a verdade.\n\nSobre o Projeto Azul.\n\nNão é o que pensam.\n\nEles estão escondendo algo.\n\nEncontre o arquivo. Leia as cláusulas.', evidence: true, evidenceId: 'ev_007', folder: 'messages' }
                 ],
                 documents: [
-                    { id: 'doc1', name: 'Relatorio_Projeto_Azul.pdf', icon: '📄', desc: 'Relatório completo do Projeto Azul. Contém informações confidenciais.', content: 'PROJETO AZUL - RELATÓRIO FINAL\n\nObjetivo: Pesquisa sobre [DADOS CENSURADOS]\n\nResultados: [CENSURADO]\n\nConclusão: O projeto foi bem-sucedido. Mas os custos foram... [PÁGINA RASGADA]', evidence: true, evidenceId: 'ev_008' },
-                    { id: 'doc2', name: 'Termo_de_Sigilo.pdf', icon: '📄', desc: 'Termo de sigilo assinado por todos os envolvidos no projeto.', content: 'TERMO DE SIGILO\n\nEu, abaixo assinado, declaro que...\n\nCláusula 7: Não revelarei qualquer informação sobre o Projeto Azul.\n\nCláusula 12: Em caso de descumprimento, [INFORMAÇÃO CENSURADA]', evidence: true, evidenceId: 'ev_009' }
+                    { id: 'doc1', name: 'Relatorio_Projeto_Azul.pdf', icon: '📄', desc: 'Relatório completo do Projeto Azul. Contém informações confidenciais.', content: 'PROJETO AZUL - RELATÓRIO FINAL\n\nObjetivo: Pesquisa sobre [DADOS CENSURADOS]\n\nResultados: [CENSURADO]\n\nConclusão: O projeto foi bem-sucedido. Mas os custos foram... [PÁGINA RASGADA]', evidence: true, evidenceId: 'ev_008', folder: 'documents' },
+                    { id: 'doc2', name: 'Termo_de_Sigilo.pdf', icon: '📄', desc: 'Termo de sigilo assinado por todos os envolvidos no projeto.', content: 'TERMO DE SIGILO\n\nEu, abaixo assinado, declaro que...\n\nCláusula 7: Não revelarei qualquer informação sobre o Projeto Azul.\n\nCláusula 12: Em caso de descumprimento, [INFORMAÇÃO CENSURADA]', evidence: true, evidenceId: 'ev_009', folder: 'documents' }
                 ],
                 audio: [
-                    { id: 'audio1', name: 'Ligacao_Helena_10-03.mp3', icon: '🎤', duration: '04:28', desc: 'Última ligação de Helena. Ela parece assustada.', transcript: '[00:00] - Helena: Alô? Sofia?\n[00:05] - Sofia: Helena! Graças a Deus!\n[00:10] - Helena: Sofia, preciso de ajuda.\n[00:18] - Helena: Eles descobriram que eu sei.\n[00:30] - Helena: O Projeto Azul. Não é o que parece.\n[01:10] - [Ruído de porta se abrindo]\n[01:20] - Helena: Preciso ir. Me desculpa.\n[01:35] - [Ligação cai]', evidence: true, evidenceId: 'ev_010' }
+                    { id: 'audio1', name: 'Ligacao_Helena_10-03.mp3', icon: '🎤', duration: '04:28', desc: 'Última ligação de Helena. Ela parece assustada.', transcript: '[00:00] - Helena: Alô? Sofia?\n[00:05] - Sofia: Helena! Graças a Deus!\n[00:10] - Helena: Sofia, preciso de ajuda.\n[00:18] - Helena: Eles descobriram que eu sei.\n[00:30] - Helena: O Projeto Azul. Não é o que parece.\n[01:10] - [Ruído de porta se abrindo]\n[01:20] - Helena: Preciso ir. Me desculpa.\n[01:35] - [Ligação cai]', evidence: true, evidenceId: 'ev_010', folder: 'audio' }
                 ],
                 video: [
-                    { id: 'video1', name: 'CCTV_Lab_10-03.mp4', icon: '🎥', duration: '02:15', desc: 'Câmera de segurança do laboratório. Helena sai correndo.', transcript: '[00:00] - Laboratório vazio\n[00:30] - Helena entra correndo\n[00:45] - Ela pega um arquivo azul\n[01:00] - Alguém aparece na porta\n[01:15] - Helena corre pela saída de emergência', evidence: true, evidenceId: 'ev_011' }
+                    { id: 'video1', name: 'CCTV_Lab_10-03.mp4', icon: '🎥', duration: '02:15', desc: 'Câmera de segurança do laboratório. Helena sai correndo.', transcript: '[00:00] - Laboratório vazio\n[00:30] - Helena entra correndo\n[00:45] - Ela pega um arquivo azul\n[01:00] - Alguém aparece na porta\n[01:15] - Helena corre pela saída de emergência', evidence: true, evidenceId: 'ev_011', folder: 'video' }
                 ],
                 map: { locations: [ { name: 'Laboratório Central', status: '🔴' }, { name: 'Escritório de Helena', status: '🟡' }, { name: 'Arquivo Central', status: '🟢' } ] },
                 evidence: [
@@ -624,6 +656,21 @@
             // ============================================
 
             const EVIDENCE_ORDER = ['ev_001', 'ev_002', 'ev_003', 'ev_004', 'ev_005', 'ev_006', 'ev_007', 'ev_008', 'ev_009', 'ev_010', 'ev_011'];
+
+            // Mapeamento de evidência → próximo item
+            const EVIDENCE_NEXT_HINT = {
+                'ev_001': { name: 'Arquivo Azul', folder: 'photos' },
+                'ev_002': { name: 'Anotações', folder: 'photos' },
+                'ev_003': { name: 'Dr. Ricardo Alves', folder: 'messages' },
+                'ev_004': { name: 'Profa. Sofia Lima', folder: 'messages' },
+                'ev_005': { name: 'Desconhecido', folder: 'messages' },
+                'ev_006': { name: 'Helena Mendes', folder: 'messages' },
+                'ev_007': { name: 'Relatorio_Projeto_Azul.pdf', folder: 'documents' },
+                'ev_008': { name: 'Termo_de_Sigilo.pdf', folder: 'documents' },
+                'ev_009': { name: 'Ligacao_Helena_10-03.mp3', folder: 'audio' },
+                'ev_010': { name: 'CCTV_Lab_10-03.mp4', folder: 'video' },
+                'ev_011': { name: '🎉 TODAS AS EVIDÊNCIAS!', folder: 'complete' }
+            };
 
             // ============================================
             // STATE
@@ -662,6 +709,41 @@
                     notif.style.transition = 'opacity 0.3s ease';
                     setTimeout(() => notif.remove(), 300);
                 }, 3000);
+            }
+
+            function showHint(nextName, nextFolder) {
+                const old = document.querySelector('.hint-notification');
+                if (old) old.remove();
+
+                const hint = document.createElement('div');
+                hint.className = 'hint-notification';
+                
+                const folderEmojis = {
+                    'photos': '🖼️',
+                    'messages': '💬',
+                    'documents': '📄',
+                    'audio': '🎤',
+                    'video': '🎥'
+                };
+                
+                const emoji = folderEmojis[nextFolder] || '📂';
+                
+                hint.innerHTML = `
+                    <span class="emoji">🔓</span>
+                    <span class="highlight">${nextName}</span> foi desbloqueado!
+                    <br>
+                    <span style="font-size:12px;color:var(--text-muted);">
+                        Vá em <strong>${nextFolder.charAt(0).toUpperCase() + nextFolder.slice(1)}</strong> ${emoji} para continuar
+                    </span>
+                `;
+                document.body.appendChild(hint);
+                
+                setTimeout(() => {
+                    hint.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                    hint.style.opacity = '0';
+                    hint.style.transform = 'translateX(-50%) translateY(-20px)';
+                    setTimeout(() => hint.remove(), 300);
+                }, 4000);
             }
 
             // ============================================
@@ -784,21 +866,28 @@
             // PROGRESS SYSTEM
             // ============================================
 
+            function getVisibleItems(items) {
+                return items.filter(item => {
+                    if (!item.evidence) return true;
+                    const ev = STORY_DATA.evidence.find(e => e.id === item.evidenceId);
+                    if (!ev) return true;
+                    // Mostra se já foi encontrada OU se pode ser encontrada
+                    return ev.found || canFindEvidence(item.evidenceId);
+                });
+            }
+
             function canFindEvidence(evidenceId) {
                 const ev = STORY_DATA.evidence.find(e => e.id === evidenceId);
                 if (ev && ev.found) return true;
                 
                 const index = EVIDENCE_ORDER.indexOf(evidenceId);
                 if (index === -1) return true;
+                if (index === 0) return true; // Primeira sempre disponível
                 
-                for (let i = 0; i < index; i++) {
-                    const prevId = EVIDENCE_ORDER[i];
-                    const prevEv = STORY_DATA.evidence.find(e => e.id === prevId);
-                    if (!prevEv || !prevEv.found) {
-                        return false;
-                    }
-                }
-                return true;
+                // Verifica se a evidência anterior foi encontrada
+                const prevId = EVIDENCE_ORDER[index - 1];
+                const prevEv = STORY_DATA.evidence.find(e => e.id === prevId);
+                return prevEv && prevEv.found;
             }
 
             function updateProgress() {
@@ -810,6 +899,9 @@
                 progressLabel.textContent = progress + '%';
                 evidenceBadge.textContent = `${found}/${total}`;
                 
+                // Atualizar badges das pastas
+                updateFolderBadges();
+                
                 if (found === total && total > 0) {
                     setTimeout(() => {
                         showCelebration('🎉 TODAS AS EVIDÊNCIAS ENCONTRADAS!');
@@ -818,6 +910,18 @@
                         }, 1000);
                     }, 500);
                 }
+            }
+
+            function updateFolderBadges() {
+                const folders = ['photos', 'messages', 'documents', 'audio', 'video'];
+                folders.forEach(folder => {
+                    const items = STORY_DATA[folder] || [];
+                    const visible = getVisibleItems(items);
+                    const badge = document.getElementById(`${folder}Badge`);
+                    if (badge) {
+                        badge.textContent = visible.length;
+                    }
+                });
             }
 
             // ============================================
@@ -832,6 +936,21 @@
                     ev.found = true;
                     updateProgress();
                     showCelebration(ev.name);
+                    
+                    // Mostrar dica do próximo item
+                    const next = EVIDENCE_NEXT_HINT[ev.id];
+                    if (next && next.name !== '🎉 TODAS AS EVIDÊNCIAS!') {
+                        setTimeout(() => {
+                            showHint(next.name, next.folder);
+                        }, 800);
+                    }
+                    
+                    // Recarregar a pasta atual para mostrar novos itens
+                    setTimeout(() => {
+                        if (currentFolder !== 'welcome') {
+                            renderFolder(currentFolder);
+                        }
+                    }, 500);
                 }
             }
 
@@ -868,8 +987,11 @@
                     default: folderContent.innerHTML = renderEmpty('📂', 'Pasta vazia', 'Nenhum arquivo encontrado aqui.'); updateActiveSidebarItem(folder); return;
                 }
 
-                if (items.length === 0) {
-                    folderContent.innerHTML = renderEmpty('📂', 'Pasta vazia', 'Nenhum arquivo encontrado aqui.');
+                // Filtrar apenas itens visíveis (desbloqueados)
+                const visibleItems = getVisibleItems(items);
+
+                if (visibleItems.length === 0) {
+                    folderContent.innerHTML = renderEmpty('🔒', 'Nenhum item disponível', 'Continue investigando para desbloquear mais arquivos.');
                     updateActiveSidebarItem(folder);
                     return;
                 }
@@ -878,12 +1000,12 @@
                     <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
                         <span style="font-size:28px;">${icon}</span>
                         <h2 style="font-weight:700;font-size:22px;">${title}</h2>
-                        <span style="color:var(--text-muted);font-size:13px;">${items.length} itens</span>
+                        <span style="color:var(--text-muted);font-size:13px;">${visibleItems.length} itens disponíveis</span>
                     </div>
                     <div class="file-grid">
                 `;
 
-                items.forEach(item => {
+                visibleItems.forEach(item => {
                     const meta = item.size || item.duration || '';
                     const desc = item.desc || item.preview || '';
                     const isEvidence = item.evidence || false;
@@ -1196,7 +1318,7 @@
             console.log('🔍 Evidence - O Mistério do Arquivo Azul');
             console.log('📁 Explore as pastas para descobrir a verdade.');
             console.log('📈 Encontre todas as 11 evidências em ordem!');
-            console.log('🎊 Ao fechar a caixa, a evidência é liberada!');
+            console.log('🎊 Ao fechar a caixa, a evidência é liberada e a próxima aparece!');
 
         })();
     </script>
