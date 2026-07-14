@@ -31,6 +31,18 @@
             --radius-sm: 8px;
             --radius-lg: 20px;
             --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* WhatsApp Colors */
+            --whatsapp-green: #00a884;
+            --whatsapp-green-light: #25d366;
+            --whatsapp-bg: #0a0a0f;
+            --whatsapp-bubble-out: #005c4b;
+            --whatsapp-bubble-in: #1f2c33;
+            --whatsapp-text-out: #e9edef;
+            --whatsapp-text-in: #d1d7db;
+            --whatsapp-time: #8696a0;
+            --whatsapp-header: #202c33;
+            --whatsapp-input: #2a3942;
         }
 
         body {
@@ -208,6 +220,10 @@
         .welcome p { color: var(--text-secondary); font-size: 15px; line-height: 1.7; margin-bottom: 6px; }
         .welcome .hint { color: var(--text-muted); font-size: 13px; margin-top: 12px; }
 
+        /* ============================================
+           FILE GRID
+           ============================================ */
+
         .file-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -264,6 +280,213 @@
             font-size: 12px;
             color: var(--accent);
         }
+
+        /* ============================================
+           WHATSAPP STYLE MESSAGES
+           ============================================ */
+
+        .whatsapp-container {
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            min-height: 400px;
+            max-height: 70vh;
+        }
+
+        .whatsapp-header {
+            background: var(--whatsapp-header);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border-bottom: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+
+        .whatsapp-header .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .whatsapp-header .info {
+            flex: 1;
+        }
+
+        .whatsapp-header .info .name {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--text-primary);
+        }
+
+        .whatsapp-header .info .status {
+            font-size: 12px;
+            color: var(--whatsapp-time);
+        }
+
+        .whatsapp-header .info .status.online {
+            color: var(--whatsapp-green-light);
+        }
+
+        .whatsapp-messages {
+            flex: 1;
+            padding: 16px 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            background: var(--whatsapp-bg);
+            min-height: 300px;
+        }
+
+        .whatsapp-message {
+            display: flex;
+            flex-direction: column;
+            max-width: 80%;
+            animation: messageSlide 0.3s ease;
+        }
+
+        .whatsapp-message.out {
+            align-self: flex-end;
+        }
+
+        .whatsapp-message.in {
+            align-self: flex-start;
+        }
+
+        .whatsapp-message .bubble {
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            position: relative;
+        }
+
+        .whatsapp-message.out .bubble {
+            background: var(--whatsapp-bubble-out);
+            color: var(--whatsapp-text-out);
+            border-bottom-right-radius: 2px;
+        }
+
+        .whatsapp-message.in .bubble {
+            background: var(--whatsapp-bubble-in);
+            color: var(--whatsapp-text-in);
+            border-bottom-left-radius: 2px;
+        }
+
+        .whatsapp-message .sender {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 2px;
+            padding-left: 4px;
+        }
+
+        .whatsapp-message .time {
+            font-size: 10px;
+            color: var(--whatsapp-time);
+            margin-top: 2px;
+            padding: 0 4px;
+            align-self: flex-end;
+        }
+
+        .whatsapp-message.out .time {
+            color: var(--whatsapp-time);
+        }
+
+        .whatsapp-message .status-icon {
+            font-size: 12px;
+            margin-left: 4px;
+        }
+
+        .whatsapp-footer {
+            padding: 10px 16px;
+            background: var(--whatsapp-header);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .whatsapp-footer .input {
+            flex: 1;
+            background: var(--whatsapp-input);
+            border: none;
+            border-radius: 8px;
+            padding: 10px 16px;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .whatsapp-footer .input::placeholder {
+            color: var(--whatsapp-time);
+        }
+
+        .whatsapp-footer .send-btn {
+            background: var(--whatsapp-green);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 18px;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .whatsapp-footer .send-btn:hover {
+            background: var(--whatsapp-green-light);
+            transform: scale(1.05);
+        }
+
+        .whatsapp-footer .send-btn:active {
+            transform: scale(0.95);
+        }
+
+        .whatsapp-message .evidence-badge-msg {
+            font-size: 11px;
+            color: var(--accent);
+            margin-top: 4px;
+            padding: 2px 8px;
+            background: var(--accent-glow);
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============================================
+           VIEWER OVERLAY
+           ============================================ */
 
         .viewer-overlay {
             position: fixed;
@@ -388,6 +611,10 @@
             text-align: right;
         }
 
+        /* ============================================
+           ANIMATIONS
+           ============================================ */
+
         @keyframes confettiFall {
             0% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
             100% { opacity: 0; transform: translateY(100vh) rotate(720deg) scale(0.3); }
@@ -423,6 +650,10 @@
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.02); }
         }
+
+        /* ============================================
+           NOTIFICATIONS
+           ============================================ */
 
         .empty-state {
             text-align: center;
@@ -478,6 +709,10 @@
         .hint-notification .emoji { font-size: 20px; }
         .hint-notification .highlight { color: var(--accent); font-weight: 700; }
 
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+
         @media (max-width: 768px) {
             .sidebar { width: 60px; padding: 12px 6px; }
             .sidebar-item span:not(.icon) { display: none; }
@@ -491,6 +726,8 @@
             .hint-notification { bottom: 130px; font-size: 13px; padding: 10px 16px; }
             .celebration-notification { padding: 24px 20px !important; }
             .celebration-notification div { font-size: 14px !important; }
+            .whatsapp-message { max-width: 90%; }
+            .whatsapp-messages { padding: 12px; }
         }
 
         @media (max-width: 480px) {
@@ -498,6 +735,9 @@
             .logo { font-size: 16px; }
             .header-actions button { font-size: 11px; padding: 4px 10px; }
             .file-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+            .whatsapp-container { min-height: 300px; max-height: 60vh; }
+            .whatsapp-header .info .name { font-size: 14px; }
+            .whatsapp-message .bubble { font-size: 13px; padding: 6px 10px; }
         }
     </style>
 </head>
@@ -581,18 +821,11 @@
     <div class="viewer-overlay" id="viewerOverlay">
         <div class="viewer-window">
             <div class="viewer-header">
-                <span class="title" id="viewerTitle">
-                    📄 documento.pdf
-                    <span class="ext">· PDF</span>
-                </span>
+                <span class="title" id="viewerTitle">📄 documento.pdf<span class="ext">· PDF</span></span>
                 <button class="viewer-close" id="viewerClose">✕</button>
             </div>
             <div class="viewer-body" id="viewerBody">
-                <div class="file-preview">
-                    <span class="big-icon">📄</span>
-                    <p>Conteúdo do arquivo aqui.</p>
-                    <div class="meta">Última modificação: hoje</div>
-                </div>
+                <div class="file-preview"><span class="big-icon">📄</span><p>Conteúdo do arquivo aqui.</p></div>
             </div>
         </div>
     </div>
@@ -620,10 +853,58 @@
                     { id: 'photo3', name: 'Anotações', icon: '🖼️', desc: 'Anotações confusas. Parece que ela estava com pressa.', image: 'assets/images/anotacoes.png', evidence: true, evidenceId: 'ev_003', folder: 'photos' }
                 ],
                 messages: [
-                    { id: 'msg1', name: 'Dr. Ricardo Alves', icon: '💬', sender: 'Dr. Ricardo Alves', content: 'Helena, pare com isso!\n\nO que você está fazendo é perigoso.\n\nSe continuar, vai se arrepender.\n\nPor favor, reconsidere.', evidence: true, evidenceId: 'ev_004', folder: 'messages' },
-                    { id: 'msg2', name: 'Profa. Sofia Lima', icon: '💬', sender: 'Profa. Sofia Lima', content: 'Helena, estou preocupada.\n\nVocê tem agido estranho.\n\nSe precisar de ajuda, estou aqui.\n\nNão enfrente isso sozinha.', evidence: true, evidenceId: 'ev_005', folder: 'messages' },
-                    { id: 'msg3', name: 'Desconhecido', icon: '💬', sender: 'Desconhecido', content: 'Sabemos o que você descobriu.\n\nArquivo Azul.\n\nVocê não deveria ter visto isso.\n\nPare agora.\n\nOu as consequências serão graves.', evidence: true, evidenceId: 'ev_006', folder: 'messages' },
-                    { id: 'msg4', name: 'Helena Mendes', icon: '💬', sender: 'Helena Mendes', content: 'Ricardo, preciso te contar a verdade.\n\nSobre o Projeto Azul.\n\nNão é o que pensam.\n\nEles estão escondendo algo.\n\nEncontre o arquivo. Leia as cláusulas.', evidence: true, evidenceId: 'ev_007', folder: 'messages' }
+                    { 
+                        id: 'msg1', 
+                        name: 'Dr. Ricardo Alves', 
+                        icon: '👤', 
+                        sender: 'Dr. Ricardo Alves',
+                        isOut: false,
+                        content: 'Helena, pare com isso!\nO que você está fazendo é perigoso.\nSe continuar, vai se arrepender.\nPor favor, reconsidere.',
+                        evidence: true, 
+                        evidenceId: 'ev_004', 
+                        folder: 'messages',
+                        time: '16:45',
+                        status: 'read'
+                    },
+                    { 
+                        id: 'msg2', 
+                        name: 'Profa. Sofia Lima', 
+                        icon: '👤', 
+                        sender: 'Profa. Sofia Lima',
+                        isOut: false,
+                        content: 'Helena, estou preocupada.\nVocê tem agido estranho.\nSe precisar de ajuda, estou aqui.\nNão enfrente isso sozinha.',
+                        evidence: true, 
+                        evidenceId: 'ev_005', 
+                        folder: 'messages',
+                        time: '22:10',
+                        status: 'read'
+                    },
+                    { 
+                        id: 'msg3', 
+                        name: 'Desconhecido', 
+                        icon: '👤', 
+                        sender: 'Desconhecido',
+                        isOut: false,
+                        content: 'Sabemos o que você descobriu.\nArquivo Azul.\nVocê não deveria ter visto isso.\nPare agora.\nOu as consequências serão graves.',
+                        evidence: true, 
+                        evidenceId: 'ev_006', 
+                        folder: 'messages',
+                        time: '07:30',
+                        status: 'read'
+                    },
+                    { 
+                        id: 'msg4', 
+                        name: 'Helena Mendes', 
+                        icon: '👤', 
+                        sender: 'Helena Mendes',
+                        isOut: true,
+                        content: 'Ricardo, preciso te contar a verdade.\nSobre o Projeto Azul.\nNão é o que pensam.\nEles estão escondendo algo.\nEncontre o arquivo. Leia as cláusulas.',
+                        evidence: true, 
+                        evidenceId: 'ev_007', 
+                        folder: 'messages',
+                        time: '23:50',
+                        status: 'sent'
+                    }
                 ],
                 documents: [
                     { id: 'doc1', name: 'Relatorio_Projeto_Azul.pdf', icon: '📄', desc: 'Relatório completo do Projeto Azul. Contém informações confidenciais.', content: 'PROJETO AZUL - RELATÓRIO FINAL\n\nObjetivo: Pesquisa sobre [DADOS CENSURADOS]\n\nResultados: [CENSURADO]\n\nConclusão: O projeto foi bem-sucedido. Mas os custos foram... [PÁGINA RASGADA]', evidence: true, evidenceId: 'ev_008', folder: 'documents' },
@@ -657,7 +938,6 @@
 
             const EVIDENCE_ORDER = ['ev_001', 'ev_002', 'ev_003', 'ev_004', 'ev_005', 'ev_006', 'ev_007', 'ev_008', 'ev_009', 'ev_010', 'ev_011'];
 
-            // Mapeamento de evidência → próximo item
             const EVIDENCE_NEXT_HINT = {
                 'ev_001': { name: 'Arquivo Azul', folder: 'photos' },
                 'ev_002': { name: 'Anotações', folder: 'photos' },
@@ -718,14 +998,7 @@
                 const hint = document.createElement('div');
                 hint.className = 'hint-notification';
                 
-                const folderEmojis = {
-                    'photos': '🖼️',
-                    'messages': '💬',
-                    'documents': '📄',
-                    'audio': '🎤',
-                    'video': '🎥'
-                };
-                
+                const folderEmojis = { 'photos': '🖼️', 'messages': '💬', 'documents': '📄', 'audio': '🎤', 'video': '🎥' };
                 const emoji = folderEmojis[nextFolder] || '📂';
                 
                 hint.innerHTML = `
@@ -759,7 +1032,7 @@
             function createConfetti() {
                 const colors = ['#6c63ff', '#00d4aa', '#ffb74d', '#ff6b6b', '#4fc3f7', '#ff80ab', '#b39ddb', '#ffd54f', '#81c784'];
                 const container = document.createElement('div');
-                container.style.cssText = `position: fixed; inset: 0; pointer-events: none; z-index: 9999; overflow: hidden;`;
+                container.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden;';
                 container.id = 'confetti-container';
                 document.body.appendChild(container);
 
@@ -773,34 +1046,19 @@
                     const rotation = Math.random() * 360;
 
                     confetti.style.cssText = `
-                        position: absolute;
-                        width: ${size}px;
-                        height: ${size * 0.6}px;
-                        background: ${color};
-                        left: ${left}%;
-                        top: -20px;
-                        border-radius: 2px;
-                        transform: rotate(${rotation}deg);
-                        animation: confettiFall ${duration}s ease-in ${delay}s forwards;
-                        opacity: 0;
+                        position:absolute;width:${size}px;height:${size*0.6}px;background:${color};
+                        left:${left}%;top:-20px;border-radius:2px;transform:rotate(${rotation}deg);
+                        animation:confettiFall ${duration}s ease-in ${delay}s forwards;opacity:0;
                     `;
-
                     if (Math.random() > 0.7) {
                         confetti.style.borderRadius = '50%';
                         confetti.style.width = `${size * 0.8}px`;
                         confetti.style.height = `${size * 0.8}px`;
                     }
-                    if (Math.random() > 0.8) {
-                        confetti.style.width = `${size * 1.5}px`;
-                        confetti.style.height = `${size * 0.3}px`;
-                    }
-
                     container.appendChild(confetti);
                 }
 
-                setTimeout(() => {
-                    if (container) container.remove();
-                }, 3500);
+                setTimeout(() => { if (container) container.remove(); }, 3500);
             }
 
             function showCelebrationNotification(evidenceName) {
@@ -812,31 +1070,16 @@
                 notif.innerHTML = `
                     <div style="text-align:center;">
                         <div style="font-size:56px;margin-bottom:8px;">🎉</div>
-                        <div style="font-size:20px;font-weight:800;color:var(--text-primary);">
-                            NOVA EVIDÊNCIA ENCONTRADA!
-                        </div>
-                        <div style="font-size:18px;color:var(--accent);margin-top:6px;font-weight:700;">
-                            ⭐ ${evidenceName}
-                        </div>
-                        <div style="font-size:14px;color:var(--text-muted);margin-top:8px;">
-                            Continue investigando para descobrir mais!
-                        </div>
+                        <div style="font-size:20px;font-weight:800;color:var(--text-primary);">NOVA EVIDÊNCIA ENCONTRADA!</div>
+                        <div style="font-size:18px;color:var(--accent);margin-top:6px;font-weight:700;">⭐ ${evidenceName}</div>
+                        <div style="font-size:14px;color:var(--text-muted);margin-top:8px;">Continue investigando para descobrir mais!</div>
                     </div>
                 `;
                 notif.style.cssText = `
-                    position: fixed;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%) scale(0.8);
-                    background: var(--bg-card);
-                    border: 2px solid var(--accent);
-                    border-radius: var(--radius-lg);
-                    padding: 40px 56px;
-                    z-index: 9998;
-                    box-shadow: 0 24px 80px rgba(0,0,0,0.8), 0 0 60px rgba(108,99,255,0.2);
-                    animation: celebrationPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-                    max-width: 90%;
-                    text-align: center;
+                    position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.8);
+                    background:var(--bg-card);border:2px solid var(--accent);border-radius:var(--radius-lg);
+                    padding:40px 56px;z-index:9998;box-shadow:0 24px 80px rgba(0,0,0,0.8),0 0 60px rgba(108,99,255,0.2);
+                    animation:celebrationPop 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards;max-width:90%;text-align:center;
                 `;
                 document.body.appendChild(notif);
 
@@ -850,14 +1093,7 @@
 
             function flashScreen() {
                 const flash = document.createElement('div');
-                flash.style.cssText = `
-                    position: fixed;
-                    inset: 0;
-                    background: rgba(108, 99, 255, 0.15);
-                    z-index: 9997;
-                    pointer-events: none;
-                    animation: flashEffect 0.6s ease forwards;
-                `;
+                flash.style.cssText = 'position:fixed;inset:0;background:rgba(108,99,255,0.15);z-index:9997;pointer-events:none;animation:flashEffect 0.6s ease forwards;';
                 document.body.appendChild(flash);
                 setTimeout(() => flash.remove(), 600);
             }
@@ -871,7 +1107,6 @@
                     if (!item.evidence) return true;
                     const ev = STORY_DATA.evidence.find(e => e.id === item.evidenceId);
                     if (!ev) return true;
-                    // Mostra se já foi encontrada OU se pode ser encontrada
                     return ev.found || canFindEvidence(item.evidenceId);
                 });
             }
@@ -879,12 +1114,9 @@
             function canFindEvidence(evidenceId) {
                 const ev = STORY_DATA.evidence.find(e => e.id === evidenceId);
                 if (ev && ev.found) return true;
-                
                 const index = EVIDENCE_ORDER.indexOf(evidenceId);
                 if (index === -1) return true;
-                if (index === 0) return true; // Primeira sempre disponível
-                
-                // Verifica se a evidência anterior foi encontrada
+                if (index === 0) return true;
                 const prevId = EVIDENCE_ORDER[index - 1];
                 const prevEv = STORY_DATA.evidence.find(e => e.id === prevId);
                 return prevEv && prevEv.found;
@@ -894,20 +1126,14 @@
                 const found = STORY_DATA.evidence.filter(e => e.found).length;
                 const total = STORY_DATA.evidence.length;
                 progress = Math.round((found / total) * 100);
-                
                 progressFill.style.width = progress + '%';
                 progressLabel.textContent = progress + '%';
                 evidenceBadge.textContent = `${found}/${total}`;
-                
-                // Atualizar badges das pastas
                 updateFolderBadges();
-                
                 if (found === total && total > 0) {
                     setTimeout(() => {
                         showCelebration('🎉 TODAS AS EVIDÊNCIAS ENCONTRADAS!');
-                        setTimeout(() => {
-                            showNotification('🏆 PARABÉNS! Você desvendou todo o mistério!', 'success');
-                        }, 1000);
+                        setTimeout(() => showNotification('🏆 PARABÉNS! Você desvendou todo o mistério!', 'success'), 1000);
                     }, 500);
                 }
             }
@@ -918,9 +1144,7 @@
                     const items = STORY_DATA[folder] || [];
                     const visible = getVisibleItems(items);
                     const badge = document.getElementById(`${folder}Badge`);
-                    if (badge) {
-                        badge.textContent = visible.length;
-                    }
+                    if (badge) badge.textContent = visible.length;
                 });
             }
 
@@ -930,28 +1154,77 @@
 
             function markEvidenceOnClose(file) {
                 if (!file || !file.evidence || !file.evidenceId) return;
-                
                 const ev = STORY_DATA.evidence.find(e => e.id === file.evidenceId);
                 if (ev && !ev.found) {
                     ev.found = true;
                     updateProgress();
                     showCelebration(ev.name);
-                    
-                    // Mostrar dica do próximo item
                     const next = EVIDENCE_NEXT_HINT[ev.id];
                     if (next && next.name !== '🎉 TODAS AS EVIDÊNCIAS!') {
-                        setTimeout(() => {
-                            showHint(next.name, next.folder);
-                        }, 800);
+                        setTimeout(() => showHint(next.name, next.folder), 800);
                     }
-                    
-                    // Recarregar a pasta atual para mostrar novos itens
                     setTimeout(() => {
-                        if (currentFolder !== 'welcome') {
-                            renderFolder(currentFolder);
-                        }
+                        if (currentFolder !== 'welcome') renderFolder(currentFolder);
                     }, 500);
                 }
+            }
+
+            // ============================================
+            // WHATSAPP RENDER
+            // ============================================
+
+            function renderWhatsAppMessages(message) {
+                return `
+                    <div class="whatsapp-message ${message.isOut ? 'out' : 'in'}">
+                        ${!message.isOut ? `<div class="sender">${message.sender}</div>` : ''}
+                        <div class="bubble">${message.content.replace(/\n/g, '<br>')}</div>
+                        <div class="time">
+                            ${message.time || '00:00'}
+                            ${message.isOut ? `<span class="status-icon">${message.status === 'read' ? '✓✓' : '✓'}</span>` : ''}
+                            ${message.evidence ? '<span class="evidence-badge-msg">⭐ Evidência</span>' : ''}
+                        </div>
+                    </div>
+                `;
+            }
+
+            function renderMessages(folder) {
+                const items = STORY_DATA.messages || [];
+                const visibleItems = getVisibleItems(items);
+
+                if (visibleItems.length === 0) {
+                    return renderEmpty('💬', 'Nenhuma mensagem disponível', 'Continue investigando para desbloquear mensagens.');
+                }
+
+                // Pegar a primeira mensagem visível para exibir no header
+                const firstMsg = visibleItems[0];
+                const contactName = firstMsg ? firstMsg.sender || 'Contato' : 'Contato';
+
+                let html = `
+                    <div class="whatsapp-container">
+                        <div class="whatsapp-header">
+                            <div class="avatar">${contactName.charAt(0).toUpperCase()}</div>
+                            <div class="info">
+                                <div class="name">${contactName}</div>
+                                <div class="status online">🟢 Online</div>
+                            </div>
+                        </div>
+                        <div class="whatsapp-messages">
+                `;
+
+                visibleItems.forEach(msg => {
+                    html += renderWhatsAppMessages(msg);
+                });
+
+                html += `
+                        </div>
+                        <div class="whatsapp-footer">
+                            <input class="input" placeholder="Digite uma mensagem..." disabled>
+                            <button class="send-btn" disabled>📤</button>
+                        </div>
+                    </div>
+                `;
+
+                return html;
             }
 
             // ============================================
@@ -971,13 +1244,19 @@
                 const folderContent = document.getElementById('folderContent');
                 welcome.style.display = 'none';
 
+                // Se for mensagens, usar o WhatsApp
+                if (folder === 'messages') {
+                    folderContent.innerHTML = renderMessages(folder);
+                    updateActiveSidebarItem(folder);
+                    return;
+                }
+
                 let items = [];
                 let title = '';
                 let icon = '';
 
                 switch (folder) {
                     case 'photos': items = STORY_DATA.photos; title = 'Fotos'; icon = '🖼️'; break;
-                    case 'messages': items = STORY_DATA.messages; title = 'Mensagens'; icon = '💬'; break;
                     case 'documents': items = STORY_DATA.documents; title = 'Documentos'; icon = '📄'; break;
                     case 'audio': items = STORY_DATA.audio; title = 'Áudios'; icon = '🎤'; break;
                     case 'video': items = STORY_DATA.video; title = 'Vídeos'; icon = '🎥'; break;
@@ -987,7 +1266,6 @@
                     default: folderContent.innerHTML = renderEmpty('📂', 'Pasta vazia', 'Nenhum arquivo encontrado aqui.'); updateActiveSidebarItem(folder); return;
                 }
 
-                // Filtrar apenas itens visíveis (desbloqueados)
                 const visibleItems = getVisibleItems(items);
 
                 if (visibleItems.length === 0) {
@@ -1155,7 +1433,6 @@
                 file = items.find(item => item.id === id);
                 if (!file) return;
 
-                // Verificar se é uma evidência bloqueada
                 if (file.evidence && file.evidenceId) {
                     const ev = STORY_DATA.evidence.find(e => e.id === file.evidenceId);
                     if (ev && !ev.found && !canFindEvidence(file.evidenceId)) {
@@ -1164,14 +1441,10 @@
                     }
                 }
 
-                // Guardar o arquivo atual no estado
                 AppState.currentFile = file;
 
                 const ext = file.name ? file.name.split('.').pop().toUpperCase() : 'FILE';
-                viewerTitle.innerHTML = `
-                    ${file.icon || '📄'} ${file.name}
-                    <span class="ext">· ${ext}</span>
-                `;
+                viewerTitle.innerHTML = `${file.icon || '📄'} ${file.name}<span class="ext">· ${ext}</span>`;
 
                 let bodyHtml = '';
 
@@ -1183,28 +1456,28 @@
                             <p>${file.desc || 'Sem descrição disponível.'}</p>
                         </div>
                     `;
+                } else if (folder === 'messages') {
+                    bodyHtml = `
+                        <div style="width:100%;max-width:100%;">
+                            <div style="background:var(--bg-card);padding:16px 20px;border-radius:var(--radius-sm);border-left:3px solid var(--accent);">
+                                <div style="font-size:13px;color:var(--text-muted);margin-bottom:4px;">${file.sender || file.name}</div>
+                                <div style="font-size:15px;line-height:1.8;white-space:pre-wrap;">${file.content}</div>
+                                <div style="font-size:11px;color:var(--text-muted);margin-top:8px;">${file.time || '00:00'}</div>
+                            </div>
+                            ${file.evidence ? '<div class="evidence-found">⭐ EVIDÊNCIA ENCONTRADA!</div>' : ''}
+                        </div>
+                    `;
                 } else {
                     bodyHtml = `
                         <div class="file-preview">
                             <span class="big-icon">${file.icon || '📄'}</span>
                             <p>${file.desc || file.preview || 'Sem descrição disponível.'}</p>
                             ${file.duration ? `<div class="meta">⏱️ ${file.duration}</div>` : ''}
+                            ${file.content ? `<div style="text-align:left;background:var(--bg-card);padding:16px;border-radius:var(--radius-sm);margin-top:12px;white-space:pre-wrap;font-size:13px;color:var(--text-secondary);">${file.content}</div>` : ''}
                         </div>
                     `;
-
-                    if (folder === 'messages' && file.content) {
-                        bodyHtml = `
-                            <div style="padding:8px 0;width:100%;">
-                                <div style="background:var(--bg-card);padding:16px 20px;border-radius:var(--radius-sm);border-left:3px solid var(--accent);">
-                                    <div style="font-size:13px;color:var(--text-muted);margin-bottom:4px;">${file.sender || file.name}</div>
-                                    <div style="font-size:16px;line-height:1.8;white-space:pre-wrap;">${file.content}</div>
-                                </div>
-                            </div>
-                        `;
-                    }
                 }
 
-                // Adicionar badge de evidência se for uma
                 if (file.evidence && file.evidenceId) {
                     const ev = STORY_DATA.evidence.find(e => e.id === file.evidenceId);
                     if (ev && ev.found) {
@@ -1217,16 +1490,13 @@
             }
 
             // ============================================
-            // CLOSE VIEWER - MARCA EVIDÊNCIA AO FECHAR
+            // CLOSE VIEWER
             // ============================================
 
             function closeViewer() {
                 viewerOverlay.classList.remove('open');
-                
-                // Marcar evidência ao fechar a caixa
                 if (AppState.currentFile) {
-                    const file = AppState.currentFile;
-                    markEvidenceOnClose(file);
+                    markEvidenceOnClose(AppState.currentFile);
                     AppState.currentFile = null;
                 }
             }
@@ -1237,30 +1507,17 @@
 
             function navigateTo(folder) {
                 currentFolder = folder;
-
                 document.querySelectorAll('.sidebar-item').forEach(el => {
                     el.classList.remove('active');
-                    if (el.dataset.folder === folder) {
-                        el.classList.add('active');
-                    }
+                    if (el.dataset.folder === folder) el.classList.add('active');
                 });
-
-                if (folder === 'welcome') {
-                    renderWelcome();
-                } else {
-                    renderFolder(folder);
-                }
+                if (folder === 'welcome') renderWelcome();
+                else renderFolder(folder);
             }
 
             function resetProgress() {
-                if (!confirm('🔄 Iniciar um novo caso irá apagar todo o seu progresso atual. Deseja continuar?')) {
-                    return;
-                }
-                
-                STORY_DATA.evidence.forEach(ev => {
-                    ev.found = false;
-                });
-                
+                if (!confirm('🔄 Iniciar um novo caso irá apagar todo o seu progresso atual. Deseja continuar?')) return;
+                STORY_DATA.evidence.forEach(ev => ev.found = false);
                 progress = 0;
                 updateProgress();
                 navigateTo('welcome');
@@ -1275,36 +1532,21 @@
                 const item = e.target.closest('.sidebar-item');
                 if (!item) return;
                 const folder = item.dataset.folder;
-                if (folder) {
-                    navigateTo(folder);
-                }
+                if (folder) navigateTo(folder);
             });
 
-            // Fechar com o botão X - MARCA EVIDÊNCIA
             viewerClose.addEventListener('click', closeViewer);
-
-            // Fechar clicando fora - MARCA EVIDÊNCIA
             viewerOverlay.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeViewer();
-                }
+                if (e.target === this) closeViewer();
             });
-
-            // Fechar com ESC - MARCA EVIDÊNCIA
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && viewerOverlay.classList.contains('open')) {
-                    closeViewer();
-                }
+                if (e.key === 'Escape' && viewerOverlay.classList.contains('open')) closeViewer();
             });
 
             document.getElementById('continueBtn').addEventListener('click', function() {
-                if (currentFolder === 'welcome') {
-                    navigateTo('photos');
-                } else {
-                    navigateTo('welcome');
-                }
+                if (currentFolder === 'welcome') navigateTo('photos');
+                else navigateTo('welcome');
             });
-
             document.getElementById('newCaseBtn').addEventListener('click', resetProgress);
             document.getElementById('resetBtn').addEventListener('click', resetProgress);
 
@@ -1317,8 +1559,8 @@
 
             console.log('🔍 Evidence - O Mistério do Arquivo Azul');
             console.log('📁 Explore as pastas para descobrir a verdade.');
+            console.log('💬 Mensagens no estilo WhatsApp!');
             console.log('📈 Encontre todas as 11 evidências em ordem!');
-            console.log('🎊 Ao fechar a caixa, a evidência é liberada e a próxima aparece!');
 
         })();
     </script>
