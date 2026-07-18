@@ -32,7 +32,6 @@
             --radius-lg: 20px;
             --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             
-            /* WhatsApp Colors */
             --whatsapp-green: #00a884;
             --whatsapp-green-light: #25d366;
             --whatsapp-bg: #0e0e12;
@@ -959,16 +958,16 @@
             };
 
             // ============================================
-            // CONVERSA COMPLETA COM VÁRIOS CONTATOS
+            // CONVERSA COMPLETA COM VÁRIOS CONTATOS (12 MENSAGENS)
             // ============================================
 
             const CHAT_CONVERSATION = {
                 id: 'main_chat',
                 contact: 'Dr. Ricardo Alves',
-                avatar: 'assets/images/ricardo.png',  // ← FOTO DE PERFIL
+                avatar: 'assets/images/ricardo.png',
                 messages: [
                     // ==========================================
-                    // PARTE 1: DR. RICARDO ALVES - ALERTA INICIAL
+                    // PARTE 1: DR. RICARDO ALVES (3 MENSAGENS)
                     // ==========================================
                     {
                         from: 'contact',
@@ -1001,11 +1000,11 @@
                             { text: 'Já encontrei algumas coisas.', emoji: '📂' },
                             { text: 'Me diga o que você sabe.', emoji: '🗣️' }
                         ],
-                        next: 'Você precisa ir ao laboratório. Lá tem algo que ela escondeu. E cuidado com o que encontra.'
+                        next: '💬 Você está começando a entender...'
                     },
 
                     // ==========================================
-                    // PARTE 2: PROFA. SOFIA LIMA - PREOCUPAÇÃO
+                    // PARTE 2: PROFA. SOFIA LIMA (2 MENSAGENS)
                     // ==========================================
                     {
                         from: 'contact',
@@ -1016,7 +1015,7 @@
                             { text: 'Estou bem, só estou cansada.', emoji: '😴' },
                             { text: 'Preciso te contar algo importante.', emoji: '⚠️' }
                         ],
-                        next: 'Eu sei que você encontrou algo no laboratório. Por favor, tenha cuidado. Eles não querem que ninguém saiba a verdade.'
+                        next: 'Eu sei que você encontrou algo no laboratório. Por favor, tenha cuidado.'
                     },
                     {
                         from: 'contact',
@@ -1027,22 +1026,11 @@
                             { text: 'Não posso envolver você nisso.', emoji: '🛡️' },
                             { text: 'Se souberem que você sabe, vão te machucar.', emoji: '💀' }
                         ],
-                        next: 'Eu não tenho medo. Quero te ajudar. O que você encontrou?'
-                    },
-                    {
-                        from: 'contact',
-                        text: '🔍 Você encontrou o diário? As anotações dela? Ela deixou tudo registrado. É a única prova que temos.',
-                        time: '22:20',
-                        replies: [
-                            { text: 'Sim, encontrei as anotações.', emoji: '📝' },
-                            { text: 'Ainda não encontrei tudo.', emoji: '🔎' },
-                            { text: 'O que tem no diário?', emoji: '📖' }
-                        ],
-                        next: 'O diário dela tem os nomes. Todos os envolvidos. E os experimentos. É a prova que vai derrubar eles.'
+                        next: '💬 Sofia está tentando te ajudar...'
                     },
 
                     // ==========================================
-                    // PARTE 3: DESCONHECIDO - AMEAÇA
+                    // PARTE 3: DESCONHECIDO (2 MENSAGENS)
                     // ==========================================
                     {
                         from: 'contact',
@@ -1053,7 +1041,7 @@
                             { text: 'Não vou parar até descobrir a verdade.', emoji: '💪' },
                             { text: 'O que vocês estão escondendo?', emoji: '🔎' }
                         ],
-                        next: 'Isso é um aviso final. Apague tudo que encontrou. Não destrua sua vida por algo que não te pertence.'
+                        next: 'Isso é um aviso final. Apague tudo que encontrou.'
                     },
                     {
                         from: 'contact',
@@ -1064,11 +1052,11 @@
                             { text: 'Eu tenho provas do que vocês fizeram.', emoji: '📄' },
                             { text: 'A polícia vai saber de tudo.', emoji: '👮' }
                         ],
-                        next: 'A polícia está envolvida. Você não tem para onde correr. Entregue o arquivo e siga sua vida.'
+                        next: '💬 A ameaça é real...'
                     },
 
                     // ==========================================
-                    // PARTE 4: HELENA MENDES - CONFISSÃO FINAL
+                    // PARTE 4: HELENA MENDES (3 MENSAGENS)
                     // ==========================================
                     {
                         from: 'contact',
@@ -1079,7 +1067,7 @@
                             { text: 'Estou com medo. O que eles fizeram?', emoji: '😰' },
                             { text: 'Onde você está? Preciso te encontrar.', emoji: '📍' }
                         ],
-                        next: 'Estou no laboratório. Mas preciso ir. Eles estão chegando. Encontre o arquivo. Tudo está lá. Prometa que vai encontrar.'
+                        next: 'Estou no laboratório. Mas preciso ir. Eles estão chegando.'
                     },
                     {
                         from: 'contact',
@@ -1090,7 +1078,7 @@
                             { text: 'Onde você está agora?', emoji: '📍' },
                             { text: 'Não se preocupe, vou proteger você.', emoji: '🛡️' }
                         ],
-                        next: 'Eu confio em você. Por favor, encontre o arquivo e exponha tudo. É a única chance que temos.'
+                        next: 'Eu confio em você. Por favor, encontre o arquivo.'
                     },
                     {
                         from: 'contact',
@@ -1101,7 +1089,7 @@
                             { text: 'Não desista, Helena!', emoji: '💪' },
                             { text: 'Vou salvar você.', emoji: '🦸' }
                         ],
-                        next: '🎉 PARABÉNS! Você completou a investigação. Agora vá até os documentos e leia o relatório final.',
+                        next: '🎉 PARABÉNS! Você completou a investigação! Agora vá para os Documentos.',
                         isFinal: true
                     }
                 ]
@@ -1510,9 +1498,9 @@
                                     // Marcar evidências conforme a conversa avança
                                     const stepEvMap = {
                                         2: 'ev_004',
-                                        5: 'ev_005',
-                                        7: 'ev_006',
-                                        9: 'ev_007'
+                                        4: 'ev_005',
+                                        6: 'ev_006',
+                                        8: 'ev_007'
                                     };
                                     const evId = stepEvMap[currentStep];
                                     if (evId) {
@@ -1806,7 +1794,7 @@
                 viewerBody.innerHTML = bodyHtml;
                 viewerOverlay.classList.add('open');
 
-                // Marcar evidência ao abrir (apenas se já estiver desbloqueada)
+                // Marcar evidência ao abrir
                 if (file.evidence && file.evidenceId) {
                     const ev = EVIDENCES.find(e => e.id === file.evidenceId);
                     if (ev && !ev.found && canFindEvidence(file.evidenceId)) {
@@ -1847,7 +1835,6 @@
                 if (!confirm('🔄 Iniciar um novo caso irá apagar todo o seu progresso atual. Deseja continuar?')) return;
                 EVIDENCES.forEach(ev => ev.found = false);
                 currentStep = 0;
-                // Resetar a conversa
                 const chat = CHAT_CONVERSATION;
                 chat.messages = chat.messages.filter(msg => msg.from === 'contact');
                 progress = 0;
