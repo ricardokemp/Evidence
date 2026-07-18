@@ -1629,7 +1629,7 @@
                             duration: '00:10', 
                             desc: 'Câmera de segurança do laboratório. Helena sai correndo.',
                             file: 'https://raw.githack.com/ricardokemp/Evidence/main/assets/video/CCTV_Lab_10-03.mp4',
-                            transcript: '🎬 Descrição do vídeo:\n\n[00:00] - Laboratório vazio\n[00:03] - Helena entra correndo\n[00:05] - Ela pega um arquivo azul\n[00:07] - Helena corre pela saída de emergência\n[00:10] - Porta se fecha',
+                            transcript: '', // Vazio para não mostrar transcrição
                             evidence: true, 
                             evidenceId: 'ev_011', 
                             folder: 'video' 
@@ -1800,7 +1800,7 @@
             }
 
             // ============================================
-            // OPEN FILE - ÁUDIO E VÍDEO
+            // OPEN FILE - ÁUDIO E VÍDEO (CORRIGIDO)
             // ============================================
 
             function openFile(folder, id) {
@@ -1868,7 +1868,6 @@
                             duration: '00:10', 
                             desc: 'Câmera de segurança do laboratório. Helena sai correndo.',
                             file: 'https://raw.githack.com/ricardokemp/Evidence/main/assets/video/CCTV_Lab_10-03.mp4',
-                            transcript: '🎬 Descrição do vídeo:\n\n[00:00] - Laboratório vazio\n[00:03] - Helena entra correndo\n[00:05] - Ela pega um arquivo azul\n[00:07] - Helena corre pela saída de emergência\n[00:10] - Porta se fecha',
                             evidence: true, 
                             evidenceId: 'ev_011' 
                         }
@@ -1931,38 +1930,14 @@
                     `;
                 }
                 // ============================================
-                // VÍDEO COM PLAY AUTOMÁTICO
+                // VÍDEO - PLAYER DIRETO (SEM TRANSCRIÇÃO)
                 // ============================================
                 else if (folder === 'video' && file.file) {
                     bodyHtml = `
                         <div class="file-preview" style="width:100%;">
-                            <div style="background:var(--bg-card);padding:16px;border-radius:var(--radius-sm);margin-bottom:16px;">
-                                <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
-                                    <span style="font-size:48px;">🎬</span>
-                                    <div style="flex:1;min-width:150px;">
-                                        <div style="font-size:14px;font-weight:600;color:var(--text-primary);">${file.name}</div>
-                                        <div style="font-size:12px;color:var(--text-muted);">⏱️ ${file.duration || '00:00'}</div>
-                                    </div>
-                                    <div style="display:flex;align-items:center;gap:12px;">
-                                        <button id="playVideoBtn" style="background:var(--accent);border:none;border-radius:50%;width:48px;height:48px;font-size:24px;cursor:pointer;color:white;display:flex;align-items:center;justify-content:center;transition:var(--transition);">
-                                            ▶️
-                                        </button>
-                                        <span id="videoTime" style="font-size:12px;color:var(--text-muted);min-width:60px;">00:00 / ${file.duration || '00:00'}</span>
-                                    </div>
-                                </div>
-                                <div style="margin-top:12px;height:4px;background:var(--bg-hover);border-radius:4px;overflow:hidden;cursor:pointer;position:relative;" id="videoProgressBar">
-                                    <div id="videoProgress" style="width:0%;height:100%;background:var(--accent);border-radius:4px;transition:width 0.1s linear;"></div>
-                                </div>
-                                <div id="videoStatus" style="margin-top:8px;font-size:11px;color:var(--text-muted);text-align:center;">▶️ Clique no botão para assistir</div>
-                            </div>
-                            ${file.transcript ? `
-                                <div style="text-align:left;background:var(--bg-card);padding:16px;border-radius:var(--radius-sm);margin-top:8px;width:100%;">
-                                    <div style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:8px;">📝 Descrição</div>
-                                    <div style="font-size:13px;color:var(--text-secondary);white-space:pre-wrap;line-height:1.8;">${file.transcript}</div>
-                                </div>
-                            ` : ''}
-                            ${file.evidence ? `<div style="margin-top:12px;padding:8px 16px;background:var(--accent-glow);border-radius:var(--radius-sm);color:var(--accent);font-size:13px;text-align:center;width:100%;">⭐ EVIDÊNCIA (será liberada após assistir o vídeo completo)</div>` : ''}
-                            <video id="videoPlayer" src="${file.file}" preload="metadata" style="display:none;"></video>
+                            <video id="videoPlayer" src="${file.file}" controls preload="metadata" style="width:100%; max-height: 400px; border-radius: 8px; background: #000; margin-bottom: 12px;"></video>
+                            ${file.evidence ? `<div style="padding:8px 16px;background:var(--accent-glow);border-radius:var(--radius-sm);color:var(--accent);font-size:13px;text-align:center;width:100%;">⭐ EVIDÊNCIA (será liberada após assistir o vídeo completo)</div>` : ''}
+                            <div id="videoStatus" style="margin-top:8px;font-size:11px;color:var(--text-muted);text-align:center;">▶️ Clique no play para assistir</div>
                         </div>
                     `;
                 }
@@ -2121,47 +2096,18 @@
                 }
 
                 // ============================================
-                // VÍDEO - PLAY AUTOMÁTICO E LIBERAÇÃO
+                // VÍDEO - PLAYER NATIVO (LIBERAÇÃO AO FINALIZAR)
                 // ============================================
                 if (folder === 'video' && file.file) {
                     const videoPlayer = document.getElementById('videoPlayer');
-                    const playBtn = document.getElementById('playVideoBtn');
-                    const videoProgress = document.getElementById('videoProgress');
-                    const videoTime = document.getElementById('videoTime');
                     const videoStatus = document.getElementById('videoStatus');
-                    const progressBar = document.getElementById('videoProgressBar');
-                    let videoEnded = false;
 
                     if (videoPlayer) {
-                        videoPlayer.addEventListener('loadedmetadata', function() {
-                            const duration = this.duration;
-                            const minutes = Math.floor(duration / 60);
-                            const seconds = Math.floor(duration % 60);
-                            const durationStr = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-                            videoTime.textContent = `00:00 / ${durationStr}`;
-                        });
-
-                        videoPlayer.addEventListener('timeupdate', function() {
-                            const current = this.currentTime;
-                            const duration = this.duration || 1;
-                            const percent = (current / duration) * 100;
-                            videoProgress.style.width = percent + '%';
-                            
-                            const minutes = Math.floor(current / 60);
-                            const seconds = Math.floor(current % 60);
-                            const currentStr = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-                            const durMinutes = Math.floor(duration / 60);
-                            const durSeconds = Math.floor(duration % 60);
-                            const durStr = `${String(durMinutes).padStart(2, '0')}:${String(durSeconds).padStart(2, '0')}`;
-                            videoTime.textContent = `${currentStr} / ${durStr}`;
-                        });
-
                         videoPlayer.addEventListener('ended', function() {
-                            videoEnded = true;
-                            videoStatus.textContent = '✅ Vídeo concluído! Evidência liberada!';
-                            videoStatus.style.color = 'var(--success)';
-                            playBtn.textContent = '🔁';
-                            
+                            if (videoStatus) {
+                                videoStatus.textContent = '✅ Vídeo concluído! Evidência liberada!';
+                                videoStatus.style.color = 'var(--success)';
+                            }
                             if (file.evidence && file.evidenceId) {
                                 const ev = EVIDENCES.find(e => e.id === file.evidenceId);
                                 if (ev && !ev.found && canFindEvidence(file.evidenceId)) {
@@ -2174,47 +2120,6 @@
                                 }
                             }
                         });
-
-                        playBtn.addEventListener('click', function() {
-                            if (videoEnded) {
-                                videoPlayer.currentTime = 0;
-                                videoEnded = false;
-                                videoStatus.textContent = '▶️ Assistindo vídeo...';
-                                videoStatus.style.color = 'var(--text-muted)';
-                                playBtn.textContent = '⏸️';
-                                videoPlayer.play();
-                                return;
-                            }
-
-                            if (videoPlayer.paused) {
-                                videoPlayer.play();
-                                playBtn.textContent = '⏸️';
-                                videoStatus.textContent = '▶️ Assistindo vídeo...';
-                                videoStatus.style.color = 'var(--text-muted)';
-                            } else {
-                                videoPlayer.pause();
-                                playBtn.textContent = '▶️';
-                                videoStatus.textContent = '⏸️ Pausado';
-                            }
-                        });
-
-                        if (progressBar) {
-                            progressBar.addEventListener('click', function(e) {
-                                const rect = this.getBoundingClientRect();
-                                const x = e.clientX - rect.left;
-                                const percent = x / rect.width;
-                                const duration = videoPlayer.duration || 1;
-                                videoPlayer.currentTime = percent * duration;
-                            });
-                        }
-
-                        setTimeout(() => {
-                            videoPlayer.play().catch(() => {
-                                videoStatus.textContent = '🔇 Clique no play para assistir o vídeo';
-                                videoStatus.style.color = 'var(--warning)';
-                                playBtn.textContent = '▶️';
-                            });
-                        }, 500);
                     }
                 }
             }
@@ -2226,22 +2131,16 @@
             function closeViewer() {
                 viewerOverlay.classList.remove('open');
                 
-                // Marcar evidência ao fechar (para fotos, documentos)
                 if (AppState.currentFile) {
                     const file = AppState.currentFile;
                     
-                    // Verifica se é uma evidência (fotos, documentos)
-                    // Áudio e vídeo já são marcados nos eventos 'ended'
                     if (file.evidence && file.evidenceId && file.folder !== 'audio' && file.folder !== 'video') {
                         const ev = EVIDENCES.find(e => e.id === file.evidenceId);
                         
-                        // Só marca se não foi encontrada ainda e se está disponível
                         if (ev && !ev.found && canFindEvidence(file.evidenceId)) {
                             ev.found = true;
                             updateProgress();
                             showCelebration(ev.name);
-                            
-                            // Recarregar a pasta para mostrar mudanças
                             setTimeout(() => {
                                 if (currentFolder !== 'welcome') renderFolder(currentFolder);
                             }, 500);
@@ -2276,10 +2175,6 @@
                 navigateTo('welcome');
                 showNotification('📂 Novo caso iniciado! Boa sorte!', 'info');
             }
-
-            // ============================================
-            // EXPOSE NAVIGATE TO GLOBAL
-            // ============================================
 
             window.navigateTo = navigateTo;
 
