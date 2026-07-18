@@ -1319,8 +1319,8 @@
                         { id: 'msg1', name: 'Mensagens', evidenceId: 'ev_004', evidence: true }
                     ],
                     documents: [
-                        { id: 'doc1', name: 'Relatorio_Projeto_Azul.pdf', evidenceId: 'ev_008', evidence: true },
-                        { id: 'doc2', name: 'Termo_de_Sigilo.pdf', evidenceId: 'ev_009', evidence: true }
+                        { id: 'doc1', name: 'Relatorio', evidenceId: 'ev_008', evidence: true },
+                        { id: 'doc2', name: 'Termo', evidenceId: 'ev_009', evidence: true }
                     ],
                     audio: [
                         { id: 'audio1', name: 'Ligacao_Helena_10-03.mp3', evidenceId: 'ev_010', evidence: true }
@@ -1802,7 +1802,7 @@
                     documents: [
                         { 
                             id: 'doc1', 
-                            name: 'Relatorio_Projeto_Azul.pdf', 
+                            name: 'Relatorio', 
                             icon: '📄', 
                             desc: 'Relatório completo do Projeto Azul. Contém informações confidenciais.',
                             pages: 8,
@@ -1821,7 +1821,7 @@
                         },
                         { 
                             id: 'doc2', 
-                            name: 'Termo_de_Sigilo.pdf', 
+                            name: 'Termo', 
                             icon: '📄', 
                             desc: 'Termo de sigilo assinado por todos os envolvidos no projeto.',
                             pages: 2,
@@ -2062,12 +2062,36 @@
             }
 
             // ============================================
-            // CLOSE VIEWER
+            // CLOSE VIEWER - MARCA EVIDÊNCIA AO FECHAR
             // ============================================
 
             function closeViewer() {
                 viewerOverlay.classList.remove('open');
-                AppState.currentFile = null;
+                
+                // Marcar evidência ao fechar (para fotos, documentos, vídeos)
+                if (AppState.currentFile) {
+                    const file = AppState.currentFile;
+                    
+                    // Verifica se é uma evidência (fotos, documentos, vídeo)
+                    // O áudio já é marcado no evento 'ended'
+                    if (file.evidence && file.evidenceId && file.folder !== 'audio') {
+                        const ev = EVIDENCES.find(e => e.id === file.evidenceId);
+                        
+                        // Só marca se não foi encontrada ainda e se está disponível
+                        if (ev && !ev.found && canFindEvidence(file.evidenceId)) {
+                            ev.found = true;
+                            updateProgress();
+                            showCelebration(ev.name);
+                            
+                            // Recarregar a pasta para mostrar mudanças
+                            setTimeout(() => {
+                                if (currentFolder !== 'welcome') renderFolder(currentFolder);
+                            }, 500);
+                        }
+                    }
+                    
+                    AppState.currentFile = null;
+                }
             }
 
             // ============================================
