@@ -1398,15 +1398,12 @@
                     return renderEmpty('🎉', 'Conversa concluída!', 'Você já desvendou todas as mensagens.');
                 }
 
-                // Montar histórico de mensagens + a atual
                 const displayMessages = [];
                 
-                // Adicionar mensagens do histórico
                 chatHistory.forEach(msg => {
                     displayMessages.push(msg);
                 });
 
-                // Adicionar a mensagem atual do contato (se ainda não estiver no histórico)
                 const alreadyInHistory = chatHistory.some(m => m.id === currentMsg.id && m.from === 'contact');
                 if (!alreadyInHistory) {
                     displayMessages.push({
@@ -1418,7 +1415,6 @@
                     });
                 }
 
-                // Verificar se precisa mostrar replies
                 const showReplies = !currentMsg.isFinal && currentMsg.replies && currentMsg.replies.length > 0;
                 const replies = showReplies ? currentMsg.replies : null;
 
@@ -1433,7 +1429,6 @@
                         <div class="iphone-container">
                             <img src="assets/images/celular.png" alt="iPhone" class="iphone-bg" onerror="this.style.display='none'">
                             <div class="iphone-screen-overlay dark">
-                                <!-- HEADER -->
                                 <div class="whatsapp-header">
                                     <button class="back-btn" onclick="window.navigateTo('messages')">‹</button>
                                     ${avatarHtml}
@@ -1449,12 +1444,10 @@
                                     </div>
                                 </div>
 
-                                <!-- MESSAGES -->
                                 <div class="whatsapp-messages dark" id="whatsappMessages">
                                     ${renderChatMessages(displayMessages, showReplies, replies)}
                                 </div>
 
-                                <!-- FOOTER -->
                                 <div class="whatsapp-footer">
                                     <button class="emoji-btn">😊</button>
                                     <input class="input" placeholder="Digite uma mensagem..." disabled>
@@ -1476,7 +1469,6 @@
 
                 const reply = currentMsg.replies[replyIdx];
                 
-                // Adicionar resposta do usuário ao histórico
                 chatHistory.push({
                     id: `user_${Date.now()}`,
                     from: 'user',
@@ -1485,17 +1477,14 @@
                     time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
                 });
 
-                // Marcar evidência
                 if (currentMsg.evidenceId) {
                     markEvidenceFound(currentMsg.evidenceId);
                 }
 
-                // Avançar para a próxima mensagem
                 const nextId = currentMsg.nextId;
                 if (nextId !== null && nextId < chat.messages.length) {
                     currentChatIndex = nextId;
                     
-                    // Adicionar a próxima mensagem do contato ao histórico
                     const nextMsg = chat.messages[nextId];
                     chatHistory.push({
                         id: nextMsg.id,
@@ -1505,21 +1494,13 @@
                         time: nextMsg.time
                     });
 
-                    // Recarregar a conversa
                     renderMessages('messages');
-                    
-                    // Scroll para o final
                     setTimeout(scrollToBottom, 300);
                 } else {
-                    // Conversa concluída
                     renderMessages('messages');
                     setTimeout(scrollToBottom, 300);
                 }
             }
-
-            // ============================================
-            // SCROLL TO BOTTOM
-            // ============================================
 
             function scrollToBottom() {
                 setTimeout(() => {
@@ -1545,7 +1526,6 @@
             function renderMessages(folder) {
                 const folderContent = document.getElementById('folderContent');
 
-                // Verificar se pode iniciar a conversa (ev_003 encontrada)
                 const canStart = canFindEvidence('ev_003');
                 if (!canStart) {
                     folderContent.innerHTML = renderEmpty('💬', 'Conversa bloqueada', 'Encontre as 3 fotos primeiro para desbloquear as mensagens.');
@@ -1553,11 +1533,9 @@
                     return;
                 }
 
-                // Renderizar a conversa
                 folderContent.innerHTML = renderWhatsAppConversation();
                 updateActiveSidebarItem('messages');
 
-                // Event listeners para os botões de resposta
                 setTimeout(() => {
                     document.querySelectorAll('.reply-btn').forEach((btn) => {
                         btn.addEventListener('click', function() {
@@ -1566,8 +1544,6 @@
                             handleReply(step, replyIdx);
                         });
                     });
-                    
-                    // Scroll para o final após carregar
                     scrollToBottom();
                 }, 400);
             }
@@ -1595,7 +1571,7 @@
                     documents: [
                         { 
                             id: 'doc1', 
-                            name: 'Relatorio_Projeto_Azul.pdf', 
+                            name: 'Relatorio', 
                             icon: '📄', 
                             desc: 'Relatório completo do Projeto Azul. Contém informações confidenciais.',
                             pages: 8,
@@ -1615,7 +1591,7 @@
                         },
                         { 
                             id: 'doc2', 
-                            name: 'Termo.pdf', 
+                            name: 'Termo', 
                             icon: '📄', 
                             desc: 'Termo de sigilo assinado por todos os envolvidos no projeto.',
                             pages: 2,
@@ -1629,10 +1605,21 @@
                         }
                     ],
                     audio: [
-                        { id: 'audio1', name: 'Ligacao_Helena_10-03.mp3', icon: '🎤', duration: '04:28', desc: 'Última ligação de Helena.', transcript: '[00:00] - Helena: Alô? Sofia?\n[00:05] - Sofia: Helena! Graças a Deus!\n[00:10] - Helena: Sofia, preciso de ajuda.\n[00:18] - Helena: Eles descobriram que eu sei.\n[00:30] - Helena: O Projeto Azul. Não é o que parece.\n[01:10] - [Ruído de porta se abrindo]\n[01:20] - Helena: Preciso ir. Me desculpa.\n[01:35] - [Ligação cai]', evidence: true, evidenceId: 'ev_010', folder: 'audio' }
+                        { 
+                            id: 'audio1', 
+                            name: 'Ligacao_Helena_10-03.mp3', 
+                            icon: '🎤', 
+                            duration: '01:40', 
+                            desc: 'Última ligação de Helena. Ela parece assustada.',
+                            file: 'assets/video/Ligacao_Helena_10-03.mp4',
+                            transcript: '[00:00] - Helena: Alô? Sofia?\n[00:05] - Sofia: Helena! Graças a Deus!\n[00:10] - Helena: Sofia, preciso de ajuda.\n[00:18] - Helena: Eles descobriram que eu sei.\n[00:25] - Sofia: Sabe o quê?\n[00:30] - Helena: O Projeto Azul. Não é o que parece.\n[00:45] - Helena: Eu tenho provas. Estão no arquivo.\n[01:10] - [Ruído de porta se abrindo]\n[01:20] - Helena: Preciso ir. Me desculpa.\n[01:35] - [Ligação cai]',
+                            evidence: true, 
+                            evidenceId: 'ev_010', 
+                            folder: 'audio' 
+                        }
                     ],
                     video: [
-                        { id: 'video1', name: 'CCTV_Lab_10-03.mp4', icon: '🎥', duration: '02:15', desc: 'Câmera de segurança do laboratório.', transcript: '[00:00] - Laboratório vazio\n[00:30] - Helena entra correndo\n[00:45] - Ela pega um arquivo azul\n[01:00] - Alguém aparece na porta\n[01:15] - Helena corre pela saída de emergência', evidence: true, evidenceId: 'ev_011', folder: 'video' }
+                        { id: 'video1', name: 'CCTV_Lab_10-03.mp4', icon: '🎥', duration: '02:15', desc: 'Câmera de segurança do laboratório.', evidence: true, evidenceId: 'ev_011', folder: 'video' }
                     ]
                 };
 
@@ -1799,7 +1786,7 @@
             }
 
             // ============================================
-            // OPEN FILE - COM PDF DE IMAGENS
+            // OPEN FILE - ÁUDIO COM PLAY AUTOMÁTICO
             // ============================================
 
             function openFile(folder, id) {
@@ -1815,7 +1802,7 @@
                     documents: [
                         { 
                             id: 'doc1', 
-                            name: 'Relatorio.pdf', 
+                            name: 'Relatorio_Projeto_Azul.pdf', 
                             icon: '📄', 
                             desc: 'Relatório completo do Projeto Azul. Contém informações confidenciais.',
                             pages: 8,
@@ -1847,7 +1834,17 @@
                         }
                     ],
                     audio: [
-                        { id: 'audio1', name: 'Ligacao_Helena_10-03.mp3', icon: '🎤', duration: '04:28', desc: 'Última ligação de Helena.', evidence: true, evidenceId: 'ev_010' }
+                        { 
+                            id: 'audio1', 
+                            name: 'Ligacao_Helena_10-03.mp3', 
+                            icon: '🎤', 
+                            duration: '01:40', 
+                            desc: 'Última ligação de Helena. Ela parece assustada.',
+                            file: 'assets/video/Ligacao_Helena_10-03.mp4',
+                            transcript: '[00:00] - Helena: Alô? Sofia?\n[00:05] - Sofia: Helena! Graças a Deus!\n[00:10] - Helena: Sofia, preciso de ajuda.\n[00:18] - Helena: Eles descobriram que eu sei.\n[00:25] - Sofia: Sabe o quê?\n[00:30] - Helena: O Projeto Azul. Não é o que parece.\n[00:45] - Helena: Eu tenho provas. Estão no arquivo.\n[01:10] - [Ruído de porta se abrindo]\n[01:20] - Helena: Preciso ir. Me desculpa.\n[01:35] - [Ligação cai]',
+                            evidence: true, 
+                            evidenceId: 'ev_010' 
+                        }
                     ],
                     video: [
                         { id: 'video1', name: 'CCTV_Lab_10-03.mp4', icon: '🎥', duration: '02:15', desc: 'Câmera de segurança do laboratório.', evidence: true, evidenceId: 'ev_011' }
@@ -1874,9 +1871,45 @@
                 let bodyHtml = '';
 
                 // ============================================
-                // PDF COM IMAGENS (SCROLL)
+                // ÁUDIO COM PLAY AUTOMÁTICO
                 // ============================================
-                if (folder === 'documents' && file.images && file.images.length > 0) {
+                if (folder === 'audio' && file.file) {
+                    bodyHtml = `
+                        <div class="file-preview" style="width:100%;">
+                            <div style="background:var(--bg-card);padding:24px 20px;border-radius:var(--radius-sm);margin-bottom:16px;">
+                                <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+                                    <span style="font-size:48px;">🎵</span>
+                                    <div style="flex:1;min-width:150px;">
+                                        <div style="font-size:14px;font-weight:600;color:var(--text-primary);">${file.name}</div>
+                                        <div style="font-size:12px;color:var(--text-muted);">⏱️ ${file.duration || '00:00'}</div>
+                                    </div>
+                                    <div style="display:flex;align-items:center;gap:12px;">
+                                        <button id="playAudioBtn" style="background:var(--accent);border:none;border-radius:50%;width:48px;height:48px;font-size:24px;cursor:pointer;color:white;display:flex;align-items:center;justify-content:center;transition:var(--transition);">
+                                            ▶️
+                                        </button>
+                                        <span id="audioTime" style="font-size:12px;color:var(--text-muted);min-width:60px;">00:00 / ${file.duration || '00:00'}</span>
+                                    </div>
+                                </div>
+                                <div style="margin-top:12px;height:4px;background:var(--bg-hover);border-radius:4px;overflow:hidden;cursor:pointer;position:relative;" id="audioProgressBar">
+                                    <div id="audioProgress" style="width:0%;height:100%;background:var(--accent);border-radius:4px;transition:width 0.1s linear;"></div>
+                                </div>
+                                <div id="audioStatus" style="margin-top:8px;font-size:11px;color:var(--text-muted);text-align:center;">▶️ Clique no botão para ouvir</div>
+                            </div>
+                            ${file.transcript ? `
+                                <div style="text-align:left;background:var(--bg-card);padding:16px;border-radius:var(--radius-sm);margin-top:8px;width:100%;">
+                                    <div style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:8px;">📝 Transcrição</div>
+                                    <div style="font-size:13px;color:var(--text-secondary);white-space:pre-wrap;line-height:1.8;">${file.transcript}</div>
+                                </div>
+                            ` : ''}
+                            ${file.evidence ? `<div style="margin-top:12px;padding:8px 16px;background:var(--accent-glow);border-radius:var(--radius-sm);color:var(--accent);font-size:13px;text-align:center;width:100%;">⭐ EVIDÊNCIA (será liberada após ouvir o áudio completo)</div>` : ''}
+                            <audio id="audioPlayer" src="${file.file}" preload="metadata" style="display:none;"></audio>
+                        </div>
+                    `;
+                }
+                // ============================================
+                // PDF COM IMAGENS
+                // ============================================
+                else if (folder === 'documents' && file.images && file.images.length > 0) {
                     bodyHtml = `
                         <div style="width:100%;max-width:100%;padding:8px 0;display:flex;flex-direction:column;align-items:center;gap:12px;">
                             ${file.images.map((img, index) => `
@@ -1911,7 +1944,7 @@
                     `;
                 }
                 // ============================================
-                // ÁUDIO E VÍDEO
+                // VÍDEO
                 // ============================================
                 else {
                     bodyHtml = `
@@ -1929,15 +1962,100 @@
                 viewerOverlay.classList.add('open');
                 AppState.currentFile = file;
 
-                // Marcar evidência ao abrir
-                if (file.evidence && file.evidenceId) {
-                    const ev = EVIDENCES.find(e => e.id === file.evidenceId);
-                    if (ev && !ev.found && canFindEvidence(file.evidenceId)) {
-                        ev.found = true;
-                        updateProgress();
-                        showCelebration(ev.name);
+                // ============================================
+                // ÁUDIO - PLAY AUTOMÁTICO E LIBERAÇÃO
+                // ============================================
+                if (folder === 'audio' && file.file) {
+                    const audioPlayer = document.getElementById('audioPlayer');
+                    const playBtn = document.getElementById('playAudioBtn');
+                    const audioProgress = document.getElementById('audioProgress');
+                    const audioTime = document.getElementById('audioTime');
+                    const audioStatus = document.getElementById('audioStatus');
+                    const progressBar = document.getElementById('audioProgressBar');
+                    let audioEnded = false;
+
+                    if (audioPlayer) {
+                        audioPlayer.addEventListener('loadedmetadata', function() {
+                            const duration = this.duration;
+                            const minutes = Math.floor(duration / 60);
+                            const seconds = Math.floor(duration % 60);
+                            const durationStr = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                            audioTime.textContent = `00:00 / ${durationStr}`;
+                        });
+
+                        audioPlayer.addEventListener('timeupdate', function() {
+                            const current = this.currentTime;
+                            const duration = this.duration || 1;
+                            const percent = (current / duration) * 100;
+                            audioProgress.style.width = percent + '%';
+                            
+                            const minutes = Math.floor(current / 60);
+                            const seconds = Math.floor(current % 60);
+                            const currentStr = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                            const durMinutes = Math.floor(duration / 60);
+                            const durSeconds = Math.floor(duration % 60);
+                            const durStr = `${String(durMinutes).padStart(2, '0')}:${String(durSeconds).padStart(2, '0')}`;
+                            audioTime.textContent = `${currentStr} / ${durStr}`;
+                        });
+
+                        audioPlayer.addEventListener('ended', function() {
+                            audioEnded = true;
+                            audioStatus.textContent = '✅ Áudio concluído! Evidência liberada!';
+                            audioStatus.style.color = 'var(--success)';
+                            playBtn.textContent = '🔁';
+                            
+                            if (file.evidence && file.evidenceId) {
+                                const ev = EVIDENCES.find(e => e.id === file.evidenceId);
+                                if (ev && !ev.found && canFindEvidence(file.evidenceId)) {
+                                    ev.found = true;
+                                    updateProgress();
+                                    showCelebration(ev.name);
+                                    setTimeout(() => {
+                                        if (currentFolder !== 'welcome') renderFolder(currentFolder);
+                                    }, 500);
+                                }
+                            }
+                        });
+
+                        playBtn.addEventListener('click', function() {
+                            if (audioEnded) {
+                                audioPlayer.currentTime = 0;
+                                audioEnded = false;
+                                audioStatus.textContent = '▶️ Ouvindo áudio...';
+                                audioStatus.style.color = 'var(--text-muted)';
+                                playBtn.textContent = '⏸️';
+                                audioPlayer.play();
+                                return;
+                            }
+
+                            if (audioPlayer.paused) {
+                                audioPlayer.play();
+                                playBtn.textContent = '⏸️';
+                                audioStatus.textContent = '▶️ Ouvindo áudio...';
+                                audioStatus.style.color = 'var(--text-muted)';
+                            } else {
+                                audioPlayer.pause();
+                                playBtn.textContent = '▶️';
+                                audioStatus.textContent = '⏸️ Pausado';
+                            }
+                        });
+
+                        if (progressBar) {
+                            progressBar.addEventListener('click', function(e) {
+                                const rect = this.getBoundingClientRect();
+                                const x = e.clientX - rect.left;
+                                const percent = x / rect.width;
+                                const duration = audioPlayer.duration || 1;
+                                audioPlayer.currentTime = percent * duration;
+                            });
+                        }
+
                         setTimeout(() => {
-                            if (currentFolder !== 'welcome') renderFolder(currentFolder);
+                            audioPlayer.play().catch(() => {
+                                audioStatus.textContent = '🔇 Clique no play para ouvir o áudio';
+                                audioStatus.style.color = 'var(--warning)';
+                                playBtn.textContent = '▶️';
+                            });
                         }, 500);
                     }
                 }
