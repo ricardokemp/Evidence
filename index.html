@@ -945,129 +945,132 @@
 
             const AppState = {
                 currentFile: null,
-                chatHistory: {}
+                chatStep: 0,
+                chatCompleted: false,
+                replies: {}
             };
 
             // ============================================
-            // DATA - HISTÓRIA: O MISTÉRIO DO ARQUIVO AZUL
+            // DATA - CONVERSA CONTÍNUA (10 MENSAGENS)
             // ============================================
 
-            const STORY_DATA = {
-                photos: [
-                    { id: 'photo1', name: 'Laboratório', icon: '🖼️', desc: 'O laboratório onde Helena trabalhava. Algo parece fora do lugar...', image: 'assets/images/laboratorio.png', evidence: true, evidenceId: 'ev_001', folder: 'photos' },
-                    { id: 'photo2', name: 'Arquivo Azul', icon: '🖼️', desc: 'O misterioso arquivo azul. O que ele contém?', image: 'assets/images/arquivo-azul.png', evidence: true, evidenceId: 'ev_002', folder: 'photos' },
-                    { id: 'photo3', name: 'Anotações', icon: '🖼️', desc: 'Anotações confusas. Parece que ela estava com pressa.', image: 'assets/images/anotacoes.png', evidence: true, evidenceId: 'ev_003', folder: 'photos' }
-                ],
-                chatConversations: [
+            const CHAT_CONVERSATION = {
+                id: 'main_chat',
+                contact: 'Investigação',
+                avatar: '🔍',
+                messages: [
                     {
-                        id: 'chat_001',
-                        contact: 'Dr. Ricardo Alves',
-                        avatar: 'R',
-                        evidenceId: 'ev_004',
-                        evidenceName: 'Mensagem de Ricardo',
-                        messages: [
-                            { from: 'contact', text: 'Helena, pare com isso! O que você está fazendo é perigoso. Se continuar, vai se arrepender. Por favor, reconsidere.', time: '16:45' }
-                        ],
+                        from: 'contact',
+                        text: '🔍 Você encontrou o computador de Helena. Vamos começar a investigação.',
+                        time: '14:00',
                         replies: [
-                            { text: 'O que você quer dizer com isso?', emoji: '😰' },
-                            { text: 'Estou apenas investigando a verdade.', emoji: '🔍' },
-                            { text: 'Por que você está tão preocupado?', emoji: '🤔' }
+                            { text: 'O que eu devo fazer primeiro?', emoji: '🤔' },
+                            { text: 'Já sei o que procurar.', emoji: '🔍' },
+                            { text: 'Estou pronto para começar.', emoji: '💪' }
                         ],
-                        nextMessage: { from: 'contact', text: 'Você não entende! O Projeto Azul não é o que parece. Eles estão vigiando tudo. Se você continuar, vai acabar como ela...', time: '16:48' }
+                        next: 'Vá até a pasta "Fotos" e clique em "Laboratório". É o primeiro passo.'
                     },
                     {
-                        id: 'chat_002',
-                        contact: 'Profa. Sofia Lima',
-                        avatar: 'S',
-                        evidenceId: 'ev_005',
-                        evidenceName: 'Mensagem de Sofia',
-                        messages: [
-                            { from: 'contact', text: 'Helena, estou preocupada. Você tem agido estranho. Se precisar de ajuda, estou aqui. Não enfrente isso sozinha.', time: '22:10' }
-                        ],
+                        from: 'contact',
+                        text: '📸 Você viu o laboratório? O que achou?',
+                        time: '14:02',
                         replies: [
-                            { text: 'O que você sabe sobre o Projeto Azul?', emoji: '📋' },
-                            { text: 'Estou bem, só estou cansada.', emoji: '😴' },
-                            { text: 'Preciso te contar algo importante.', emoji: '⚠️' }
+                            { text: 'Parece que algo estava fora do lugar.', emoji: '🧐' },
+                            { text: 'Estava tudo normal.', emoji: '😐' },
+                            { text: 'Vi algo suspeito.', emoji: '⚠️' }
                         ],
-                        nextMessage: { from: 'contact', text: 'Sei que você encontrou algo no laboratório. Por favor, tenha cuidado. Eles não querem que ninguém saiba a verdade.', time: '22:15' }
+                        next: 'Agora vá em "Arquivo Azul" - é a próxima pista.'
                     },
                     {
-                        id: 'chat_003',
-                        contact: 'Desconhecido',
-                        avatar: '?',
-                        evidenceId: 'ev_006',
-                        evidenceName: 'Mensagem do Desconhecido',
-                        messages: [
-                            { from: 'contact', text: 'Sabemos o que você descobriu. Arquivo Azul. Você não deveria ter visto isso. Pare agora. Ou as consequências serão graves.', time: '07:30' }
-                        ],
+                        from: 'contact',
+                        text: '📁 Arquivo Azul. O que você encontrou nele?',
+                        time: '14:05',
                         replies: [
-                            { text: 'Quem é você?', emoji: '❓' },
-                            { text: 'Não vou parar até descobrir a verdade.', emoji: '💪' },
-                            { text: 'O que vocês estão escondendo?', emoji: '🔎' }
+                            { text: 'Documentos confidenciais.', emoji: '📋' },
+                            { text: 'Nada demais.', emoji: '😕' },
+                            { text: 'Informações sobre o projeto.', emoji: '📄' }
                         ],
-                        nextMessage: { from: 'contact', text: 'Isso é um aviso final. Apague tudo que encontrou. Não destrua sua vida por algo que não te pertence.', time: '07:33' }
+                        next: 'As anotações de Helena estão na pasta "Anotações". Vá lá.'
                     },
                     {
-                        id: 'chat_004',
-                        contact: 'Helena Mendes',
-                        avatar: 'H',
-                        evidenceId: 'ev_007',
-                        evidenceName: 'Confissão de Helena',
-                        messages: [
-                            { from: 'contact', text: 'Ricardo, preciso te contar a verdade. Sobre o Projeto Azul. Não é o que pensam. Eles estão escondendo algo. Encontre o arquivo. Leia as cláusulas.', time: '23:50' }
-                        ],
+                        from: 'contact',
+                        text: '📝 As anotações. O que elas revelam?',
+                        time: '14:08',
                         replies: [
-                            { text: 'O que você descobriu, Helena?', emoji: '😨' },
-                            { text: 'Estou com medo. O que eles fizeram?', emoji: '😰' },
-                            { text: 'Onde você está? Preciso te encontrar.', emoji: '📍' }
+                            { text: 'Ela estava com medo.', emoji: '😨' },
+                            { text: 'Ela descobriu algo importante.', emoji: '💡' },
+                            { text: 'As anotações estão confusas.', emoji: '😵' }
                         ],
-                        nextMessage: { from: 'contact', text: 'Estou no laboratório. Mas preciso ir. Eles estão chegando. Encontre o arquivo. Tudo está lá. Prometa que vai encontrar.', time: '23:55' }
+                        next: 'Agora vamos para as mensagens. Clique em "Dr. Ricardo Alves".'
+                    },
+                    {
+                        from: 'contact',
+                        text: '💬 Ricardo estava preocupado. O que ele disse?',
+                        time: '14:12',
+                        replies: [
+                            { text: 'Ele avisou Helena para parar.', emoji: '⚠️' },
+                            { text: 'Ele sabia do perigo.', emoji: '😰' },
+                            { text: 'Ele estava tentando proteger ela.', emoji: '🛡️' }
+                        ],
+                        next: 'Agora leia a mensagem de Sofia.'
+                    },
+                    {
+                        from: 'contact',
+                        text: '💬 Sofia também estava preocupada. O que ela disse?',
+                        time: '14:15',
+                        replies: [
+                            { text: 'Ela ofereceu ajuda.', emoji: '🤝' },
+                            { text: 'Ela notou que Helena estava estranha.', emoji: '🧐' },
+                            { text: 'Ela sabia que algo estava errado.', emoji: '😟' }
+                        ],
+                        next: 'Agora a mensagem do Desconhecido...'
+                    },
+                    {
+                        from: 'contact',
+                        text: '❓ Mensagem do Desconhecido. Isso é sério.',
+                        time: '14:18',
+                        replies: [
+                            { text: 'Eles sabem o que descobri.', emoji: '😨' },
+                            { text: 'É uma ameaça.', emoji: '💀' },
+                            { text: 'Não vou parar.', emoji: '💪' }
+                        ],
+                        next: 'Última mensagem: a confissão de Helena.'
+                    },
+                    {
+                        from: 'contact',
+                        text: '💔 A confissão de Helena. O que ela revelou?',
+                        time: '14:22',
+                        replies: [
+                            { text: 'O Projeto Azul não é o que parece.', emoji: '😱' },
+                            { text: 'Eles estão escondendo algo terrível.', emoji: '😰' },
+                            { text: 'Ela estava em perigo.', emoji: '🆘' }
+                        ],
+                        next: 'Agora vá para "Documentos" e leia o Relatório do Projeto Azul.'
+                    },
+                    {
+                        from: 'contact',
+                        text: '📄 Relatório do Projeto Azul. O que você descobriu?',
+                        time: '14:26',
+                        replies: [
+                            { text: 'Informações censuradas.', emoji: '📎' },
+                            { text: 'O projeto foi bem-sucedido mas teve custos.', emoji: '📊' },
+                            { text: 'Eles estavam escondendo algo.', emoji: '🔎' }
+                        ],
+                        next: 'Última pista: o Termo de Sigilo.'
+                    },
+                    {
+                        from: 'contact',
+                        text: '📄 Termo de Sigilo. Isso confirma tudo.',
+                        time: '14:30',
+                        replies: [
+                            { text: 'Eles sabiam o que estavam fazendo.', emoji: '😤' },
+                            { text: 'Isso prova a conspiração.', emoji: '🔍' },
+                            { text: 'Helena estava certa.', emoji: '💯' }
+                        ],
+                        next: '🎉 PARABÉNS! Você desvendou o mistério do Arquivo Azul!',
+                        isFinal: true
                     }
-                ],
-                documents: [
-                    { id: 'doc1', name: 'Relatorio_Projeto_Azul.pdf', icon: '📄', desc: 'Relatório completo do Projeto Azul. Contém informações confidenciais.', content: 'PROJETO AZUL - RELATÓRIO FINAL\n\nObjetivo: Pesquisa sobre [DADOS CENSURADOS]\n\nResultados: [CENSURADO]\n\nConclusão: O projeto foi bem-sucedido. Mas os custos foram... [PÁGINA RASGADA]', evidence: true, evidenceId: 'ev_008', folder: 'documents' },
-                    { id: 'doc2', name: 'Termo_de_Sigilo.pdf', icon: '📄', desc: 'Termo de sigilo assinado por todos os envolvidos no projeto.', content: 'TERMO DE SIGILO\n\nEu, abaixo assinado, declaro que...\n\nCláusula 7: Não revelarei qualquer informação sobre o Projeto Azul.\n\nCláusula 12: Em caso de descumprimento, [INFORMAÇÃO CENSURADA]', evidence: true, evidenceId: 'ev_009', folder: 'documents' }
-                ],
-                audio: [
-                    { id: 'audio1', name: 'Ligacao_Helena_10-03.mp3', icon: '🎤', duration: '04:28', desc: 'Última ligação de Helena. Ela parece assustada.', transcript: '[00:00] - Helena: Alô? Sofia?\n[00:05] - Sofia: Helena! Graças a Deus!\n[00:10] - Helena: Sofia, preciso de ajuda.\n[00:18] - Helena: Eles descobriram que eu sei.\n[00:30] - Helena: O Projeto Azul. Não é o que parece.\n[01:10] - [Ruído de porta se abrindo]\n[01:20] - Helena: Preciso ir. Me desculpa.\n[01:35] - [Ligação cai]', evidence: true, evidenceId: 'ev_010', folder: 'audio' }
-                ],
-                video: [
-                    { id: 'video1', name: 'CCTV_Lab_10-03.mp4', icon: '🎥', duration: '02:15', desc: 'Câmera de segurança do laboratório. Helena sai correndo.', transcript: '[00:00] - Laboratório vazio\n[00:30] - Helena entra correndo\n[00:45] - Ela pega um arquivo azul\n[01:00] - Alguém aparece na porta\n[01:15] - Helena corre pela saída de emergência', evidence: true, evidenceId: 'ev_011', folder: 'video' }
-                ],
-                map: { locations: [ { name: 'Laboratório Central', status: '🔴' }, { name: 'Escritório de Helena', status: '🟡' }, { name: 'Arquivo Central', status: '🟢' } ] },
-                evidence: [
-                    { id: 'ev_001', name: 'Foto do Laboratório', found: false },
-                    { id: 'ev_002', name: 'Arquivo Azul', found: false },
-                    { id: 'ev_003', name: 'Anotações de Helena', found: false },
-                    { id: 'ev_004', name: 'Mensagem de Ricardo', found: false },
-                    { id: 'ev_005', name: 'Mensagem de Sofia', found: false },
-                    { id: 'ev_006', name: 'Mensagem do Desconhecido', found: false },
-                    { id: 'ev_007', name: 'Confissão de Helena', found: false },
-                    { id: 'ev_008', name: 'Relatório do Projeto', found: false },
-                    { id: 'ev_009', name: 'Termo de Sigilo', found: false },
-                    { id: 'ev_010', name: 'Ligação de Helena', found: false },
-                    { id: 'ev_011', name: 'Vídeo do Laboratório', found: false }
                 ]
-            };
-
-            // ============================================
-            // ORDEM DE PROGRESSÃO
-            // ============================================
-
-            const EVIDENCE_ORDER = ['ev_001', 'ev_002', 'ev_003', 'ev_004', 'ev_005', 'ev_006', 'ev_007', 'ev_008', 'ev_009', 'ev_010', 'ev_011'];
-
-            const EVIDENCE_NEXT_HINT = {
-                'ev_001': { name: 'Arquivo Azul', folder: 'photos' },
-                'ev_002': { name: 'Anotações', folder: 'photos' },
-                'ev_003': { name: 'Dr. Ricardo Alves', folder: 'messages' },
-                'ev_004': { name: 'Profa. Sofia Lima', folder: 'messages' },
-                'ev_005': { name: 'Desconhecido', folder: 'messages' },
-                'ev_006': { name: 'Helena Mendes', folder: 'messages' },
-                'ev_007': { name: 'Relatorio_Projeto_Azul.pdf', folder: 'documents' },
-                'ev_008': { name: 'Termo_de_Sigilo.pdf', folder: 'documents' },
-                'ev_009': { name: 'Ligacao_Helena_10-03.mp3', folder: 'audio' },
-                'ev_010': { name: 'CCTV_Lab_10-03.mp4', folder: 'video' },
-                'ev_011': { name: '🎉 TODAS AS EVIDÊNCIAS!', folder: 'complete' }
             };
 
             // ============================================
@@ -1076,6 +1079,8 @@
 
             let currentFolder = 'welcome';
             let progress = 0;
+            let currentStep = 0;
+            let conversationActive = false;
 
             // ============================================
             // DOM REFS
@@ -1090,6 +1095,24 @@
             const viewerBody = document.getElementById('viewerBody');
             const viewerClose = document.getElementById('viewerClose');
             const evidenceBadge = document.getElementById('evidenceBadge');
+
+            // ============================================
+            // EVIDÊNCIAS
+            // ============================================
+
+            const EVIDENCES = [
+                { id: 'ev_001', name: 'Foto do Laboratório', found: false },
+                { id: 'ev_002', name: 'Arquivo Azul', found: false },
+                { id: 'ev_003', name: 'Anotações de Helena', found: false },
+                { id: 'ev_004', name: 'Mensagem de Ricardo', found: false },
+                { id: 'ev_005', name: 'Mensagem de Sofia', found: false },
+                { id: 'ev_006', name: 'Mensagem do Desconhecido', found: false },
+                { id: 'ev_007', name: 'Confissão de Helena', found: false },
+                { id: 'ev_008', name: 'Relatório do Projeto', found: false },
+                { id: 'ev_009', name: 'Termo de Sigilo', found: false },
+                { id: 'ev_010', name: 'Ligação de Helena', found: false },
+                { id: 'ev_011', name: 'Vídeo do Laboratório', found: false }
+            ];
 
             // ============================================
             // NOTIFICATION SYSTEM
@@ -1109,36 +1132,8 @@
                 }, 3000);
             }
 
-            function showHint(nextName, nextFolder) {
-                const old = document.querySelector('.hint-notification');
-                if (old) old.remove();
-
-                const hint = document.createElement('div');
-                hint.className = 'hint-notification';
-                
-                const folderEmojis = { 'photos': '🖼️', 'messages': '💬', 'documents': '📄', 'audio': '🎤', 'video': '🎥' };
-                const emoji = folderEmojis[nextFolder] || '📂';
-                
-                hint.innerHTML = `
-                    <span class="emoji">🔓</span>
-                    <span class="highlight">${nextName}</span> foi desbloqueado!
-                    <br>
-                    <span style="font-size:12px;color:var(--text-muted);">
-                        Vá em <strong>${nextFolder.charAt(0).toUpperCase() + nextFolder.slice(1)}</strong> ${emoji} para continuar
-                    </span>
-                `;
-                document.body.appendChild(hint);
-                
-                setTimeout(() => {
-                    hint.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                    hint.style.opacity = '0';
-                    hint.style.transform = 'translateX(-50%) translateY(-20px)';
-                    setTimeout(() => hint.remove(), 300);
-                }, 4000);
-            }
-
             // ============================================
-            // SISTEMA DE CONFETES E CELEBRAÇÃO
+            // SISTEMA DE CONFETES
             // ============================================
 
             function showCelebration(evidenceName) {
@@ -1223,26 +1218,27 @@
             function getVisibleItems(items) {
                 return items.filter(item => {
                     if (!item.evidence) return true;
-                    const ev = STORY_DATA.evidence.find(e => e.id === item.evidenceId);
+                    const ev = EVIDENCES.find(e => e.id === item.evidenceId);
                     if (!ev) return true;
                     return ev.found || canFindEvidence(item.evidenceId);
                 });
             }
 
             function canFindEvidence(evidenceId) {
-                const ev = STORY_DATA.evidence.find(e => e.id === evidenceId);
+                const ev = EVIDENCES.find(e => e.id === evidenceId);
                 if (ev && ev.found) return true;
-                const index = EVIDENCE_ORDER.indexOf(evidenceId);
+                const order = ['ev_001', 'ev_002', 'ev_003', 'ev_004', 'ev_005', 'ev_006', 'ev_007', 'ev_008', 'ev_009', 'ev_010', 'ev_011'];
+                const index = order.indexOf(evidenceId);
                 if (index === -1) return true;
                 if (index === 0) return true;
-                const prevId = EVIDENCE_ORDER[index - 1];
-                const prevEv = STORY_DATA.evidence.find(e => e.id === prevId);
+                const prevId = order[index - 1];
+                const prevEv = EVIDENCES.find(e => e.id === prevId);
                 return prevEv && prevEv.found;
             }
 
             function updateProgress() {
-                const found = STORY_DATA.evidence.filter(e => e.found).length;
-                const total = STORY_DATA.evidence.length;
+                const found = EVIDENCES.filter(e => e.found).length;
+                const total = EVIDENCES.length;
                 progress = Math.round((found / total) * 100);
                 progressFill.style.width = progress + '%';
                 progressLabel.textContent = progress + '%';
@@ -1258,51 +1254,69 @@
 
             function updateFolderBadges() {
                 const folders = ['photos', 'messages', 'documents', 'audio', 'video'];
+                const files = {
+                    photos: [
+                        { id: 'photo1', name: 'Laboratório', evidenceId: 'ev_001', evidence: true },
+                        { id: 'photo2', name: 'Arquivo Azul', evidenceId: 'ev_002', evidence: true },
+                        { id: 'photo3', name: 'Anotações', evidenceId: 'ev_003', evidence: true }
+                    ],
+                    messages: [
+                        { id: 'msg1', name: 'Dr. Ricardo Alves', evidenceId: 'ev_004', evidence: true },
+                        { id: 'msg2', name: 'Profa. Sofia Lima', evidenceId: 'ev_005', evidence: true },
+                        { id: 'msg3', name: 'Desconhecido', evidenceId: 'ev_006', evidence: true },
+                        { id: 'msg4', name: 'Helena Mendes', evidenceId: 'ev_007', evidence: true }
+                    ],
+                    documents: [
+                        { id: 'doc1', name: 'Relatorio_Projeto_Azul.pdf', evidenceId: 'ev_008', evidence: true },
+                        { id: 'doc2', name: 'Termo_de_Sigilo.pdf', evidenceId: 'ev_009', evidence: true }
+                    ],
+                    audio: [
+                        { id: 'audio1', name: 'Ligacao_Helena_10-03.mp3', evidenceId: 'ev_010', evidence: true }
+                    ],
+                    video: [
+                        { id: 'video1', name: 'CCTV_Lab_10-03.mp4', evidenceId: 'ev_011', evidence: true }
+                    ]
+                };
+
                 folders.forEach(folder => {
-                    const items = STORY_DATA[folder] || [];
-                    const visible = getVisibleItems(items);
+                    const items = files[folder] || [];
+                    const visible = items.filter(item => {
+                        if (!item.evidence) return true;
+                        return canFindEvidence(item.evidenceId);
+                    });
                     const badge = document.getElementById(`${folder}Badge`);
                     if (badge) badge.textContent = visible.length;
                 });
             }
 
-            // ============================================
-            // MARCAR EVIDÊNCIA
-            // ============================================
-
             function markEvidenceFound(evidenceId) {
-                const ev = STORY_DATA.evidence.find(e => e.id === evidenceId);
+                const ev = EVIDENCES.find(e => e.id === evidenceId);
                 if (ev && !ev.found) {
                     ev.found = true;
                     updateProgress();
                     showCelebration(ev.name);
-                    const next = EVIDENCE_NEXT_HINT[ev.id];
-                    if (next && next.name !== '🎉 TODAS AS EVIDÊNCIAS!') {
-                        setTimeout(() => showHint(next.name, next.folder), 800);
-                    }
-                    setTimeout(() => {
-                        if (currentFolder !== 'welcome') renderFolder(currentFolder);
-                    }, 500);
                     return true;
                 }
                 return false;
             }
 
             // ============================================
-            // WHATSAPP INTERACTIVO COM IMAGEM DO CELULAR
+            // WHATSAPP CONVERSATION RENDER
             // ============================================
 
-            function renderWhatsAppInteractive(chat) {
-                const chatKey = chat.id;
-                if (!AppState.chatHistory[chatKey]) {
-                    AppState.chatHistory[chatKey] = { replied: false };
-                }
-                const history = AppState.chatHistory[chatKey];
+            function renderWhatsAppConversation(step) {
+                const chat = CHAT_CONVERSATION;
+                const messages = chat.messages;
+                const currentMsg = messages[step];
 
-                // Montar mensagens
-                let allMessages = [...chat.messages];
-                if (history.replied && chat.nextMessage) {
-                    allMessages.push(chat.nextMessage);
+                if (!currentMsg) {
+                    return renderEmpty('🎉', 'Conversa concluída!', 'Você já leu todas as mensagens.');
+                }
+
+                // Montar mensagens anteriores + atual
+                let allMessages = [];
+                for (let i = 0; i <= step; i++) {
+                    allMessages.push(messages[i]);
                 }
 
                 let messagesHtml = allMessages.map((msg, index) => {
@@ -1319,15 +1333,18 @@
                     `;
                 }).join('');
 
+                // Mostrar replies se for a última mensagem e não for final
                 let repliesHtml = '';
-                if (!history.replied && chat.replies) {
+                const isFinal = currentMsg.isFinal || false;
+
+                if (!isFinal && currentMsg.replies) {
                     repliesHtml = `
                         <div class="typing-indicator">
                             <span></span><span></span><span></span>
                         </div>
                         <div class="whatsapp-replies">
-                            ${chat.replies.map((reply, idx) => `
-                                <button class="reply-btn" data-chat="${chat.id}" data-reply="${idx}">
+                            ${currentMsg.replies.map((reply, idx) => `
+                                <button class="reply-btn" data-reply="${idx}" data-step="${step}">
                                     <span class="reply-emoji">${reply.emoji || '💬'}</span>
                                     ${reply.text}
                                 </button>
@@ -1336,11 +1353,12 @@
                     `;
                 }
 
+                // Se for final, mostrar mensagem de conclusão
                 let completedHtml = '';
-                if (history.replied && chat.nextMessage) {
+                if (isFinal) {
                     completedHtml = `
-                        <div style="text-align:center;padding:8px;color:var(--whatsapp-time);font-size:11px;border-top:1px solid var(--border-color);margin-top:4px;">
-                            ✅ Mensagem enviada! Evidência desbloqueada.
+                        <div style="text-align:center;padding:12px;color:var(--whatsapp-green-light);font-size:13px;border-top:1px solid var(--border-color);margin-top:8px;">
+                            🎉 TODAS AS EVIDÊNCIAS DESBLOQUEADAS!
                         </div>
                     `;
                 }
@@ -1397,66 +1415,100 @@
             }
 
             function renderMessages(folder) {
-                const chats = STORY_DATA.chatConversations || [];
-                const visibleChats = chats.filter(chat => canFindEvidence(chat.evidenceId));
-
                 const folderContent = document.getElementById('folderContent');
 
-                if (visibleChats.length === 0) {
-                    folderContent.innerHTML = renderEmpty('💬', 'Nenhuma conversa disponível', 'Continue investigando para desbloquear mensagens.');
+                // Verificar se a conversa já foi concluída
+                if (currentStep >= CHAT_CONVERSATION.messages.length) {
+                    folderContent.innerHTML = renderEmpty('🎉', 'Conversa concluída!', 'Você já desvendou todas as mensagens.');
                     updateActiveSidebarItem('messages');
                     return;
                 }
 
-                // Mostrar o primeiro chat disponível
-                const currentChat = visibleChats[0];
-                folderContent.innerHTML = renderWhatsAppInteractive(currentChat);
+                // Verificar se pode iniciar a conversa (ev_003 encontrada)
+                const canStart = canFindEvidence('ev_003');
+                if (!canStart) {
+                    folderContent.innerHTML = renderEmpty('💬', 'Conversa bloqueada', 'Encontre as 3 fotos primeiro para desbloquear as mensagens.');
+                    updateActiveSidebarItem('messages');
+                    return;
+                }
+
+                folderContent.innerHTML = renderWhatsAppConversation(currentStep);
                 updateActiveSidebarItem('messages');
 
-                // Event listeners para os botões de resposta
+                // Event listeners para respostas
                 setTimeout(() => {
                     document.querySelectorAll('.reply-btn').forEach(btn => {
                         btn.addEventListener('click', function() {
-                            const chatId = this.dataset.chat;
-                            const chat = STORY_DATA.chatConversations.find(c => c.id === chatId);
-                            if (!chat) return;
-
-                            if (!AppState.chatHistory[chatId]) {
-                                AppState.chatHistory[chatId] = { replied: false };
-                            }
-                            if (AppState.chatHistory[chatId].replied) return;
-
-                            // Marcar como respondido
-                            AppState.chatHistory[chatId].replied = true;
-
-                            // Adicionar mensagem do usuário
+                            const step = parseInt(this.dataset.step);
                             const replyIdx = parseInt(this.dataset.reply);
-                            const reply = chat.replies[replyIdx];
+                            const chat = CHAT_CONVERSATION;
+                            const msg = chat.messages[step];
+
+                            if (!msg || !msg.replies) return;
+
+                            // Adicionar resposta do usuário
+                            const reply = msg.replies[replyIdx];
                             const userMsg = {
                                 from: 'user',
                                 text: reply.text,
                                 time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
                             };
-                            chat.messages.push(userMsg);
 
-                            // Marcar evidência
-                            markEvidenceFound(chat.evidenceId);
+                            // Adicionar a mensagem do usuário na conversa
+                            // (inserir após a mensagem atual)
+                            chat.messages.splice(step + 1, 0, userMsg);
 
-                            // Recarregar
-                            renderMessages('messages');
+                            // Avançar o passo
+                            currentStep = step + 1;
 
-                            setTimeout(() => {
-                                const container = document.getElementById('whatsappMessages');
-                                if (container) container.scrollTop = container.scrollHeight;
-                            }, 200);
+                            // Verificar se tem uma próxima mensagem do contato
+                            // Se tiver, adicionar automaticamente após um delay
+                            if (msg.next) {
+                                setTimeout(() => {
+                                    const nextMsg = {
+                                        from: 'contact',
+                                        text: msg.next,
+                                        time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+                                    };
+                                    chat.messages.splice(currentStep + 1, 0, nextMsg);
+                                    currentStep++;
+
+                                    // Marcar evidência se for uma mensagem específica
+                                    const evidenceMap = {
+                                        'Dr. Ricardo Alves': 'ev_004',
+                                        'Profa. Sofia Lima': 'ev_005',
+                                        'Desconhecido': 'ev_006',
+                                        'Helena Mendes': 'ev_007'
+                                    };
+
+                                    const evId = evidenceMap[chat.messages[currentStep]?.text?.substring(0, 20)];
+                                    if (evId) {
+                                        markEvidenceFound(evId);
+                                    }
+
+                                    renderMessages('messages');
+                                    scrollToBottom();
+                                }, 1500);
+                            } else {
+                                // Se for a última mensagem, marcar a última evidência
+                                if (msg.isFinal) {
+                                    // Marcar evidência final
+                                    const finalEvs = ['ev_008', 'ev_009'];
+                                    finalEvs.forEach(id => markEvidenceFound(id));
+                                }
+                                renderMessages('messages');
+                                scrollToBottom();
+                            }
                         });
                     });
-
-                    setTimeout(() => {
-                        const container = document.getElementById('whatsappMessages');
-                        if (container) container.scrollTop = container.scrollHeight;
-                    }, 300);
                 }, 400);
+            }
+
+            function scrollToBottom() {
+                setTimeout(() => {
+                    const container = document.getElementById('whatsappMessages');
+                    if (container) container.scrollTop = container.scrollHeight;
+                }, 200);
             }
 
             function renderFolder(folder) {
@@ -1473,11 +1525,29 @@
                 let title = '';
                 let icon = '';
 
+                const files = {
+                    photos: [
+                        { id: 'photo1', name: 'Laboratório', icon: '🖼️', desc: 'O laboratório onde Helena trabalhava.', image: 'assets/images/laboratorio.png', evidence: true, evidenceId: 'ev_001', folder: 'photos' },
+                        { id: 'photo2', name: 'Arquivo Azul', icon: '🖼️', desc: 'O misterioso arquivo azul.', image: 'assets/images/arquivo-azul.png', evidence: true, evidenceId: 'ev_002', folder: 'photos' },
+                        { id: 'photo3', name: 'Anotações', icon: '🖼️', desc: 'Anotações confusas de Helena.', image: 'assets/images/anotacoes.png', evidence: true, evidenceId: 'ev_003', folder: 'photos' }
+                    ],
+                    documents: [
+                        { id: 'doc1', name: 'Relatorio_Projeto_Azul.pdf', icon: '📄', desc: 'Relatório completo do Projeto Azul.', content: 'PROJETO AZUL - RELATÓRIO FINAL\n\nObjetivo: Pesquisa sobre [DADOS CENSURADOS]\n\nResultados: [CENSURADO]\n\nConclusão: O projeto foi bem-sucedido. Mas os custos foram... [PÁGINA RASGADA]', evidence: true, evidenceId: 'ev_008', folder: 'documents' },
+                        { id: 'doc2', name: 'Termo_de_Sigilo.pdf', icon: '📄', desc: 'Termo de sigilo assinado por todos.', content: 'TERMO DE SIGILO\n\nCláusula 7: Não revelarei qualquer informação sobre o Projeto Azul.\n\nCláusula 12: Em caso de descumprimento, [INFORMAÇÃO CENSURADA]', evidence: true, evidenceId: 'ev_009', folder: 'documents' }
+                    ],
+                    audio: [
+                        { id: 'audio1', name: 'Ligacao_Helena_10-03.mp3', icon: '🎤', duration: '04:28', desc: 'Última ligação de Helena.', transcript: '[00:00] - Helena: Alô? Sofia?\n[00:05] - Sofia: Helena! Graças a Deus!\n[00:10] - Helena: Sofia, preciso de ajuda.\n[00:18] - Helena: Eles descobriram que eu sei.\n[00:30] - Helena: O Projeto Azul. Não é o que parece.\n[01:10] - [Ruído de porta se abrindo]\n[01:20] - Helena: Preciso ir. Me desculpa.\n[01:35] - [Ligação cai]', evidence: true, evidenceId: 'ev_010', folder: 'audio' }
+                    ],
+                    video: [
+                        { id: 'video1', name: 'CCTV_Lab_10-03.mp4', icon: '🎥', duration: '02:15', desc: 'Câmera de segurança do laboratório.', transcript: '[00:00] - Laboratório vazio\n[00:30] - Helena entra correndo\n[00:45] - Ela pega um arquivo azul\n[01:00] - Alguém aparece na porta\n[01:15] - Helena corre pela saída de emergência', evidence: true, evidenceId: 'ev_011', folder: 'video' }
+                    ]
+                };
+
                 switch (folder) {
-                    case 'photos': items = STORY_DATA.photos; title = 'Fotos'; icon = '🖼️'; break;
-                    case 'documents': items = STORY_DATA.documents; title = 'Documentos'; icon = '📄'; break;
-                    case 'audio': items = STORY_DATA.audio; title = 'Áudios'; icon = '🎤'; break;
-                    case 'video': items = STORY_DATA.video; title = 'Vídeos'; icon = '🎥'; break;
+                    case 'photos': items = files.photos; title = 'Fotos'; icon = '🖼️'; break;
+                    case 'documents': items = files.documents; title = 'Documentos'; icon = '📄'; break;
+                    case 'audio': items = files.audio; title = 'Áudios'; icon = '🎤'; break;
+                    case 'video': items = files.video; title = 'Vídeos'; icon = '🎥'; break;
                     case 'map': folderContent.innerHTML = renderMap(); updateActiveSidebarItem(folder); return;
                     case 'evidence': folderContent.innerHTML = renderEvidence(); updateActiveSidebarItem(folder); return;
                     case 'trash': folderContent.innerHTML = renderEmpty('🗑️', 'Lixeira vazia', 'Nenhum arquivo foi descartado ainda.'); updateActiveSidebarItem(folder); return;
@@ -1545,12 +1615,16 @@
 
             function getEvidenceStatus(evidenceId) {
                 if (!evidenceId) return true;
-                const ev = STORY_DATA.evidence.find(e => e.id === evidenceId);
+                const ev = EVIDENCES.find(e => e.id === evidenceId);
                 return ev ? ev.found : true;
             }
 
             function renderMap() {
-                const locations = STORY_DATA.map.locations;
+                const locations = [
+                    { name: 'Laboratório Central', status: '🔴' },
+                    { name: 'Escritório de Helena', status: '🟡' },
+                    { name: 'Arquivo Central', status: '🟢' }
+                ];
                 let html = `
                     <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;width:100%;">
                         <span style="font-size:28px;">📍</span>
@@ -1581,7 +1655,7 @@
             }
 
             function renderEvidence() {
-                const items = STORY_DATA.evidence;
+                const items = EVIDENCES;
                 const found = items.filter(e => e.found).length;
                 const total = items.length;
 
@@ -1639,19 +1713,30 @@
                 let items = [];
                 let file = null;
 
-                switch (folder) {
-                    case 'photos': items = STORY_DATA.photos; break;
-                    case 'documents': items = STORY_DATA.documents; break;
-                    case 'audio': items = STORY_DATA.audio; break;
-                    case 'video': items = STORY_DATA.video; break;
-                    default: return;
-                }
+                const files = {
+                    photos: [
+                        { id: 'photo1', name: 'Laboratório', icon: '🖼️', desc: 'O laboratório onde Helena trabalhava.', image: 'assets/images/laboratorio.png', evidence: true, evidenceId: 'ev_001' },
+                        { id: 'photo2', name: 'Arquivo Azul', icon: '🖼️', desc: 'O misterioso arquivo azul.', image: 'assets/images/arquivo-azul.png', evidence: true, evidenceId: 'ev_002' },
+                        { id: 'photo3', name: 'Anotações', icon: '🖼️', desc: 'Anotações confusas de Helena.', image: 'assets/images/anotacoes.png', evidence: true, evidenceId: 'ev_003' }
+                    ],
+                    documents: [
+                        { id: 'doc1', name: 'Relatorio_Projeto_Azul.pdf', icon: '📄', desc: 'Relatório completo do Projeto Azul.', content: 'PROJETO AZUL - RELATÓRIO FINAL\n\nObjetivo: Pesquisa sobre [DADOS CENSURADOS]\n\nResultados: [CENSURADO]\n\nConclusão: O projeto foi bem-sucedido. Mas os custos foram... [PÁGINA RASGADA]', evidence: true, evidenceId: 'ev_008' },
+                        { id: 'doc2', name: 'Termo_de_Sigilo.pdf', icon: '📄', desc: 'Termo de sigilo assinado por todos.', content: 'TERMO DE SIGILO\n\nCláusula 7: Não revelarei qualquer informação sobre o Projeto Azul.\n\nCláusula 12: Em caso de descumprimento, [INFORMAÇÃO CENSURADA]', evidence: true, evidenceId: 'ev_009' }
+                    ],
+                    audio: [
+                        { id: 'audio1', name: 'Ligacao_Helena_10-03.mp3', icon: '🎤', duration: '04:28', desc: 'Última ligação de Helena.', evidence: true, evidenceId: 'ev_010' }
+                    ],
+                    video: [
+                        { id: 'video1', name: 'CCTV_Lab_10-03.mp4', icon: '🎥', duration: '02:15', desc: 'Câmera de segurança do laboratório.', evidence: true, evidenceId: 'ev_011' }
+                    ]
+                };
 
+                items = files[folder] || [];
                 file = items.find(item => item.id === id);
                 if (!file) return;
 
                 if (file.evidence && file.evidenceId) {
-                    const ev = STORY_DATA.evidence.find(e => e.id === file.evidenceId);
+                    const ev = EVIDENCES.find(e => e.id === file.evidenceId);
                     if (ev && !ev.found && !canFindEvidence(file.evidenceId)) {
                         showNotification('🔒 Você precisa encontrar mais pistas primeiro!', 'warning');
                         return;
@@ -1671,6 +1756,7 @@
                             <img src="${file.image}" alt="${file.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                             <div style="display:none;color:var(--text-muted);padding:20px;">⚠️ Imagem não encontrada</div>
                             <p>${file.desc || 'Sem descrição disponível.'}</p>
+                            ${file.evidence ? '<div class="evidence-found">⭐ EVIDÊNCIA</div>' : ''}
                         </div>
                     `;
                 } else {
@@ -1680,19 +1766,27 @@
                             <p>${file.desc || file.preview || 'Sem descrição disponível.'}</p>
                             ${file.duration ? `<div class="meta">⏱️ ${file.duration}</div>` : ''}
                             ${file.content ? `<div style="text-align:left;background:var(--bg-card);padding:16px;border-radius:var(--radius-sm);margin-top:12px;white-space:pre-wrap;font-size:13px;color:var(--text-secondary);">${file.content}</div>` : ''}
+                            ${file.evidence ? '<div class="evidence-found">⭐ EVIDÊNCIA</div>' : ''}
                         </div>
                     `;
                 }
 
-                if (file.evidence && file.evidenceId) {
-                    const ev = STORY_DATA.evidence.find(e => e.id === file.evidenceId);
-                    if (ev && ev.found) {
-                        bodyHtml = bodyHtml.replace('</div>', '<div class="evidence-found">⭐ EVIDÊNCIA ENCONTRADA!</div></div>');
-                    }
-                }
-
                 viewerBody.innerHTML = bodyHtml;
                 viewerOverlay.classList.add('open');
+
+                // Marcar evidência ao abrir (apenas se já estiver desbloqueada)
+                if (file.evidence && file.evidenceId) {
+                    const ev = EVIDENCES.find(e => e.id === file.evidenceId);
+                    if (ev && !ev.found && canFindEvidence(file.evidenceId)) {
+                        ev.found = true;
+                        updateProgress();
+                        showCelebration(ev.name);
+                        // Atualizar a pasta atual para mostrar mudanças
+                        setTimeout(() => {
+                            if (currentFolder !== 'welcome') renderFolder(currentFolder);
+                        }, 500);
+                    }
+                }
             }
 
             // ============================================
@@ -1701,16 +1795,7 @@
 
             function closeViewer() {
                 viewerOverlay.classList.remove('open');
-                if (AppState.currentFile) {
-                    const file = AppState.currentFile;
-                    if (file.evidence && file.evidenceId) {
-                        const ev = STORY_DATA.evidence.find(e => e.id === file.evidenceId);
-                        if (ev && !ev.found) {
-                            markEvidenceFound(file.evidenceId);
-                        }
-                    }
-                    AppState.currentFile = null;
-                }
+                AppState.currentFile = null;
             }
 
             // ============================================
@@ -1729,8 +1814,11 @@
 
             function resetProgress() {
                 if (!confirm('🔄 Iniciar um novo caso irá apagar todo o seu progresso atual. Deseja continuar?')) return;
-                STORY_DATA.evidence.forEach(ev => ev.found = false);
-                AppState.chatHistory = {};
+                EVIDENCES.forEach(ev => ev.found = false);
+                currentStep = 0;
+                // Resetar a conversa
+                const chat = CHAT_CONVERSATION;
+                chat.messages = chat.messages.filter(msg => msg.from === 'contact');
                 progress = 0;
                 updateProgress();
                 navigateTo('welcome');
@@ -1778,7 +1866,7 @@
 
             console.log('🔍 Evidence - O Mistério do Arquivo Azul');
             console.log('📁 Explore as pastas para descobrir a verdade.');
-            console.log('💬 Mensagens interativas estilo WhatsApp!');
+            console.log('💬 Conversa contínua com 10 mensagens!');
             console.log('📈 Encontre todas as 11 evidências em ordem!');
 
         })();
