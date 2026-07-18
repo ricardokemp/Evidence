@@ -956,21 +956,18 @@
             const AppState = {
                 currentFile: null,
                 chatStep: 0,
-                chatCompleted: false
+                chatActive: false
             };
 
             // ============================================
             // CONVERSA COMPLETA (10 MENSAGENS)
             // ============================================
 
-            const CHAT_CONVERSATION = {
-                id: 'main_chat',
-                contact: 'Dr. Ricardo Alves',
-                avatar: 'assets/images/ricardo.png',
+            const CONVERSATION = {
                 messages: [
-                    // MENSAGEM 1 - Ricardo
                     {
-                        from: 'contact',
+                        id: 0,
+                        sender: 'Dr. Ricardo Alves',
                         text: '⚠️ Helena, pelo amor de Deus, pare com isso! O que você está fazendo é extremamente perigoso. Você não tem noção do que está mexendo.',
                         time: '16:45',
                         replies: [
@@ -978,11 +975,12 @@
                             { text: 'Estou apenas investigando a verdade.', emoji: '🔍' },
                             { text: 'Por que você está tão preocupado?', emoji: '🤔' }
                         ],
-                        next: 'Se você continuar, vai acabar como os outros que tentaram descobrir a verdade sobre o Projeto Azul.'
+                        nextId: 1,
+                        evidenceId: 'ev_004'
                     },
-                    // MENSAGEM 2 - Ricardo (resposta)
                     {
-                        from: 'contact',
+                        id: 1,
+                        sender: 'Dr. Ricardo Alves',
                         text: '📋 O Projeto Azul não é um experimento científico comum. É uma operação secreta. Eles estão usando pessoas como cobaias.',
                         time: '16:48',
                         replies: [
@@ -990,11 +988,12 @@
                             { text: 'Isso é loucura!', emoji: '🤯' },
                             { text: 'Eu preciso de provas.', emoji: '🔎' }
                         ],
-                        next: 'Helena descobriu isso. Por isso ela sumiu. Ela estava prestes a expor tudo.'
+                        nextId: 2,
+                        evidenceId: 'ev_004'
                     },
-                    // MENSAGEM 3 - Ricardo (resposta)
                     {
-                        from: 'contact',
+                        id: 2,
+                        sender: 'Dr. Ricardo Alves',
                         text: '📝 Helena deixou pistas. No laboratório, no arquivo azul e nas anotações dela. Tudo está conectado.',
                         time: '16:52',
                         replies: [
@@ -1002,11 +1001,12 @@
                             { text: 'Já encontrei algumas coisas.', emoji: '📂' },
                             { text: 'Me diga o que você sabe.', emoji: '🗣️' }
                         ],
-                        next: '💬 Você está começando a entender...'
+                        nextId: 3,
+                        evidenceId: 'ev_004'
                     },
-                    // MENSAGEM 4 - Sofia
                     {
-                        from: 'contact',
+                        id: 3,
+                        sender: 'Profa. Sofia Lima',
                         text: '💔 Helena, estou tão preocupada com você. Você tem agido tão estranho ultimamente. Por favor, me diga o que está acontecendo.',
                         time: '22:10',
                         replies: [
@@ -1014,11 +1014,12 @@
                             { text: 'Estou bem, só estou cansada.', emoji: '😴' },
                             { text: 'Preciso te contar algo importante.', emoji: '⚠️' }
                         ],
-                        next: 'Eu sei que você encontrou algo no laboratório. Por favor, tenha cuidado.'
+                        nextId: 4,
+                        evidenceId: 'ev_005'
                     },
-                    // MENSAGEM 5 - Sofia (resposta)
                     {
-                        from: 'contact',
+                        id: 4,
+                        sender: 'Profa. Sofia Lima',
                         text: '😢 Helena, eu te conheço há anos. Sei quando você está com medo. E você está com muito medo. Me deixe ajudar.',
                         time: '22:15',
                         replies: [
@@ -1026,11 +1027,12 @@
                             { text: 'Não posso envolver você nisso.', emoji: '🛡️' },
                             { text: 'Se souberem que você sabe, vão te machucar.', emoji: '💀' }
                         ],
-                        next: '💬 Sofia está tentando te ajudar...'
+                        nextId: 5,
+                        evidenceId: 'ev_005'
                     },
-                    // MENSAGEM 6 - Desconhecido
                     {
-                        from: 'contact',
+                        id: 5,
+                        sender: 'Desconhecido',
                         text: '☠️ Sabemos o que você descobriu. Arquivo Azul. Você não deveria ter visto isso. Pare agora. Ou as consequências serão graves.',
                         time: '07:30',
                         replies: [
@@ -1038,11 +1040,12 @@
                             { text: 'Não vou parar até descobrir a verdade.', emoji: '💪' },
                             { text: 'O que vocês estão escondendo?', emoji: '🔎' }
                         ],
-                        next: 'Isso é um aviso final. Apague tudo que encontrou.'
+                        nextId: 6,
+                        evidenceId: 'ev_006'
                     },
-                    // MENSAGEM 7 - Desconhecido (resposta)
                     {
-                        from: 'contact',
+                        id: 6,
+                        sender: 'Desconhecido',
                         text: '💀 Você tem 24 horas para entregar tudo o que encontrou. Caso contrário, as consequências serão... permanentes.',
                         time: '07:33',
                         replies: [
@@ -1050,11 +1053,12 @@
                             { text: 'Eu tenho provas do que vocês fizeram.', emoji: '📄' },
                             { text: 'A polícia vai saber de tudo.', emoji: '👮' }
                         ],
-                        next: '💬 A ameaça é real...'
+                        nextId: 7,
+                        evidenceId: 'ev_006'
                     },
-                    // MENSAGEM 8 - Helena
                     {
-                        from: 'contact',
+                        id: 7,
+                        sender: 'Helena Mendes',
                         text: '😭 Ricardo, preciso te contar a verdade. Sobre o Projeto Azul. Não é o que pensam. Eles estão escondendo algo terrível.',
                         time: '23:50',
                         replies: [
@@ -1062,11 +1066,12 @@
                             { text: 'Estou com medo. O que eles fizeram?', emoji: '😰' },
                             { text: 'Onde você está? Preciso te encontrar.', emoji: '📍' }
                         ],
-                        next: 'Estou no laboratório. Mas preciso ir. Eles estão chegando.'
+                        nextId: 8,
+                        evidenceId: 'ev_007'
                     },
-                    // MENSAGEM 9 - Helena (resposta)
                     {
-                        from: 'contact',
+                        id: 8,
+                        sender: 'Helena Mendes',
                         text: '📁 O arquivo azul tem tudo. Os experimentos, os nomes, as datas. É a única prova que pode derrubar eles.',
                         time: '23:55',
                         replies: [
@@ -1074,11 +1079,12 @@
                             { text: 'Onde você está agora?', emoji: '📍' },
                             { text: 'Não se preocupe, vou proteger você.', emoji: '🛡️' }
                         ],
-                        next: 'Eu confio em você. Por favor, encontre o arquivo.'
+                        nextId: 9,
+                        evidenceId: 'ev_007'
                     },
-                    // MENSAGEM 10 - Helena (final)
                     {
-                        from: 'contact',
+                        id: 9,
+                        sender: 'Helena Mendes',
                         text: '💔 Eles estão aqui. Eu ouvi os passos. Preciso ir. Encontre o arquivo. Prometa... por favor...',
                         time: '23:58',
                         replies: [
@@ -1086,7 +1092,8 @@
                             { text: 'Não desista, Helena!', emoji: '💪' },
                             { text: 'Vou salvar você.', emoji: '🦸' }
                         ],
-                        next: '🎉 PARABÉNS! Você completou a investigação! Agora vá para os Documentos.',
+                        nextId: null,
+                        evidenceId: 'ev_007',
                         isFinal: true
                     }
                 ]
@@ -1116,7 +1123,8 @@
 
             let currentFolder = 'welcome';
             let progress = 0;
-            let currentStep = 0;
+            let currentChatIndex = 0;
+            let chatHistory = [];
 
             // ============================================
             // DOM REFS
@@ -1316,29 +1324,15 @@
             }
 
             // ============================================
-            // WHATSAPP CONVERSATION RENDER
+            // WHATSAPP CONVERSATION RENDER - CORRIGIDO
             // ============================================
 
-            function renderWhatsAppConversation(step) {
-                const chat = CHAT_CONVERSATION;
-                const messages = chat.messages;
-                const currentMsg = messages[step];
-
-                if (!currentMsg) {
-                    return renderEmpty('🎉', 'Conversa concluída!', 'Você já leu todas as mensagens.');
-                }
-
-                // Montar mensagens anteriores + atual
-                let allMessages = [];
-                for (let i = 0; i <= step; i++) {
-                    allMessages.push(messages[i]);
-                }
-
-                let messagesHtml = allMessages.map((msg, index) => {
+            function renderChatMessages(messages, showReplies = false, onReply = null) {
+                let html = messages.map((msg, index) => {
                     const isOut = msg.from === 'user';
                     return `
                         <div class="whatsapp-message ${isOut ? 'out' : 'in'}" style="animation-delay: ${index * 0.1}s">
-                            ${!isOut ? `<div class="sender">${chat.contact}</div>` : ''}
+                            ${!isOut ? `<div class="sender">${msg.sender || 'Contato'}</div>` : ''}
                             <div class="bubble">${msg.text.replace(/\n/g, '<br>')}</div>
                             <div class="time-row">
                                 ${msg.time || '00:00'}
@@ -1348,18 +1342,14 @@
                     `;
                 }).join('');
 
-                // Mostrar replies se for a última mensagem e não for final
-                let repliesHtml = '';
-                const isFinal = currentMsg.isFinal || false;
-
-                if (!isFinal && currentMsg.replies) {
-                    repliesHtml = `
+                if (showReplies && onReply) {
+                    html += `
                         <div class="typing-indicator">
                             <span></span><span></span><span></span>
                         </div>
                         <div class="whatsapp-replies">
-                            ${currentMsg.replies.map((reply, idx) => `
-                                <button class="reply-btn" data-reply="${idx}" data-step="${step}">
+                            ${onReply.map((reply, idx) => `
+                                <button class="reply-btn" data-reply="${idx}">
                                     <span class="reply-emoji">${reply.emoji || '💬'}</span>
                                     ${reply.text}
                                 </button>
@@ -1368,22 +1358,49 @@
                     `;
                 }
 
-                // Se for final, mostrar mensagem de conclusão
-                let completedHtml = '';
-                if (isFinal) {
-                    completedHtml = `
-                        <div style="text-align:center;padding:12px;color:var(--whatsapp-green-light);font-size:13px;border-top:1px solid var(--border-color);margin-top:8px;">
-                            🎉 TODAS AS EVIDÊNCIAS DESBLOQUEADAS!
-                        </div>
-                    `;
+                return html;
+            }
+
+            function renderWhatsAppConversation() {
+                const chat = CONVERSATION;
+                const currentMsg = chat.messages[currentChatIndex];
+
+                if (!currentMsg) {
+                    return renderEmpty('🎉', 'Conversa concluída!', 'Você já desvendou todas as mensagens.');
                 }
 
-                // Verificar se a foto de perfil existe
-                const avatarHtml = chat.avatar && chat.avatar.startsWith('assets/') 
-                    ? `<img src="${chat.avatar}" alt="${chat.contact}" class="avatar-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">`
-                    : `<div class="avatar-placeholder">${chat.contact.charAt(0)}</div>`;
+                // Montar histórico de mensagens + a atual
+                const displayMessages = [];
+                
+                // Adicionar mensagens do histórico
+                chatHistory.forEach(msg => {
+                    displayMessages.push(msg);
+                });
 
-                return `
+                // Adicionar a mensagem atual do contato (se ainda não estiver no histórico)
+                const alreadyInHistory = chatHistory.some(m => m.id === currentMsg.id && m.from === 'contact');
+                if (!alreadyInHistory) {
+                    displayMessages.push({
+                        id: currentMsg.id,
+                        from: 'contact',
+                        sender: currentMsg.sender,
+                        text: currentMsg.text,
+                        time: currentMsg.time
+                    });
+                }
+
+                // Verificar se precisa mostrar replies
+                const showReplies = !currentMsg.isFinal && currentMsg.replies && currentMsg.replies.length > 0;
+                const replies = showReplies ? currentMsg.replies : null;
+
+                const avatarHtml = 'assets/images/ricardo.png' 
+                    ? `<img src="assets/images/ricardo.png" alt="Dr. Ricardo Alves" class="avatar-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">`
+                    : `<div class="avatar-placeholder">${currentMsg.sender.charAt(0)}</div>`;
+
+                // Determinar o nome do contato atual
+                const contactName = currentMsg.sender || 'Contato';
+
+                let html = `
                     <div class="iphone-wrapper">
                         <div class="iphone-container">
                             <img src="assets/images/celular.png" alt="iPhone" class="iphone-bg" onerror="this.style.display='none'">
@@ -1392,9 +1409,9 @@
                                 <div class="whatsapp-header">
                                     <button class="back-btn" onclick="window.navigateTo('messages')">‹</button>
                                     ${avatarHtml}
-                                    <div class="avatar-placeholder" style="display:none;">${chat.contact.charAt(0)}</div>
+                                    <div class="avatar-placeholder" style="display:none;">${contactName.charAt(0)}</div>
                                     <div class="info">
-                                        <div class="name">${chat.contact}</div>
+                                        <div class="name">${contactName}</div>
                                         <div class="status online">🟢 Online</div>
                                     </div>
                                     <div class="actions">
@@ -1406,9 +1423,7 @@
 
                                 <!-- MESSAGES -->
                                 <div class="whatsapp-messages dark" id="whatsappMessages">
-                                    ${messagesHtml}
-                                    ${repliesHtml}
-                                    ${completedHtml}
+                                    ${renderChatMessages(displayMessages, showReplies, replies)}
                                 </div>
 
                                 <!-- FOOTER -->
@@ -1421,6 +1436,57 @@
                         </div>
                     </div>
                 `;
+
+                return html;
+            }
+
+            function handleReply(step, replyIdx) {
+                const chat = CONVERSATION;
+                const currentMsg = chat.messages[step];
+                
+                if (!currentMsg || !currentMsg.replies) return;
+
+                const reply = currentMsg.replies[replyIdx];
+                
+                // Adicionar resposta do usuário ao histórico
+                chatHistory.push({
+                    id: `user_${Date.now()}`,
+                    from: 'user',
+                    sender: 'Você',
+                    text: reply.text,
+                    time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+                });
+
+                // Marcar evidência
+                if (currentMsg.evidenceId) {
+                    markEvidenceFound(currentMsg.evidenceId);
+                }
+
+                // Avançar para a próxima mensagem
+                const nextId = currentMsg.nextId;
+                if (nextId !== null && nextId < chat.messages.length) {
+                    currentChatIndex = nextId;
+                    
+                    // Adicionar a próxima mensagem do contato ao histórico
+                    const nextMsg = chat.messages[nextId];
+                    chatHistory.push({
+                        id: nextMsg.id,
+                        from: 'contact',
+                        sender: nextMsg.sender,
+                        text: nextMsg.text,
+                        time: nextMsg.time
+                    });
+
+                    // Recarregar a conversa
+                    renderMessages('messages');
+                    
+                    // Scroll para o final
+                    setTimeout(scrollToBottom, 300);
+                } else {
+                    // Conversa concluída
+                    renderMessages('messages');
+                    setTimeout(scrollToBottom, 300);
+                }
             }
 
             // ============================================
@@ -1438,13 +1504,6 @@
             function renderMessages(folder) {
                 const folderContent = document.getElementById('folderContent');
 
-                // Verificar se a conversa já foi concluída
-                if (currentStep >= CHAT_CONVERSATION.messages.length) {
-                    folderContent.innerHTML = renderEmpty('🎉', 'Conversa concluída!', 'Você já desvendou todas as mensagens.');
-                    updateActiveSidebarItem('messages');
-                    return;
-                }
-
                 // Verificar se pode iniciar a conversa (ev_003 encontrada)
                 const canStart = canFindEvidence('ev_003');
                 if (!canStart) {
@@ -1453,78 +1512,28 @@
                     return;
                 }
 
-                folderContent.innerHTML = renderWhatsAppConversation(currentStep);
+                // Renderizar a conversa
+                folderContent.innerHTML = renderWhatsAppConversation();
                 updateActiveSidebarItem('messages');
 
-                // Event listeners para respostas
+                // Event listeners para os botões de resposta
                 setTimeout(() => {
-                    document.querySelectorAll('.reply-btn').forEach(btn => {
+                    document.querySelectorAll('.reply-btn').forEach((btn, index) => {
                         btn.addEventListener('click', function() {
-                            const step = parseInt(this.dataset.step);
                             const replyIdx = parseInt(this.dataset.reply);
-                            const chat = CHAT_CONVERSATION;
-                            const msg = chat.messages[step];
-
-                            if (!msg || !msg.replies) return;
-
-                            // Adicionar resposta do usuário
-                            const reply = msg.replies[replyIdx];
-                            const userMsg = {
-                                from: 'user',
-                                text: reply.text,
-                                time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
-                            };
-
-                            // Adicionar a mensagem do usuário na conversa
-                            chat.messages.splice(step + 1, 0, userMsg);
-
-                            // Avançar o passo
-                            currentStep = step + 1;
-
-                            // Verificar se tem uma próxima mensagem do contato
-                            if (msg.next) {
-                                setTimeout(() => {
-                                    const nextMsg = {
-                                        from: 'contact',
-                                        text: msg.next,
-                                        time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
-                                    };
-                                    chat.messages.splice(currentStep + 1, 0, nextMsg);
-                                    currentStep++;
-
-                                    // Marcar evidências conforme a conversa avança
-                                    const stepEvMap = {
-                                        2: 'ev_004',
-                                        4: 'ev_005',
-                                        6: 'ev_006',
-                                        8: 'ev_007'
-                                    };
-                                    const evId = stepEvMap[currentStep];
-                                    if (evId) {
-                                        markEvidenceFound(evId);
-                                    }
-
-                                    renderMessages('messages');
-                                    scrollToBottom();
-                                }, 1500);
-                            } else {
-                                // Se for a última mensagem, marcar a última evidência
-                                if (msg.isFinal) {
-                                    const finalEvs = ['ev_008', 'ev_009', 'ev_010', 'ev_011'];
-                                    finalEvs.forEach(id => markEvidenceFound(id));
-                                }
-                                renderMessages('messages');
-                                scrollToBottom();
-                            }
+                            const step = currentChatIndex;
+                            handleReply(step, replyIdx);
                         });
                     });
-                }, 400);
+                }, 300);
             }
 
             function scrollToBottom() {
                 setTimeout(() => {
                     const container = document.getElementById('whatsappMessages');
-                    if (container) container.scrollTop = container.scrollHeight;
+                    if (container) {
+                        container.scrollTop = container.scrollHeight;
+                    }
                 }, 200);
             }
 
@@ -1831,9 +1840,8 @@
             function resetProgress() {
                 if (!confirm('🔄 Iniciar um novo caso irá apagar todo o seu progresso atual. Deseja continuar?')) return;
                 EVIDENCES.forEach(ev => ev.found = false);
-                currentStep = 0;
-                const chat = CHAT_CONVERSATION;
-                chat.messages = chat.messages.filter(msg => msg.from === 'contact');
+                currentChatIndex = 0;
+                chatHistory = [];
                 progress = 0;
                 updateProgress();
                 navigateTo('welcome');
@@ -1881,7 +1889,7 @@
 
             console.log('🔍 Evidence - O Mistério do Arquivo Azul');
             console.log('📁 Explore as pastas para descobrir a verdade.');
-            console.log('💬 Conversa com 4 contatos diferentes!');
+            console.log('💬 Conversa com respostas interativas!');
             console.log('📈 Encontre todas as 11 evidências em ordem!');
 
         })();
