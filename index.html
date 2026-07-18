@@ -1422,8 +1422,8 @@
                 const showReplies = !currentMsg.isFinal && currentMsg.replies && currentMsg.replies.length > 0;
                 const replies = showReplies ? currentMsg.replies : null;
 
-                const avatarHtml = 'assets/images/ricardo.jpg' 
-                    ? `<img src="assets/images/ricardo.jpg" alt="Dr. Ricardo Alves" class="avatar-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">`
+                const avatarHtml = 'assets/images/ricardo.png' 
+                    ? `<img src="assets/images/ricardo.png" alt="Dr. Ricardo Alves" class="avatar-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">`
                     : `<div class="avatar-placeholder">${currentMsg.sender.charAt(0)}</div>`;
 
                 const contactName = currentMsg.sender || 'Contato';
@@ -1615,7 +1615,7 @@
                         },
                         { 
                             id: 'doc2', 
-                            name: 'Termo_de_Sigilo.pdf', 
+                            name: 'Termo.pdf', 
                             icon: '📄', 
                             desc: 'Termo de sigilo assinado por todos os envolvidos no projeto.',
                             pages: 2,
@@ -1815,7 +1815,7 @@
                     documents: [
                         { 
                             id: 'doc1', 
-                            name: 'Relatorio_Projeto_Azul.pdf', 
+                            name: 'Relatorio.pdf', 
                             icon: '📄', 
                             desc: 'Relatório completo do Projeto Azul. Contém informações confidenciais.',
                             pages: 8,
