@@ -514,6 +514,7 @@
             text-align: left;
             font-family: inherit;
             width: 100%;
+            margin: 2px 0;
         }
 
         .reply-btn:hover {
@@ -839,6 +840,7 @@
             .celebration-notification div { font-size: 14px !important; }
             .iphone-container { width: 320px; }
             .iphone-screen-overlay { top: 6%; left: 6%; width: 88%; height: 86%; border-radius: 24px; }
+            .reply-btn { font-size: 11px; padding: 6px 10px; }
         }
 
         @media (max-width: 480px) {
@@ -958,7 +960,7 @@
             };
 
             // ============================================
-            // CONVERSA COMPLETA COM VÁRIOS CONTATOS (12 MENSAGENS)
+            // CONVERSA COMPLETA (10 MENSAGENS)
             // ============================================
 
             const CHAT_CONVERSATION = {
@@ -966,9 +968,7 @@
                 contact: 'Dr. Ricardo Alves',
                 avatar: 'assets/images/ricardo.png',
                 messages: [
-                    // ==========================================
-                    // PARTE 1: DR. RICARDO ALVES (3 MENSAGENS)
-                    // ==========================================
+                    // MENSAGEM 1 - Ricardo
                     {
                         from: 'contact',
                         text: '⚠️ Helena, pelo amor de Deus, pare com isso! O que você está fazendo é extremamente perigoso. Você não tem noção do que está mexendo.',
@@ -980,6 +980,7 @@
                         ],
                         next: 'Se você continuar, vai acabar como os outros que tentaram descobrir a verdade sobre o Projeto Azul.'
                     },
+                    // MENSAGEM 2 - Ricardo (resposta)
                     {
                         from: 'contact',
                         text: '📋 O Projeto Azul não é um experimento científico comum. É uma operação secreta. Eles estão usando pessoas como cobaias.',
@@ -991,6 +992,7 @@
                         ],
                         next: 'Helena descobriu isso. Por isso ela sumiu. Ela estava prestes a expor tudo.'
                     },
+                    // MENSAGEM 3 - Ricardo (resposta)
                     {
                         from: 'contact',
                         text: '📝 Helena deixou pistas. No laboratório, no arquivo azul e nas anotações dela. Tudo está conectado.',
@@ -1002,10 +1004,7 @@
                         ],
                         next: '💬 Você está começando a entender...'
                     },
-
-                    // ==========================================
-                    // PARTE 2: PROFA. SOFIA LIMA (2 MENSAGENS)
-                    // ==========================================
+                    // MENSAGEM 4 - Sofia
                     {
                         from: 'contact',
                         text: '💔 Helena, estou tão preocupada com você. Você tem agido tão estranho ultimamente. Por favor, me diga o que está acontecendo.',
@@ -1017,6 +1016,7 @@
                         ],
                         next: 'Eu sei que você encontrou algo no laboratório. Por favor, tenha cuidado.'
                     },
+                    // MENSAGEM 5 - Sofia (resposta)
                     {
                         from: 'contact',
                         text: '😢 Helena, eu te conheço há anos. Sei quando você está com medo. E você está com muito medo. Me deixe ajudar.',
@@ -1028,10 +1028,7 @@
                         ],
                         next: '💬 Sofia está tentando te ajudar...'
                     },
-
-                    // ==========================================
-                    // PARTE 3: DESCONHECIDO (2 MENSAGENS)
-                    // ==========================================
+                    // MENSAGEM 6 - Desconhecido
                     {
                         from: 'contact',
                         text: '☠️ Sabemos o que você descobriu. Arquivo Azul. Você não deveria ter visto isso. Pare agora. Ou as consequências serão graves.',
@@ -1043,6 +1040,7 @@
                         ],
                         next: 'Isso é um aviso final. Apague tudo que encontrou.'
                     },
+                    // MENSAGEM 7 - Desconhecido (resposta)
                     {
                         from: 'contact',
                         text: '💀 Você tem 24 horas para entregar tudo o que encontrou. Caso contrário, as consequências serão... permanentes.',
@@ -1054,10 +1052,7 @@
                         ],
                         next: '💬 A ameaça é real...'
                     },
-
-                    // ==========================================
-                    // PARTE 4: HELENA MENDES (3 MENSAGENS)
-                    // ==========================================
+                    // MENSAGEM 8 - Helena
                     {
                         from: 'contact',
                         text: '😭 Ricardo, preciso te contar a verdade. Sobre o Projeto Azul. Não é o que pensam. Eles estão escondendo algo terrível.',
@@ -1069,6 +1064,7 @@
                         ],
                         next: 'Estou no laboratório. Mas preciso ir. Eles estão chegando.'
                     },
+                    // MENSAGEM 9 - Helena (resposta)
                     {
                         from: 'contact',
                         text: '📁 O arquivo azul tem tudo. Os experimentos, os nomes, as datas. É a única prova que pode derrubar eles.',
@@ -1080,6 +1076,7 @@
                         ],
                         next: 'Eu confio em você. Por favor, encontre o arquivo.'
                     },
+                    // MENSAGEM 10 - Helena (final)
                     {
                         from: 'contact',
                         text: '💔 Eles estão aqui. Eu ouvi os passos. Preciso ir. Encontre o arquivo. Prometa... por favor...',
