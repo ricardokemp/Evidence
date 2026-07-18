@@ -5,33 +5,90 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerador de Ícones - Evidence</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: #0a0a0f;
             color: #e8e8f0;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            padding: 40px 20px;
         }
+
         .container {
-            max-width: 700px;
-            background: #12121a;
-            border: 1px solid #2a2a44;
-            border-radius: 16px;
-            padding: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
         }
+
         h1 {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 800;
             margin-bottom: 8px;
             background: linear-gradient(135deg, #e8e8f0, #6c63ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        .subtitle { color: #8888aa; margin-bottom: 30px; }
+
+        .subtitle {
+            color: #8888aa;
+            margin-bottom: 30px;
+        }
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .icon-item {
+            background: #12121a;
+            border: 1px solid #2a2a44;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            transition: all 0.25s ease;
+            cursor: pointer;
+        }
+
+        .icon-item:hover {
+            border-color: #6c63ff;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(108, 99, 255, 0.2);
+        }
+
+        .icon-item img {
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
+            display: block;
+            margin: 0 auto 8px;
+            background: #1a1a2e;
+        }
+
+        .icon-item .size {
+            font-size: 11px;
+            color: #8888aa;
+        }
+
+        .icon-item .name {
+            font-size: 10px;
+            color: #555577;
+            margin-top: 2px;
+            word-break: break-all;
+        }
+
+        .icon-item .label {
+            font-size: 10px;
+            color: #6c63ff;
+            margin-top: 2px;
+        }
+
         .btn {
             background: #6c63ff;
             color: white;
@@ -42,109 +99,256 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.25s ease;
-            margin: 8px 0;
-            width: 100%;
+            margin: 6px;
         }
-        .btn:hover { background: #7c73ff; transform: translateY(-2px); }
-        .btn-secondary { background: #2a2a44; }
-        .btn-secondary:hover { background: #3a3a5a; }
-        .status {
-            margin: 20px 0;
-            padding: 16px;
-            background: #0a0a0f;
-            border-radius: 8px;
+
+        .btn:hover {
+            background: #7c73ff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(108, 99, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
             border: 1px solid #2a2a44;
             color: #8888aa;
-            font-size: 14px;
         }
-        .status .success { color: #00d4aa; }
-        .status .error { color: #ff6b6b; }
-        .icon-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-            gap: 12px;
+
+        .btn-secondary:hover {
+            background: #1a1a2e;
+            color: #e8e8f0;
+            border-color: #6c63ff;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #00d4aa;
+        }
+
+        .btn-success:hover {
+            background: #00e8bb;
+            box-shadow: 0 8px 32px rgba(0, 212, 170, 0.3);
+        }
+
+        .btn-danger {
+            background: #ff6b6b;
+        }
+
+        .btn-danger:hover {
+            background: #ff7b7b;
+            box-shadow: 0 8px 32px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-warning {
+            background: #ffb74d;
+            color: #0a0a0f;
+        }
+
+        .btn-warning:hover {
+            background: #ffc97a;
+            box-shadow: 0 8px 32px rgba(255, 183, 77, 0.3);
+        }
+
+        .section {
+            background: #12121a;
+            border: 1px solid #2a2a44;
+            border-radius: 12px;
+            padding: 24px;
             margin: 20px 0;
         }
-        .icon-item {
-            background: #0a0a0f;
-            border: 1px solid #2a2a44;
-            border-radius: 8px;
-            padding: 12px;
-            text-align: center;
+
+        .section h2 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: #e8e8f0;
         }
-        .icon-item img {
-            width: 48px;
-            height: 48px;
-            border-radius: 6px;
+
+        .section p {
+            color: #8888aa;
+            line-height: 1.6;
+            margin-bottom: 8px;
         }
-        .icon-item .size { font-size: 10px; color: #555577; margin-top: 4px; }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 16px 0;
+        }
+
         .progress-bar {
             width: 100%;
             height: 4px;
             background: #1a1a2e;
             border-radius: 4px;
             overflow: hidden;
-            margin: 16px 0;
+            margin: 12px 0;
         }
+
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #6c63ff, #00d4aa);
             transition: width 0.5s ease;
             width: 0%;
         }
-        .instructions {
+
+        .status {
+            color: #8888aa;
+            font-size: 14px;
+            text-align: center;
+            margin: 8px 0;
+        }
+
+        .status.success {
+            color: #00d4aa;
+        }
+
+        .status.error {
+            color: #ff6b6b;
+        }
+
+        .code-block {
+            background: #0a0a0f;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 12px;
+            color: #8888aa;
+            line-height: 1.6;
+            font-family: 'Courier New', monospace;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .code-block .key { color: #6c63ff; }
+        .code-block .string { color: #00d4aa; }
+        .code-block .number { color: #ffb74d; }
+        .code-block .boolean { color: #ff6b6b; }
+
+        .favicon-preview {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 16px;
             background: #0a0a0f;
             border-radius: 8px;
-            padding: 16px;
-            margin: 16px 0;
-            font-size: 13px;
-            color: #8888aa;
-            line-height: 1.8;
-        }
-        code {
-            background: #1a1a2e;
-            padding: 2px 8px;
-            border-radius: 4px;
-            color: #6c63ff;
-            font-size: 12px;
-        }
-        .btn-group {
-            display: flex;
-            gap: 12px;
+            margin: 12px 0;
             flex-wrap: wrap;
         }
-        .btn-group .btn { flex: 1; min-width: 120px; }
+
+        .favicon-preview img {
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
+            background: #1a1a2e;
+            border: 2px solid #2a2a44;
+        }
+
+        .favicon-preview .info {
+            flex: 1;
+        }
+
+        .favicon-preview .info .title {
+            font-weight: 600;
+            color: #e8e8f0;
+        }
+
+        .favicon-preview .info .desc {
+            font-size: 12px;
+            color: #8888aa;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 24px; }
+            .icon-grid { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); }
+            .icon-item img { width: 48px; height: 48px; }
+            .btn { padding: 10px 20px; font-size: 14px; }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🎨 Gerador de Ícones PWA</h1>
-        <p class="subtitle">Evidence - Clique no botão abaixo para gerar todos os ícones</p>
+        <p class="subtitle">Evidence - Clique no botão abaixo para gerar todos os ícones do PWA, incluindo o favicon.ico</p>
 
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
+        <!-- Status -->
+        <div class="section">
+            <h2>📊 Status</h2>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="status" id="status">⏳ Aguardando ação...</div>
         </div>
 
-        <div id="status" class="status">⏳ Aguardando...</div>
-
-        <div id="iconGrid" class="icon-grid"></div>
-
-        <div class="btn-group">
-            <button class="btn" id="generateBtn">📥 Gerar e Baixar Todos</button>
-            <button class="btn btn-secondary" id="generateZipBtn">📦 Gerar como ZIP</button>
+        <!-- Favicon -->
+        <div class="section">
+            <h2>⭐ Favicon</h2>
+            <div class="favicon-preview" id="faviconPreview">
+                <img id="faviconImg" src="" alt="Favicon" style="display:none;">
+                <div class="info">
+                    <div class="title">favicon.ico</div>
+                    <div class="desc">Ícone que aparece na aba do navegador. Clique em "Gerar e Baixar Todos" para criar.</div>
+                </div>
+                <button class="btn btn-warning" onclick="downloadFavicon()">📥 Baixar Favicon</button>
+            </div>
         </div>
 
-        <div class="instructions">
-            <strong>📝 Como usar:</strong><br>
-            1. Clique em <strong>"Gerar e Baixar Todos"</strong><br>
-            2. Os ícones serão gerados e baixados automaticamente<br>
-            3. Crie a pasta <code>/assets/icons/</code> no projeto<br>
-            4. Cole todos os ícones lá<br>
-            5. Commit e push para o GitHub
+        <!-- Ícones -->
+        <div class="section">
+            <h2>📱 Ícones Gerados</h2>
+            <div class="icon-grid" id="iconGrid">
+                <!-- Gerado por JavaScript -->
+            </div>
+        </div>
+
+        <!-- Botões -->
+        <div class="section">
+            <h2>⚡ Ações</h2>
+            <div class="btn-group">
+                <button class="btn btn-success" onclick="generateAndDownload()">📥 Gerar e Baixar Todos</button>
+                <button class="btn btn-secondary" onclick="generateAndPreview()">👁️ Apenas Visualizar</button>
+                <button class="btn btn-secondary" onclick="clearIcons()">🗑️ Limpar</button>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-secondary" onclick="copyManifestConfig()">📋 Copiar Configuração do Manifest</button>
+                <button class="btn btn-danger" onclick="downloadAsZip()">📦 Baixar como ZIP</button>
+            </div>
+        </div>
+
+        <!-- Instruções -->
+        <div class="section">
+            <h2>📝 Instruções</h2>
+            <p>1. Clique em <strong>"Gerar e Baixar Todos"</strong> para criar todos os ícones.</p>
+            <p>2. Os ícones serão baixados individualmente.</p>
+            <p>3. Crie a pasta: <code>C:\Evidence\assets\icons\</code></p>
+            <p>4. Cole todos os ícones baixados lá.</p>
+            <p>5. O <strong>favicon.ico</strong> deve ser salvo na raiz: <code>C:\Evidence\favicon.ico</code></p>
+            <p>6. Commit e push para o GitHub.</p>
+        </div>
+
+        <!-- Configuração do Manifest -->
+        <div class="section">
+            <h2>📄 Configuração do Manifest</h2>
+            <div class="code-block" id="manifestCode">
+                <span class="key">"icons"</span>: [
+                <br>
+                &nbsp;&nbsp;{ <span class="key">"src"</span>: <span class="string">"assets/icons/icon-72x72.png"</span>, <span class="key">"sizes"</span>: <span class="string">"72x72"</span>, <span class="key">"type"</span>: <span class="string">"image/png"</span> },
+                <br>
+                &nbsp;&nbsp;...
+                <br>
+                ]
+            </div>
+            <br>
+            <button class="btn btn-secondary" onclick="copyManifestConfig()">📋 Copiar para Clipboard</button>
         </div>
     </div>
 
     <script>
+        // ============================================
+        // CONFIGURAÇÃO DOS ÍCONES
+        // ============================================
+
         const ICON_SIZES = [
             { size: 72, name: 'icon-72x72.png' },
             { size: 96, name: 'icon-96x96.png' },
@@ -157,12 +361,18 @@
         ];
 
         const SHORTCUT_ICONS = [
-            { size: 192, name: 'shortcut-new.png', symbol: '📂' },
-            { size: 192, name: 'shortcut-continue.png', symbol: '▶️' },
-            { size: 192, name: 'shortcut-evidence.png', symbol: '⭐' }
+            { size: 192, name: 'shortcut-new.png', symbol: '📂', label: 'Novo Caso' },
+            { size: 192, name: 'shortcut-continue.png', symbol: '▶️', label: 'Continuar' },
+            { size: 192, name: 'shortcut-evidence.png', symbol: '⭐', label: 'Evidências' }
         ];
 
         let generatedIcons = [];
+        let faviconCanvas = null;
+        let isGenerating = false;
+
+        // ============================================
+        // GERAR ÍCONES
+        // ============================================
 
         function generateIcon(size, symbol = '🔍') {
             const canvas = document.createElement('canvas');
@@ -196,112 +406,355 @@
             ctx.font = `${fontSize}px serif`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
+            
+            // Sombra no texto
             ctx.shadowColor = 'rgba(0,0,0,0.3)';
             ctx.shadowBlur = size * 0.05;
             ctx.fillText(symbol, size * 0.5, size * 0.55);
             ctx.shadowBlur = 0;
 
+            // Label para shortcuts
+            if (symbol !== '🔍') {
+                const labelSize = size * 0.07;
+                ctx.fillStyle = 'rgba(255,255,255,0.7)';
+                ctx.font = `${labelSize}px Inter, sans-serif`;
+                ctx.fillText('Evidence', size * 0.5, size * 0.85);
+            }
+
             return canvas;
+        }
+
+        function generateFavicon() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 64;
+            canvas.height = 64;
+            const ctx = canvas.getContext('2d');
+
+            // Fundo gradiente
+            const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+            gradient.addColorStop(0, '#6c63ff');
+            gradient.addColorStop(0.6, '#4f47cc');
+            gradient.addColorStop(1, '#2a1f8f');
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(32, 32, 30, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Borda
+            ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(32, 32, 27, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // 🔍
+            ctx.fillStyle = 'white';
+            ctx.shadowColor = 'rgba(0,0,0,0.3)';
+            ctx.shadowBlur = 4;
+            ctx.font = '36px serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('🔍', 32, 34);
+            ctx.shadowBlur = 0;
+
+            return canvas;
+        }
+
+        function downloadCanvas(canvas, filename) {
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL('image/png');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function downloadFavicon() {
+            if (!faviconCanvas) {
+                faviconCanvas = generateFavicon();
+            }
+            // Baixar como .ico (na verdade é PNG, mas o navegador aceita)
+            const link = document.createElement('a');
+            link.download = 'favicon.ico';
+            link.href = faviconCanvas.toDataURL('image/x-icon');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            const status = getStatusElement();
+            status.textContent = '✅ favicon.ico baixado! Salve na raiz do projeto.';
+            status.className = 'status success';
+        }
+
+        function getStatusElement() {
+            return document.getElementById('status');
         }
 
         function updateProgress(current, total, message) {
             const percent = Math.round((current / total) * 100);
             document.getElementById('progressFill').style.width = percent + '%';
-            document.getElementById('status').innerHTML = `
-                ${message} (${current}/${total})
-            `;
+            const status = getStatusElement();
+            status.textContent = `${message} (${current}/${total})`;
+            status.className = 'status';
         }
 
-        function renderPreview(canvas, name, size) {
-            const div = document.createElement('div');
-            div.className = 'icon-item';
-            const img = document.createElement('img');
-            img.src = canvas.toDataURL('image/png');
-            div.appendChild(img);
-            const sizeSpan = document.createElement('div');
-            sizeSpan.className = 'size';
-            sizeSpan.textContent = `${size}×${size}`;
-            div.appendChild(sizeSpan);
-            return div;
-        }
+        // ============================================
+        // GERAR E PREVIEW
+        // ============================================
 
-        function generateAllIcons() {
-            const status = document.getElementById('status');
+        function generateAndPreview() {
+            if (isGenerating) return;
+            isGenerating = true;
+
+            const status = getStatusElement();
             const grid = document.getElementById('iconGrid');
             grid.innerHTML = '';
+            generatedIcons = [];
+
+            // Gerar favicon
+            faviconCanvas = generateFavicon();
+            const faviconImg = document.getElementById('faviconImg');
+            faviconImg.src = faviconCanvas.toDataURL('image/png');
+            faviconImg.style.display = 'block';
 
             const allIcons = [...ICON_SIZES, ...SHORTCUT_ICONS];
             const total = allIcons.length;
-            let current = 0;
-            generatedIcons = [];
 
-            // Gerar ícones principais
-            ICON_SIZES.forEach((icon) => {
-                const canvas = generateIcon(icon.size);
-                generatedIcons.push({ canvas, name: icon.name });
-                grid.appendChild(renderPreview(canvas, icon.name, icon.size));
-                current++;
-                updateProgress(current, total, `Gerando ${icon.name}...`);
+            status.textContent = '⏳ Gerando ícones...';
+            status.className = 'status';
+
+            allIcons.forEach((icon, index) => {
+                const symbol = icon.symbol || '🔍';
+                const canvas = generateIcon(icon.size, symbol);
+                const name = icon.name;
+                generatedIcons.push({ canvas, name });
+
+                // Preview
+                const div = document.createElement('div');
+                div.className = 'icon-item';
+                const img = document.createElement('img');
+                img.src = canvas.toDataURL('image/png');
+                div.appendChild(img);
+                
+                const sizeSpan = document.createElement('div');
+                sizeSpan.className = 'size';
+                sizeSpan.textContent = `${icon.size}×${icon.size}`;
+                div.appendChild(sizeSpan);
+                
+                const nameSpan = document.createElement('div');
+                nameSpan.className = 'name';
+                nameSpan.textContent = name;
+                div.appendChild(nameSpan);
+
+                if (icon.label) {
+                    const labelSpan = document.createElement('div');
+                    labelSpan.className = 'label';
+                    labelSpan.textContent = `📌 ${icon.label}`;
+                    div.appendChild(labelSpan);
+                }
+
+                // Download individual
+                div.addEventListener('click', () => {
+                    downloadCanvas(canvas, name);
+                });
+
+                grid.appendChild(div);
+                updateProgress(index + 1, total, `Gerando ${name}...`);
             });
 
-            // Gerar ícones de atalho
-            SHORTCUT_ICONS.forEach((icon) => {
-                const canvas = generateIcon(icon.size, icon.symbol);
-                generatedIcons.push({ canvas, name: icon.name });
-                grid.appendChild(renderPreview(canvas, icon.name, icon.size));
-                current++;
-                updateProgress(current, total, `Gerando ${icon.name}...`);
-            });
+            status.textContent = `✅ ${total} ícones gerados! Clique em "Gerar e Baixar Todos" para baixar.`;
+            status.className = 'status success';
+            isGenerating = false;
+        }
 
-            updateProgress(total, total, '✅ Todos os ícones gerados!');
-            document.getElementById('status').innerHTML = `
-                ✅ ${total} ícones gerados! Clique em "Gerar e Baixar Todos" para baixar.
-            `;
+        // ============================================
+        // GERAR E BAIXAR
+        // ============================================
 
-            return generatedIcons;
+        function generateAndDownload() {
+            if (generatedIcons.length === 0) {
+                generateAndPreview();
+                setTimeout(() => {
+                    downloadAllIcons();
+                }, 500);
+            } else {
+                downloadAllIcons();
+            }
         }
 
         function downloadAllIcons() {
             if (generatedIcons.length === 0) {
-                generateAllIcons();
+                getStatusElement().textContent = '⚠️ Primeiro gere os ícones!';
+                getStatusElement().className = 'status error';
+                return;
             }
 
-            document.getElementById('status').innerHTML = '📥 Baixando ícones...';
+            const status = getStatusElement();
+            status.textContent = '📥 Baixando ícones...';
+            status.className = 'status';
 
-            // Baixar um por um com delay
-            generatedIcons.forEach((item, index) => {
+            // Baixar favicon primeiro
+            if (faviconCanvas) {
                 setTimeout(() => {
                     const link = document.createElement('a');
-                    link.download = item.name;
-                    link.href = item.canvas.toDataURL('image/png');
+                    link.download = 'favicon.ico';
+                    link.href = faviconCanvas.toDataURL('image/x-icon');
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
+                }, 100);
+            }
 
+            // Baixar ícones um por um com delay
+            generatedIcons.forEach((item, index) => {
+                setTimeout(() => {
+                    downloadCanvas(item.canvas, item.name);
                     if (index === generatedIcons.length - 1) {
-                        document.getElementById('status').innerHTML = `
-                            ✅ ${generatedIcons.length} ícones baixados com sucesso!
-                            <br>📁 Agora copie para: <strong>/assets/icons/</strong>
-                        `;
+                        status.textContent = `✅ ${generatedIcons.length} ícones + favicon.ico baixados!`;
+                        status.className = 'status success';
                     }
-                }, index * 200);
+                }, 300 + index * 300);
             });
         }
 
-        function downloadAsZip() {
-            if (generatedIcons.length === 0) {
-                generateAllIcons();
+        // ============================================
+        // LIMPAR
+        // ============================================
+
+        function clearIcons() {
+            document.getElementById('iconGrid').innerHTML = '';
+            document.getElementById('faviconImg').style.display = 'none';
+            generatedIcons = [];
+            faviconCanvas = null;
+            document.getElementById('progressFill').style.width = '0%';
+            const status = getStatusElement();
+            status.textContent = '🗑️ Ícones removidos.';
+            status.className = 'status';
+        }
+
+        // ============================================
+        // COPIAR CONFIGURAÇÃO DO MANIFEST
+        // ============================================
+
+        function copyManifestConfig() {
+            const icons = ICON_SIZES.map(icon => ({
+                src: `assets/icons/${icon.name}`,
+                sizes: `${icon.size}x${icon.size}`,
+                type: 'image/png',
+                purpose: 'any maskable'
+            }));
+
+            const shortcutIcons = SHORTCUT_ICONS.map(icon => ({
+                src: `assets/icons/${icon.name}`,
+                sizes: `${icon.size}x${icon.size}`,
+                type: 'image/png'
+            }));
+
+            const config = {
+                icons: icons,
+                shortcuts: [
+                    {
+                        name: "Nova Investigação",
+                        short_name: "Novo Caso",
+                        description: "Iniciar uma nova investigação",
+                        url: "/?action=new",
+                        icons: [shortcutIcons[0]]
+                    },
+                    {
+                        name: "Continuar Investigação",
+                        short_name: "Continuar",
+                        description: "Continuar onde parou",
+                        url: "/?action=continue",
+                        icons: [shortcutIcons[1]]
+                    },
+                    {
+                        name: "Evidências",
+                        short_name: "Evidências",
+                        description: "Ver todas as evidências",
+                        url: "/?action=evidence",
+                        icons: [shortcutIcons[2]]
+                    }
+                ]
+            };
+
+            const text = JSON.stringify(config, null, 2);
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    const status = getStatusElement();
+                    status.textContent = '✅ Configuração copiada para o clipboard!';
+                    status.className = 'status success';
+                }).catch(() => {
+                    fallbackCopy(text);
+                });
+            } else {
+                fallbackCopy(text);
             }
 
-            document.getElementById('status').innerHTML = '📦 Criando arquivo ZIP...';
+            const codeBlock = document.getElementById('manifestCode');
+            codeBlock.innerHTML = syntaxHighlight(text);
+        }
 
-            // Criar um objeto com todos os ícones como data URLs
+        function fallbackCopy(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                const status = getStatusElement();
+                status.textContent = '✅ Configuração copiada para o clipboard!';
+                status.className = 'status success';
+            } catch (err) {
+                const status = getStatusElement();
+                status.textContent = '❌ Erro ao copiar. Selecione o texto manualmente.';
+                status.className = 'status error';
+            }
+            document.body.removeChild(textarea);
+        }
+
+        function syntaxHighlight(json) {
+            json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            return json.replace(/"([^"]+)":/g, '<span class="key">"$1"</span>:')
+                      .replace(/"([^"]+)"/g, '<span class="string">"$1"</span>')
+                      .replace(/(\d+)/g, '<span class="number">$1</span>')
+                      .replace(/(true|false|null)/g, '<span class="boolean">$1</span>');
+        }
+
+        // ============================================
+        // BAIXAR COMO ZIP
+        // ============================================
+
+        function downloadAsZip() {
+            if (generatedIcons.length === 0) {
+                generateAndPreview();
+                setTimeout(() => {
+                    createZip();
+                }, 500);
+            } else {
+                createZip();
+            }
+        }
+
+        function createZip() {
+            if (generatedIcons.length === 0) {
+                getStatusElement().textContent = '⚠️ Primeiro gere os ícones!';
+                getStatusElement().className = 'status error';
+                return;
+            }
+
+            const status = getStatusElement();
+            status.textContent = '📦 Criando arquivo ZIP...';
+            status.className = 'status';
+
             const iconsData = {};
             generatedIcons.forEach(item => {
                 iconsData[item.name] = item.canvas.toDataURL('image/png');
             });
+            if (faviconCanvas) {
+                iconsData['favicon.ico'] = faviconCanvas.toDataURL('image/x-icon');
+            }
 
-            // Criar um arquivo HTML que irá gerar o ZIP
             const zipScript = `
                 <!DOCTYPE html>
                 <html>
@@ -323,7 +776,9 @@
                         document.body.appendChild(link);
                         link.click();
                         document.body.removeChild(link);
-                        document.write('✅ ZIP gerado com sucesso!');
+                        document.write('<h2 style="color:green;">✅ ZIP gerado com sucesso!</h2>');
+                        document.write('<p>Arquivo: evidence-icons.zip</p>');
+                        document.write('<p>Contém todos os ícones + favicon.ico</p>');
                     });
                 <\/script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"><\/script>
@@ -331,30 +786,33 @@
                 </html>
             `;
 
-            // Abrir em uma nova janela
             const win = window.open('', '_blank');
             win.document.write(zipScript);
             win.document.close();
 
-            document.getElementById('status').innerHTML = '📦 Nova janela aberta para download do ZIP!';
+            const statusElement = getStatusElement();
+            statusElement.textContent = '📦 Nova janela aberta para download do ZIP!';
+            statusElement.className = 'status success';
         }
 
-        // Event Listeners
-        document.getElementById('generateBtn').addEventListener('click', () => {
-            if (generatedIcons.length === 0) {
-                generateAllIcons();
-            }
-            downloadAllIcons();
-        });
+        // ============================================
+        // INICIAR
+        // ============================================
 
-        document.getElementById('generateZipBtn').addEventListener('click', downloadAsZip);
-
-        // Gerar automaticamente ao carregar
         window.addEventListener('load', () => {
-            generateAllIcons();
+            generateAndPreview();
         });
+
+        window.generateAndDownload = generateAndDownload;
+        window.generateAndPreview = generateAndPreview;
+        window.clearIcons = clearIcons;
+        window.copyManifestConfig = copyManifestConfig;
+        window.downloadAsZip = downloadAsZip;
+        window.downloadFavicon = downloadFavicon;
 
         console.log('🎨 Icon Generator loaded!');
+        console.log(`📱 ${ICON_SIZES.length + SHORTCUT_ICONS.length} icons + favicon ready to generate`);
     </script>
+
 </body>
 </html>
