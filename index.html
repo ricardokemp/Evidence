@@ -283,7 +283,7 @@
         }
 
         /* ============================================
-           IPHONE COM IMAGEM DE FUNDO
+           IPHONE COM IMAGEM DE FUNDO - TAMANHO FIXO
            ============================================ */
 
         .iphone-wrapper {
@@ -298,11 +298,12 @@
         .iphone-container {
             position: relative;
             width: 380px;
-            max-width: 100%;
+            max-width: 95%;
             aspect-ratio: 9 / 19.5;
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-shrink: 0;
         }
 
         .iphone-container .iphone-bg {
@@ -343,6 +344,7 @@
             gap: 10px;
             border-bottom: 1px solid rgba(255,255,255,0.05);
             flex-shrink: 0;
+            min-height: 48px;
         }
 
         .whatsapp-header .back-btn {
@@ -383,12 +385,16 @@
 
         .whatsapp-header .info {
             flex: 1;
+            min-width: 0;
         }
 
         .whatsapp-header .info .name {
             font-weight: 600;
             font-size: 14px;
             color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .whatsapp-header .info .status {
@@ -400,6 +406,18 @@
             color: var(--whatsapp-green-light);
         }
 
+        .whatsapp-header .actions {
+            display: flex;
+            gap: 12px;
+            color: var(--whatsapp-time);
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        /* ============================================
+           WHATSAPP MESSAGES - SCROLL ÁREA
+           ============================================ */
+
         .whatsapp-messages {
             flex: 1;
             padding: 8px 12px;
@@ -408,6 +426,8 @@
             flex-direction: column;
             gap: 2px;
             background: #ffffff;
+            min-height: 0;
+            max-height: 100%;
         }
 
         .whatsapp-messages.dark {
@@ -428,6 +448,7 @@
             flex-direction: column;
             max-width: 80%;
             animation: messageSlide 0.3s ease;
+            flex-shrink: 0;
         }
 
         .whatsapp-message.out {
@@ -441,7 +462,7 @@
         .whatsapp-message .bubble {
             padding: 6px 10px;
             border-radius: 8px;
-            font-size: 13px;
+            font-size: 12px;
             line-height: 1.4;
             word-wrap: break-word;
             position: relative;
@@ -493,10 +514,14 @@
             align-self: flex-start;
         }
 
+        /* ============================================
+           REPLIES
+           ============================================ */
+
         .whatsapp-replies {
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 4px;
             padding: 6px 0;
             margin-top: 4px;
             width: 100%;
@@ -506,15 +531,16 @@
             background: var(--whatsapp-reply-bg);
             border: 1px solid var(--border-color);
             border-radius: 10px;
-            padding: 8px 12px;
+            padding: 6px 10px;
             color: var(--text-primary);
-            font-size: 12px;
+            font-size: 11px;
             cursor: pointer;
             transition: var(--transition);
             text-align: left;
             font-family: inherit;
             width: 100%;
-            margin: 2px 0;
+            margin: 1px 0;
+            line-height: 1.3;
         }
 
         .reply-btn:hover {
@@ -541,6 +567,7 @@
             max-width: 50px;
             animation: messageSlide 0.3s ease;
             align-self: flex-start;
+            flex-shrink: 0;
         }
 
         .typing-indicator span {
@@ -572,6 +599,7 @@
             align-items: center;
             gap: 6px;
             flex-shrink: 0;
+            min-height: 40px;
         }
 
         .whatsapp-footer .input {
@@ -579,29 +607,30 @@
             background: var(--whatsapp-input);
             border: none;
             border-radius: 6px;
-            padding: 6px 12px;
+            padding: 5px 10px;
             color: var(--text-primary);
-            font-size: 12px;
+            font-size: 11px;
             font-family: inherit;
             outline: none;
+            min-height: 30px;
         }
 
         .whatsapp-footer .input::placeholder {
             color: var(--whatsapp-time);
-            font-size: 11px;
+            font-size: 10px;
         }
 
         .whatsapp-footer .send-btn {
             background: var(--whatsapp-green);
             border: none;
             border-radius: 50%;
-            width: 30px;
-            height: 30px;
+            width: 28px;
+            height: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 12px;
             color: white;
             flex-shrink: 0;
         }
@@ -615,7 +644,7 @@
             background: none;
             border: none;
             color: var(--whatsapp-time);
-            font-size: 16px;
+            font-size: 14px;
             cursor: pointer;
             padding: 2px;
         }
@@ -838,9 +867,10 @@
             .hint-notification { bottom: 130px; font-size: 13px; padding: 10px 16px; }
             .celebration-notification { padding: 24px 20px !important; }
             .celebration-notification div { font-size: 14px !important; }
-            .iphone-container { width: 320px; }
+            .iphone-container { width: 320px; max-width: 95%; }
             .iphone-screen-overlay { top: 6%; left: 6%; width: 88%; height: 86%; border-radius: 24px; }
-            .reply-btn { font-size: 11px; padding: 6px 10px; }
+            .reply-btn { font-size: 10px; padding: 5px 8px; }
+            .whatsapp-message .bubble { font-size: 11px; padding: 5px 8px; }
         }
 
         @media (max-width: 480px) {
@@ -848,11 +878,18 @@
             .logo { font-size: 16px; }
             .header-actions button { font-size: 11px; padding: 4px 10px; }
             .file-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
-            .iphone-container { width: 280px; }
+            .iphone-container { width: 280px; max-width: 98%; }
             .iphone-screen-overlay { top: 5%; left: 5%; width: 90%; height: 88%; border-radius: 20px; }
             .whatsapp-header .info .name { font-size: 12px; }
-            .whatsapp-message .bubble { font-size: 11px; padding: 4px 8px; }
-            .reply-btn { font-size: 11px; padding: 6px 10px; }
+            .whatsapp-message .bubble { font-size: 10px; padding: 4px 6px; }
+            .reply-btn { font-size: 10px; padding: 4px 8px; }
+            .whatsapp-header { padding: 4px 8px; min-height: 36px; }
+            .whatsapp-header .avatar-img { width: 24px; height: 24px; }
+            .whatsapp-header .back-btn { font-size: 14px; }
+            .whatsapp-header .actions { font-size: 12px; gap: 8px; }
+            .whatsapp-messages { padding: 4px 8px; }
+            .whatsapp-footer { padding: 4px 8px; min-height: 32px; }
+            .whatsapp-footer .input { font-size: 10px; padding: 4px 8px; }
         }
     </style>
 </head>
@@ -1324,7 +1361,7 @@
             }
 
             // ============================================
-            // WHATSAPP CONVERSATION RENDER - CORRIGIDO
+            // WHATSAPP CONVERSATION RENDER
             // ============================================
 
             function renderChatMessages(messages, showReplies = false, onReply = null) {
@@ -1397,7 +1434,6 @@
                     ? `<img src="assets/images/ricardo.png" alt="Dr. Ricardo Alves" class="avatar-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">`
                     : `<div class="avatar-placeholder">${currentMsg.sender.charAt(0)}</div>`;
 
-                // Determinar o nome do contato atual
                 const contactName = currentMsg.sender || 'Contato';
 
                 let html = `
@@ -1490,6 +1526,19 @@
             }
 
             // ============================================
+            // SCROLL TO BOTTOM - CORRIGIDO
+            // ============================================
+
+            function scrollToBottom() {
+                setTimeout(() => {
+                    const container = document.getElementById('whatsappMessages');
+                    if (container) {
+                        container.scrollTop = container.scrollHeight;
+                    }
+                }, 250);
+            }
+
+            // ============================================
             // RENDER FUNCTIONS
             // ============================================
 
@@ -1518,23 +1567,17 @@
 
                 // Event listeners para os botões de resposta
                 setTimeout(() => {
-                    document.querySelectorAll('.reply-btn').forEach((btn, index) => {
+                    document.querySelectorAll('.reply-btn').forEach((btn) => {
                         btn.addEventListener('click', function() {
                             const replyIdx = parseInt(this.dataset.reply);
                             const step = currentChatIndex;
                             handleReply(step, replyIdx);
                         });
                     });
-                }, 300);
-            }
-
-            function scrollToBottom() {
-                setTimeout(() => {
-                    const container = document.getElementById('whatsappMessages');
-                    if (container) {
-                        container.scrollTop = container.scrollHeight;
-                    }
-                }, 200);
+                    
+                    // Scroll para o final após carregar
+                    scrollToBottom();
+                }, 400);
             }
 
             function renderFolder(folder) {
@@ -1800,7 +1843,6 @@
                 viewerBody.innerHTML = bodyHtml;
                 viewerOverlay.classList.add('open');
 
-                // Marcar evidência ao abrir
                 if (file.evidence && file.evidenceId) {
                     const ev = EVIDENCES.find(e => e.id === file.evidenceId);
                     if (ev && !ev.found && canFindEvidence(file.evidenceId)) {
