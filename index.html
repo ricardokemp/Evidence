@@ -283,7 +283,7 @@
         }
 
         /* ============================================
-           IPHONE COM IMAGEM DE FUNDO - TAMANHO FIXO
+           IPHONE COM IMAGEM DE FUNDO
            ============================================ */
 
         .iphone-wrapper {
@@ -414,10 +414,6 @@
             flex-shrink: 0;
         }
 
-        /* ============================================
-           WHATSAPP MESSAGES - SCROLL ÁREA
-           ============================================ */
-
         .whatsapp-messages {
             flex: 1;
             padding: 8px 12px;
@@ -513,10 +509,6 @@
             display: inline-block;
             align-self: flex-start;
         }
-
-        /* ============================================
-           REPLIES
-           ============================================ */
 
         .whatsapp-replies {
             display: flex;
@@ -1430,8 +1422,8 @@
                 const showReplies = !currentMsg.isFinal && currentMsg.replies && currentMsg.replies.length > 0;
                 const replies = showReplies ? currentMsg.replies : null;
 
-                const avatarHtml = 'assets/images/ricardo.png' 
-                    ? `<img src="assets/images/ricardo.png" alt="Dr. Ricardo Alves" class="avatar-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">`
+                const avatarHtml = 'assets/images/ricardo.jpg' 
+                    ? `<img src="assets/images/ricardo.jpg" alt="Dr. Ricardo Alves" class="avatar-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">`
                     : `<div class="avatar-placeholder">${currentMsg.sender.charAt(0)}</div>`;
 
                 const contactName = currentMsg.sender || 'Contato';
@@ -1526,7 +1518,7 @@
             }
 
             // ============================================
-            // SCROLL TO BOTTOM - CORRIGIDO
+            // SCROLL TO BOTTOM
             // ============================================
 
             function scrollToBottom() {
@@ -1601,8 +1593,40 @@
                         { id: 'photo3', name: 'Anotações', icon: '🖼️', desc: 'Anotações confusas de Helena.', image: 'assets/images/anotacoes.png', evidence: true, evidenceId: 'ev_003', folder: 'photos' }
                     ],
                     documents: [
-                        { id: 'doc1', name: 'Relatorio_Projeto_Azul.pdf', icon: '📄', desc: 'Relatório completo do Projeto Azul.', content: 'PROJETO AZUL - RELATÓRIO FINAL\n\nObjetivo: Pesquisa sobre [DADOS CENSURADOS]\n\nResultados: [CENSURADO]\n\nConclusão: O projeto foi bem-sucedido. Mas os custos foram... [PÁGINA RASGADA]', evidence: true, evidenceId: 'ev_008', folder: 'documents' },
-                        { id: 'doc2', name: 'Termo_de_Sigilo.pdf', icon: '📄', desc: 'Termo de sigilo assinado por todos.', content: 'TERMO DE SIGILO\n\nCláusula 7: Não revelarei qualquer informação sobre o Projeto Azul.\n\nCláusula 12: Em caso de descumprimento, [INFORMAÇÃO CENSURADA]', evidence: true, evidenceId: 'ev_009', folder: 'documents' }
+                        { 
+                            id: 'doc1', 
+                            name: 'Relatorio_Projeto_Azul.pdf', 
+                            icon: '📄', 
+                            desc: 'Relatório completo do Projeto Azul. Contém informações confidenciais.',
+                            pages: 8,
+                            images: [
+                                'assets/images/pagina1.png',
+                                'assets/images/pagina2.png',
+                                'assets/images/pagina3.png',
+                                'assets/images/pagina4.png',
+                                'assets/images/pagina5.png',
+                                'assets/images/pagina6.png',
+                                'assets/images/pagina7.png',
+                                'assets/images/pagina8.png'
+                            ],
+                            evidence: true, 
+                            evidenceId: 'ev_008', 
+                            folder: 'documents' 
+                        },
+                        { 
+                            id: 'doc2', 
+                            name: 'Termo_de_Sigilo.pdf', 
+                            icon: '📄', 
+                            desc: 'Termo de sigilo assinado por todos os envolvidos no projeto.',
+                            pages: 2,
+                            images: [
+                                'assets/images/termo1.png',
+                                'assets/images/termo2.png'
+                            ],
+                            evidence: true, 
+                            evidenceId: 'ev_009', 
+                            folder: 'documents' 
+                        }
                     ],
                     audio: [
                         { id: 'audio1', name: 'Ligacao_Helena_10-03.mp3', icon: '🎤', duration: '04:28', desc: 'Última ligação de Helena.', transcript: '[00:00] - Helena: Alô? Sofia?\n[00:05] - Sofia: Helena! Graças a Deus!\n[00:10] - Helena: Sofia, preciso de ajuda.\n[00:18] - Helena: Eles descobriram que eu sei.\n[00:30] - Helena: O Projeto Azul. Não é o que parece.\n[01:10] - [Ruído de porta se abrindo]\n[01:20] - Helena: Preciso ir. Me desculpa.\n[01:35] - [Ligação cai]', evidence: true, evidenceId: 'ev_010', folder: 'audio' }
@@ -1775,7 +1799,7 @@
             }
 
             // ============================================
-            // OPEN FILE
+            // OPEN FILE - COM PDF DE IMAGENS
             // ============================================
 
             function openFile(folder, id) {
@@ -1789,8 +1813,38 @@
                         { id: 'photo3', name: 'Anotações', icon: '🖼️', desc: 'Anotações confusas de Helena.', image: 'assets/images/anotacoes.png', evidence: true, evidenceId: 'ev_003' }
                     ],
                     documents: [
-                        { id: 'doc1', name: 'Relatorio_Projeto_Azul.pdf', icon: '📄', desc: 'Relatório completo do Projeto Azul.', content: 'PROJETO AZUL - RELATÓRIO FINAL\n\nObjetivo: Pesquisa sobre [DADOS CENSURADOS]\n\nResultados: [CENSURADO]\n\nConclusão: O projeto foi bem-sucedido. Mas os custos foram... [PÁGINA RASGADA]', evidence: true, evidenceId: 'ev_008' },
-                        { id: 'doc2', name: 'Termo_de_Sigilo.pdf', icon: '📄', desc: 'Termo de sigilo assinado por todos.', content: 'TERMO DE SIGILO\n\nCláusula 7: Não revelarei qualquer informação sobre o Projeto Azul.\n\nCláusula 12: Em caso de descumprimento, [INFORMAÇÃO CENSURADA]', evidence: true, evidenceId: 'ev_009' }
+                        { 
+                            id: 'doc1', 
+                            name: 'Relatorio_Projeto_Azul.pdf', 
+                            icon: '📄', 
+                            desc: 'Relatório completo do Projeto Azul. Contém informações confidenciais.',
+                            pages: 8,
+                            images: [
+                                'assets/images/pagina1.png',
+                                'assets/images/pagina2.png',
+                                'assets/images/pagina3.png',
+                                'assets/images/pagina4.png',
+                                'assets/images/pagina5.png',
+                                'assets/images/pagina6.png',
+                                'assets/images/pagina7.png',
+                                'assets/images/pagina8.png'
+                            ],
+                            evidence: true, 
+                            evidenceId: 'ev_008' 
+                        },
+                        { 
+                            id: 'doc2', 
+                            name: 'Termo_de_Sigilo.pdf', 
+                            icon: '📄', 
+                            desc: 'Termo de sigilo assinado por todos os envolvidos no projeto.',
+                            pages: 2,
+                            images: [
+                                'assets/images/termo1.png',
+                                'assets/images/termo2.png'
+                            ],
+                            evidence: true, 
+                            evidenceId: 'ev_009' 
+                        }
                     ],
                     audio: [
                         { id: 'audio1', name: 'Ligacao_Helena_10-03.mp3', icon: '🎤', duration: '04:28', desc: 'Última ligação de Helena.', evidence: true, evidenceId: 'ev_010' }
@@ -1819,7 +1873,34 @@
 
                 let bodyHtml = '';
 
-                if (folder === 'photos' && file.image) {
+                // ============================================
+                // PDF COM IMAGENS (SCROLL)
+                // ============================================
+                if (folder === 'documents' && file.images && file.images.length > 0) {
+                    bodyHtml = `
+                        <div style="width:100%;max-width:100%;padding:8px 0;display:flex;flex-direction:column;align-items:center;gap:12px;">
+                            ${file.images.map((img, index) => `
+                                <div style="width:100%;max-width:100%;background:var(--bg-card);border-radius:8px;border:1px solid var(--border-color);overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.2);">
+                                    <div style="padding:4px 12px;background:var(--bg-secondary);border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);">
+                                        <span>📄 ${file.name}</span>
+                                        <span>Página ${index + 1} de ${file.images.length}</span>
+                                    </div>
+                                    <img src="${img}" alt="${file.name} - Página ${index + 1}" 
+                                         style="width:100%;height:auto;display:block;object-fit:contain;"
+                                         onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                                    <div style="display:none;padding:20px;text-align:center;color:var(--text-muted);font-size:13px;">
+                                        ⚠️ Página ${index + 1} não encontrada
+                                    </div>
+                                </div>
+                            `).join('')}
+                            ${file.evidence ? `<div style="margin-top:8px;padding:8px 16px;background:var(--accent-glow);border-radius:var(--radius-sm);color:var(--accent);font-size:13px;text-align:center;">⭐ EVIDÊNCIA ENCONTRADA!</div>` : ''}
+                        </div>
+                    `;
+                }
+                // ============================================
+                // FOTOS
+                // ============================================
+                else if (folder === 'photos' && file.image) {
                     bodyHtml = `
                         <div class="file-preview">
                             <img src="${file.image}" alt="${file.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
@@ -1828,7 +1909,11 @@
                             ${file.evidence ? '<div class="evidence-found">⭐ EVIDÊNCIA</div>' : ''}
                         </div>
                     `;
-                } else {
+                }
+                // ============================================
+                // ÁUDIO E VÍDEO
+                // ============================================
+                else {
                     bodyHtml = `
                         <div class="file-preview">
                             <span class="big-icon">${file.icon || '📄'}</span>
@@ -1842,7 +1927,9 @@
 
                 viewerBody.innerHTML = bodyHtml;
                 viewerOverlay.classList.add('open');
+                AppState.currentFile = file;
 
+                // Marcar evidência ao abrir
                 if (file.evidence && file.evidenceId) {
                     const ev = EVIDENCES.find(e => e.id === file.evidenceId);
                     if (ev && !ev.found && canFindEvidence(file.evidenceId)) {
