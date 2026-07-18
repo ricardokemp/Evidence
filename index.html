@@ -9,6 +9,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -989,11 +992,14 @@
             };
 
             // ============================================
-            // CONVERSA COMPLETA (10 MENSAGENS)
+            // CONVERSA COMPLETA COM DR. RICARDO ALVES (10 MENSAGENS)
             // ============================================
 
             const CONVERSATION = {
                 messages: [
+                    // ==========================================
+                    // MENSAGEM 1 - Ricardo alerta Helena
+                    // ==========================================
                     {
                         id: 0,
                         sender: 'Dr. Ricardo Alves',
@@ -1007,6 +1013,9 @@
                         nextId: 1,
                         evidenceId: 'ev_004'
                     },
+                    // ==========================================
+                    // MENSAGEM 2 - Ricardo explica o Projeto Azul
+                    // ==========================================
                     {
                         id: 1,
                         sender: 'Dr. Ricardo Alves',
@@ -1020,10 +1029,13 @@
                         nextId: 2,
                         evidenceId: 'ev_004'
                     },
+                    // ==========================================
+                    // MENSAGEM 3 - Ricardo fala sobre Helena
+                    // ==========================================
                     {
                         id: 2,
                         sender: 'Dr. Ricardo Alves',
-                        text: '📝 Helena deixou pistas. No laboratório, no arquivo azul e nas anotações dela. Tudo está conectado.',
+                        text: '📝 Helena descobriu tudo. Por isso ela sumiu. Ela estava prestes a expor o Projeto Azul. As pistas estão no laboratório, no arquivo azul e nas anotações dela.',
                         time: '16:52',
                         replies: [
                             { text: 'Onde posso encontrar essas pistas?', emoji: '📍' },
@@ -1033,24 +1045,30 @@
                         nextId: 3,
                         evidenceId: 'ev_004'
                     },
+                    // ==========================================
+                    // MENSAGEM 4 - Ricardo sobre o diário
+                    // ==========================================
                     {
                         id: 3,
-                        sender: 'Profa. Sofia Lima',
-                        text: '💔 Helena, estou tão preocupada com você. Você tem agido tão estranho ultimamente. Por favor, me diga o que está acontecendo.',
-                        time: '22:10',
+                        sender: 'Dr. Ricardo Alves',
+                        text: '📖 O diário de Helena tem os nomes de todos os envolvidos. E os experimentos. É a prova que vai derrubar eles. Você precisa encontrar o diário completo.',
+                        time: '17:00',
                         replies: [
-                            { text: 'O que você sabe sobre o Projeto Azul?', emoji: '📋' },
-                            { text: 'Estou bem, só estou cansada.', emoji: '😴' },
-                            { text: 'Preciso te contar algo importante.', emoji: '⚠️' }
+                            { text: 'Onde está o diário?', emoji: '🔍' },
+                            { text: 'Já encontrei algumas páginas.', emoji: '📄' },
+                            { text: 'Como você sabe disso?', emoji: '🤔' }
                         ],
                         nextId: 4,
                         evidenceId: 'ev_005'
                     },
+                    // ==========================================
+                    // MENSAGEM 5 - Ricardo preocupado
+                    // ==========================================
                     {
                         id: 4,
-                        sender: 'Profa. Sofia Lima',
-                        text: '😢 Helena, eu te conheço há anos. Sei quando você está com medo. E você está com muito medo. Me deixe ajudar.',
-                        time: '22:15',
+                        sender: 'Dr. Ricardo Alves',
+                        text: '😢 Helena, eu te conheço há anos. Sei quando você está com medo. E você está com muito medo. Por favor, me deixe ajudar.',
+                        time: '17:05',
                         replies: [
                             { text: 'Você não entende o que está em jogo.', emoji: '😰' },
                             { text: 'Não posso envolver você nisso.', emoji: '🛡️' },
@@ -1059,24 +1077,30 @@
                         nextId: 5,
                         evidenceId: 'ev_005'
                     },
+                    // ==========================================
+                    // MENSAGEM 6 - Ricardo alerta sobre ameaça
+                    // ==========================================
                     {
                         id: 5,
-                        sender: 'Desconhecido',
-                        text: '☠️ Sabemos o que você descobriu. Arquivo Azul. Você não deveria ter visto isso. Pare agora. Ou as consequências serão graves.',
-                        time: '07:30',
+                        sender: 'Dr. Ricardo Alves',
+                        text: '☠️ Eu sei que você encontrou o Arquivo Azul. Você não deveria ter visto isso. Eles estão te observando. Pare agora, Helena.',
+                        time: '17:10',
                         replies: [
-                            { text: 'Quem é você?', emoji: '❓' },
+                            { text: 'Quem está me observando?', emoji: '❓' },
                             { text: 'Não vou parar até descobrir a verdade.', emoji: '💪' },
                             { text: 'O que vocês estão escondendo?', emoji: '🔎' }
                         ],
                         nextId: 6,
                         evidenceId: 'ev_006'
                     },
+                    // ==========================================
+                    // MENSAGEM 7 - Ricardo aviso final
+                    // ==========================================
                     {
                         id: 6,
-                        sender: 'Desconhecido',
-                        text: '💀 Você tem 24 horas para entregar tudo o que encontrou. Caso contrário, as consequências serão... permanentes.',
-                        time: '07:33',
+                        sender: 'Dr. Ricardo Alves',
+                        text: '💀 Você tem 24 horas para entregar tudo o que encontrou. Caso contrário, as consequências serão... permanentes. Não faça isso, Helena.',
+                        time: '17:15',
                         replies: [
                             { text: 'Você não vai me intimidar.', emoji: '😤' },
                             { text: 'Eu tenho provas do que vocês fizeram.', emoji: '📄' },
@@ -1085,24 +1109,30 @@
                         nextId: 7,
                         evidenceId: 'ev_006'
                     },
+                    // ==========================================
+                    // MENSAGEM 8 - Ricardo confessa
+                    // ==========================================
                     {
                         id: 7,
-                        sender: 'Helena Mendes',
-                        text: '😭 Ricardo, preciso te contar a verdade. Sobre o Projeto Azul. Não é o que pensam. Eles estão escondendo algo terrível.',
-                        time: '23:50',
+                        sender: 'Dr. Ricardo Alves',
+                        text: '😭 Helena, eu preciso te contar a verdade. Sobre o Projeto Azul. Não é o que pensam. Eles estão escondendo algo terrível. Você precisa saber.',
+                        time: '17:20',
                         replies: [
-                            { text: 'O que você descobriu, Helena?', emoji: '😨' },
+                            { text: 'O que você descobriu, Ricardo?', emoji: '😨' },
                             { text: 'Estou com medo. O que eles fizeram?', emoji: '😰' },
                             { text: 'Onde você está? Preciso te encontrar.', emoji: '📍' }
                         ],
                         nextId: 8,
                         evidenceId: 'ev_007'
                     },
+                    // ==========================================
+                    // MENSAGEM 9 - Ricardo sobre o arquivo azul
+                    // ==========================================
                     {
                         id: 8,
-                        sender: 'Helena Mendes',
-                        text: '📁 O arquivo azul tem tudo. Os experimentos, os nomes, as datas. É a única prova que pode derrubar eles.',
-                        time: '23:55',
+                        sender: 'Dr. Ricardo Alves',
+                        text: '📁 O arquivo azul tem tudo. Os experimentos, os nomes, as datas. É a única prova que pode derrubar eles. Você precisa proteger esse arquivo.',
+                        time: '17:25',
                         replies: [
                             { text: 'Vou encontrar o arquivo.', emoji: '💪' },
                             { text: 'Onde você está agora?', emoji: '📍' },
@@ -1111,15 +1141,18 @@
                         nextId: 9,
                         evidenceId: 'ev_007'
                     },
+                    // ==========================================
+                    // MENSAGEM 10 - Ricardo final
+                    // ==========================================
                     {
                         id: 9,
-                        sender: 'Helena Mendes',
-                        text: '💔 Eles estão aqui. Eu ouvi os passos. Preciso ir. Encontre o arquivo. Prometa... por favor...',
-                        time: '23:58',
+                        sender: 'Dr. Ricardo Alves',
+                        text: '💔 Eles estão aqui. Eu ouvi os passos. Preciso ir. Encontre o arquivo. Prometa... por favor... encontre a verdade.',
+                        time: '17:30',
                         replies: [
                             { text: 'Prometo que vou encontrar.', emoji: '🤝' },
-                            { text: 'Não desista, Helena!', emoji: '💪' },
-                            { text: 'Vou salvar você.', emoji: '🦸' }
+                            { text: 'Não desista, Ricardo!', emoji: '💪' },
+                            { text: 'Vou salvar você e Helena.', emoji: '🦸' }
                         ],
                         nextId: null,
                         evidenceId: 'ev_007',
@@ -1137,9 +1170,9 @@
                 { id: 'ev_002', name: 'Arquivo Azul', found: false },
                 { id: 'ev_003', name: 'Anotações de Helena', found: false },
                 { id: 'ev_004', name: 'Mensagem de Ricardo', found: false },
-                { id: 'ev_005', name: 'Mensagem de Sofia', found: false },
-                { id: 'ev_006', name: 'Mensagem do Desconhecido', found: false },
-                { id: 'ev_007', name: 'Confissão de Helena', found: false },
+                { id: 'ev_005', name: 'Mensagem de Ricardo 2', found: false },
+                { id: 'ev_006', name: 'Mensagem de Ricardo 3', found: false },
+                { id: 'ev_007', name: 'Confissão de Ricardo', found: false },
                 { id: 'ev_008', name: 'Relatório do Projeto', found: false },
                 { id: 'ev_009', name: 'Termo de Sigilo', found: false },
                 { id: 'ev_010', name: 'Ligação de Helena', found: false },
@@ -1609,10 +1642,10 @@
                             id: 'audio1', 
                             name: 'Ligacao_Helena_10-03.mp3', 
                             icon: '🎤', 
-                            duration: '01:40', 
+                            duration: '00:08', 
                             desc: 'Última ligação de Helena. Ela parece assustada.',
                             file: 'assets/audio/Ligacao_Helena_10-03.mp3',
-                            transcript: 'Transcrição do áudio:\n\n"Alô? Sofia? Sofia, eu preciso de ajuda. Eles descobriram o que eu sei."',
+                            transcript: '🎤 Transcrição do áudio:\n\n"Alô? Sofia? Sofia, eu preciso de ajuda. Eles descobriram o que eu sei."',
                             evidence: true, 
                             evidenceId: 'ev_010', 
                             folder: 'audio' 
@@ -1838,10 +1871,10 @@
                             id: 'audio1', 
                             name: 'Ligacao_Helena_10-03.mp3', 
                             icon: '🎤', 
-                            duration: '01:40', 
+                            duration: '00:08', 
                             desc: 'Última ligação de Helena. Ela parece assustada.',
                             file: 'assets/audio/Ligacao_Helena_10-03.mp3',
-                            transcript: '[00:00] - Helena: Alô? Sofia?\n[00:05] - Sofia: Helena! Graças a Deus!\n[00:10] - Helena: Sofia, preciso de ajuda.\n[00:18] - Helena: Eles descobriram que eu sei.\n[00:25] - Sofia: Sabe o quê?\n[00:30] - Helena: O Projeto Azul. Não é o que parece.\n[00:45] - Helena: Eu tenho provas. Estão no arquivo.\n[01:10] - [Ruído de porta se abrindo]\n[01:20] - Helena: Preciso ir. Me desculpa.\n[01:35] - [Ligação cai]',
+                            transcript: '🎤 Transcrição do áudio:\n\n"Alô? Sofia? Sofia, eu preciso de ajuda. Eles descobriram o que eu sei."',
                             evidence: true, 
                             evidenceId: 'ev_010' 
                         }
@@ -2160,7 +2193,7 @@
 
             console.log('🔍 Evidence - O Mistério do Arquivo Azul');
             console.log('📁 Explore as pastas para descobrir a verdade.');
-            console.log('💬 Conversa com respostas interativas!');
+            console.log('💬 Conversa com Dr. Ricardo Alves - 10 mensagens interativas!');
             console.log('📈 Encontre todas as 11 evidências em ordem!');
 
         })();
