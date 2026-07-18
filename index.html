@@ -359,7 +359,16 @@
             color: var(--whatsapp-green-light);
         }
 
-        .whatsapp-header .avatar {
+        .whatsapp-header .avatar-img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+            background: var(--accent);
+        }
+
+        .whatsapp-header .avatar-placeholder {
             width: 32px;
             height: 32px;
             border-radius: 50%;
@@ -946,155 +955,157 @@
             const AppState = {
                 currentFile: null,
                 chatStep: 0,
-                chatCompleted: false,
-                replies: {}
+                chatCompleted: false
             };
 
             // ============================================
-            // DATA - CONVERSA CONTÍNUA (10 MENSAGENS)
+            // CONVERSA COMPLETA COM VÁRIOS CONTATOS
             // ============================================
 
             const CHAT_CONVERSATION = {
                 id: 'main_chat',
-                contact: 'Investigação',
-                avatar: '🔍',
+                contact: 'Dr. Ricardo Alves',
+                avatar: 'assets/images/ricardo.png',  // ← FOTO DE PERFIL
                 messages: [
+                    // ==========================================
+                    // PARTE 1: DR. RICARDO ALVES - ALERTA INICIAL
+                    // ==========================================
                     {
                         from: 'contact',
-                        text: '🔍 Você encontrou o computador de Helena. Vamos começar a investigação.',
-                        time: '14:00',
+                        text: '⚠️ Helena, pelo amor de Deus, pare com isso! O que você está fazendo é extremamente perigoso. Você não tem noção do que está mexendo.',
+                        time: '16:45',
                         replies: [
-                            { text: 'O que eu devo fazer primeiro?', emoji: '🤔' },
-                            { text: 'Já sei o que procurar.', emoji: '🔍' },
-                            { text: 'Estou pronto para começar.', emoji: '💪' }
+                            { text: 'O que você quer dizer com isso?', emoji: '😰' },
+                            { text: 'Estou apenas investigando a verdade.', emoji: '🔍' },
+                            { text: 'Por que você está tão preocupado?', emoji: '🤔' }
                         ],
-                        next: 'Vá até a pasta "Fotos" e clique em "Laboratório". É o primeiro passo.'
+                        next: 'Se você continuar, vai acabar como os outros que tentaram descobrir a verdade sobre o Projeto Azul.'
                     },
                     {
                         from: 'contact',
-                        text: '📸 Você viu o laboratório? O que achou?',
-                        time: '14:02',
+                        text: '📋 O Projeto Azul não é um experimento científico comum. É uma operação secreta. Eles estão usando pessoas como cobaias.',
+                        time: '16:48',
                         replies: [
-                            { text: 'Parece que algo estava fora do lugar.', emoji: '🧐' },
-                            { text: 'Estava tudo normal.', emoji: '😐' },
-                            { text: 'Vi algo suspeito.', emoji: '⚠️' }
+                            { text: 'Cobaias? O que você quer dizer?', emoji: '😨' },
+                            { text: 'Isso é loucura!', emoji: '🤯' },
+                            { text: 'Eu preciso de provas.', emoji: '🔎' }
                         ],
-                        next: 'Agora vá em "Arquivo Azul" - é a próxima pista.'
+                        next: 'Helena descobriu isso. Por isso ela sumiu. Ela estava prestes a expor tudo.'
                     },
                     {
                         from: 'contact',
-                        text: '📁 Arquivo Azul. O que você encontrou nele?',
-                        time: '14:05',
+                        text: '📝 Helena deixou pistas. No laboratório, no arquivo azul e nas anotações dela. Tudo está conectado.',
+                        time: '16:52',
                         replies: [
-                            { text: 'Documentos confidenciais.', emoji: '📋' },
-                            { text: 'Nada demais.', emoji: '😕' },
-                            { text: 'Informações sobre o projeto.', emoji: '📄' }
+                            { text: 'Onde posso encontrar essas pistas?', emoji: '📍' },
+                            { text: 'Já encontrei algumas coisas.', emoji: '📂' },
+                            { text: 'Me diga o que você sabe.', emoji: '🗣️' }
                         ],
-                        next: 'As anotações de Helena estão na pasta "Anotações". Vá lá.'
+                        next: 'Você precisa ir ao laboratório. Lá tem algo que ela escondeu. E cuidado com o que encontra.'
+                    },
+
+                    // ==========================================
+                    // PARTE 2: PROFA. SOFIA LIMA - PREOCUPAÇÃO
+                    // ==========================================
+                    {
+                        from: 'contact',
+                        text: '💔 Helena, estou tão preocupada com você. Você tem agido tão estranho ultimamente. Por favor, me diga o que está acontecendo.',
+                        time: '22:10',
+                        replies: [
+                            { text: 'O que você sabe sobre o Projeto Azul?', emoji: '📋' },
+                            { text: 'Estou bem, só estou cansada.', emoji: '😴' },
+                            { text: 'Preciso te contar algo importante.', emoji: '⚠️' }
+                        ],
+                        next: 'Eu sei que você encontrou algo no laboratório. Por favor, tenha cuidado. Eles não querem que ninguém saiba a verdade.'
                     },
                     {
                         from: 'contact',
-                        text: '📝 As anotações. O que elas revelam?',
-                        time: '14:08',
+                        text: '😢 Helena, eu te conheço há anos. Sei quando você está com medo. E você está com muito medo. Me deixe ajudar.',
+                        time: '22:15',
                         replies: [
-                            { text: 'Ela estava com medo.', emoji: '😨' },
-                            { text: 'Ela descobriu algo importante.', emoji: '💡' },
-                            { text: 'As anotações estão confusas.', emoji: '😵' }
+                            { text: 'Você não entende o que está em jogo.', emoji: '😰' },
+                            { text: 'Não posso envolver você nisso.', emoji: '🛡️' },
+                            { text: 'Se souberem que você sabe, vão te machucar.', emoji: '💀' }
                         ],
-                        next: 'Agora vamos para as mensagens. Clique em "Dr. Ricardo Alves".'
+                        next: 'Eu não tenho medo. Quero te ajudar. O que você encontrou?'
                     },
                     {
                         from: 'contact',
-                        text: '💬 Ricardo estava preocupado. O que ele disse?',
-                        time: '14:12',
+                        text: '🔍 Você encontrou o diário? As anotações dela? Ela deixou tudo registrado. É a única prova que temos.',
+                        time: '22:20',
                         replies: [
-                            { text: 'Ele avisou Helena para parar.', emoji: '⚠️' },
-                            { text: 'Ele sabia do perigo.', emoji: '😰' },
-                            { text: 'Ele estava tentando proteger ela.', emoji: '🛡️' }
+                            { text: 'Sim, encontrei as anotações.', emoji: '📝' },
+                            { text: 'Ainda não encontrei tudo.', emoji: '🔎' },
+                            { text: 'O que tem no diário?', emoji: '📖' }
                         ],
-                        next: 'Agora leia a mensagem de Sofia.'
+                        next: 'O diário dela tem os nomes. Todos os envolvidos. E os experimentos. É a prova que vai derrubar eles.'
+                    },
+
+                    // ==========================================
+                    // PARTE 3: DESCONHECIDO - AMEAÇA
+                    // ==========================================
+                    {
+                        from: 'contact',
+                        text: '☠️ Sabemos o que você descobriu. Arquivo Azul. Você não deveria ter visto isso. Pare agora. Ou as consequências serão graves.',
+                        time: '07:30',
+                        replies: [
+                            { text: 'Quem é você?', emoji: '❓' },
+                            { text: 'Não vou parar até descobrir a verdade.', emoji: '💪' },
+                            { text: 'O que vocês estão escondendo?', emoji: '🔎' }
+                        ],
+                        next: 'Isso é um aviso final. Apague tudo que encontrou. Não destrua sua vida por algo que não te pertence.'
                     },
                     {
                         from: 'contact',
-                        text: '💬 Sofia também estava preocupada. O que ela disse?',
-                        time: '14:15',
+                        text: '💀 Você tem 24 horas para entregar tudo o que encontrou. Caso contrário, as consequências serão... permanentes.',
+                        time: '07:33',
                         replies: [
-                            { text: 'Ela ofereceu ajuda.', emoji: '🤝' },
-                            { text: 'Ela notou que Helena estava estranha.', emoji: '🧐' },
-                            { text: 'Ela sabia que algo estava errado.', emoji: '😟' }
+                            { text: 'Você não vai me intimidar.', emoji: '😤' },
+                            { text: 'Eu tenho provas do que vocês fizeram.', emoji: '📄' },
+                            { text: 'A polícia vai saber de tudo.', emoji: '👮' }
                         ],
-                        next: 'Agora a mensagem do Desconhecido...'
+                        next: 'A polícia está envolvida. Você não tem para onde correr. Entregue o arquivo e siga sua vida.'
+                    },
+
+                    // ==========================================
+                    // PARTE 4: HELENA MENDES - CONFISSÃO FINAL
+                    // ==========================================
+                    {
+                        from: 'contact',
+                        text: '😭 Ricardo, preciso te contar a verdade. Sobre o Projeto Azul. Não é o que pensam. Eles estão escondendo algo terrível.',
+                        time: '23:50',
+                        replies: [
+                            { text: 'O que você descobriu, Helena?', emoji: '😨' },
+                            { text: 'Estou com medo. O que eles fizeram?', emoji: '😰' },
+                            { text: 'Onde você está? Preciso te encontrar.', emoji: '📍' }
+                        ],
+                        next: 'Estou no laboratório. Mas preciso ir. Eles estão chegando. Encontre o arquivo. Tudo está lá. Prometa que vai encontrar.'
                     },
                     {
                         from: 'contact',
-                        text: '❓ Mensagem do Desconhecido. Isso é sério.',
-                        time: '14:18',
+                        text: '📁 O arquivo azul tem tudo. Os experimentos, os nomes, as datas. É a única prova que pode derrubar eles.',
+                        time: '23:55',
                         replies: [
-                            { text: 'Eles sabem o que descobri.', emoji: '😨' },
-                            { text: 'É uma ameaça.', emoji: '💀' },
-                            { text: 'Não vou parar.', emoji: '💪' }
+                            { text: 'Vou encontrar o arquivo.', emoji: '💪' },
+                            { text: 'Onde você está agora?', emoji: '📍' },
+                            { text: 'Não se preocupe, vou proteger você.', emoji: '🛡️' }
                         ],
-                        next: 'Última mensagem: a confissão de Helena.'
+                        next: 'Eu confio em você. Por favor, encontre o arquivo e exponha tudo. É a única chance que temos.'
                     },
                     {
                         from: 'contact',
-                        text: '💔 A confissão de Helena. O que ela revelou?',
-                        time: '14:22',
+                        text: '💔 Eles estão aqui. Eu ouvi os passos. Preciso ir. Encontre o arquivo. Prometa... por favor...',
+                        time: '23:58',
                         replies: [
-                            { text: 'O Projeto Azul não é o que parece.', emoji: '😱' },
-                            { text: 'Eles estão escondendo algo terrível.', emoji: '😰' },
-                            { text: 'Ela estava em perigo.', emoji: '🆘' }
+                            { text: 'Prometo que vou encontrar.', emoji: '🤝' },
+                            { text: 'Não desista, Helena!', emoji: '💪' },
+                            { text: 'Vou salvar você.', emoji: '🦸' }
                         ],
-                        next: 'Agora vá para "Documentos" e leia o Relatório do Projeto Azul.'
-                    },
-                    {
-                        from: 'contact',
-                        text: '📄 Relatório do Projeto Azul. O que você descobriu?',
-                        time: '14:26',
-                        replies: [
-                            { text: 'Informações censuradas.', emoji: '📎' },
-                            { text: 'O projeto foi bem-sucedido mas teve custos.', emoji: '📊' },
-                            { text: 'Eles estavam escondendo algo.', emoji: '🔎' }
-                        ],
-                        next: 'Última pista: o Termo de Sigilo.'
-                    },
-                    {
-                        from: 'contact',
-                        text: '📄 Termo de Sigilo. Isso confirma tudo.',
-                        time: '14:30',
-                        replies: [
-                            { text: 'Eles sabiam o que estavam fazendo.', emoji: '😤' },
-                            { text: 'Isso prova a conspiração.', emoji: '🔍' },
-                            { text: 'Helena estava certa.', emoji: '💯' }
-                        ],
-                        next: '🎉 PARABÉNS! Você desvendou o mistério do Arquivo Azul!',
+                        next: '🎉 PARABÉNS! Você completou a investigação. Agora vá até os documentos e leia o relatório final.',
                         isFinal: true
                     }
                 ]
             };
-
-            // ============================================
-            // STATE
-            // ============================================
-
-            let currentFolder = 'welcome';
-            let progress = 0;
-            let currentStep = 0;
-            let conversationActive = false;
-
-            // ============================================
-            // DOM REFS
-            // ============================================
-
-            const content = document.getElementById('content');
-            const sidebar = document.getElementById('sidebar');
-            const progressFill = document.getElementById('progressFill');
-            const progressLabel = document.getElementById('progressLabel');
-            const viewerOverlay = document.getElementById('viewerOverlay');
-            const viewerTitle = document.getElementById('viewerTitle');
-            const viewerBody = document.getElementById('viewerBody');
-            const viewerClose = document.getElementById('viewerClose');
-            const evidenceBadge = document.getElementById('evidenceBadge');
 
             // ============================================
             // EVIDÊNCIAS
@@ -1113,6 +1124,28 @@
                 { id: 'ev_010', name: 'Ligação de Helena', found: false },
                 { id: 'ev_011', name: 'Vídeo do Laboratório', found: false }
             ];
+
+            // ============================================
+            // STATE
+            // ============================================
+
+            let currentFolder = 'welcome';
+            let progress = 0;
+            let currentStep = 0;
+
+            // ============================================
+            // DOM REFS
+            // ============================================
+
+            const content = document.getElementById('content');
+            const sidebar = document.getElementById('sidebar');
+            const progressFill = document.getElementById('progressFill');
+            const progressLabel = document.getElementById('progressLabel');
+            const viewerOverlay = document.getElementById('viewerOverlay');
+            const viewerTitle = document.getElementById('viewerTitle');
+            const viewerBody = document.getElementById('viewerBody');
+            const viewerClose = document.getElementById('viewerClose');
+            const evidenceBadge = document.getElementById('evidenceBadge');
 
             // ============================================
             // NOTIFICATION SYSTEM
@@ -1261,10 +1294,7 @@
                         { id: 'photo3', name: 'Anotações', evidenceId: 'ev_003', evidence: true }
                     ],
                     messages: [
-                        { id: 'msg1', name: 'Dr. Ricardo Alves', evidenceId: 'ev_004', evidence: true },
-                        { id: 'msg2', name: 'Profa. Sofia Lima', evidenceId: 'ev_005', evidence: true },
-                        { id: 'msg3', name: 'Desconhecido', evidenceId: 'ev_006', evidence: true },
-                        { id: 'msg4', name: 'Helena Mendes', evidenceId: 'ev_007', evidence: true }
+                        { id: 'msg1', name: 'Mensagens', evidenceId: 'ev_004', evidence: true }
                     ],
                     documents: [
                         { id: 'doc1', name: 'Relatorio_Projeto_Azul.pdf', evidenceId: 'ev_008', evidence: true },
@@ -1363,6 +1393,11 @@
                     `;
                 }
 
+                // Verificar se a foto de perfil existe
+                const avatarHtml = chat.avatar && chat.avatar.startsWith('assets/') 
+                    ? `<img src="${chat.avatar}" alt="${chat.contact}" class="avatar-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">`
+                    : `<div class="avatar-placeholder">${chat.contact.charAt(0)}</div>`;
+
                 return `
                     <div class="iphone-wrapper">
                         <div class="iphone-container">
@@ -1371,7 +1406,8 @@
                                 <!-- HEADER -->
                                 <div class="whatsapp-header">
                                     <button class="back-btn" onclick="window.navigateTo('messages')">‹</button>
-                                    <div class="avatar">${chat.avatar}</div>
+                                    ${avatarHtml}
+                                    <div class="avatar-placeholder" style="display:none;">${chat.contact.charAt(0)}</div>
                                     <div class="info">
                                         <div class="name">${chat.contact}</div>
                                         <div class="status online">🟢 Online</div>
@@ -1455,14 +1491,12 @@
                             };
 
                             // Adicionar a mensagem do usuário na conversa
-                            // (inserir após a mensagem atual)
                             chat.messages.splice(step + 1, 0, userMsg);
 
                             // Avançar o passo
                             currentStep = step + 1;
 
                             // Verificar se tem uma próxima mensagem do contato
-                            // Se tiver, adicionar automaticamente após um delay
                             if (msg.next) {
                                 setTimeout(() => {
                                     const nextMsg = {
@@ -1473,15 +1507,14 @@
                                     chat.messages.splice(currentStep + 1, 0, nextMsg);
                                     currentStep++;
 
-                                    // Marcar evidência se for uma mensagem específica
-                                    const evidenceMap = {
-                                        'Dr. Ricardo Alves': 'ev_004',
-                                        'Profa. Sofia Lima': 'ev_005',
-                                        'Desconhecido': 'ev_006',
-                                        'Helena Mendes': 'ev_007'
+                                    // Marcar evidências conforme a conversa avança
+                                    const stepEvMap = {
+                                        2: 'ev_004',
+                                        5: 'ev_005',
+                                        7: 'ev_006',
+                                        9: 'ev_007'
                                     };
-
-                                    const evId = evidenceMap[chat.messages[currentStep]?.text?.substring(0, 20)];
+                                    const evId = stepEvMap[currentStep];
                                     if (evId) {
                                         markEvidenceFound(evId);
                                     }
@@ -1492,8 +1525,7 @@
                             } else {
                                 // Se for a última mensagem, marcar a última evidência
                                 if (msg.isFinal) {
-                                    // Marcar evidência final
-                                    const finalEvs = ['ev_008', 'ev_009'];
+                                    const finalEvs = ['ev_008', 'ev_009', 'ev_010', 'ev_011'];
                                     finalEvs.forEach(id => markEvidenceFound(id));
                                 }
                                 renderMessages('messages');
@@ -1781,7 +1813,6 @@
                         ev.found = true;
                         updateProgress();
                         showCelebration(ev.name);
-                        // Atualizar a pasta atual para mostrar mudanças
                         setTimeout(() => {
                             if (currentFolder !== 'welcome') renderFolder(currentFolder);
                         }, 500);
@@ -1866,7 +1897,7 @@
 
             console.log('🔍 Evidence - O Mistério do Arquivo Azul');
             console.log('📁 Explore as pastas para descobrir a verdade.');
-            console.log('💬 Conversa contínua com 10 mensagens!');
+            console.log('💬 Conversa com 4 contatos diferentes!');
             console.log('📈 Encontre todas as 11 evidências em ordem!');
 
         })();
