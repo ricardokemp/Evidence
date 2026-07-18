@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assistir Vídeo - Evidence</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0a0a0f;
+            color: #e8e8f0;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: #12121a;
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid #2a2a44;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #e8e8f0, #6c63ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            color: #8888aa;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .video-wrapper {
+            position: relative;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        video {
+            width: 100%;
+            display: block;
+            border-radius: 12px;
+        }
+        .info {
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: #1a1a2e;
+            border-radius: 8px;
+            border-left: 3px solid #6c63ff;
+            font-size: 13px;
+            color: #8888aa;
+        }
+        .info strong {
+            color: #e8e8f0;
+        }
+        .btn {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 8px 20px;
+            background: #6c63ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.25s;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background: #7c73ff;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid #2a2a44;
+            color: #8888aa;
+        }
+        .btn-secondary:hover {
+            background: #1a1a2e;
+            border-color: #6c63ff;
+            color: #e8e8f0;
+        }
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+        @media (max-width: 600px) {
+            .container { padding: 16px; }
+            h1 { font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎥 CCTV - Laboratório</h1>
+        <p class="subtitle">Assista ao vídeo da câmera de segurança</p>
+
+        <div class="video-wrapper">
+            <video id="videoPlayer" controls preload="metadata">
+                <source src="https://raw.githack.com/ricardokemp/Evidence/main/assets/video/CCTV_Lab_10-03.mp4" type="video/mp4">
+                Seu navegador não suporta vídeos HTML5.
+            </video>
+        </div>
+
+        <div class="info">
+            <strong>📁 Arquivo:</strong> CCTV_Lab_10-03.mp4<br>
+            <strong>📅 Data:</strong> 12/03/2026<br>
+            <strong>⏱️ Duração:</strong> 10 segundos<br>
+            <strong>🔗 Link:</strong>
+            <a href="https://raw.githack.com/ricardokemp/Evidence/main/assets/video/CCTV_Lab_10-03.mp4" target="_blank" style="color:#6c63ff;word-break:break-all;">
+                raw.githack.com
+            </a>
+        </div>
+
+        <div class="actions">
+            <button class="btn" onclick="document.getElementById('videoPlayer').play()">▶️ Reproduzir</button>
+            <button class="btn btn-secondary" onclick="document.getElementById('videoPlayer').pause()">⏸️ Pausar</button>
+            <button class="btn btn-secondary" onclick="document.getElementById('videoPlayer').currentTime = 0">⏪ Reiniciar</button>
+            <a class="btn btn-secondary" href="https://github.com/ricardokemp/Evidence/blob/main/assets/video/CCTV_Lab_10-03.mp4" target="_blank">📂 Ver no GitHub</a>
+        </div>
+    </div>
+
+    <script>
+        // Verifica se o vídeo carregou
+        const video = document.getElementById('videoPlayer');
+        video.addEventListener('error', function(e) {
+            console.error('Erro ao carregar vídeo:', e);
+            alert('❌ Não foi possível carregar o vídeo. Verifique o link ou tente novamente mais tarde.');
+        });
+        video.addEventListener('loadeddata', function() {
+            console.log('✅ Vídeo carregado com sucesso!');
+        });
+    </script>
+</body>
+</html>
